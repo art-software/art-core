@@ -1,0 +1,25 @@
+0 silly input [ 'publish' ]
+1 silly flags { _: [ 'publish' ],
+1 silly flags   'reject-cycles': false,
+1 silly flags   rejectCycles: false,
+1 silly flags   'git-remote': 'upstream',
+1 silly flags   gitRemote: 'upstream' }
+2 verbose rootPath /Users/zhongbowen/Documents/workspace_frontend_framework/art-core
+3 info version 2.11.0
+4 silly isInitialized
+5 silly isInitialized true
+6 silly existsSync /Users/zhongbowen/Documents/workspace_frontend_framework/art-core/VERSION
+7 info versioning independent
+8 silly initialize attempt
+9 silly isDetachedHead
+10 silly getCurrentBranch
+11 error initialize caught error
+12 error Error: fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.
+12 error Use '--' to separate paths from revisions, like this:
+12 error 'git <command> [<revision>...] -- [<file>...]'
+12 error
+12 error     at Function.module.exports.sync (/Users/zhongbowen/.config/yarn/global/node_modules/lerna/node_modules/execa/index.js:303:26)
+12 error     at Function.execSync (/Users/zhongbowen/.config/yarn/global/node_modules/lerna/lib/ChildProcessUtilities.js:59:30)
+12 error     at Function.getCurrentBranch (/Users/zhongbowen/.config/yarn/global/node_modules/lerna/lib/GitUtilities.js:202:59)
+12 error     at Function.isDetachedHead (/Users/zhongbowen/.config/yarn/global/node_modules/lerna/lib/GitUtilities.js:45:37)
+12 error     at PublishCommand.initialize (/Users/zhongbowen/.config/yarn/global/node_modules/lerna/lib/commands/PublishCommand.js:260:36)
