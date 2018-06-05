@@ -5,6 +5,10 @@
   "main": "index.js",
   "author": "zbw322092 <zbw322092@hotmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "TS_NODE_PROJECT=\"./tsconfig.for.webpack.config.json\" webpack --config ./devtools/webpack/config/webpack.config.base.ts --mode development",
+    "build": "webpack --mode production"
+  },
   "dependencies": {
     "nconf": "^0.10.0",
     "react": "^16.4.0",
@@ -13,13 +17,23 @@
     "webpack": "^4.9.1"
   },
   "devDependencies": {
+    "@types/clean-webpack-plugin": "^0.1.2",
+    "@types/html-webpack-plugin": "^2.30.3",
     "@types/nconf": "^0.0.37",
     "@types/node": "^10.1.3",
     "@types/webpack": "^4.4.0",
     "@types/webpack-dev-server": "^2.9.4",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "html-webpack-plugin": "^3.2.0",
     "ts-node": "^6.1.0",
     "tsconfig-paths": "^3.3.2",
     "tslint": "^5.10.0",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-cli": "^3.0.2",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-md5-hash": "^0.0.6"
   }
 }
