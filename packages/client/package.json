@@ -1,6 +1,6 @@
 {
   "name": "client-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "art framework react.js client, including frontend business code and dev tools",
   "main": "index.js",
   "author": "zbw322092 <zbw322092@hotmail.com>",
