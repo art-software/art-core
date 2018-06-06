@@ -5,3 +5,6 @@ https://www.sitepen.com/blog/2017/11/02/typescript-2-6-and-strict-functions/ <br
 
 [3] git remove node_modules
 https://stackoverflow.com/a/22924673/6498272 <br/>
+
+[4] What is the loader order for webpack?
+https://stackoverflow.com/a/38695374/6498272 <br/>
