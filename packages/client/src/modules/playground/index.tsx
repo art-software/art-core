@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
+import './style.less';
 
 class App extends React.Component {
 
   public render() {
-    const a: number  = 123;
-    return <div>hello world: { a }</div>;
+    return <div className="main">hello world</div>;
   }
 }
 

@@ -11,13 +11,13 @@ const nconf = require('../../config/config');
 const env = process.env.NODE_ENV || 'development';
 const isProdEnv = env === 'production';
 
-const config: webpack.Configuration = {
+const baseConfig: webpack.Configuration = {
   entry: {
     playground: './src/modules/playground/index'
   },
   output: {
     path: nconf.get('paths:dist'),
-    filename: 'bundle.[chunkhash].js'
+    filename: 'bundle.js'
   },
   resolve: {
     extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
@@ -32,21 +32,7 @@ const config: webpack.Configuration = {
       {
         test: /\.(ts|tsx)$/,
         use: [
-          { loader: 'happypack/loader?id=js' },
           { loader: 'happypack/loader?id=ts' }
-        ]
-      },
-      {
-        test: /\.css$/i,
-        use: [
-          { loader: 'happypack/loader?id=css' }
-        ]
-      },
-      {
-        test: /\.less$/i,
-        use: [
-          { loader: 'happypack/loader?id=css' },
-          { loader: 'happypack/loader?id=less' }
         ]
       }
     ]
@@ -55,22 +41,15 @@ const config: webpack.Configuration = {
     new HappyPack({
       id: 'ts',
       threads: 4,
-      loaders: [{ path: 'ts-loader', query: { happyPackMode: true } }]
+      loaders: [
+        { path: 'babel-loader' },
+        { path: 'ts-loader', query: { happyPackMode: true } }
+      ]
     }),
     new HappyPack({
       id: 'js',
       threads: 4,
       loaders: [{ path: 'babel-loader' }]
-    }),
-    new HappyPack({
-      id: 'css',
-      threads: 4,
-      loaders: [{ path: 'css-loader', query: { sourceMap: !isProdEnv, minimize: isProdEnv } }]
-    }),
-    new HappyPack({
-      id: 'less',
-      threads: 4,
-      loaders: [{ path: 'less-loader', query: { sourceMap: !isProdEnv } }]
     }),
     new CleanWebpackPlugin('dist/*.*', {
       root: nconf.get('paths:clientRoot'),
@@ -86,4 +65,4 @@ const config: webpack.Configuration = {
   ]
 };
 
-export default config;
+export default baseConfig;

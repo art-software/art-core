@@ -6,10 +6,11 @@
   "author": "zbw322092 <zbw322092@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "TS_NODE_PROJECT=\"./tsconfig.for.webpack.config.json\" webpack --config ./devtools/webpack/config/webpack.config.base.ts",
+    "dev": "TS_NODE_PROJECT=\"./tsconfig.for.webpack.config.json\" webpack-dev-server --config ./devtools/webpack/config/webpack.config.dev.ts --hot --inline",
     "build": "webpack --mode production"
   },
   "dependencies": {
+    "less": "^3.0.4",
     "nconf": "^0.10.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
