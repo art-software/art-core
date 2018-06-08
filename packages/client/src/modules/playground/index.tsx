@@ -1,11 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
-import './style.less';
+import './styles';
 
 class App extends React.Component {
 
   public render() {
-    return <div className="main">hello world</div>;
+    return (
+      <div className="main">
+        <div className="text">hello world</div>
+        <div className="image" />
+      </div>
+    );
   }
 }
 

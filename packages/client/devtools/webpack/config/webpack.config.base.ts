@@ -13,11 +13,12 @@ const isProdEnv = env === 'production';
 
 const baseConfig: webpack.Configuration = {
   entry: {
-    playground: './src/modules/playground/index'
+    'modules/playground': './src/modules/playground/index'
   },
   output: {
     path: nconf.get('paths:dist'),
-    filename: 'bundle.js'
+    filename: '[name].bundle.js',
+    publicPath: '/dist/'
   },
   resolve: {
     extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
@@ -33,6 +34,12 @@ const baseConfig: webpack.Configuration = {
         test: /\.(ts|tsx)$/,
         use: [
           { loader: 'happypack/loader?id=ts' }
+        ]
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        use: [
+          { loader: 'happypack/loader?id=url' }
         ]
       }
     ]
@@ -51,13 +58,23 @@ const baseConfig: webpack.Configuration = {
       threads: 4,
       loaders: [{ path: 'babel-loader' }]
     }),
+    new HappyPack({
+      id: 'url',
+      threads: 4,
+      loaders: [{ path: 'url-loader', query: {
+        limit: 5000,
+        fallback: 'file-loader',
+        publicPath: '/dist/',
+        name: `[path][name]-[hash:8].[ext]`
+      } }]
+    }),
     new CleanWebpackPlugin('dist/*.*', {
       root: nconf.get('paths:clientRoot'),
       verbose: true
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(nconf.get('paths:src'), './modules/playground/index.html'),
-      filename: 'index.html',
+      filename: 'modules/playground/index.html',
       hash: true
     }),
     new WebpackMd5Hash(),
