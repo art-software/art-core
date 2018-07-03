@@ -6,8 +6,9 @@
   "author": "zbw322092 <zbw322092@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "TS_NODE_PROJECT=\"./tsconfig.for.webpack.config.json\" webpack-dev-server --config ./devtools/webpack/config/webpack.config.dev.ts --hot --inline",
-    "build": "webpack --mode production"
+    "devserver": "TS_NODE_PROJECT=\"./tsconfig.for.webpack.config.json\" webpack-dev-server --config ./devtools/webpack/config/webpack.config.dev.ts --hot --inline",
+    "build": "webpack --mode production",
+    "dev": "TS_NODE_PROJECT=\"./tsconfig.for.webpack.config.json\" webpack-dev-server --config ./devtools/webpack/config/webpack.config.base.ts --hot --inline"
   },
   "dependencies": {
     "less": "^3.0.4",
@@ -47,6 +48,7 @@
     "tslint": "^5.10.0",
     "url-loader": "^1.0.1",
     "webpack-cli": "^3.0.2",
+    "webpack-config-utils": "^2.3.0",
     "webpack-dev-server": "^3.1.4",
     "webpack-md5-hash": "^0.0.6",
     "webpack-merge": "^4.1.2"

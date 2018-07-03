@@ -1,6 +1,6 @@
 import * as webpack from 'webpack';
 import * as HappyPack from 'happypack';
-import baseConfig from './webpack.config.base';
+import baseConfig from './webpack.config.base.0';
 import * as merge from 'webpack-merge';
 const nconf = require('../../config/config');
 
