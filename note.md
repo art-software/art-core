@@ -8,3 +8,7 @@ https://yarnpkg.com/blog/2017/08/02/introducing-workspaces/ <br/>
 
 [4] Monorepos By Example: Part 3
 https://codeburst.io/monorepos-by-example-part-3-1ebdea7ccbea <br/>
+
+[5] Why is using “for…in” with array iteration a bad idea?
+https://stackoverflow.com/a/500531 <br/>
+
