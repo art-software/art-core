@@ -8,16 +8,23 @@ export class WebpackBaseConfig implements Configuration {
 
   private entryModules: string;
 
-  private isProd = process.env.NODE_ENV === 'production';
+  private readonly isProd = process.env.NODE_ENV === 'production';
 
   public mode = this.isProd ? 'production' as 'production' : 'development' as 'development';
 
   public entry = [];
 
   public resolve = {
-    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
+    extensions: ['.js', '.json', '.html']
   };
 
-  // public module = {
-  // };
+  public module = {
+    rules : this.configRules()
+  };
+
+  public configRules () {
+    const config: any[] = [];
+    // config.push()
+    return [];
+  }
 }
