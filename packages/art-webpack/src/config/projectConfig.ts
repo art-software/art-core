@@ -1,1 +1,0 @@
-import nconf from 'nconf';

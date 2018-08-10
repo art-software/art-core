@@ -6,6 +6,8 @@
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {
+    "art-dev-utils": "^0.0.1",
+    "chalk": "^2.4.1",
     "typescript": "^3.0.1"
   },
   "devDependencies": {
@@ -14,11 +16,14 @@
     "@types/webpack": "^4.4.9",
     "css-hot-loader": "^1.4.1",
     "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11",
+    "fork-ts-checker-webpack-plugin": "^0.4.6",
     "html-loader": "^0.5.5",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.1",
     "nconf": "^0.10.0",
     "node-sass": "^4.9.3",
+    "progress-bar-webpack-plugin": "^1.11.0",
     "sass-loader": "^7.1.0",
     "ts-node": "^7.0.0",
     "url-loader": "^1.0.1",

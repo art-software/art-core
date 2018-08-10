@@ -1,6 +1,8 @@
 import { RuleSetUse, RuleSetRule } from '../../../../node_modules/@types/webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import appNconf from './appConfig';
 import * as path from 'path';
+const projectVirtualPath = appNconf.get('art:projectVirtualPath');
 
 const isProdEnv = process.env.NODE_ENV === 'production';
 
@@ -11,6 +13,10 @@ export const configBaseRules = (): RuleSetRule[] => {
   config.push(lessRule(isProdEnv));
   config.push(sassRule(isProdEnv));
   config.push(htmlRule);
+  config.push(assetsRule);
+  config.push(fontRule);
+  config.push(jsRule);
+  config.push(tsRule);
 
   return config;
 };
@@ -88,8 +94,30 @@ const assetsRule: RuleSetRule = {
       options: {
         limit: 5000,
         context: path.resolve(process.cwd(), './client'),
-        // name: 
+        name: `${projectVirtualPath}/[path][name]-[hash:8].[ext]`
       }
     }
+  ]
+};
+
+const fontRule: RuleSetRule = {
+  test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
+  use: [
+    { loader: 'file-loader', options: { name: '[hash:8].[ext]' } }
+  ]
+};
+
+const jsRule: RuleSetRule = {
+  test: /\.(js|jsx)$/,
+  use: [
+    { loader: 'babel-loader' }
+  ]
+};
+
+const tsRule: RuleSetRule = {
+  test: /\.(ts|tsx)$/,
+  use: [
+    { loader: 'babel-loader' },
+    { loader: 'ts-loader',  options: { transpileOnly: true, silent: true } }
   ]
 };
