@@ -1,4 +1,6 @@
 import { Configuration } from '../../../../node_modules/@types/webpack';
+import { configBaseRules } from './configRules';
+import { configBasePlugins } from './configPlugins';
 
 export class WebpackBaseConfig implements Configuration {
 
@@ -15,16 +17,12 @@ export class WebpackBaseConfig implements Configuration {
   public entry = [];
 
   public resolve = {
-    extensions: ['.js', '.json', '.html']
+    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
   };
 
   public module = {
-    rules : this.configRules()
+    rules : configBaseRules()
   };
 
-  public configRules () {
-    const config: any[] = [];
-    // config.push()
-    return [];
-  }
+  public plugins = configBasePlugins;
 }

@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import paths from './paths';
 
-export const configPlugins: Tapable.Plugin[] = [
+export const configBasePlugins: Tapable.Plugin[] = [
   new ProgressBarPlugin({
     format: chalk.cyan('build') + ' [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
     clear: false
