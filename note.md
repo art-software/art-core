@@ -12,3 +12,10 @@ https://codeburst.io/monorepos-by-example-part-3-1ebdea7ccbea <br/>
 [5] Why is using “for…in” with array iteration a bad idea?
 https://stackoverflow.com/a/500531 <br/>
 
+[todo][6] Requiring modules in Node.js: Everything you need to know
+https://medium.freecodecamp.org/requiring-modules-in-node-js-everything-you-need-to-know-e7fbd119be8?gi=7dfb859b3106 <br/>
+
+[todo][7] Understanding the npm dependency model
+https://lexi-lambda.github.io/blog/2016/08/24/understanding-the-npm-dependency-model/ <br/>
+
+[todo]source map
