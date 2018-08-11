@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
+  "bin": {
+    "art": "./dist/index.js"
+  },
   "dependencies": {
     "chalk": "^2.4.1",
     "typescript": "^3.0.1",

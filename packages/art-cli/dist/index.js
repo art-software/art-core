@@ -1,8 +1,10 @@
+#!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalkColors_1 = require("./utils/chalkColors");
 const version = require('../package.json').version;
 const yargs = require('yargs');
+// tslint:disable-next-line:no-unused-expression
 yargs
     .commandDir('./commands', {
     extensions: ['js', 'ts']
@@ -15,4 +17,5 @@ yargs
 })
     .version(version)
     .alias('v', 'version')
-    .alias('h', 'help');
+    .alias('h', 'help')
+    .argv;
