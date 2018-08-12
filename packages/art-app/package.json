@@ -1,0 +1,14 @@
+{
+  "name": "art-app",
+  "version": "0.0.1",
+  "description": "application based on art frontend development framework",
+  "main": "index.js",
+  "author": "Bowen Zhong",
+  "license": "MIT",
+  "scripts": {
+    "serve": "STAGE=dev ../art-cli/dist/index.js serve --modules='home my finance'"
+  },
+  "dependencies": {
+    "art-webpack": "^0.0.1"
+  }
+}

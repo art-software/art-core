@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const chalkColors_1 = require("./utils/chalkColors");
+const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const version = require('../package.json').version;
 const yargs = require('yargs');
 // tslint:disable-next-line:no-unused-expression

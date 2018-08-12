@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const chalkColors_1 = require("../utils/chalkColors");
+const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
+const webpackTask_1 = require("./webpackTask");
 class ServeCommandModule {
     constructor() {
         this.command = 'serve';
@@ -17,6 +18,7 @@ class ServeCommandModule {
     }
     handler(args) {
         console.log('args: ', args);
+        webpackTask_1.webpackTask('serve', { modules: args.modules });
     }
 }
 module.exports = new ServeCommandModule();

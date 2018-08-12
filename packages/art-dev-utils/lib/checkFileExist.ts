@@ -17,7 +17,7 @@ const checkFileExist = (filePaths: string[]): boolean => {
     console.log(warningText('Could not find a required file.'));
     console.log(warningText('➩ Name: ') + cyanBoldText(fileName));
     console.log(warningText('➩ Searched in: ') + cyanBoldText(dirName));
-    console.log(`Full path: ${cyanText(currentFilePath)}`);
+    console.log(warningText(`Full path: ${cyanText(currentFilePath)}`));
     return false;
   }
 };

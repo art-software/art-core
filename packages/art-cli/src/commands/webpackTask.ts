@@ -8,14 +8,18 @@ interface Args {
 }
 
 export const webpackTask = (command: 'build' | 'serve', args: Args): void => {
-  const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}`);
-  if (!checkFileExist([scriptPath])) { return; }
+  const isDevStage = process.env.STAGE === 'dev';
+  console.log('isDevStage: ', isDevStage);
+  const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
+  const symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
+  const finalPath = isDevStage ? symlinkPath : scriptPath;
+  if (!checkFileExist([finalPath])) { return; }
 
   const nodeEnv = command === 'build' ? 'production' : 'development';
   const { modules } = args;
   const parsedModules = parseModules(modules);
 
-  executeNodeScript('node', scriptPath,
+  executeNodeScript('node', finalPath,
     '--NODE_ENV', nodeEnv,
     '--ART_MODULES', `${JSON.stringify(parsedModules)}`,
   );

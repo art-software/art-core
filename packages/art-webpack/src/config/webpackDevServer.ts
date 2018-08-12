@@ -1,6 +1,6 @@
 import serve from 'webpack-serve';
 import { WebpackDevConfig } from './webpack.config.dev';
-import paths from '../../../../node_modules/art-webpack/src/config/paths';
+import paths from './paths';
 import appConfig from './appConfig';
 
 const serveOptions = {
