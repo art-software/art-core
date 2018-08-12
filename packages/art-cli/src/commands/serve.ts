@@ -1,5 +1,6 @@
 import { CommandModule, Argv } from 'yargs';
-import { cyanBoldText, greenText, grayText } from '../utils/chalkColors';
+import { cyanBoldText, greenText, grayText } from 'art-dev-utils/lib/chalkColors';
+import { webpackTask } from '../../../../node_modules/art-cli/src/commands/webpackTask';
 
 class ServeCommandModule implements CommandModule {
   public readonly command = 'serve';
@@ -18,6 +19,8 @@ class ServeCommandModule implements CommandModule {
 
   public handler(args: any): void {
     console.log('args: ', args);
+
+    webpackTask('serve', { modules: args.modules });
   }
 }
 

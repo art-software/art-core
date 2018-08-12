@@ -9,6 +9,7 @@
     "art": "./dist/index.js"
   },
   "dependencies": {
+    "art-dev-utils": "^0.0.1",
     "chalk": "^2.4.1",
     "typescript": "^3.0.1",
     "yargs": "^12.0.1"

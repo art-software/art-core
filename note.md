@@ -18,4 +18,10 @@ https://medium.freecodecamp.org/requiring-modules-in-node-js-everything-you-need
 [todo][7] Understanding the npm dependency model
 https://lexi-lambda.github.io/blog/2016/08/24/understanding-the-npm-dependency-model/ <br/>
 
-[todo]source map
+[todo][8]source map
+
+[9] Node npm package throw use strict: command not found after publish and install globaly
+https://stackoverflow.com/a/34354713 <br/>
+
+[10] node.js child process - difference between spawn & fork
+https://stackoverflow.com/a/17861879 <br/>

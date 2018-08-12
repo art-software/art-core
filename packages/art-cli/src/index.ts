@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Argv } from 'yargs';
-import { cyanBoldText, warningText } from './utils/chalkColors';
+import { cyanBoldText, warningText } from 'art-dev-utils/lib/chalkColors';
 const version = require('../package.json').version;
 
 const yargs: Argv = require('yargs');

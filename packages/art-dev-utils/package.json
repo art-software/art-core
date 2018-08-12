@@ -4,5 +4,13 @@
   "description": "art framework development utils",
   "main": "index.js",
   "author": "Bowen Zhong",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "cross-spawn": "^6.0.5",
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.0"
+  }
 }
