@@ -18,6 +18,7 @@ const confirmModulesCb = (answer) => {
         if (port === null) {
             return;
         }
+        appConfig_1.default.set(`devPort:${envName}`, port);
     })
         .catch((error) => {
         if (error && error.message) {

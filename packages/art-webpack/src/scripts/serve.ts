@@ -12,12 +12,13 @@ const confirmModulesCb = (answer) => {
   choosePort(HOST, DEFAULT_PORT)
     .then((port) => {
       if (port === null) { return; }
+
+      appConfig.set(`devPort:${envName}`, port);
     })
     .catch((error) => {
       if (error && error.message) {
         console.log(error.message);
       }
-
       process.exit(1);
     });
 };
