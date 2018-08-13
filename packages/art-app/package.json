@@ -6,7 +6,7 @@
   "author": "Bowen Zhong",
   "license": "MIT",
   "scripts": {
-    "serve": "STAGE=dev ../art-cli/dist/index.js serve --modules='home my finance'"
+    "serve": "STAGE=dev ../art-cli/dist/index.js serve --modules='client/app/201804/mainPage/'"
   },
   "dependencies": {
     "art-webpack": "^0.0.1"

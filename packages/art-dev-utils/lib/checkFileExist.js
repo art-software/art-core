@@ -26,7 +26,7 @@ const checkFileExist = (filePaths) => {
         console.log(chalkColors_1.warningText('Could not find a required file.'));
         console.log(chalkColors_1.warningText('➩ Name: ') + chalkColors_1.cyanBoldText(fileName));
         console.log(chalkColors_1.warningText('➩ Searched in: ') + chalkColors_1.cyanBoldText(dirName));
-        console.log(`Full path: ${chalkColors_1.cyanText(currentFilePath)}`);
+        console.log(chalkColors_1.warningText(`Full path: ${chalkColors_1.cyanText(currentFilePath)}`));
         return false;
     }
 };

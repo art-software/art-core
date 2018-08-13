@@ -8,9 +8,12 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "cross-spawn": "^6.0.5",
+    "detect-port": "^1.2.3",
+    "is-root": "^2.0.0",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
-    "@types/cross-spawn": "^6.0.0"
+    "@types/cross-spawn": "^6.0.0",
+    "@types/detect-port": "^1.1.0"
   }
 }

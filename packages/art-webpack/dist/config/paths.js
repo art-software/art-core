@@ -11,7 +11,7 @@ const paths = {
     appSrc: resolveAppPath_1.default('client'),
     appServer: resolveAppPath_1.default('server'),
     appNodeModules: resolveAppPath_1.default('node_modules'),
-    appArtConfig: resolveAppPath_1.default('venus.config.js'),
+    appArtConfig: resolveAppPath_1.default('art.config.js'),
     appTsConfig: resolveAppPath_1.default('tsconfig.json'),
     appTsLintConfig: resolveAppPath_1.default('tslint.json')
 };

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const webpack_config_dev_1 = require("./webpack.config.dev");
-const paths_1 = __importDefault(require("../../../../node_modules/art-webpack/src/config/paths"));
+const paths_1 = __importDefault(require("./paths"));
 const appConfig_1 = __importDefault(require("./appConfig"));
 const serveOptions = {
     compiler: new webpack_config_dev_1.WebpackDevConfig('client'),

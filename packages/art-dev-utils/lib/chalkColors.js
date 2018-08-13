@@ -6,3 +6,4 @@ exports.cyanBoldText = (text) => { return chalk.cyan.bold(text); };
 exports.greenText = (text) => { return chalk.green(text); };
 exports.grayText = (text) => { return chalk.gray(text); };
 exports.warningText = (text) => { return chalk.red.bold(text); };
+exports.redText = (text) => { return chalk.red(text); };

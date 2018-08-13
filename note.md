@@ -25,3 +25,6 @@ https://stackoverflow.com/a/34354713 <br/>
 
 [10] node.js child process - difference between spawn & fork
 https://stackoverflow.com/a/17861879 <br/>
+
+[11] Self referencing object literal in JavaScript
+http://clubmate.fi/self-referencing-object-literal-in-javascript/ <br/>
