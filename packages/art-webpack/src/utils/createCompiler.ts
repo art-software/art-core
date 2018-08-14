@@ -1,8 +1,8 @@
 import webpack, { Configuration } from 'webpack';
-import { warningText, cyanText, greenText } from '../../../art-dev-utils/lib/chalkColors';
-import clearConsole from '../../../art-dev-utils/lib/clearConsole';
+import { warningText, cyanText, greenText } from 'art-dev-utils/lib/chalkColors';
+import clearConsole from 'art-dev-utils/lib/clearConsole';
 import * as path from 'path';
-import formatWebpackMessages from '../../../art-dev-utils/lib/formatWebpackMessages';
+import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
 import chalk from 'chalk';
 
 const createCompiler = (config: Configuration, onFinish: (noError: boolean) => any): webpack.Compiler | null => {

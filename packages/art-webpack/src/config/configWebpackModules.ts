@@ -87,14 +87,3 @@ const bundleFileNamePattern = (suffix: string = '.js'): string => {
   }
   return `bundle${suffix}?${version}`;
 };
-
-const getWebpackModuleConfig = () => {
-  const output = webpackOutput();
-  const entries = webpackEntries(false);
-
-  if (!isProd) {
-
-  } else {
-
-  }
-};

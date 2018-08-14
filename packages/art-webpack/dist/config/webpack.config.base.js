@@ -2,11 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const configRules_1 = require("./configRules");
 const configPlugins_1 = require("./configPlugins");
+const env_1 = require("../utils/env");
 class WebpackBaseConfig {
-    constructor(entry) {
-        this.isProd = process.env.NODE_ENV === 'production';
-        this.mode = this.isProd ? 'production' : 'development';
-        this.entry = [];
+    constructor(entry, output) {
+        this.mode = env_1.isProd() ? 'production' : 'development';
         this.resolve = {
             extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
         };
@@ -14,7 +13,8 @@ class WebpackBaseConfig {
             rules: configRules_1.configBaseRules()
         };
         this.plugins = configPlugins_1.configBasePlugins;
-        this.entryModules = entry;
+        this.entry = entry;
+        this.output = output;
     }
 }
 exports.WebpackBaseConfig = WebpackBaseConfig;

@@ -8,9 +8,4 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = __importStar(require("path"));
-const fs = __importStar(require("fs"));
-const appDirectory = fs.realpathSync(process.cwd());
-function resolveAppPath(relativePath) {
-    return path.resolve(appDirectory, relativePath);
-}
-exports.default = resolveAppPath;
+console.log(path.join(__dirname, '../../dist/config', './environment.json'));

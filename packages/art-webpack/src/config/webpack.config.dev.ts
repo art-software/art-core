@@ -3,14 +3,14 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackBaseConfig } from './webpack.config.base';
 import { Configuration } from 'webpack';
 
-export class WebpackDevConfig extends WebpackBaseConfig implements Configuration {
-  constructor(entry) {
-    super(entry);
+export default class WebpackDevConfig extends WebpackBaseConfig implements Configuration {
+  constructor(entry, output) {
+    super(entry, output);
   }
 
   public devtool = '#source-map' as '#source-map';
 
-  public plugins = super.plugins.concat(
+  public plugins = this.plugins.concat(
     new MiniCssExtractPlugin({
       filename: `./[name]/bundle.css`
     }),

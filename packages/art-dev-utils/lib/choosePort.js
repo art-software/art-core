@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const detect_port_1 = __importDefault(require("detect-port"));
 const chalkColors_1 = require("./chalkColors");
 const is_root_1 = __importDefault(require("is-root"));
-const clearConsole_1 = __importDefault(require("./clearConsole"));
 const isInteractive = process.stdout.isTTY;
 const choosePort = (host, defaultPort) => {
     return detect_port_1.default(defaultPort)
@@ -18,7 +17,8 @@ const choosePort = (host, defaultPort) => {
             ? `Admin permissions are required to run a server on a port below 1024.`
             : `Something is already running on port ${defaultPort}.`;
         if (isInteractive) {
-            clearConsole_1.default();
+            // clearConsole();
+            console.log(1111, port, defaultPort);
             return port;
         }
         else {

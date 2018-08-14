@@ -1,20 +1,20 @@
 import { Configuration } from 'webpack';
 import { configBaseRules } from './configRules';
 import { configBasePlugins } from './configPlugins';
+import { isProd } from '../utils/env';
 
 export class WebpackBaseConfig implements Configuration {
 
-  constructor(entry) {
-    this.entryModules = entry;
+  constructor(entry, output) {
+    this.entry = entry;
+    this.output = output;
   }
 
-  private entryModules: string;
+  public entry: any;
 
-  private readonly isProd = process.env.NODE_ENV === 'production';
+  public output: any;
 
-  public mode = this.isProd ? 'production' as 'production' : 'development' as 'development';
-
-  public entry = [];
+  public mode = isProd() ? 'production' as 'production' : 'development' as 'development';
 
   public resolve = {
     extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']

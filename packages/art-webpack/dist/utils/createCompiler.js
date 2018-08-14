@@ -11,8 +11,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const webpack_1 = __importDefault(require("webpack"));
-const chalkColors_1 = require("../../../../node_modules/art-dev-utils/lib/chalkColors");
-const clearConsole_1 = __importDefault(require("../../../../node_modules/art-dev-utils/lib/clearConsole"));
+const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
+const clearConsole_1 = __importDefault(require("art-dev-utils/lib/clearConsole"));
 const path = __importStar(require("path"));
 const formatWebpackMessages_1 = __importDefault(require("art-dev-utils/lib/formatWebpackMessages"));
 const chalk_1 = __importDefault(require("chalk"));

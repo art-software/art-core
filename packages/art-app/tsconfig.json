@@ -1,0 +1,51 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "baseUrl": ".",
+    "declaration": false,
+    "experimentalDecorators": true,
+    "jsx": "preserve",
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "rootDir": ".",
+    "sourceMap": false,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "target": "es2016",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "jest",
+      "node",
+      "express"
+    ]
+  },
+  "exclude": [
+    "**/node_modules/*",
+    "**/tests/*",
+    "**/dist/*"
+  ],
+  "include": [
+    "./client/**/*"
+  ],
+  "typeAcquisition": {
+    "include": [
+      "jest"
+    ]
+  },
+  "version": "2.8.3"
+}
