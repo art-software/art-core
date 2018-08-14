@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackBaseConfig } from './webpack.config.base';
-import { Configuration } from '../../../../node_modules/@types/webpack';
+import { Configuration } from 'webpack';
 
 export class WebpackDevConfig extends WebpackBaseConfig implements Configuration {
   constructor(entry) {

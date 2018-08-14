@@ -1,5 +1,5 @@
-import { webpackEntries } from './webpackModules';
-import { cyanBoldText } from 'art-dev-utils/lib/chalkColors';
+import { webpackEntries } from '../config/configWebpackModules';
+import { cyanBoldText } from '../../../art-dev-utils/lib/chalkColors';
 import jclrz from 'json-colorz';
 import inquirer from 'inquirer';
 

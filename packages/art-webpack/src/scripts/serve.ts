@@ -1,6 +1,6 @@
 import { confirmModules } from '../utils/inquirer';
 import appConfig from '../config/appConfig';
-import choosePort from 'art-dev-utils/lib/choosePort';
+import choosePort from '../../../art-dev-utils/lib/choosePort';
 
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';

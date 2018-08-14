@@ -1,4 +1,4 @@
-import resolveAppPath from 'art-dev-utils/lib/resolveAppPath';
+import resolveAppPath from '../../../art-dev-utils/lib/resolveAppPath';
 
 const paths = {
   appCwd: resolveAppPath(''),

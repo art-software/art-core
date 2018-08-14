@@ -28,3 +28,6 @@ https://stackoverflow.com/a/17861879 <br/>
 
 [11] Self referencing object literal in JavaScript
 http://clubmate.fi/self-referencing-object-literal-in-javascript/ <br/>
+
+[12] How to write your first webpack plugin?
+https://medium.com/front-end-hacking/how-to-write-your-first-webpack-plugin-c5d6a175f2dc <br/>

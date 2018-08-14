@@ -1,4 +1,4 @@
-import { RuleSetUse, RuleSetRule } from '../../../../node_modules/@types/webpack';
+import { RuleSetUse, RuleSetRule } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import appNconf from './appConfig';
 import * as path from 'path';

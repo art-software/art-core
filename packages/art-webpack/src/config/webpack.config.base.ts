@@ -1,4 +1,4 @@
-import { Configuration } from '../../../../node_modules/@types/webpack';
+import { Configuration } from 'webpack';
 import { configBaseRules } from './configRules';
 import { configBasePlugins } from './configPlugins';
 
