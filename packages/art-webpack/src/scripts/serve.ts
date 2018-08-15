@@ -28,7 +28,7 @@ function confirmModulesCb(answer) {
       if (compiler === null) { return; }
 
       webpackServe(compiler, (result) => {
-        console.log(`success, ${result}`);
+        console.log(`start webpack serve success`);
       });
     })
     .catch((error) => {

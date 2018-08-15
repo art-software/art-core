@@ -16,9 +16,7 @@ const path = __importStar(require("path"));
 const artConfig = require(paths_1.default.appArtConfig);
 nconf_1.default.argv().env()
     .file({
-    file: 'environment.json',
-    dir: path.resolve(__dirname, '../../src/config/'),
-    search: true
+    file: path.resolve(__dirname, '../../environment.json')
 })
     .merge('art', artConfig);
 exports.default = nconf_1.default;

@@ -17,7 +17,6 @@ class ServeCommandModule {
             .example(`${chalkColors_1.greenText('$0 serve -modules="client/test"')}`, 'Serve the client/test module');
     }
     handler(args) {
-        console.log('args: ', args);
         webpackTask_1.webpackTask('serve', { modules: args.modules });
     }
 }

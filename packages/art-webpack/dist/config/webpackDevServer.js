@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const paths_1 = __importDefault(require("./paths"));
+const appConfig_1 = __importDefault(require("./appConfig"));
 const webpack_serve_1 = __importDefault(require("webpack-serve"));
 const envName = process.env.NODE_ENV || 'development';
 const webpackServe = (compiler, callback) => {
@@ -11,18 +12,9 @@ const webpackServe = (compiler, callback) => {
     const serveOptions = {
         compiler,
         content: paths_1.default.appPublic,
-        // host: appConfig.get(`devHost:${ envName }`),
-        host: 'http://127.0.0.1',
-        hotClient: {
-            // host: appConfig.get(`devHost:${ envName }`),
-            host: 'http://127.0.0.1',
-            // port: appConfig.get(`devPort:${ envName }`)
-            port: 3000,
-            autoConfigure: false
-        },
-        // port: appConfig.get(`devPort:${ envName }`),
-        port: 3000,
-        logLevel: 'warn'
+        logLevel: 'error',
+        // host: appConfig.get(`devHost:${envName}`),
+        port: appConfig_1.default.get(`devPort:${envName}`)
     };
     return webpack_serve_1.default(argv, serveOptions).then(callback);
 };

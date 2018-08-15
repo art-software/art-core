@@ -10,18 +10,9 @@ const webpackServe = (compiler: Compiler, callback: (result) => any) => {
   const serveOptions = {
     compiler,
     content: paths.appPublic,
-    // host: appConfig.get(`devHost:${ envName }`),
-    host: 'http://127.0.0.1',
-    hotClient: {
-      // host: appConfig.get(`devHost:${ envName }`),
-      host: 'http://127.0.0.1',
-      // port: appConfig.get(`devPort:${ envName }`)
-      port: 3000,
-      autoConfigure: false
-    },
-    // port: appConfig.get(`devPort:${ envName }`),
-    port: 3000,
-    logLevel: 'warn'
+    logLevel: 'error',
+    // host: appConfig.get(`devHost:${envName}`),
+    port: appConfig.get(`devPort:${envName}`)
   };
   return serve(argv, serveOptions).then(callback);
 };

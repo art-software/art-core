@@ -18,8 +18,6 @@ class ServeCommandModule implements CommandModule {
   }
 
   public handler(args: any): void {
-    console.log('args: ', args);
-
     webpackTask('serve', { modules: args.modules });
   }
 }

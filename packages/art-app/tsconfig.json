@@ -29,9 +29,7 @@
       "node_modules/@types"
     ],
     "types": [
-      "jest",
-      "node",
-      "express"
+      "node"
     ]
   },
   "exclude": [

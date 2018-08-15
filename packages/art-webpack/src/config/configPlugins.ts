@@ -20,7 +20,7 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
   const newEntries = entries || webpackEntries(false);
   const projectVirtualPath = appConfig.get('art:projectVirtualPath') || '';
   const assetsProdPublicPath = appConfig.get('art:webpack:output:publicPath') || '';
-  const defaultTempleate = path.join(__dirname, '../plugins/index.template.ejs');
+  const defaultTempleate = path.join(__dirname, '../../index.template.ejs');
 
   foreach(newEntries, (value, key) => {
     const fragment = key.split('?');

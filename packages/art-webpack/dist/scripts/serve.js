@@ -34,7 +34,7 @@ function confirmModulesCb(answer) {
             return;
         }
         webpackDevServer_1.default(compiler, (result) => {
-            console.log(`success, ${result}`);
+            console.log(`start webpack serve success`);
         });
     })
         .catch((error) => {
