@@ -30,12 +30,12 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
     const myTemplate = path.join(process.cwd(), 'client', entryKey.replace(projectVirtualPath, ''), 'index.template.ejs');
     const htmlWebpackPluginOptions: HtmlWebpackPlugin.Options = {
       chunks: [entryKey],
-      minify: {
+      minify: isProd ? {
         minifyJS: true,
         removeComments: true,
         collapseWhitespace: true,
         collapseBooleanAttributes: true
-      },
+      } : false,
       template: fs.existsSync(myTemplate) ? myTemplate : defaultTempleate,
       title: queryObj.title || '',
       cdnPath: (queryObj.cdn === '0' || queryObj.cdn === 'false' || !isProd) ? '' : assetsProdPublicPath,

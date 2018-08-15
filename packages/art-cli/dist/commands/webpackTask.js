@@ -16,7 +16,6 @@ const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNo
 const parseModules_1 = __importDefault(require("art-dev-utils/lib/parseModules"));
 exports.webpackTask = (command, args) => {
     const isDevStage = process.env.STAGE === 'dev';
-    console.log('isDevStage: ', isDevStage);
     const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
     const symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
     const finalPath = isDevStage ? symlinkPath : scriptPath;

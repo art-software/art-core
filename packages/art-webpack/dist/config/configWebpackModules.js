@@ -34,7 +34,6 @@ exports.webpackEntries = (keepQuery) => {
         modulePattern = ['./', path.join('client', modulePattern)].join('');
         for (const key in allModules) {
             const matched = minimatch_1.default.match(ensureHasDotExtension(allModules[key]), modulePattern, { matchBase: true });
-            console.log(`matched: ${matched}`);
             if (matched.length) {
                 // newEntries[keepQuery ? key : key.split('?')[0]] = ['polyfills'].concat(matched);
                 newEntries[keepQuery ? key : key.split('?')[0]] = matched;

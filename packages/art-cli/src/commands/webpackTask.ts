@@ -9,7 +9,6 @@ interface Args {
 
 export const webpackTask = (command: 'build' | 'serve', args: Args): void => {
   const isDevStage = process.env.STAGE === 'dev';
-  console.log('isDevStage: ', isDevStage);
   const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
   const symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
   const finalPath = isDevStage ? symlinkPath : scriptPath;

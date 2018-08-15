@@ -6,11 +6,13 @@
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {
+    "address": "^1.0.3",
     "chalk": "^2.4.1",
     "cross-spawn": "^6.0.5",
     "detect-port": "^1.2.3",
     "is-root": "^2.0.0",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "shell-quote": "^1.6.1"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.0",

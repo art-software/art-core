@@ -1,3 +1,5 @@
+import './styles';
+
 document.body.onload = addElement;
 
 function addElement() {
