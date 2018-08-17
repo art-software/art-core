@@ -12,7 +12,7 @@ class WebpackDevConfig extends webpack_config_base_1.WebpackBaseConfig {
         this.devtool = '#source-map';
         this.plugins = this.plugins.concat(new mini_css_extract_plugin_1.default({
             filename: `./[name]/bundle.css`
-        }), new webpack_1.default.HotModuleReplacementPlugin());
+        }), new webpack_1.default.NamedModulesPlugin(), new webpack_1.default.HotModuleReplacementPlugin());
     }
 }
 exports.default = WebpackDevConfig;

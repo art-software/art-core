@@ -24,7 +24,7 @@ export const configBaseRules = (): RuleSetRule[] => {
 const cssRule = (isProd: boolean): RuleSetRule => {
   const config: RuleSetUse = [
     MiniCssExtractPlugin.loader,
-    { loader: 'css-loader', options: { sourceMap: !isProd } }
+    { loader: 'css-loader', options: { minimize: isProd, sourceMap: !isProd } }
   ];
 
   if (!isProd) {

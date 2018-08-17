@@ -1,7 +1,7 @@
 {
   "devHost": {
-    "development": "me.ly.com",
-    "production": "me.ly.com"
+    "development": "http://me.ly.com",
+    "production": "http://me.ly.com"
   },
   "devPort": {
     "development": 3000,

@@ -10,7 +10,6 @@ import paths from '../config/paths';
 import WebpackDevServer from 'webpack-dev-server';
 import clearConsole from 'art-dev-utils/lib/clearConsole';
 import { cyanText } from 'art-dev-utils/lib/chalkColors';
-import NodeJS from 'process';
 
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
@@ -22,20 +21,18 @@ function confirmModulesCb(answer) {
   choosePort(HOST, DEFAULT_PORT)
     .then((port) => {
       if (port === null) { return; }
-      console.log(`port: ${port}`);
       // Save new availble webpack dev port.
       appConfig.set(`devPort:${envName}`, port);
       const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
       const urls = prepareUrls(protocol, HOST, port);
 
       const webpackconfig = getWebpackConfig();
+
       const compiler = createCompiler(webpackconfig, (success) => {
         if (success) {
           console.log('done');
         }
-        if (isInteractive) { clearConsole(); }
-
-        console.log(cyanText(`Starting compilers to compiling modules hold on...\n`));
+        // if (isInteractive) { clearConsole(); }
       });
 
       if (compiler === null) { return; }
@@ -50,6 +47,8 @@ function confirmModulesCb(answer) {
         if (error) {
           return console.log(error);
         }
+
+        console.log(cyanText(`Starting compilers to compiling modules hold on...\n`));
       });
 
       ['SIGINT', 'SIGTERM'].forEach((sig) => {

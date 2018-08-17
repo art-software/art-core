@@ -14,6 +14,7 @@ export default class WebpackDevConfig extends WebpackBaseConfig implements Confi
     new MiniCssExtractPlugin({
       filename: `./[name]/bundle.css`
     }),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   );
 }

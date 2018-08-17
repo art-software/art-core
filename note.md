@@ -31,3 +31,6 @@ http://clubmate.fi/self-referencing-object-literal-in-javascript/ <br/>
 
 [12] How to write your first webpack plugin?
 https://medium.com/front-end-hacking/how-to-write-your-first-webpack-plugin-c5d6a175f2dc <br/>
+
+[todo][13] Webpack & The Hot Module Replacement
+https://medium.com/@rajaraodv/webpack-hot-module-replacement-hmr-e756a726a07 <br/>

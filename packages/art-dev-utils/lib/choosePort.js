@@ -18,7 +18,6 @@ const choosePort = (host, defaultPort) => {
             : `Something is already running on port ${defaultPort}.`;
         if (isInteractive) {
             // clearConsole();
-            console.log(1111, port, defaultPort);
             return port;
         }
         else {

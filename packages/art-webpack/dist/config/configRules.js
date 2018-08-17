@@ -30,7 +30,7 @@ exports.configBaseRules = () => {
 const cssRule = (isProd) => {
     const config = [
         mini_css_extract_plugin_1.default.loader,
-        { loader: 'css-loader', options: { sourceMap: !isProd } }
+        { loader: 'css-loader', options: { minimize: isProd, sourceMap: !isProd } }
     ];
     if (!isProd) {
         config.unshift('css-hot-loader');

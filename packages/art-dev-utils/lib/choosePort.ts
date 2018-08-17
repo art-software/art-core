@@ -16,7 +16,6 @@ const choosePort = (host: string, defaultPort: number) => {
 
       if (isInteractive) {
         // clearConsole();
-        console.log(1111, port, defaultPort);
         return port;
       } else {
         console.log(redText(message));

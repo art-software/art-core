@@ -15,8 +15,28 @@ const path = __importStar(require("path"));
 const minimatch_1 = __importDefault(require("minimatch"));
 const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
 const paths_1 = __importDefault(require("./paths"));
+const lodash_1 = require("lodash");
 const envName = process.env.NODE_ENV || 'development';
 const isProd = process.env.NODE_ENV === 'production';
+const getHotDevServerScripts = () => {
+    // WEBPACK DEV SERVER PORT
+    const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
+    const port = appConfig_1.default.get(`devPort:${envName}`);
+    return [
+        '' +
+            'webpack-dev-server/client?' + host + ':' + port + '/',
+        'webpack/hot/dev-server'
+        // 'webpack/hot/only-dev-server'
+    ];
+};
+exports.attachHotDevServerScripts = (entries) => {
+    const hotMiddlewareScript = getHotDevServerScripts();
+    const newEntries = lodash_1.clone(entries);
+    lodash_1.forEach(entries || {}, (value, key) => {
+        newEntries[key] = hotMiddlewareScript.concat(newEntries[key]);
+    });
+    return newEntries;
+};
 /**
  * Filtered all entries defined within art.config.js via command `art serve --modules, -m `
  *
@@ -40,6 +60,9 @@ exports.webpackEntries = (keepQuery) => {
             }
         }
     });
+    // if (!isProd) {
+    //   return attachHotDevServerScripts(newEntries);
+    // }
     return newEntries;
 };
 /**
@@ -53,7 +76,7 @@ exports.webpackOutput = () => {
     return {
         filename: `[name]/${bundleFileNamePattern('.js')}`,
         chunkFilename: `_chunks/[id].[chunkhash].js`,
-        path: path.resolve(paths_1.default.appCwd, './public'),
+        path: path.resolve(paths_1.default.appCwd, './public/'),
         publicPath
     };
 };

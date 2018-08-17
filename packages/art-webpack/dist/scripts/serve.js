@@ -12,7 +12,6 @@ const config_1 = require("../config");
 const prepareProxy_1 = __importDefault(require("art-dev-utils/lib/prepareProxy"));
 const prepareUrls_1 = __importDefault(require("art-dev-utils/lib/prepareUrls"));
 const webpack_dev_server_1 = __importDefault(require("webpack-dev-server"));
-const clearConsole_1 = __importDefault(require("art-dev-utils/lib/clearConsole"));
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const envName = appConfig_1.default.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
@@ -27,7 +26,6 @@ function confirmModulesCb(answer) {
         if (port === null) {
             return;
         }
-        console.log(`port: ${port}`);
         // Save new availble webpack dev port.
         appConfig_1.default.set(`devPort:${envName}`, port);
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
@@ -37,10 +35,7 @@ function confirmModulesCb(answer) {
             if (success) {
                 console.log('done');
             }
-            if (isInteractive) {
-                clearConsole_1.default();
-            }
-            console.log(chalkColors_1.cyanText(`Starting compilers to compiling modules hold on...\n`));
+            // if (isInteractive) { clearConsole(); }
         });
         if (compiler === null) {
             return;
@@ -53,6 +48,7 @@ function confirmModulesCb(answer) {
             if (error) {
                 return console.log(error);
             }
+            console.log(chalkColors_1.cyanText(`Starting compilers to compiling modules hold on...\n`));
         });
         ['SIGINT', 'SIGTERM'].forEach((sig) => {
             process.on(sig, () => {

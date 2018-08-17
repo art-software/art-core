@@ -3,6 +3,7 @@ import * as path from 'path';
 import minimatch from 'minimatch';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 import paths from './paths';
+import { clone, forEach } from 'lodash';
 
 interface OutputProps {
   filename: string;
@@ -13,6 +14,30 @@ interface OutputProps {
 
 const envName = process.env.NODE_ENV || 'development';
 const isProd = process.env.NODE_ENV === 'production';
+
+const getHotDevServerScripts = () => {
+  // WEBPACK DEV SERVER PORT
+  const host = ensureSlash(appConfig.get(`devHost:${envName}`), false);
+  const port = appConfig.get(`devPort:${envName}`);
+
+  return [
+    '' +
+    'webpack-dev-server/client?' + host + ':' + port + '/',
+    'webpack/hot/dev-server'
+    // 'webpack/hot/only-dev-server'
+  ];
+};
+
+export const attachHotDevServerScripts = (entries) => {
+  const hotMiddlewareScript = getHotDevServerScripts();
+  const newEntries = clone(entries);
+
+  forEach(entries || {}, (value, key) => {
+    newEntries[key] = hotMiddlewareScript.concat(newEntries[key]);
+  });
+
+  return newEntries;
+};
 
 /**
  * Filtered all entries defined within art.config.js via command `art serve --modules, -m `
@@ -41,6 +66,10 @@ export const webpackEntries = (keepQuery: boolean): object => {
     }
   });
 
+  // if (!isProd) {
+  //   return attachHotDevServerScripts(newEntries);
+  // }
+
   return newEntries;
 };
 
@@ -56,7 +85,7 @@ export const webpackOutput = (): OutputProps => {
   return {
     filename: `[name]/${bundleFileNamePattern('.js')}`,
     chunkFilename: `_chunks/[id].[chunkhash].js`,
-    path: path.resolve(paths.appCwd, './public'),
+    path: path.resolve(paths.appCwd, './public/'),
     publicPath
   };
 };

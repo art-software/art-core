@@ -50,7 +50,7 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
   return plugins;
 };
 
-export const configBasePlugins: Tapable.Plugin[] = [
+export const configBasePlugins = [
   new ProgressBarPlugin({
     format: chalk.cyan('build') + ' [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
     clear: false
