@@ -26,7 +26,6 @@ const getHotDevServerScripts = () => {
         '' +
             'webpack-dev-server/client?' + host + ':' + port + '/',
         'webpack/hot/dev-server'
-        // 'webpack/hot/only-dev-server'
     ];
 };
 exports.attachHotDevServerScripts = (entries) => {
@@ -35,6 +34,7 @@ exports.attachHotDevServerScripts = (entries) => {
     lodash_1.forEach(entries || {}, (value, key) => {
         newEntries[key] = hotMiddlewareScript.concat(newEntries[key]);
     });
+    console.log(`newEntries: ${JSON.stringify(newEntries)}`);
     return newEntries;
 };
 /**
@@ -60,9 +60,6 @@ exports.webpackEntries = (keepQuery) => {
             }
         }
     });
-    // if (!isProd) {
-    //   return attachHotDevServerScripts(newEntries);
-    // }
     return newEntries;
 };
 /**

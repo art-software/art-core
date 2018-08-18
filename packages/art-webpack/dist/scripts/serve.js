@@ -31,6 +31,7 @@ function confirmModulesCb(answer) {
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
         const urls = prepareUrls_1.default(protocol, HOST, port);
         const webpackconfig = config_1.getWebpackConfig();
+        console.log(`port: ${port}`);
         const compiler = createCompiler_1.default(webpackconfig, (success) => {
             if (success) {
                 console.log('done');

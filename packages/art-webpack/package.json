@@ -29,7 +29,7 @@
     "@types/webpack-dev-server": "^2.9.5",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
-    "css-hot-loader": "^1.4.1",
+    "css-hot-loader": "1.4.2",
     "css-loader": "^1.0.0",
     "file-loader": "^1.1.11",
     "fork-ts-checker-webpack-plugin": "^0.4.6",

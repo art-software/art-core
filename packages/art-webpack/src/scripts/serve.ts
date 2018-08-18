@@ -27,6 +27,7 @@ function confirmModulesCb(answer) {
       const urls = prepareUrls(protocol, HOST, port);
 
       const webpackconfig = getWebpackConfig();
+      console.log(`port: ${port}`);
 
       const compiler = createCompiler(webpackconfig, (success) => {
         if (success) {

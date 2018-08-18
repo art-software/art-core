@@ -24,7 +24,6 @@ const getHotDevServerScripts = () => {
     '' +
     'webpack-dev-server/client?' + host + ':' + port + '/',
     'webpack/hot/dev-server'
-    // 'webpack/hot/only-dev-server'
   ];
 };
 
@@ -36,6 +35,7 @@ export const attachHotDevServerScripts = (entries) => {
     newEntries[key] = hotMiddlewareScript.concat(newEntries[key]);
   });
 
+  console.log(`newEntries: ${JSON.stringify(newEntries)}`);
   return newEntries;
 };
 
@@ -65,10 +65,6 @@ export const webpackEntries = (keepQuery: boolean): object => {
       }
     }
   });
-
-  // if (!isProd) {
-  //   return attachHotDevServerScripts(newEntries);
-  // }
 
   return newEntries;
 };
