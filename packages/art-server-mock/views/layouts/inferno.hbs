@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Art</title>
+  <link rel="stylesheet" type="text/css" href="{{normalizePath ART_SERVER_HOST_ROOT '/public' virtualProjectName projectName moduleName bundleCss}}">
+</head>
+
+<body>
+  <div class="container">
+    {{{body}}}
+  </div>
+  <!--APP 页面加载完毕之后 会自动调用'document.​getElement­sByName(​'tcshareur­l')[​0].​value') 报错-->
+  <input type="hidden" name="tcshareurl" value="" />
+  <input type="hidden" name="tcshareimg" value="" />
+  <input type="hidden" name="tcsharetext" value="" />
+  <input type="hidden" name="tcDesc" value="" />
+  <script type="text/javascript">
+    window.GLOBAL = {
+      hostUrl: '{{normalizePath ART_SERVER_HOST_ROOT}}',
+      routeUrl: '{{normalizePath ART_SERVER_API_ROOT projectName moduleName}}'
+    };
+  </script>
+  <script src="{{normalizePath ART_SERVER_HOST_ROOT '/static/inferno.20180501.js'}}"></script>
+  <script type="text/javascript" src="{{normalizePath ART_CDN_ROOT '/public' virtualProjectName projectName moduleName bundleJs}}"></script>
+</body>
+
+</html>

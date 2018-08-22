@@ -34,3 +34,27 @@ https://medium.com/front-end-hacking/how-to-write-your-first-webpack-plugin-c5d6
 
 [todo][13] Webpack & The Hot Module Replacement
 https://medium.com/@rajaraodv/webpack-hot-module-replacement-hmr-e756a726a07 <br/>
+
+Webpack’s HMR & React-Hot-Loader — The Missing Manual
+https://medium.com/@rajaraodv/webpacks-hmr-react-hot-loader-the-missing-manual-232336dc0d96 <br/>
+
+
+
+
+
+
+
+
+
+
+Points:
+1. Hot Module Replacement
+2. Dependency injection
+https://github.com/typestack/typedi
+https://en.wikipedia.org/wiki/Dependency_injection
+youtube videos
+3. decorator
+4. 'react' javascript framework
+5. ? compiler
+6. component. iScroller?
+7. lerna.js code management way

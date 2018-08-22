@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!--以IE8模式渲染-->
+  <meta charset="UTF-8">
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="format-detection" content="telephone=no,email=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <title>ART Framework</title>
+</head>
+
+<body>
+  <div class="container">
+    {{{body}}}
+  </div>
+  <script type="text/javascript">
+    window.GLOBAL = {
+      hostUrl: '{{ART_SERVER_HOST_ROOT}}',
+      routeUrl: '{{ART_SERVER_API_ROOT}}/{{moduleName}}'
+    };
+  </script>
+</body>
+
+</html>
