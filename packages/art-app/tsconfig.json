@@ -6,7 +6,6 @@
     "alwaysStrict": true,
     "baseUrl": ".",
     "declaration": false,
-    "experimentalDecorators": true,
     "jsx": "preserve",
     "lib": [
       "es6",
@@ -30,7 +29,8 @@
     ],
     "types": [
       "node"
-    ]
+    ],
+    "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
   },
   "exclude": [
     "**/node_modules/*",
@@ -38,7 +38,8 @@
     "**/dist/*"
   ],
   "include": [
-    "./client/**/*"
+    "./client/**/*",
+    "./controllers/**/*"
   ],
   "typeAcquisition": {
     "include": [

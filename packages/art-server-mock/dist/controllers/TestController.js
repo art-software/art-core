@@ -15,20 +15,17 @@ let TestController = class TestController {
         return {
             code: '0000',
             message: 'success',
-            data: {
-                name: 'it is your name',
-                age: 23
-            }
+            data: {}
         };
     }
 };
 __decorate([
-    routing_controllers_1.Get('/testme'),
+    routing_controllers_1.Get('/test'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], TestController.prototype, "post", null);
 TestController = __decorate([
-    routing_controllers_1.JsonController('/mockApi')
+    routing_controllers_1.JsonController()
 ], TestController);
 exports.TestController = TestController;

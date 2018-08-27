@@ -11,6 +11,7 @@
   "dependencies": {
     "art-server-mock": "^0.0.1",
     "art-webpack": "^0.0.1",
-    "less": "^3.8.1"
+    "less": "^3.8.1",
+    "routing-controllers": "^0.7.7"
   }
 }

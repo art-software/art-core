@@ -52,11 +52,8 @@ class IndexPage {
         };
     }
     indexPage(req, res) {
-        console.log(`req.baseUrl: ${req.baseUrl}`);
         const baseUrl = (req.baseUrl || '/').replace(req.moduleBase, '') || '/';
         const matchedModuleInfo = this.calcuMatchedModuleInfo(baseUrl, entries);
-        console.log(`baseUrl: ${baseUrl}`);
-        console.log(`matchedModuleInfo: ${matchedModuleInfo}`);
         if (baseUrl === '/') {
             return this.renderAvailableModulesView(req, res);
         }
@@ -65,11 +62,9 @@ class IndexPage {
         if (isProd || !matchedModuleInfo) {
             // calculate the public/{module}/ if matched.
             const matchedBuiltModuleInfo = this.builtModuleMatched(baseUrl);
-            console.log(`matchedBuiltModuleInfo: ${matchedBuiltModuleInfo}`);
             if (!matchedBuiltModuleInfo) {
                 return this.renderAvailableModulesView(req, res);
             }
-            console.log(`matchedBuiltModuleInfo2: ${JSON.stringify(matchedBuiltModuleInfo)}`);
             const { projectName, moduleName } = matchedBuiltModuleInfo;
             const moduleDir = path.join(publicPath, virtualProjectName, projectName, moduleName, '**/*.{js,css}');
             return glob_1.default(moduleDir, {}, (err, files) => {
@@ -83,7 +78,6 @@ class IndexPage {
             });
         }
         // return real module pageview.
-        console.log(`matchedModuleInfo2: ${JSON.stringify(matchedModuleInfo)}`);
         return this.renderIndexView(req, res, matchedModuleInfo);
     }
     calcuMatchedModuleInfo(pathFragment, queryEntries) {
@@ -140,7 +134,6 @@ class IndexPage {
             console.log(chalk_1.default.red.bold(`Could not find customized layout ${path.relative(appServer, layoutAbsPath)}`));
             layout = 'artIndex.hbs';
         }
-        console.log(`virtualProjectName: ${virtualProjectName}`);
         return res.render('normal/index', lodash_1.merge({
             layout: layout.replace(/\.hbs$/, ''),
             virtualProjectName: `${virtualProjectName}`,

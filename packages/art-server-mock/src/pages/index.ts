@@ -25,11 +25,8 @@ interface ModuleInfoProps {
 export default class IndexPage {
 
   public indexPage(@Req() req: Request, @Res() res: Response) {
-    console.log(`req.baseUrl: ${req.baseUrl}`);
     const baseUrl = (req.baseUrl || '/').replace((req as any).moduleBase, '') || '/';
     const matchedModuleInfo = this.calcuMatchedModuleInfo(baseUrl, entries);
-    console.log(`baseUrl: ${baseUrl}`);
-    console.log(`matchedModuleInfo: ${matchedModuleInfo}`);
     if (baseUrl === '/') {
       return this.renderAvailableModulesView(req, res);
     }
@@ -39,12 +36,10 @@ export default class IndexPage {
     if (isProd || !matchedModuleInfo) {
       // calculate the public/{module}/ if matched.
       const matchedBuiltModuleInfo = this.builtModuleMatched(baseUrl);
-      console.log(`matchedBuiltModuleInfo: ${matchedBuiltModuleInfo}`);
       if (!matchedBuiltModuleInfo) {
         return this.renderAvailableModulesView(req, res);
       }
 
-      console.log(`matchedBuiltModuleInfo2: ${JSON.stringify(matchedBuiltModuleInfo)}`);
       const { projectName, moduleName } = matchedBuiltModuleInfo;
       const moduleDir = path.join(publicPath, virtualProjectName, projectName, moduleName, '**/*.{js,css}');
       return glob(moduleDir, {}, (err, files) => {
@@ -59,7 +54,6 @@ export default class IndexPage {
     }
 
     // return real module pageview.
-    console.log(`matchedModuleInfo2: ${ JSON.stringify(matchedModuleInfo)}`);
     return this.renderIndexView(req, res, matchedModuleInfo);
   }
 
@@ -137,7 +131,6 @@ export default class IndexPage {
       layout = 'artIndex.hbs';
     }
 
-    console.log(`virtualProjectName: ${virtualProjectName}`);
     return res.render('normal/index', merge({
       layout: layout.replace(/\.hbs$/, ''),
       virtualProjectName: `${virtualProjectName}`,

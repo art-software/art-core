@@ -4,6 +4,7 @@ import favicon from 'serve-favicon';
 import { join } from 'path';
 import * as url from 'url';
 import * as path from 'path';
+import * as fs from 'fs';
 import compression from 'compression';
 import exphbs from 'express-handlebars';
 import helpers from 'handlebars-helpers';
@@ -43,11 +44,6 @@ export default class App {
       ? ensureSlash(`${devHost}:${webpackPort}`, false)
       : ensureSlash(urls.localUrlForBrowser.replace(expressPort, webpackPort), false);
 
-    console.log(
-      `envName: ${envName}
-      devHost: ${devHost}
-      devServerHost: ${devServerHost}`
-    );
     Object.assign(app.locals, {
       env: envName,
       ART_CDN_ROOT: devHost,
@@ -57,7 +53,15 @@ export default class App {
   }
 
   private controllers() {
-    return [join(__dirname, './controllers/*')];
+    const ctrls: string[] = [];
+    const bizConrtollers = path.join(process.cwd(), './controllers');
+    console.log(`exist ${fs.existsSync(bizConrtollers)}`);
+    if (fs.existsSync(bizConrtollers)) {
+      ctrls.push(path.join(bizConrtollers, './controllers/*.ts'));
+    }
+    // return [join(__dirname, './controllers/*')];
+    ctrls.push(join(__dirname, './controllers/*'));
+    return ctrls;
   }
 
   private appIndexPage(app: Application) {
@@ -78,10 +82,11 @@ export default class App {
     app.use(favicon(join(__dirname, '../favicon.ico')));
     app.use('/publish', compression(), express.static(publicPath));
     this.appTemplate(app);
-    this.appIndexPage(app);
     await useExpressServer(app, {
+      routePrefix: '/api',
       controllers: this.controllers()
     });
+    this.appIndexPage(app);
     return app;
   }
 

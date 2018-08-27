@@ -24,6 +24,7 @@ const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const path_1 = require("path");
 const url = __importStar(require("url"));
 const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
 const compression_1 = __importDefault(require("compression"));
 const express_handlebars_1 = __importDefault(require("express-handlebars"));
 const handlebars_helpers_1 = __importDefault(require("handlebars-helpers"));
@@ -58,9 +59,6 @@ class App {
         devHost = devHost
             ? ensureSlash_1.default(`${devHost}:${webpackPort}`, false)
             : ensureSlash_1.default(urls.localUrlForBrowser.replace(expressPort, webpackPort), false);
-        console.log(`envName: ${envName}
-      devHost: ${devHost}
-      devServerHost: ${devServerHost}`);
         Object.assign(app.locals, {
             env: envName,
             ART_CDN_ROOT: devHost,
@@ -69,7 +67,15 @@ class App {
         });
     }
     controllers() {
-        return [path_1.join(__dirname, './controllers/*')];
+        const ctrls = [];
+        const bizConrtollers = path.join(process.cwd(), './controllers');
+        console.log(`exist ${fs.existsSync(bizConrtollers)}`);
+        if (fs.existsSync(bizConrtollers)) {
+            ctrls.push(path.join(bizConrtollers, './controllers/*.ts'));
+        }
+        // return [join(__dirname, './controllers/*')];
+        ctrls.push(path_1.join(__dirname, './controllers/*'));
+        return ctrls;
     }
     appIndexPage(app) {
         const indexPage = new index_1.default();
@@ -88,10 +94,11 @@ class App {
             app.use(serve_favicon_1.default(path_1.join(__dirname, '../favicon.ico')));
             app.use('/publish', compression_1.default(), express_1.default.static(publicPath));
             this.appTemplate(app);
-            this.appIndexPage(app);
             yield routing_controllers_1.useExpressServer(app, {
+                routePrefix: '/api',
                 controllers: this.controllers()
             });
+            this.appIndexPage(app);
             return app;
         });
     }
