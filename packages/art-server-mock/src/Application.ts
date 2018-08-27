@@ -3,6 +3,7 @@ import express, { Application } from 'express';
 import favicon from 'serve-favicon';
 import { join } from 'path';
 import * as url from 'url';
+import * as path from 'path';
 import compression from 'compression';
 import exphbs from 'express-handlebars';
 import helpers from 'handlebars-helpers';
@@ -13,6 +14,7 @@ import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 import config from './config/config';
 import openBrowser from 'art-dev-utils/lib/openBrowser';
 import { warningText } from 'art-dev-utils/lib/chalkColors';
+import IndexPage from './pages/index';
 const artConfigPath = join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
 const envName = config.get('NODE_ENV') || 'development';
@@ -23,13 +25,13 @@ export default class App {
     const handlebars = exphbs.create({
       defaultLayout: 'main',
       extname: '.hbs',
-      layoutsDir: 'art-server-mock/views/layouts/',
-      partialsDir: 'art-server-mock/views/partials/',
+      layoutsDir: path.join(__dirname, '../views/layouts'),
+      partialsDir: path.join(__dirname, '../views/partials'),
       helpers
     });
-    app.engine('handlebars', handlebars.engine);
-    app.set('view engine', 'handlebars');
-    app.set('view', join(__dirname, '../views'));
+    app.engine('.hbs', handlebars.engine);
+    app.set('view engine', '.hbs');
+    app.set('views', join(__dirname, '../views'));
   }
 
   // UPDATE  GLOBAL veriables for handbars views
@@ -55,7 +57,19 @@ export default class App {
   }
 
   private controllers() {
-    return [ join(__dirname, './controllers/*') ];
+    return [join(__dirname, './controllers/*')];
+  }
+
+  private appIndexPage(app: Application) {
+    const indexPage = new IndexPage();
+    app.use('/', (req, res, next) => {
+      (req as any).moduleBase = '/';
+      next();
+    });
+
+    app.use(/\/[^.]*$|^(?:https?:)?\/\/[^/]+$/, (req, res) => {
+      indexPage.indexPage(req, res);
+    });
   }
 
   private async createApp(): Promise<Application> {
@@ -64,10 +78,10 @@ export default class App {
     app.use(favicon(join(__dirname, '../favicon.ico')));
     app.use('/publish', compression(), express.static(publicPath));
     this.appTemplate(app);
+    this.appIndexPage(app);
     await useExpressServer(app, {
       controllers: this.controllers()
     });
-
     return app;
   }
 

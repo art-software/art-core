@@ -23,6 +23,7 @@ const express_1 = __importDefault(require("express"));
 const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const path_1 = require("path");
 const url = __importStar(require("url"));
+const path = __importStar(require("path"));
 const compression_1 = __importDefault(require("compression"));
 const express_handlebars_1 = __importDefault(require("express-handlebars"));
 const handlebars_helpers_1 = __importDefault(require("handlebars-helpers"));
@@ -33,6 +34,7 @@ const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
 const config_1 = __importDefault(require("./config/config"));
 const openBrowser_1 = __importDefault(require("art-dev-utils/lib/openBrowser"));
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
+const index_1 = __importDefault(require("./pages/index"));
 const artConfigPath = path_1.join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
 const envName = config_1.default.get('NODE_ENV') || 'development';
@@ -41,13 +43,13 @@ class App {
         const handlebars = express_handlebars_1.default.create({
             defaultLayout: 'main',
             extname: '.hbs',
-            layoutsDir: 'art-server-mock/views/layouts/',
-            partialsDir: 'art-server-mock/views/partials/',
+            layoutsDir: path.join(__dirname, '../views/layouts'),
+            partialsDir: path.join(__dirname, '../views/partials'),
             helpers: handlebars_helpers_1.default
         });
-        app.engine('handlebars', handlebars.engine);
-        app.set('view engine', 'handlebars');
-        app.set('view', path_1.join(__dirname, '../views'));
+        app.engine('.hbs', handlebars.engine);
+        app.set('view engine', '.hbs');
+        app.set('views', path_1.join(__dirname, '../views'));
     }
     // UPDATE  GLOBAL veriables for handbars views
     appLocals(app, expressPort, webpackPort, urls) {
@@ -69,6 +71,16 @@ class App {
     controllers() {
         return [path_1.join(__dirname, './controllers/*')];
     }
+    appIndexPage(app) {
+        const indexPage = new index_1.default();
+        app.use('/', (req, res, next) => {
+            req.moduleBase = '/';
+            next();
+        });
+        app.use(/\/[^.]*$|^(?:https?:)?\/\/[^/]+$/, (req, res) => {
+            indexPage.indexPage(req, res);
+        });
+    }
     createApp() {
         return __awaiter(this, void 0, void 0, function* () {
             const app = express_1.default();
@@ -76,6 +88,7 @@ class App {
             app.use(serve_favicon_1.default(path_1.join(__dirname, '../favicon.ico')));
             app.use('/publish', compression_1.default(), express_1.default.static(publicPath));
             this.appTemplate(app);
+            this.appIndexPage(app);
             yield routing_controllers_1.useExpressServer(app, {
                 controllers: this.controllers()
             });

@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Art</title>
-  <link rel="stylesheet" type="text/css" href="{{normalizePath ART_SERVER_HOST_ROOT '/public' virtualProjectName projectName moduleName bundleCss}}">
+  <link rel="stylesheet" type="text/css" href="{{normalizePath ART_CDN_ROOT '/public' virtualProjectName projectName moduleName bundleCss}}">
 </head>
 
 <body>
@@ -28,7 +28,7 @@
       routeUrl: '{{normalizePath ART_SERVER_API_ROOT projectName moduleName}}'
     };
   </script>
-  <script src="{{normalizePath ART_SERVER_HOST_ROOT '/static/inferno.20180501.js'}}"></script>
+  {{!-- <script src="{{normalizePath ART_SERVER_HOST_ROOT '/static/inferno.20180501.js'}}"></script> --}}
   <script type="text/javascript" src="{{normalizePath ART_CDN_ROOT '/public' virtualProjectName projectName moduleName bundleJs}}"></script>
 </body>
 
