@@ -2,7 +2,7 @@
   "name": "art-server-mock",
   "version": "0.0.1",
   "description": "art server mock",
-  "main": "index.js",
+  "main": "dist/index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {

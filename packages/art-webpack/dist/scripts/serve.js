@@ -2,6 +2,13 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const inquirer_1 = require("../utils/inquirer");
 const appConfig_1 = __importDefault(require("../config/appConfig"));
@@ -13,11 +20,23 @@ const prepareProxy_1 = __importDefault(require("art-dev-utils/lib/prepareProxy")
 const prepareUrls_1 = __importDefault(require("art-dev-utils/lib/prepareUrls"));
 const webpack_dev_server_1 = __importDefault(require("webpack-dev-server"));
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
+const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
+const path = __importStar(require("path"));
 const envName = appConfig_1.default.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig_1.default.get(`devPort:${envName}`);
 const isInteractive = process.stdout.isTTY;
-function confirmModulesCb(answer) {
+let nodeServerHasLunched = false;
+const lunchNodeServer = (modules, port) => {
+    if (nodeServerHasLunched) {
+        return;
+    }
+    // if (isInteractive) { clearConsole(); }
+    const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
+    executeNodeScript_1.default('node', mockServerPath, '--ART_MODULES', `${modules}`, '--ART_WEBPACK_PORT', `${port}`);
+    nodeServerHasLunched = true;
+};
+const confirmModulesCb = (answer) => {
     if (answer.availableModulesOk === false) {
         return;
     }
@@ -34,9 +53,10 @@ function confirmModulesCb(answer) {
         console.log(`port: ${port}`);
         const compiler = createCompiler_1.default(webpackconfig, (success) => {
             if (success) {
-                console.log('done');
+                console.log('Compiler instance created successfully.');
+                const artModules = appConfig_1.default.get('ART_MODULES');
+                lunchNodeServer(artModules, port);
             }
-            // if (isInteractive) { clearConsole(); }
         });
         if (compiler === null) {
             return;
@@ -64,5 +84,5 @@ function confirmModulesCb(answer) {
         }
         process.exit(1);
     });
-}
+};
 inquirer_1.confirmModules(confirmModulesCb);

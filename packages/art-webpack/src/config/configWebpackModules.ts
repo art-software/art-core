@@ -35,7 +35,6 @@ export const attachHotDevServerScripts = (entries) => {
     newEntries[key] = hotMiddlewareScript.concat(newEntries[key]);
   });
 
-  console.log(`newEntries: ${JSON.stringify(newEntries)}`);
   return newEntries;
 };
 

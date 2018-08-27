@@ -10,13 +10,30 @@ import paths from '../config/paths';
 import WebpackDevServer from 'webpack-dev-server';
 import clearConsole from 'art-dev-utils/lib/clearConsole';
 import { cyanText } from 'art-dev-utils/lib/chalkColors';
+import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
+import * as path from 'path';
 
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig.get(`devPort:${envName}`);
 const isInteractive = process.stdout.isTTY;
 
-function confirmModulesCb(answer) {
+let nodeServerHasLunched = false;
+const lunchNodeServer = (modules: string, port: number) => {
+
+  if (nodeServerHasLunched) { return; }
+  // if (isInteractive) { clearConsole(); }
+  const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
+  executeNodeScript(
+    'node',
+    mockServerPath,
+    '--ART_MODULES', `${modules}`,
+    '--ART_WEBPACK_PORT', `${port}`
+  );
+  nodeServerHasLunched = true;
+};
+
+const confirmModulesCb = (answer) => {
   if (answer.availableModulesOk === false) { return; }
   choosePort(HOST, DEFAULT_PORT)
     .then((port) => {
@@ -31,9 +48,10 @@ function confirmModulesCb(answer) {
 
       const compiler = createCompiler(webpackconfig, (success) => {
         if (success) {
-          console.log('done');
+          console.log('Compiler instance created successfully.');
+          const artModules = appConfig.get('ART_MODULES');
+          lunchNodeServer(artModules, port);
         }
-        // if (isInteractive) { clearConsole(); }
       });
 
       if (compiler === null) { return; }
@@ -48,7 +66,6 @@ function confirmModulesCb(answer) {
         if (error) {
           return console.log(error);
         }
-
         console.log(cyanText(`Starting compilers to compiling modules hold on...\n`));
       });
 
@@ -66,6 +83,6 @@ function confirmModulesCb(answer) {
       }
       process.exit(1);
     });
-}
+};
 
 confirmModules(confirmModulesCb);

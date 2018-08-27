@@ -9,6 +9,7 @@
     "serve": "STAGE=dev ../art-cli/dist/index.js serve --modules='client/app/201804/mainPage/'"
   },
   "dependencies": {
+    "art-server-mock": "^0.0.1",
     "art-webpack": "^0.0.1",
     "less": "^3.8.1"
   }

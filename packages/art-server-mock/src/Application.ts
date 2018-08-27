@@ -13,7 +13,7 @@ import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 import config from './config/config';
 import openBrowser from 'art-dev-utils/lib/openBrowser';
 import { warningText } from 'art-dev-utils/lib/chalkColors';
-const artConfigPath = join(process.cwd(), './art.config.js');
+const artConfigPath = join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
 const envName = config.get('NODE_ENV') || 'development';
 
@@ -41,6 +41,11 @@ export default class App {
       ? ensureSlash(`${devHost}:${webpackPort}`, false)
       : ensureSlash(urls.localUrlForBrowser.replace(expressPort, webpackPort), false);
 
+    console.log(
+      `envName: ${envName}
+      devHost: ${devHost}
+      devServerHost: ${devServerHost}`
+    );
     Object.assign(app.locals, {
       env: envName,
       ART_CDN_ROOT: devHost,
@@ -49,18 +54,18 @@ export default class App {
     });
   }
 
-  private constrollers () {
+  private controllers() {
     return [ join(__dirname, './controllers/*') ];
   }
 
-  private createApp(): Application {
+  private async createApp(): Promise<Application> {
     const app = express();
     const publicPath = join(process.cwd(), './publish');
     app.use(favicon(join(__dirname, '../favicon.ico')));
     app.use('/publish', compression(), express.static(publicPath));
     this.appTemplate(app);
-    useExpressServer(app, {
-      controllers: this.constrollers()
+    await useExpressServer(app, {
+      controllers: this.controllers()
     });
 
     return app;
@@ -69,7 +74,8 @@ export default class App {
   public async start() {
 
     const host = config.get('HOST') || '0.0.0.0';
-    const webpackPort = config.get('VENUS_WEBPACK_PORT') || 3000;
+    const webpackPort = config.get('ART_WEBPACK_PORT') || 3000;
+    console.log(`webpackPort: ${webpackPort}`);
     const protocol = config.get('HTTPS') === 'true' ? 'https' : 'http';
     const appName = artAppConfig.name;
     const isProd = process.env.NODE_ENV === 'production';
@@ -81,7 +87,9 @@ export default class App {
       return console.log(err);
     }
 
-    const app = this.createApp();
+    console.log(`expressPort: ${expressPort}`);
+
+    const app = await this.createApp();
 
     if (expressPort === null) { return; }
     app.listen(expressPort, host, (err) => {
@@ -93,7 +101,7 @@ export default class App {
       this.appLocals(app, expressPort as number, isProd ? expressPort : webpackPort, urls);
       printInstructions(appName, urls);
 
-      if (config.get('VENUS_SUPERVISOR_STATUS') === 'false') {
+      if (config.get('ART_SUPERVISOR_STATUS') === 'false') {
         if (!hostname) { return console.log(warningText('no valid hostname')); }
         openBrowser(urls.localUrlForBrowser.replace('localhost', hostname));
       }

@@ -34,7 +34,6 @@ exports.attachHotDevServerScripts = (entries) => {
     lodash_1.forEach(entries || {}, (value, key) => {
         newEntries[key] = hotMiddlewareScript.concat(newEntries[key]);
     });
-    console.log(`newEntries: ${JSON.stringify(newEntries)}`);
     return newEntries;
 };
 /**
