@@ -39,7 +39,7 @@
   ],
   "include": [
     "./client/**/*",
-    "./controllers/**/*"
+    "./mock/**/*"
   ],
   "typeAcquisition": {
     "include": [

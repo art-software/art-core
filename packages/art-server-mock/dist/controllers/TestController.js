@@ -26,6 +26,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], TestController.prototype, "post", null);
 TestController = __decorate([
-    routing_controllers_1.JsonController()
+    routing_controllers_1.Controller()
 ], TestController);
 exports.TestController = TestController;

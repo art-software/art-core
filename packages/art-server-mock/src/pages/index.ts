@@ -24,7 +24,8 @@ interface ModuleInfoProps {
 
 export default class IndexPage {
 
-  public indexPage(@Req() req: Request, @Res() res: Response) {
+  public indexPage(@Req() req: Request, @Res() res: Response): any {
+    if (!req.originalUrl || req.originalUrl.includes('/mock_api')) { return; }
     const baseUrl = (req.baseUrl || '/').replace((req as any).moduleBase, '') || '/';
     const matchedModuleInfo = this.calcuMatchedModuleInfo(baseUrl, entries);
     if (baseUrl === '/') {

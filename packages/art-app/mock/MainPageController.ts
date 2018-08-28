@@ -1,15 +1,15 @@
-import { JsonController, Post } from 'routing-controllers';
+import { Controller, Get } from 'routing-controllers';
 
-@JsonController()
+@Controller()
 export default class MainPageController {
 
-  @Post('/test')
+  @Get('/testme')
   public mockApi() {
     return {
       code: '0000',
       message: 'suceess',
       data: {
-        success: 'biz mock data'
+        success: 'biz mock data!'
       }
     };
   }

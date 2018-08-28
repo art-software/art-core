@@ -3,7 +3,6 @@ import express, { Application } from 'express';
 import favicon from 'serve-favicon';
 import { join } from 'path';
 import * as url from 'url';
-import * as path from 'path';
 import * as fs from 'fs';
 import compression from 'compression';
 import exphbs from 'express-handlebars';
@@ -26,8 +25,8 @@ export default class App {
     const handlebars = exphbs.create({
       defaultLayout: 'main',
       extname: '.hbs',
-      layoutsDir: path.join(__dirname, '../views/layouts'),
-      partialsDir: path.join(__dirname, '../views/partials'),
+      layoutsDir: join(__dirname, '../views/layouts'),
+      partialsDir: join(__dirname, '../views/partials'),
       helpers
     });
     app.engine('.hbs', handlebars.engine);
@@ -54,12 +53,11 @@ export default class App {
 
   private controllers() {
     const ctrls: string[] = [];
-    const bizConrtollers = path.join(process.cwd(), './controllers');
+    const bizConrtollers = join(process.cwd(), './mock');
     console.log(`exist ${fs.existsSync(bizConrtollers)}`);
     if (fs.existsSync(bizConrtollers)) {
-      ctrls.push(path.join(bizConrtollers, './controllers/*.ts'));
+      ctrls.push(join(bizConrtollers, './dist/*'));
     }
-    // return [join(__dirname, './controllers/*')];
     ctrls.push(join(__dirname, './controllers/*'));
     return ctrls;
   }
@@ -76,14 +74,14 @@ export default class App {
     });
   }
 
-  private async createApp(): Promise<Application> {
+  private createApp(): Application {
     const app = express();
     const publicPath = join(process.cwd(), './publish');
     app.use(favicon(join(__dirname, '../favicon.ico')));
     app.use('/publish', compression(), express.static(publicPath));
     this.appTemplate(app);
-    await useExpressServer(app, {
-      routePrefix: '/api',
+    useExpressServer(app, {
+      routePrefix: '/mock_api',
       controllers: this.controllers()
     });
     this.appIndexPage(app);
@@ -108,7 +106,7 @@ export default class App {
 
     console.log(`expressPort: ${expressPort}`);
 
-    const app = await this.createApp();
+    const app = this.createApp();
 
     if (expressPort === null) { return; }
     app.listen(expressPort, host, (err) => {

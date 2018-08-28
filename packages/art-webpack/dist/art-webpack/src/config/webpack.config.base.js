@@ -1,0 +1,30 @@
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./configRules", "./configPlugins", "../utils/env"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const configRules_1 = require("./configRules");
+    const configPlugins_1 = require("./configPlugins");
+    const env_1 = require("../utils/env");
+    class WebpackBaseConfig {
+        constructor(entry, output) {
+            this.mode = env_1.isProd() ? 'production' : 'development';
+            this.resolve = {
+                extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
+            };
+            this.module = {
+                rules: configRules_1.configBaseRules()
+            };
+            this.plugins = configPlugins_1.configBasePlugins;
+            this.entry = entry;
+            this.output = output;
+        }
+    }
+    exports.WebpackBaseConfig = WebpackBaseConfig;
+});

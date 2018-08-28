@@ -52,6 +52,9 @@ class IndexPage {
         };
     }
     indexPage(req, res) {
+        if (!req.originalUrl || req.originalUrl.includes('/mock_api')) {
+            return;
+        }
         const baseUrl = (req.baseUrl || '/').replace(req.moduleBase, '') || '/';
         const matchedModuleInfo = this.calcuMatchedModuleInfo(baseUrl, entries);
         if (baseUrl === '/') {
@@ -156,6 +159,6 @@ __decorate([
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Object)
 ], IndexPage.prototype, "indexPage", null);
 exports.default = IndexPage;

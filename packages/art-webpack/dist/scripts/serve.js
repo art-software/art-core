@@ -33,7 +33,7 @@ const lunchNodeServer = (modules, port) => {
     }
     // if (isInteractive) { clearConsole(); }
     const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
-    executeNodeScript_1.default('node', mockServerPath, '--ART_MODULES', `${modules}`, '--ART_WEBPACK_PORT', `${port}`);
+    executeNodeScript_1.default('ts-node', mockServerPath, '--ART_MODULES', `${modules}`, '--ART_WEBPACK_PORT', `${port}`);
     nodeServerHasLunched = true;
 };
 const confirmModulesCb = (answer) => {

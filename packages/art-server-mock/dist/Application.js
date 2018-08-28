@@ -23,7 +23,6 @@ const express_1 = __importDefault(require("express"));
 const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const path_1 = require("path");
 const url = __importStar(require("url"));
-const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
 const compression_1 = __importDefault(require("compression"));
 const express_handlebars_1 = __importDefault(require("express-handlebars"));
@@ -44,8 +43,8 @@ class App {
         const handlebars = express_handlebars_1.default.create({
             defaultLayout: 'main',
             extname: '.hbs',
-            layoutsDir: path.join(__dirname, '../views/layouts'),
-            partialsDir: path.join(__dirname, '../views/partials'),
+            layoutsDir: path_1.join(__dirname, '../views/layouts'),
+            partialsDir: path_1.join(__dirname, '../views/partials'),
             helpers: handlebars_helpers_1.default
         });
         app.engine('.hbs', handlebars.engine);
@@ -68,12 +67,11 @@ class App {
     }
     controllers() {
         const ctrls = [];
-        const bizConrtollers = path.join(process.cwd(), './controllers');
+        const bizConrtollers = path_1.join(process.cwd(), './mock');
         console.log(`exist ${fs.existsSync(bizConrtollers)}`);
         if (fs.existsSync(bizConrtollers)) {
-            ctrls.push(path.join(bizConrtollers, './controllers/*.ts'));
+            ctrls.push(path_1.join(bizConrtollers, './dist/*'));
         }
-        // return [join(__dirname, './controllers/*')];
         ctrls.push(path_1.join(__dirname, './controllers/*'));
         return ctrls;
     }
@@ -88,19 +86,17 @@ class App {
         });
     }
     createApp() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const app = express_1.default();
-            const publicPath = path_1.join(process.cwd(), './publish');
-            app.use(serve_favicon_1.default(path_1.join(__dirname, '../favicon.ico')));
-            app.use('/publish', compression_1.default(), express_1.default.static(publicPath));
-            this.appTemplate(app);
-            yield routing_controllers_1.useExpressServer(app, {
-                routePrefix: '/api',
-                controllers: this.controllers()
-            });
-            this.appIndexPage(app);
-            return app;
+        const app = express_1.default();
+        const publicPath = path_1.join(process.cwd(), './publish');
+        app.use(serve_favicon_1.default(path_1.join(__dirname, '../favicon.ico')));
+        app.use('/publish', compression_1.default(), express_1.default.static(publicPath));
+        this.appTemplate(app);
+        routing_controllers_1.useExpressServer(app, {
+            routePrefix: '/mock_api',
+            controllers: this.controllers()
         });
+        this.appIndexPage(app);
+        return app;
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -118,7 +114,7 @@ class App {
                 return console.log(err);
             }
             console.log(`expressPort: ${expressPort}`);
-            const app = yield this.createApp();
+            const app = this.createApp();
             if (expressPort === null) {
                 return;
             }

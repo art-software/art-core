@@ -10,25 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
-let TestController = class TestController {
-    getSomething() {
+let MainPageController = class MainPageController {
+    mockApi() {
         return {
             code: '0000',
-            message: 'success',
+            message: 'suceess',
             data: {
-                name: 'it is your name',
-                age: 23
+                success: 'biz mock data!'
             }
         };
     }
 };
 __decorate([
-    routing_controllers_1.Get(),
+    routing_controllers_1.Get('/testme'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], TestController.prototype, "getSomething", null);
-TestController = __decorate([
-    routing_controllers_1.JsonController('/')
-], TestController);
-exports.TestController = TestController;
+], MainPageController.prototype, "mockApi", null);
+MainPageController = __decorate([
+    routing_controllers_1.Controller()
+], MainPageController);
+exports.default = MainPageController;
