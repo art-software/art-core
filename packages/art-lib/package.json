@@ -1,0 +1,8 @@
+{
+  "name": "art-lib",
+  "version": "0.0.1",
+  "description": "art framework library",
+  "main": "index.js",
+  "author": "Bowen Zhong",
+  "license": "MIT"
+}
