@@ -4,5 +4,8 @@
   "description": "art framework library",
   "main": "index.js",
   "author": "Bowen Zhong",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
 }
