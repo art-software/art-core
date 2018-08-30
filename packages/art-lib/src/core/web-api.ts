@@ -1,6 +1,7 @@
 import { isPlainObject, isFunction, isObject, isString } from '../utils/lang';
 import merge from '../utils/merge';
 import promisify from '../utils/promisify';
+import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 
 export type RequestFunc = (url: string, data: object, config: object) => Promise<any>;
 export interface RequestMethods {
@@ -47,7 +48,15 @@ export default class WebApi {
     }
   }
 
-  public request(method: string, url: string | object, data = {}, config = {}) {
+  public requestPost(url: string, data = {}, config = {}) {
+    return this.request('POST', url, data, config);
+  }
+
+  public requestGet(url: string, data = {}, config = {}) {
+    return this.request('GET', url, data, config);
+  }
+
+  public request(method: string, url: string, data = {}, config = {}) {
     const inputRawData = this.adjustParameter(url, data, config);
     return this.preRequest(inputRawData).then((inputData: any) => {
       this.assertion(inputData, 'request() http `inputData.url` must be providered!', (checkData) => isObject(checkData) && isString(checkData.url));
@@ -92,12 +101,12 @@ export default class WebApi {
     resolve(result.data);
   }
 
-  public adjustParameter(url: string | object, data = {}, config?: any) {
-    if (isPlainObject(url)) {
-      config = data;
-      data = url;
-      url = this.getDomainApi();
-    }
+  public adjustParameter(url: string = '', data = {}, config?: any) {
+    // if (isPlainObject(url)) {
+    //   config = data;
+    //   data = url;
+    //   url = this.getDomainApi();
+    // }
 
     let dto = (result) => {
       return result;
@@ -114,6 +123,8 @@ export default class WebApi {
     } else {
       config = {};
     }
+
+    url = ensureSlash(this.getDomainApi(), false) + ensureSlash(url, true);
 
     config = merge(true, {}, this.apiConfig, config);
     return { url, data, dto, config };

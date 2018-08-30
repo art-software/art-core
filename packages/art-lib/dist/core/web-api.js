@@ -10,6 +10,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 import { isPlainObject, isFunction, isObject, isString } from '../utils/lang';
 import merge from '../utils/merge';
 import promisify from '../utils/promisify';
+import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 const apiDefaultConfig = {
     // https://github.com/mzabriskie/axios
     // `headers` are custom headers to be sent
@@ -57,6 +58,12 @@ export default class WebApi {
             throw new Error(message);
         }
     }
+    requestPost(url, data = {}, config = {}) {
+        return this.request('POST', url, data, config);
+    }
+    requestGet(url, data = {}, config = {}) {
+        return this.request('GET', url, data, config);
+    }
     request(method, url, data = {}, config = {}) {
         const inputRawData = this.adjustParameter(url, data, config);
         return this.preRequest(inputRawData).then((inputData) => {
@@ -78,12 +85,12 @@ export default class WebApi {
                 .then((err) => { throw err; });
         };
     }
-    adjustParameter(url, data = {}, config) {
-        if (isPlainObject(url)) {
-            config = data;
-            data = url;
-            url = this.getDomainApi();
-        }
+    adjustParameter(url = '', data = {}, config) {
+        // if (isPlainObject(url)) {
+        //   config = data;
+        //   data = url;
+        //   url = this.getDomainApi();
+        // }
         let dto = (result) => {
             return result;
         };
@@ -100,6 +107,7 @@ export default class WebApi {
         else {
             config = {};
         }
+        url = ensureSlash(this.getDomainApi(), false) + ensureSlash(url, true);
         config = merge(true, {}, this.apiConfig, config);
         return { url, data, dto, config };
     }

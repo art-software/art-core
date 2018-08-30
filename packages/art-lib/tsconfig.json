@@ -17,12 +17,11 @@
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "outDir": "dist",
-    "paths": {
-    },
+    "paths": {},
     "preserveConstEnums": true,
     "removeComments": false,
-    "rootDir": ".",
+    "outDir": "./dist/", /* Redirect output structure to the directory. */
+    "rootDir": "./src/", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "sourceMap": false,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
@@ -30,8 +29,7 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": [
-    ]
+    "types": []
   },
   "exclude": [
     "**/dist/*"
