@@ -17,7 +17,7 @@ const printInstructions = (appName, urls) => {
     console.log();
     // console.log('Note that the development build is not optimized.');
     console.log(`To create a production build, use ` +
-        `${chalk_1.default.cyan(`venus build`)}.`);
+        `${chalk_1.default.cyan(`art build`)}.`);
     console.log();
 };
 exports.default = printInstructions;

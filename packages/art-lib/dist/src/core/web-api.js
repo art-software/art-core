@@ -15,7 +15,7 @@ const apiDefaultConfig = {
     // `headers` are custom headers to be sent
     headers: {
         'X-Requested-With': 'XMLHttpRequest'
-    },
+    }
 };
 export default class WebApi {
     constructor(baseData = {}, config = {}) {
@@ -41,6 +41,10 @@ export default class WebApi {
         this.baseData = baseData;
         this.apiConfig = merge(true, {}, apiDefaultConfig, config);
     }
+    /**
+     * override it in inherited class
+     * @param requestService
+     */
     setRequestService(requestService) {
         this.requestService = requestService;
     }

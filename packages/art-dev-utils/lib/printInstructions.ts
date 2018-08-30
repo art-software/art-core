@@ -19,7 +19,7 @@ const printInstructions = (appName, urls)  => {
   // console.log('Note that the development build is not optimized.');
   console.log(
     `To create a production build, use ` +
-    `${chalk.cyan(`venus build`)}.`
+    `${chalk.cyan(`art build`)}.`
   );
   console.log();
 };
