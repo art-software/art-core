@@ -62,15 +62,14 @@ class App {
             env: envName,
             ART_CDN_ROOT: devHost,
             ART_SERVER_HOST_ROOT: devServerHost,
-            ART_SERVER_API_ROOT: devServerHost + '/api'
+            ART_SERVER_API_ROOT: devServerHost + '/mock_api'
         });
     }
     controllers() {
         const ctrls = [];
         const bizConrtollers = path_1.join(process.cwd(), './mock');
-        console.log(`exist ${fs.existsSync(bizConrtollers)}`);
         if (fs.existsSync(bizConrtollers)) {
-            ctrls.push(path_1.join(bizConrtollers, './dist/*'));
+            ctrls.push(path_1.join(bizConrtollers, './dist/**/*'));
         }
         ctrls.push(path_1.join(__dirname, './controllers/*'));
         return ctrls;
@@ -102,7 +101,6 @@ class App {
         return __awaiter(this, void 0, void 0, function* () {
             const host = config_1.default.get('HOST') || '0.0.0.0';
             const webpackPort = config_1.default.get('ART_WEBPACK_PORT') || 3000;
-            console.log(`webpackPort: ${webpackPort}`);
             const protocol = config_1.default.get('HTTPS') === 'true' ? 'https' : 'http';
             const appName = artAppConfig.name;
             const isProd = process.env.NODE_ENV === 'production';
@@ -113,7 +111,6 @@ class App {
             catch (err) {
                 return console.log(err);
             }
-            console.log(`expressPort: ${expressPort}`);
             const app = this.createApp();
             if (expressPort === null) {
                 return;

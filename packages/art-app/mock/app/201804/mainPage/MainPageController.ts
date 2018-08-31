@@ -1,6 +1,6 @@
 import { Controller, Get } from 'routing-controllers';
 
-@Controller()
+@Controller('/app/201804/mainPage')
 export default class MainPageController {
 
   @Get('/testme')

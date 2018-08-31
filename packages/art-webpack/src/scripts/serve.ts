@@ -25,11 +25,12 @@ const lunchNodeServer = (modules: string, port: number) => {
   // if (isInteractive) { clearConsole(); }
   const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
   executeNodeScript(
-    'ts-node',
+    'node',
     mockServerPath,
     '--ART_MODULES', `${modules}`,
     '--ART_WEBPACK_PORT', `${port}`
   );
+
   nodeServerHasLunched = true;
 };
 
@@ -44,7 +45,6 @@ const confirmModulesCb = (answer) => {
       const urls = prepareUrls(protocol, HOST, port);
 
       const webpackconfig = getWebpackConfig();
-      console.log(`port: ${port}`);
 
       const compiler = createCompiler(webpackconfig, (success) => {
         if (success) {

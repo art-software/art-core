@@ -47,16 +47,15 @@ export default class App {
       env: envName,
       ART_CDN_ROOT: devHost,
       ART_SERVER_HOST_ROOT: devServerHost,
-      ART_SERVER_API_ROOT: devServerHost + '/api'
+      ART_SERVER_API_ROOT: devServerHost + '/mock_api'
     });
   }
 
   private controllers() {
     const ctrls: string[] = [];
     const bizConrtollers = join(process.cwd(), './mock');
-    console.log(`exist ${fs.existsSync(bizConrtollers)}`);
     if (fs.existsSync(bizConrtollers)) {
-      ctrls.push(join(bizConrtollers, './dist/*'));
+      ctrls.push(join(bizConrtollers, './dist/**/*'));
     }
     ctrls.push(join(__dirname, './controllers/*'));
     return ctrls;
@@ -92,7 +91,6 @@ export default class App {
 
     const host = config.get('HOST') || '0.0.0.0';
     const webpackPort = config.get('ART_WEBPACK_PORT') || 3000;
-    console.log(`webpackPort: ${webpackPort}`);
     const protocol = config.get('HTTPS') === 'true' ? 'https' : 'http';
     const appName = artAppConfig.name;
     const isProd = process.env.NODE_ENV === 'production';
@@ -103,8 +101,6 @@ export default class App {
     } catch (err) {
       return console.log(err);
     }
-
-    console.log(`expressPort: ${expressPort}`);
 
     const app = this.createApp();
 

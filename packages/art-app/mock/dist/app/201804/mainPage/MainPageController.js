@@ -28,6 +28,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MainPageController.prototype, "mockApi", null);
 MainPageController = __decorate([
-    routing_controllers_1.Controller()
+    routing_controllers_1.Controller('/app/201804/mainPage')
 ], MainPageController);
 exports.default = MainPageController;
