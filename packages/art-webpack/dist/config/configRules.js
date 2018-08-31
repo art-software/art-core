@@ -103,13 +103,13 @@ const fontRule = {
 const jsRule = {
     test: /\.(js|jsx)$/,
     use: [
-        { loader: 'babel-loader' }
+        { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } }
     ]
 };
 const tsRule = {
     test: /\.(ts|tsx)$/,
     use: [
-        { loader: 'babel-loader' },
+        { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } },
         { loader: 'ts-loader', options: { transpileOnly: true, silent: true } }
     ]
 };

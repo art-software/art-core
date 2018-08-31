@@ -7,6 +7,7 @@ class WebpackBaseConfig {
     constructor(entry, output) {
         this.mode = env_1.isProd() ? 'production' : 'development';
         this.resolve = {
+            modules: ['node_modules', '.'],
             extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
         };
         this.module = {

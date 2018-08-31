@@ -17,6 +17,7 @@ export class WebpackBaseConfig implements Configuration {
   public mode = isProd() ? 'production' as 'production' : 'development' as 'development';
 
   public resolve = {
+    modules: ['node_modules', '.'],
     extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
   };
 
