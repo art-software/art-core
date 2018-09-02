@@ -7,7 +7,10 @@
   "license": "MIT",
   "dependencies": {
     "art-dev-utils": "^0.0.1",
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "react": "16.4.2",
+    "react-dom": "16.4.2"
   },
   "devDependencies": {}
 }

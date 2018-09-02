@@ -1,0 +1,80 @@
+@import '../../../styles/themes/default.less';
+@import '../../../styles/mixins/mixin.less';
+
+@scrollbar: {
+  * {
+    box-sizing: border-box;
+  }
+  position: relative;
+  overflow: hidden;
+  /* Prevent native touch events on Windows */
+  -ms-touch-action: none;
+  /* Prevent the callout on tap-hold and text selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Prevent text resize on orientation change, useful for web-apps */
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  -o-text-size-adjust: none;
+  text-size-adjust: none;
+  // common style: pull-to-refresh && loadmore
+  .ptr-loading, .ptr-progress, [v-load-more] {
+    [v-progress] {
+      display: inline-block;
+      vertical-align: middle;
+      &.anim .pie {
+        -webkit-animation: v-pull-to-refresh-rotate .5s linear 0s infinite;
+        animation: v-pull-to-refresh-rotate .5s linear 0s infinite;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+      }
+      .logo {
+        position: absolute;
+        border-radius:100%;
+        z-index:2;
+        background-size: 100% auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+    }
+    span {
+      vertical-align: middle;
+      font-size: 22px;
+      color: #999;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+      margin-left: .1rem;
+    }
+  }
+};
+@scrollerView: {
+  position: relative;
+  // FIXME: <PullToRefresh> should has higher z-index than scrollbar-view
+  // overflow: hidden;
+  /* Prevent elements to be highlighted on tap */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /* Put the scroller into the HW Compositing layer right from the start */
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+};
+
+&{
+  #art .namespace();
+  .module(scrollbar, @scrollbar);
+  .module(scrollbar-view, @scrollerView);
+  @-webkit-keyframes v-pull-to-refresh-rotate{
+    from{-webkit-transform: rotate(0deg)}
+    to{-webkit-transform: rotate(360deg)}
+  }
+  @keyframes v-pull-to-refresh-rotate{
+    from{transform: rotate(0deg)}
+    to{transform: rotate(360deg)}
+  }
+}

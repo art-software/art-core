@@ -1,0 +1,97 @@
+@import "../themes/default";
+.retina-1px-border-top(@c: @border-color-base) {
+	position: relative;
+	&::before {
+		content: " ";
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		height: 1PX;
+		border-top: 1PX solid @c;
+	}
+
+	@media (-webkit-min-device-pixel-ratio: 2) {
+		&::before{
+			transform-origin: 0 0;
+			-webkit-transform-origin: 0 0;
+			transform: scaleY(0.5);
+			-webkit-transform: scaleY(0.5);
+		}
+	}
+}
+
+.retina-1px-border-bottom(@c: @border-color-base) {
+	position: relative;
+	&::after {
+		content: " ";
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		height: 1PX;
+		border-bottom: 1PX solid @c;
+	}
+
+	@media (-webkit-min-device-pixel-ratio: 2) {
+		&::after{
+			transform-origin: 0 100%;
+			-webkit-transform-origin: 0 100%;
+			transform: scaleY(0.5);
+			-webkit-transform: scaleY(0.5);
+		}
+	}
+}
+
+.retina-1px-border-left(@c: @border-color-base) {
+	position: relative;
+	&::before {
+		content: " ";
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 1PX;
+		bottom: 0;
+		border-left: 1PX solid @c;
+	}
+	@media (-webkit-min-device-pixel-ratio: 2) {
+		&::before{
+			transform-origin: 0 0;
+			-webkit-transform-origin: 0 0;
+			transform: scaleX(0.5);
+			-webkit-transform: scaleX(0.5);
+		}
+	}
+}
+
+.retina-1px-border-right(@c: @border-color-base) {
+	position: relative;
+	&::after {
+		content: " ";
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 1PX;
+		bottom: 0;
+		border-right: 1PX solid @c;
+	}
+
+	@media (-webkit-min-device-pixel-ratio: 2) {
+		&::after{
+			transform-origin: 100% 0;
+			-webkit-transform-origin: 100% 0;
+			transform: scaleX(0.5);
+			-webkit-transform: scaleX(0.5);
+		}
+	}
+}
+
+.retina-1px-border-top-and-bottom(@c: @border-color-base){
+	.retina-1px-border-top(@c);
+	.retina-1px-border-bottom(@c);
+}
+
+.retina-1px-border-left-and-right(@c: @border-color-base){
+	.retina-1px-border-left(@c);
+	.retina-1px-border-right(@c);
+}
