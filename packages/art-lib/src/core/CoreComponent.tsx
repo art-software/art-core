@@ -1,9 +1,10 @@
-import React from 'React';
+import React from 'react';
 import { isArray } from 'art-lib/src/utils/lang';
 import { trim } from 'art-lib/src/utils/string';
 import merge from '../utils/merge';
 import { IComponentProps } from './proptype';
 import classnames from 'classnames';
+import './viewport';
 
 export default class CoreComponent<P, S> extends React.Component<P & IComponentProps, S> {
   constructor(props?, context?) {

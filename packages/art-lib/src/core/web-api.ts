@@ -52,7 +52,7 @@ export default class WebApi {
     return this.request('POST', url, data, config);
   }
 
-  public requestGet(url: string, data = {}, config = {}): Promise<any> {
+  public requestGet(url: string, data = {}, config = {}) {
     return this.request('GET', url, data, config);
   }
 

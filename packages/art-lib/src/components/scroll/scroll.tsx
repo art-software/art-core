@@ -1,4 +1,5 @@
 import './style';
+import React from 'react';
 import CoreComponent from 'art-lib/src/core/CoreComponent';
 import IScrollProbe from 'art-lib/src/components/scroll/lib/iscroll-probe';
 import { IScrollbarProps } from 'art-lib/src/components/scroll/propstype';
@@ -61,7 +62,8 @@ export default class Scroll extends CoreComponent<IScrollbarProps, any> {
 
   public static defaultProps = {
     defer: true,
-    didUpdateRefresh: true,
+    // didUpdateRefresh: true,
+    didupdaterefresh: 'true',
     options: {
       scrollY: true,
       eventPassthrough: 'horizontal'
@@ -82,14 +84,14 @@ export default class Scroll extends CoreComponent<IScrollbarProps, any> {
   };
 
   private iScrollElement: HTMLElement;
-  private isMounted: boolean = false;
+  private hasMounted: boolean = false;
   private initializeTimeout: any = null;
   private queuedCallbacks: any[] = [];
   private iScrollBindedEvents = {};
   private iScrollInstance: any;
 
   public componentDidMount() {
-    this.isMounted = true;
+    this.hasMounted = true;
     this.initializeIScroll();
     this.setState({
       scrollViewHeight: this.getScrollViewMinHeight()
@@ -102,7 +104,7 @@ export default class Scroll extends CoreComponent<IScrollbarProps, any> {
     // and trigger refresh
     if (shallowEqual(prevProps.options, this.props.options)) {
       // FIXME: right? disable iscroll refresh().
-      if (prevProps.didUpdateRefresh) {
+      if (prevProps.didupdaterefresh) {
         this.updateIScrollEvents(prevProps, this.props);
         this.refresh();
       }
@@ -131,14 +133,14 @@ export default class Scroll extends CoreComponent<IScrollbarProps, any> {
     }
   }
 
-  public getChildContext() {
-    return {
-      withIScroll: this.withIScroll.bind(this)
-    };
-  }
+  // public getChildContext() {
+  //   return {
+  //     withIScroll: this.withIScroll.bind(this)
+  //   };
+  // }
 
   private initializeIScroll() {
-    if (this.isMounted === false) { return; }
+    if (this.hasMounted === false) { return; }
     const { defer } = this.props;
 
     if (defer === false) {

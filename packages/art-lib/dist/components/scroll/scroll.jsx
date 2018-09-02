@@ -1,4 +1,5 @@
 import './style';
+import React from 'react';
 import CoreComponent from 'art-lib/src/core/CoreComponent';
 import IScrollProbe from 'art-lib/src/components/scroll/lib/iscroll-probe';
 import { lockTouchEvent } from 'art-lib/src/components/scroll/lib/document';
@@ -57,7 +58,7 @@ export default class Scroll extends CoreComponent {
         this.state = {
             scrollViewHeight: 0
         };
-        this.isMounted = false;
+        this.hasMounted = false;
         this.initializeTimeout = null;
         this.queuedCallbacks = [];
         this.iScrollBindedEvents = {};
@@ -69,7 +70,7 @@ export default class Scroll extends CoreComponent {
         };
     }
     componentDidMount() {
-        this.isMounted = true;
+        this.hasMounted = true;
         this.initializeIScroll();
         this.setState({
             scrollViewHeight: this.getScrollViewMinHeight()
@@ -81,7 +82,7 @@ export default class Scroll extends CoreComponent {
         // and trigger refresh
         if (shallowEqual(prevProps.options, this.props.options)) {
             // FIXME: right? disable iscroll refresh().
-            if (prevProps.didUpdateRefresh) {
+            if (prevProps.didupdaterefresh) {
                 this.updateIScrollEvents(prevProps, this.props);
                 this.refresh();
             }
@@ -106,13 +107,13 @@ export default class Scroll extends CoreComponent {
             });
         }
     }
-    getChildContext() {
-        return {
-            withIScroll: this.withIScroll.bind(this)
-        };
-    }
+    // public getChildContext() {
+    //   return {
+    //     withIScroll: this.withIScroll.bind(this)
+    //   };
+    // }
     initializeIScroll() {
-        if (this.isMounted === false) {
+        if (this.hasMounted === false) {
             return;
         }
         const { defer } = this.props;
@@ -271,7 +272,8 @@ export default class Scroll extends CoreComponent {
 }
 Scroll.defaultProps = {
     defer: true,
-    didUpdateRefresh: true,
+    // didUpdateRefresh: true,
+    didupdaterefresh: 'true',
     options: {
         scrollY: true,
         eventPassthrough: 'horizontal'
