@@ -1,11 +1,12 @@
 import './style';
 import React from 'react';
-import CoreComponent from 'art-lib/src/core/CoreComponent';
-import IScrollProbe from 'art-lib/src/components/scroll/lib/iscroll-probe';
-import { IScrollbarProps } from 'art-lib/src/components/scroll/propstype';
-import { lockTouchEvent } from 'art-lib/src/components/scroll/lib/document';
-import { getElemHeight } from 'art-lib/src/utils/dom';
-import { shallowEqual } from 'art-lib/src/utils/shallow-compare';
+import PropTypes from 'prop-types';
+import CoreComponent from '../../core/CoreComponent';
+import IScrollProbe from './lib/iscroll-probe';
+import { IScrollbarProps } from './propstype';
+import { lockTouchEvent } from './lib/document';
+import { getElemHeight } from '../../utils/dom';
+import { shallowEqual } from '../../utils/shallow-compare';
 
 // Default lock document touch event within scrollbar.
 lockTouchEvent();
@@ -133,11 +134,15 @@ export default class Scroll extends CoreComponent<IScrollbarProps, any> {
     }
   }
 
-  // public getChildContext() {
-  //   return {
-  //     withIScroll: this.withIScroll.bind(this)
-  //   };
-  // }
+  public static childContextTypes = {
+    withIScroll: PropTypes.func
+  };
+
+  public getChildContext() {
+    return {
+      withIScroll: this.withIScroll.bind(this)
+    };
+  }
 
   private initializeIScroll() {
     if (this.hasMounted === false) { return; }

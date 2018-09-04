@@ -2,6 +2,7 @@ import { isPlainObject, isFunction, isObject, isString } from '../utils/lang';
 import merge from '../utils/merge';
 import promisify from '../utils/promisify';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
+import { appendUrlParameter } from '../utils/url';
 
 export type RequestFunc = (url: string, data: object, config: object) => Promise<any>;
 export interface RequestMethods {
@@ -9,6 +10,12 @@ export interface RequestMethods {
   POST: RequestFunc;
   PUT: RequestFunc;
   DELETE: RequestFunc;
+}
+
+interface RequestConfig {
+  data?: object;
+  dto?: (result: any) => any;
+  query?: object;
 }
 
 const apiDefaultConfig = {
@@ -48,16 +55,16 @@ export default class WebApi {
     }
   }
 
-  public requestPost(url: string, data = {}, config = {}) {
-    return this.request('POST', url, data, config);
+  public requestPost(url: string, config: RequestConfig = {}) {
+    return this.request('POST', url, config);
   }
 
-  public requestGet(url: string, data = {}, config = {}) {
-    return this.request('GET', url, data, config);
+  public requestGet(url: string, config: RequestConfig = {}) {
+    return this.request('GET', url, config);
   }
 
-  public request(method: string, url: string, data = {}, config = {}) {
-    const inputRawData = this.adjustParameter(url, data, config);
+  public request(method: string, url: string, config: RequestConfig = {}) {
+    const inputRawData = this.adjustParameter(url, config);
     return this.preRequest(inputRawData).then((inputData: any) => {
       this.assertion(inputData, 'request() http `inputData.url` must be providered!', (checkData) => isObject(checkData) && isString(checkData.url));
       return this.requestService[method](inputData.url, inputData.data, inputData.config).then((result) => {
@@ -101,30 +108,29 @@ export default class WebApi {
     resolve(result.data);
   }
 
-  public adjustParameter(url: string = '', data = {}, config?: any) {
-    // if (isPlainObject(url)) {
-    //   config = data;
-    //   data = url;
-    //   url = this.getDomainApi();
-    // }
+  public adjustParameter(url: string = '', config: RequestConfig = {}) {
 
     let dto = (result) => {
       return result;
     };
+    let data: object = {};
 
-    if (isFunction(config)) {
-      dto = config;
-      config = {};
-    } else if (isPlainObject(config)) {
-      if (isFunction(config.dto)) {
-        dto = config.dto;
-        delete config.dto;
-      }
-    } else {
-      config = {};
+    if (isPlainObject(config.data)) {
+      data = (config as RequestConfig).data || {};
+      delete (config as RequestConfig).data;
+    }
+    if (isFunction(config.dto)) {
+      dto = (config as RequestConfig).dto || dto;
+      delete (config as RequestConfig).dto;
     }
 
-    url = ensureSlash(this.getDomainApi(), false) + ensureSlash(url, true);
+    url = ensureSlash(this.getDomainApi(), false) + ensureSlash(url, false);
+    if (isPlainObject(config.query)) {
+      const query = config.query as object;
+      for (const prop in query) {
+        url = appendUrlParameter(prop, query[prop], url);
+      }
+    }
 
     config = merge(true, {}, this.apiConfig, config);
     return { url, data, dto, config };

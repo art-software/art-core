@@ -1,3 +1,4 @@
+import React from 'react';
 import './style/visible-action.less';
 import CoreComponent from '../../core/CoreComponent';
 import { IVisibleActionProps } from './propstype';
@@ -75,9 +76,10 @@ export default class VisibleAction extends CoreComponent<IVisibleActionProps, an
   }
 
   public render() {
-    const { children, ref, ...restProps } = this.props;
+    const { children, ref } = this.props;
     return (
-      <div ref={this.handleNodeElem} {...this.applyArgs('visible-action')} {...restProps}>
+      // <div ref={this.handleNodeElem} {...this.applyArgs('visible-action')} {...restProps}>
+      <div ref={this.handleNodeElem} {...this.applyArgs('visible-action')}>
         {children}
       </div>
     );

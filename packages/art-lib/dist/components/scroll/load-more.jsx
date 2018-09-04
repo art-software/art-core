@@ -7,6 +7,7 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
+import React from 'react';
 import viewport from '../../core/viewport';
 import Progress from '../../components/progress';
 import CoreComponent from '../../core/CoreComponent';

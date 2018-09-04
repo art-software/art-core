@@ -11,4 +11,7 @@ export class ApiEnvConfig extends EnvBase {
     getEnvName() {
         return getQueryString('env') || 'prod';
     }
+    getPort() {
+        return getQueryString('port') || '';
+    }
 }

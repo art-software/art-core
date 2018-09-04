@@ -12,7 +12,12 @@ export default class H5WebApi extends WebApi {
         const apiEnvConfig = new ApiEnvConfig();
         const customServiceConfig = this.getYourCustomServiceConfig();
         merge(true, apiEnvConfig.serviceApi, customServiceConfig);
-        const domainApi = apiEnvConfig.get(`serviceApi.${serviceName}.${apiEnvConfig.getEnvName()}`);
+        const envName = apiEnvConfig.getEnvName();
+        let domainApi = apiEnvConfig.get(`serviceApi.${serviceName}.${envName}`);
+        const port = apiEnvConfig.getPort();
+        if (port && envName !== 'me') {
+            domainApi = `${domainApi}:${port}`;
+        }
         return domainApi || '';
     }
     /**

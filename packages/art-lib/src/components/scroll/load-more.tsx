@@ -1,3 +1,4 @@
+import React from 'react';
 import viewport from '../../core/viewport';
 import Progress from '../../components/progress';
 import CoreComponent from '../../core/CoreComponent';

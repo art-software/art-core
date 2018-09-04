@@ -1,3 +1,4 @@
+import React from 'react';
 import './style';
 import CoreComponent from '../../core/CoreComponent';
 import viewport from '../../core/viewport';
@@ -49,7 +50,7 @@ export default class Progress extends CoreComponent<IProgressProps, any> {
       clip: 'rect(0, ' + px2px(size) + ', ' + px2px(size) + ', ' + px2px(size / 2) + ')'
     };
     const barLeftStyle = {
-      webkitTransform: `rotate(${rotate}deg)`,
+      WebkitTransform: `rotate(${rotate}deg)`,
       transform: `rotate(${rotate}deg)`,
       borderColor: color,
       borderWidth: px2px(gap),

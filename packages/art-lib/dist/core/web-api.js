@@ -11,6 +11,7 @@ import { isPlainObject, isFunction, isObject, isString } from '../utils/lang';
 import merge from '../utils/merge';
 import promisify from '../utils/promisify';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
+import { appendUrlParameter } from '../utils/url';
 const apiDefaultConfig = {
     // https://github.com/mzabriskie/axios
     // `headers` are custom headers to be sent
@@ -58,14 +59,14 @@ export default class WebApi {
             throw new Error(message);
         }
     }
-    requestPost(url, data = {}, config = {}) {
-        return this.request('POST', url, data, config);
+    requestPost(url, config = {}) {
+        return this.request('POST', url, config);
     }
-    requestGet(url, data = {}, config = {}) {
-        return this.request('GET', url, data, config);
+    requestGet(url, config = {}) {
+        return this.request('GET', url, config);
     }
-    request(method, url, data = {}, config = {}) {
-        const inputRawData = this.adjustParameter(url, data, config);
+    request(method, url, config = {}) {
+        const inputRawData = this.adjustParameter(url, config);
         return this.preRequest(inputRawData).then((inputData) => {
             this.assertion(inputData, 'request() http `inputData.url` must be providered!', (checkData) => isObject(checkData) && isString(checkData.url));
             return this.requestService[method](inputData.url, inputData.data, inputData.config).then((result) => {
@@ -85,29 +86,26 @@ export default class WebApi {
                 .then((err) => { throw err; });
         };
     }
-    adjustParameter(url = '', data = {}, config) {
-        // if (isPlainObject(url)) {
-        //   config = data;
-        //   data = url;
-        //   url = this.getDomainApi();
-        // }
+    adjustParameter(url = '', config = {}) {
         let dto = (result) => {
             return result;
         };
-        if (isFunction(config)) {
-            dto = config;
-            config = {};
+        let data = {};
+        if (isPlainObject(config.data)) {
+            data = config.data || {};
+            delete config.data;
         }
-        else if (isPlainObject(config)) {
-            if (isFunction(config.dto)) {
-                dto = config.dto;
-                delete config.dto;
+        if (isFunction(config.dto)) {
+            dto = config.dto || dto;
+            delete config.dto;
+        }
+        url = ensureSlash(this.getDomainApi(), false) + ensureSlash(url, false);
+        if (isPlainObject(config.query)) {
+            const query = config.query;
+            for (const prop in query) {
+                url = appendUrlParameter(prop, query[prop], url);
             }
         }
-        else {
-            config = {};
-        }
-        url = ensureSlash(this.getDomainApi(), false) + ensureSlash(url, true);
         config = merge(true, {}, this.apiConfig, config);
         return { url, data, dto, config };
     }
