@@ -13,11 +13,13 @@
     "is-root": "^2.0.0",
     "lodash": "^4.17.10",
     "opn": "^5.3.0",
+    "recursive-readdir": "^2.2.2",
     "shell-quote": "^1.6.1"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.0",
     "@types/detect-port": "^1.1.0",
-    "@types/opn": "^5.1.0"
+    "@types/opn": "^5.1.0",
+    "@types/recursive-readdir": "^2.2.0"
   }
 }
