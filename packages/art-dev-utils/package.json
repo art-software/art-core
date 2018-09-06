@@ -10,6 +10,7 @@
     "chalk": "^2.4.1",
     "cross-spawn": "^6.0.5",
     "detect-port": "^1.2.3",
+    "gzip-size": "^5.0.0",
     "is-root": "^2.0.0",
     "lodash": "^4.17.10",
     "opn": "^5.3.0",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@types/cross-spawn": "^6.0.0",
     "@types/detect-port": "^1.1.0",
+    "@types/gzip-size": "^4.1.0",
     "@types/opn": "^5.1.0",
     "@types/recursive-readdir": "^2.2.0"
   }

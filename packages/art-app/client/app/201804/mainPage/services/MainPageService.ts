@@ -7,7 +7,7 @@ export default class MainPageService extends WebApiQnn {
   }
 
   public getPage() {
-    return this.requestGet('/testme', {}, {
+    return this.requestGet('/testme', {
       dto: this.getPageDto
     });
   }

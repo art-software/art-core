@@ -50,14 +50,21 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
   return plugins;
 };
 
-export const configBasePlugins = [
-  new ProgressBarPlugin({
-    format: chalk.cyan('build') + ' [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
-    clear: false
-  }),
+export const configBasePlugins = (() => {
+  const plugins = [
+    new ProgressBarPlugin({
+      format: chalk.cyan('build') + ' [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+      clear: false
+    }),
 
-  new ForkTsCheckerWebpackPlugin({
-    tsconfig: paths.appTsConfig,
-    tslint: paths.appTsLintConfig
-  })
-].concat(configHtmlWebpackPlugin());
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: paths.appTsConfig,
+      tslint: paths.appTsLintConfig
+    })
+  ];
+  if (isProd) {
+    plugins.concat(configHtmlWebpackPlugin());
+  }
+
+  return plugins;
+})();

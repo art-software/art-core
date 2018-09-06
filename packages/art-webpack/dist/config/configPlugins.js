@@ -54,13 +54,19 @@ const configHtmlWebpackPlugin = (entries) => {
     plugins.push(new HtmlWebpackCDNPlugin_1.default());
     return plugins;
 };
-exports.configBasePlugins = [
-    new progress_bar_webpack_plugin_1.default({
-        format: chalk_1.default.cyan('build') + ' [:bar] ' + chalk_1.default.green.bold(':percent') + ' (:elapsed seconds)',
-        clear: false
-    }),
-    new fork_ts_checker_webpack_plugin_1.default({
-        tsconfig: paths_1.default.appTsConfig,
-        tslint: paths_1.default.appTsLintConfig
-    })
-].concat(configHtmlWebpackPlugin());
+exports.configBasePlugins = (() => {
+    const plugins = [
+        new progress_bar_webpack_plugin_1.default({
+            format: chalk_1.default.cyan('build') + ' [:bar] ' + chalk_1.default.green.bold(':percent') + ' (:elapsed seconds)',
+            clear: false
+        }),
+        new fork_ts_checker_webpack_plugin_1.default({
+            tsconfig: paths_1.default.appTsConfig,
+            tslint: paths_1.default.appTsLintConfig
+        })
+    ];
+    if (isProd) {
+        plugins.concat(configHtmlWebpackPlugin());
+    }
+    return plugins;
+})();
