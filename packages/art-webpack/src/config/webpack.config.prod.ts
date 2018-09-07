@@ -1,3 +1,4 @@
+import webpack from 'webpack';
 import { WebpackBaseConfig } from './webpack.config.base';
 import { Configuration } from 'webpack';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
@@ -5,8 +6,13 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import appConfig from './appConfig';
 import ChunkHashOutputPlugin from '../plugins/webpack-plugin-chunkhash-output';
+import paths from './paths';
+import { join } from 'path';
+import { existsSync } from 'fs';
 const enableBundleHashName = appConfig.get('enableBundleHashName');
 const version = appConfig.get('version');
+const defaultVendor = join(paths.appCwd, 'node_modules/art-lib/dist/vendors');
+const vendorPath = existsSync(defaultVendor) ? defaultVendor : join(__dirname, '../../../art-lib/dist/vendors');
 
 function bundleFileNamePattern(endFix: string = '.js'): string {
   if (enableBundleHashName) {
@@ -21,6 +27,11 @@ export default class WebpackProdConfig extends WebpackBaseConfig implements Conf
   }
 
   public plugins = this.plugins.concat(
+    new webpack.DllReferencePlugin({
+      context: join(paths.appCwd),
+      manifest: join(vendorPath, 'manifest.json')
+    }),
+
     new UglifyJsPlugin({
       cache: true,
       parallel: true,

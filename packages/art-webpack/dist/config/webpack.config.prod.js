@@ -3,14 +3,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const webpack_1 = __importDefault(require("webpack"));
 const webpack_config_base_1 = require("./webpack.config.base");
 const uglifyjs_webpack_plugin_1 = __importDefault(require("uglifyjs-webpack-plugin"));
 const optimize_css_assets_webpack_plugin_1 = __importDefault(require("optimize-css-assets-webpack-plugin"));
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 const appConfig_1 = __importDefault(require("./appConfig"));
 const webpack_plugin_chunkhash_output_1 = __importDefault(require("../plugins/webpack-plugin-chunkhash-output"));
+const paths_1 = __importDefault(require("./paths"));
+const path_1 = require("path");
+const fs_1 = require("fs");
 const enableBundleHashName = appConfig_1.default.get('enableBundleHashName');
 const version = appConfig_1.default.get('version');
+const defaultVendor = path_1.join(paths_1.default.appCwd, 'node_modules/art-lib/dist/vendors');
+const vendorPath = fs_1.existsSync(defaultVendor) ? defaultVendor : path_1.join(__dirname, '../../../art-lib/dist/vendors');
 function bundleFileNamePattern(endFix = '.js') {
     if (enableBundleHashName) {
         return `bundle[chunkhash]${endFix}`;
@@ -20,7 +26,10 @@ function bundleFileNamePattern(endFix = '.js') {
 class WebpackProdConfig extends webpack_config_base_1.WebpackBaseConfig {
     constructor(entry, output) {
         super(entry, output);
-        this.plugins = this.plugins.concat(new uglifyjs_webpack_plugin_1.default({
+        this.plugins = this.plugins.concat(new webpack_1.default.DllReferencePlugin({
+            context: path_1.join(paths_1.default.appCwd),
+            manifest: path_1.join(vendorPath, 'manifest.json')
+        }), new uglifyjs_webpack_plugin_1.default({
             cache: true,
             parallel: true,
             // set to true if you want JS source maps

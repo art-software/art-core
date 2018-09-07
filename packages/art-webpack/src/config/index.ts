@@ -2,12 +2,16 @@ import { webpackEntries, webpackOutput, attachHotDevServerScripts } from './conf
 import WebpackDevConfig from './webpack.config.dev';
 import { isProd } from '../utils/env';
 import { Configuration } from 'webpack';
+import WebpackProdConfig from './webpack.config.prod';
 
 export const getWebpackConfig = (): Configuration => {
-  const entry = attachHotDevServerScripts(webpackEntries(false));
+  const entry = webpackEntries(false);
+  const hotEntry = attachHotDevServerScripts(entry);
   const output = webpackOutput();
 
-  // if (!isProd()) {
-  return new WebpackDevConfig(entry, output);
-  // }
+  if (!isProd()) {
+    return new WebpackDevConfig(hotEntry, output);
+  } else {
+    return new WebpackProdConfig(entry, output);
+  }
 };
