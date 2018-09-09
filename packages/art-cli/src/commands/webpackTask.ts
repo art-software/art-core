@@ -7,14 +7,18 @@ interface Args {
   modules: string;
 }
 
-export const webpackTask = (command: 'build' | 'serve', args: Args): void => {
-  const isDevStage = process.env.STAGE === 'dev';
+const isDevStage = process.env.STAGE === 'dev';
+function getFinalPath(command: string) {
   const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
   const symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
-  const finalPath = isDevStage ? symlinkPath : scriptPath;
+  return isDevStage ? symlinkPath : scriptPath;
+}
+
+export const webpackTask = (command: 'build' | 'serve', args: Args): void => {
+  const finalPath = getFinalPath(command);
   if (!checkFileExist([finalPath])) { return; }
 
-  const nodeEnv = command === 'build' ? 'production' : 'development';
+  const nodeEnv = command === 'serve' ? 'development' : 'production';
   const { modules } = args;
   const parsedModules = parseModules(modules);
 
@@ -22,4 +26,10 @@ export const webpackTask = (command: 'build' | 'serve', args: Args): void => {
     '--NODE_ENV', nodeEnv,
     '--ART_MODULES', `${JSON.stringify(parsedModules)}`,
   );
+};
+
+export const webpackDll = () => {
+  const dllScript = getFinalPath('dll');
+
+  executeNodeScript('node', dllScript);
 };

@@ -31,6 +31,20 @@
       "react",
       "node"
     ],
+    "paths": {
+      "core/*": [
+        "node_modules/art-lib/dist/core/*"
+      ],
+      "core_all/*": [
+        "node_modules/art-lib/dist/core_all/*"
+      ],
+      "utils/*": [
+        "node_modules/art-lib/dist/utils/*"
+      ],
+      "components/*": [
+        "node_modules/art-lib/dist/components/*"
+      ]
+    },
     "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
   },
   "exclude": [

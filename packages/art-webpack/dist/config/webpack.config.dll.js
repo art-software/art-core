@@ -13,19 +13,19 @@ const uglifyjs_webpack_plugin_1 = __importDefault(require("uglifyjs-webpack-plug
 const version = '20180901';
 const defaultVendor = path_1.join(paths_1.default.appCwd, 'node_modules/art-lib/dist/vendors');
 const vendorPath = fs_1.existsSync(defaultVendor) ? defaultVendor : path_1.join(__dirname, '../../../art-lib/dist/vendors');
+const vendors = [
+    'polyfills',
+    'react',
+    'react-dom',
+    'react-router-dom',
+    'axios',
+    'components/scroll/lib/iscroll-probe'
+];
 class WebpackDLLConfig {
     constructor() {
-        this.vendors = [
-            'polyfills',
-            'react',
-            'react-dom',
-            'react-router-dom',
-            'axios',
-            'components/scroll/iscroll-probe'
-        ];
         this.mode = 'production';
         this.entry = {
-            shared: this.vendors
+            shared: vendors
         };
         this.output = {
             path: vendorPath,

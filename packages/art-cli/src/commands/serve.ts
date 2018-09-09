@@ -2,7 +2,7 @@ import { CommandModule, Argv } from 'yargs';
 import { cyanBoldText, greenText, grayText } from 'art-dev-utils/lib/chalkColors';
 import { webpackTask } from './webpackTask';
 
-class ServeCommandModule implements CommandModule {
+class ServeCommand implements CommandModule {
   public readonly command = 'serve';
 
   public readonly desc = grayText('Serve one or more modules');
@@ -22,4 +22,4 @@ class ServeCommandModule implements CommandModule {
   }
 }
 
-module.exports = new ServeCommandModule();
+module.exports = new ServeCommand();

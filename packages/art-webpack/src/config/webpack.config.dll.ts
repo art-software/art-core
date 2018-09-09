@@ -9,20 +9,20 @@ const version = '20180901';
 const defaultVendor = join(paths.appCwd, 'node_modules/art-lib/dist/vendors');
 const vendorPath = existsSync(defaultVendor) ? defaultVendor : join(__dirname, '../../../art-lib/dist/vendors');
 
+const vendors = [
+  'polyfills',
+  'react',
+  'react-dom',
+  'react-router-dom',
+  'axios',
+  'components/scroll/lib/iscroll-probe'
+];
 export default class WebpackDLLConfig implements Configuration {
-  private readonly vendors = [
-    'polyfills',
-    'react',
-    'react-dom',
-    'react-router-dom',
-    'axios',
-    'components/scroll/iscroll-probe'
-  ];
 
   public mode = 'production' as 'production';
 
   public entry = {
-    shared: this.vendors
+    shared: vendors
   };
 
   public output = {

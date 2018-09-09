@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const webpackTask_1 = require("./webpackTask");
-class ServeCommandModule {
+class ServeCommand {
     constructor() {
         this.command = 'serve';
         this.desc = chalkColors_1.grayText('Serve one or more modules');
@@ -20,4 +20,4 @@ class ServeCommandModule {
         webpackTask_1.webpackTask('serve', { modules: args.modules });
     }
 }
-module.exports = new ServeCommandModule();
+module.exports = new ServeCommand();
