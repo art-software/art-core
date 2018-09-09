@@ -14,6 +14,7 @@ const vendors = [
   'react',
   'react-dom',
   'react-router-dom',
+  'classnames',
   'axios',
   'components/scroll/lib/iscroll-probe'
 ];

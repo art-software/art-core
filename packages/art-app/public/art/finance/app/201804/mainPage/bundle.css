@@ -1,0 +1,18 @@
+.index-page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url(http://me.ly.com:3000/public/art/finance/app/201804/mainPage/assets/img-normal-28847528.jpg);
+  background-size: cover;
+  color: #ffffff;
+}
+
+.index-page .btn-request {
+  display: block;
+  padding: 0.3rem;
+  border: 0.01rem solid #666666;
+  border-radius: 0.3rem;
+  margin-top: 0.2rem;
+}

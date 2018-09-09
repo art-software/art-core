@@ -14,7 +14,7 @@ const inquirer_1 = require("../utils/inquirer");
 const appConfig_1 = __importDefault(require("../config/appConfig"));
 const choosePort_1 = __importDefault(require("art-dev-utils/lib/choosePort"));
 const webpackDevServer_1 = __importDefault(require("../config/webpackDevServer"));
-const createCompiler_1 = __importDefault(require("../utils/createCompiler"));
+const createServeCompiler_1 = __importDefault(require("../utils/createServeCompiler"));
 const config_1 = require("../config");
 const prepareProxy_1 = __importDefault(require("art-dev-utils/lib/prepareProxy"));
 const prepareUrls_1 = __importDefault(require("art-dev-utils/lib/prepareUrls"));
@@ -50,7 +50,7 @@ const confirmModulesCb = (answer) => {
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
         const urls = prepareUrls_1.default(protocol, HOST, port);
         const webpackconfig = config_1.getWebpackConfig();
-        const compiler = createCompiler_1.default(webpackconfig, (success) => {
+        const compiler = createServeCompiler_1.default(webpackconfig, (success) => {
             if (success) {
                 console.log('Compiler instance created successfully.');
                 const artModules = appConfig_1.default.get('ART_MODULES');

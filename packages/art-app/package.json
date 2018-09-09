@@ -6,8 +6,9 @@
   "author": "Bowen Zhong",
   "license": "MIT",
   "scripts": {
-    "serve": "STAGE=dev ../art-cli/dist/index.js serve --modules='client/app/201808/xwNewsList/'",
-    "dll": "STAGE=dev ../art-cli/dist/index.js dll"
+    "serve": "STAGE=dev ../art-cli/dist/index.js serve --modules='client/app/201804/mainPage/'",
+    "dll": "STAGE=dev ../art-cli/dist/index.js dll",
+    "build": "STAGE=dev ../art-cli/dist/index.js build --modules='client/app/201804/mainPage/'"
   },
   "dependencies": {
     "art-lib": "^0.0.1",

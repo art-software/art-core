@@ -5,7 +5,7 @@ import * as path from 'path';
 import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
 import chalk from 'chalk';
 
-const createCompiler = (config: Configuration, onFinish: (noError: boolean) => any): webpack.Compiler | null => {
+const createServeCompiler = (config: Configuration, onFinish: (noError: boolean) => any): webpack.Compiler | null => {
 
   let compiler: webpack.Compiler | null = null;
 
@@ -89,4 +89,4 @@ const createCompiler = (config: Configuration, onFinish: (noError: boolean) => a
   return compiler;
 };
 
-export default createCompiler;
+export default createServeCompiler;

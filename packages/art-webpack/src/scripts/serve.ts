@@ -2,7 +2,7 @@ import { confirmModules } from '../utils/inquirer';
 import appConfig from '../config/appConfig';
 import choosePort from 'art-dev-utils/lib/choosePort';
 import webpackDevServeConfig from '../config/webpackDevServer';
-import createCompiler from '../utils/createCompiler';
+import createServeCompiler from '../utils/createServeCompiler';
 import { getWebpackConfig } from '../config';
 import prepareProxy from 'art-dev-utils/lib/prepareProxy';
 import prepareUrls from 'art-dev-utils/lib/prepareUrls';
@@ -46,7 +46,7 @@ const confirmModulesCb = (answer) => {
 
       const webpackconfig = getWebpackConfig();
 
-      const compiler = createCompiler(webpackconfig, (success) => {
+      const compiler = createServeCompiler(webpackconfig, (success) => {
         if (success) {
           console.log('Compiler instance created successfully.');
           const artModules = appConfig.get('ART_MODULES');
