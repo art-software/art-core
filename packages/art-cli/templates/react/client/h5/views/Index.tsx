@@ -1,19 +1,19 @@
 import React from 'react';
-import MainPageService from '../services/MainPageService';
+import IIndexService from '../services/IndexService';
 import CoreComponent from 'art-lib/src/core/CoreComponent';
 
 export default class ViewIndex extends CoreComponent<any, any> {
 
   constructor(props, context) {
     super(props, context);
-    this.mainPageService = new MainPageService();
+    this.indexService = new IIndexService();
   }
 
-  public mainPageService: MainPageService;
+  public indexService: IIndexService;
 
   public clickToRequest() {
     console.log('click to request');
-    this.mainPageService.getData()
+    this.indexService.getData()
       .then((result) => {
         console.log(`it's result: ${JSON.stringify(result)}`);
       })

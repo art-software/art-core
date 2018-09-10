@@ -1,6 +1,6 @@
 import WebApiQnn from 'art-lib/src/core_all/services/WebApiQnn';
 
-export default class MainPageService extends WebApiQnn {
+export default class IndexService extends WebApiQnn {
 
   private getDataDto(result) {
     return result;

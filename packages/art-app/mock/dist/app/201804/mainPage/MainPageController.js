@@ -13,10 +13,10 @@ const routing_controllers_1 = require("routing-controllers");
 let MainPageController = class MainPageController {
     mockApi() {
         return {
-            code: '0000',
+            code: '200',
             message: 'suceess',
             data: {
-                success: 'biz mock data!'
+                mockData: 'biz mock data!'
             }
         };
     }
