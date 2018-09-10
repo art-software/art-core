@@ -1,5 +1,8 @@
 import { join, relative } from 'path';
 import { parallel } from 'async';
+import { merge } from 'lodash';
+import { TplMapping } from './typing';
+import { copy } from 'fs-extra';
 
 /**
  * Copy specificed files to location.
@@ -10,16 +13,13 @@ import { parallel } from 'async';
  * 
  * @return Promise all distination file path.
  */
-export const execCopyFilesTo = (filesFromCwd, filesFrom, dirCopyTo, fileHandler) => {
+export const execCopyFilesTo = (tpls: TplMapping[]) => {
   const asyncQueue: any[] = [];
 
-  filesFrom.forEach((cfgFile) => {
-    asyncQueue.push(
-      (callback) => {
-        const copyTo = join(dirCopyTo, relative(filesFromCwd, cfgFile));
-        fileHandler(cfgFile, copyTo, callback);
-      }
-    );
+  tpls.forEach((tpl) => {
+    if (tpl.operation === 'copy') {
+      copy(tpl.from, tpl.to);
+    }
   });
 
   return new Promise((resolve, reject) => {
@@ -33,15 +33,22 @@ export const execCopyFilesTo = (filesFromCwd, filesFrom, dirCopyTo, fileHandler)
   });
 };
 
-// export const getPathConfig = (fileDestPath, fileFromPath, scaffoldInstance) => {
-//   const defaultConfig = {
-//     fileFromPath,
-//     renameTo: fileDestPath,
-//     replaceOptions: { from: [], to: [] }
-//   };
+export const tplHandler = (tplFiles: string[], scaffoldFrom: string, scaffoldTo: string, scaffoldInstance): TplMapping[] => {
+  const tpl: TplMapping[] = [];
 
-//   const scaffoldType = scaffoldInstance.scaffoldType;
+  tplFiles.forEach((fileName) => {
+    const scaffoldType = scaffoldInstance.scaffoldType;
+    const syncMapping = require(`./${scaffoldType}/syncMapping`);
+    const from = `${scaffoldFrom}/${fileName}`;
+    const to = join(scaffoldTo, relative(scaffoldFrom, from));
 
-// };
+    const tplMapping = merge({
+      name: fileName,
+      from,
+      to,
+    }, syncMapping[fileName]);
+    tpl.push(tplMapping);
+  });
 
-// export const copyFilesTo = ()
+  return tpl;
+};

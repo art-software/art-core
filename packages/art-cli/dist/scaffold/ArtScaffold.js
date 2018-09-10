@@ -125,7 +125,7 @@ class ArtScaffold {
         return fs_1.existsSync(path_1.join(this.scaffoldTo, 'art.config.js'));
     }
     scaffoldFromCwd(scaffoldType) {
-        return path_1.join(__dirname, '../../packages/', scaffoldType);
+        return path_1.join(__dirname, '../../templates/', scaffoldType);
     }
     syncConfigFiles(callback) {
         require(`./${this.scaffoldType}/syncConfigFiles.js`).call(this, this.scaffoldFrom, this.scaffoldTo, callback);

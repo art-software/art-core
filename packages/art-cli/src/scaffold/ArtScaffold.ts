@@ -160,7 +160,7 @@ export default class ArtScaffold {
   }
 
   private scaffoldFromCwd(scaffoldType) {
-    return join(__dirname, '../../packages/', scaffoldType);
+    return join(__dirname, '../../templates/', scaffoldType);
   }
 
   public syncConfigFiles(callback) {

@@ -57,7 +57,6 @@ class CreateCommand implements CommandModule {
       return fileBaseName === '.' || fileBaseName !== '.git' || fileBaseName[0] !== '.';
     };
     const isEmpty = emptyDir.sync('.', fileFilter);
-    console.log(isEmpty);
 
     if (commandType === 'project' && !isEmpty) {
       return console.log(

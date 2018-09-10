@@ -21,7 +21,6 @@ class CreateCommand {
                 return fileBaseName === '.' || fileBaseName !== '.git' || fileBaseName[0] !== '.';
             };
             const isEmpty = empty_dir_1.default.sync('.', fileFilter);
-            console.log(isEmpty);
             if (commandType === 'project' && !isEmpty) {
                 return console.log(chalk_1.default.red('\ncurrent working dir is not empty, please create new another project directory!'));
             }
