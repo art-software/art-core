@@ -1,4 +1,4 @@
-const projectVirtualPath = 'art';
+const projectVirtualPath = 'art/virtual/path';
 
 const artConfig = {
 
@@ -20,7 +20,7 @@ const artConfig = {
 
   webpack: {
     entry: {
-      [`${projectVirtualPath}/h5/mainPage`]: ["./client/h5/mainPage/index.tsx"]
+      [`${projectVirtualPath}/h5`]: ["./client/h5/index.tsx"]
     },
     output: {
       // Config CDN path for static files, images ....

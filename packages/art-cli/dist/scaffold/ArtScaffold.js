@@ -134,10 +134,10 @@ class ArtScaffold {
         require(`./${this.scaffoldType}/syncArtConfig.js`).call(this, this.scaffoldFrom, this.scaffoldTo, callback);
     }
     syncServerFiles(callback) {
-        require(`./${this.scaffoldType}/syncServerFiles.js`).call(this, path_1.join(this.scaffoldFrom, 'server'), path_1.join(this.scaffoldTo, 'server'), callback);
+        require(`./${this.scaffoldType}/syncServerFiles.js`).call(this, this.scaffoldFrom, this.scaffoldTo, callback);
     }
     syncClientFiles(callback) {
-        require(`./${this.scaffoldType}/syncClientScaffold.js`).call(this, path_1.join(this.scaffoldFrom, 'client'), path_1.join(this.scaffoldTo, 'client'), callback);
+        require(`./${this.scaffoldType}/syncClientFiles.js`).call(this, this.scaffoldFrom, this.scaffoldTo, callback);
     }
 }
 exports.default = ArtScaffold;

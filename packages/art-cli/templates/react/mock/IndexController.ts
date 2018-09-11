@@ -1,6 +1,6 @@
 import { Controller, Get } from 'routing-controllers';
 
-@Controller('/h5')
+@Controller('/mock_request')
 export default class IndexController {
 
   @Get('/testme')

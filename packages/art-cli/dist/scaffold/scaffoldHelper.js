@@ -7,6 +7,7 @@ const path_1 = require("path");
 const async_1 = require("async");
 const fs_extra_1 = require("fs-extra");
 const replace_1 = __importDefault(require("replace"));
+const printLog_1 = require("./printLog");
 /**
  * Copy specificed files to location.
  * @param {String} filesFromCwd filesFrom location base.
@@ -23,8 +24,11 @@ exports.execCopyFilesTo = (tplsMappping) => {
             return;
         }
         // copy file and replace file content if replace option present
-        asyncQueue.push(() => {
-            fs_extra_1.copy(tpl.fileFrom, tpl.fileTo, () => {
+        asyncQueue.push(function (callback) {
+            fs_extra_1.copy(tpl.fileFrom, tpl.fileTo)
+                .then(() => {
+                printLog_1.printFileCopyLog('.', process.cwd(), tpl.fileTo);
+                callback(null);
                 if (!tpl.replace || !tpl.replace.length) {
                     return;
                 }
@@ -37,7 +41,8 @@ exports.execCopyFilesTo = (tplsMappping) => {
                         silent: true
                     });
                 });
-            });
+            })
+                .catch(callback);
         });
     });
     return new Promise((resolve, reject) => {
@@ -51,11 +56,9 @@ exports.execCopyFilesTo = (tplsMappping) => {
         });
     });
 };
-exports.tplMappingAssembler = (scaffoldFrom, scaffoldTo, scaffoldInstance) => {
-    const scaffoldType = scaffoldInstance.scaffoldType;
-    const syncMapping = require(`./${scaffoldType}/syncMapping`)(scaffoldInstance);
+exports.tplMappingAssembler = (syncMapping, scaffoldFrom, scaffoldTo) => {
     syncMapping.forEach((mapping) => {
-        const fileFrom = `${scaffoldFrom}/${mapping.name}`;
+        const fileFrom = path_1.join(scaffoldFrom, mapping.name);
         const fileTo = path_1.join(scaffoldTo, mapping.rename || path_1.relative(scaffoldFrom, fileFrom));
         mapping.fileFrom = fileFrom;
         mapping.fileTo = fileTo;

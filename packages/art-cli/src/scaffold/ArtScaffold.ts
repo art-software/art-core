@@ -184,17 +184,17 @@ export default class ArtScaffold {
   public syncServerFiles(callback) {
     require(`./${this.scaffoldType}/syncServerFiles.js`).call(
       this,
-      join(this.scaffoldFrom, 'server'),
-      join(this.scaffoldTo, 'server'),
+      this.scaffoldFrom,
+      this.scaffoldTo,
       callback
     );
   }
 
   public syncClientFiles(callback) {
-    require(`./${this.scaffoldType}/syncClientScaffold.js`).call(
+    require(`./${this.scaffoldType}/syncClientFiles.js`).call(
       this,
-      join(this.scaffoldFrom, 'client'),
-      join(this.scaffoldTo, 'client'),
+      this.scaffoldFrom,
+      this.scaffoldTo,
       callback
     );
   }

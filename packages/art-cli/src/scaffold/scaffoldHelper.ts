@@ -3,6 +3,7 @@ import { parallel } from 'async';
 import { SyncMapping } from './typing';
 import { copy } from 'fs-extra';
 import replace from 'replace';
+import { printFileCopyLog } from './printLog';
 
 /**
  * Copy specificed files to location.
@@ -20,19 +21,23 @@ export const execCopyFilesTo = (tplsMappping: SyncMapping[]) => {
     if (!tpl.fileFrom || !tpl.fileTo) { return; }
     // copy file and replace file content if replace option present
     asyncQueue.push(
-      () => {
-        copy(tpl.fileFrom as string, tpl.fileTo as string, () => {
-          if (!tpl.replace || !tpl.replace.length) { return; }
-          tpl.replace.forEach((replaceMap) => {
-            replace({
-              regex: replaceMap.from,
-              replacement: replaceMap.to,
-              paths: [tpl.fileTo],
-              recursive: false,
-              silent: true
+      function (callback) {
+        copy(tpl.fileFrom as string, tpl.fileTo as string)
+          .then(() => {
+            printFileCopyLog('.', process.cwd(), tpl.fileTo as string);
+            callback(null);
+            if (!tpl.replace || !tpl.replace.length) { return; }
+            tpl.replace.forEach((replaceMap) => {
+              replace({
+                regex: replaceMap.from,
+                replacement: replaceMap.to,
+                paths: [tpl.fileTo],
+                recursive: false,
+                silent: true
+              });
             });
-          });
-        });
+          })
+          .catch(callback);
       }
     );
   });
@@ -48,13 +53,9 @@ export const execCopyFilesTo = (tplsMappping: SyncMapping[]) => {
   });
 };
 
-export const tplMappingAssembler = (scaffoldFrom: string, scaffoldTo: string, scaffoldInstance): SyncMapping[] => {
-
-  const scaffoldType = scaffoldInstance.scaffoldType;
-  const syncMapping: SyncMapping[] = require(`./${scaffoldType}/syncMapping`)(scaffoldInstance);
-
+export const tplMappingAssembler = (syncMapping: SyncMapping[], scaffoldFrom: string, scaffoldTo: string): SyncMapping[] => {
   syncMapping.forEach((mapping) => {
-    const fileFrom = `${scaffoldFrom}/${mapping.name}`;
+    const fileFrom = join(scaffoldFrom, mapping.name);
     const fileTo = join(scaffoldTo, mapping.rename || relative(scaffoldFrom, fileFrom));
     mapping.fileFrom = fileFrom;
     mapping.fileTo = fileTo;
