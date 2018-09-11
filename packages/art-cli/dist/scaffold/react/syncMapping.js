@@ -1,32 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const syncMapping = {
-    '.babelrc': {
-        operation: 'copy'
-    },
-    '.eslintrc.json': {
-        operation: 'copy'
-    },
-    '.artignore': {
-        operation: 'copy',
-        rename: '.gitignore'
-    },
-    'tsconfig.json': {
-        operation: 'copy'
-    },
-    'tsconfig-mock.json': {
-        operation: 'copy'
-    },
-    'tslint.json': {
-        operation: 'copy'
-    },
-    'package.json': {
-        operation: 'transform',
-        handler: () => {
+const syncMapping = (scaffoldInstance) => {
+    const mapping = [
+        {
+            name: '.babelrc'
+        },
+        {
+            name: '.eslintrc.json'
+        },
+        {
+            name: '.artignore',
+            rename: '.gitignore'
+        },
+        {
+            name: 'tsconfig.json'
+        },
+        {
+            name: 'tsconfig-mock.json'
+        },
+        {
+            name: 'tslint.json'
+        },
+        {
+            name: 'package.json',
+            replace: [
+                { from: 'art-app', to: scaffoldInstance.projectName },
+                { from: 'application based on art frontend development framework', to: scaffoldInstance.projectDescription }
+            ]
+        },
+        {
+            name: 'README.md'
         }
-    },
-    'README.md': {
-        operation: 'copy'
-    }
+    ];
+    return mapping;
 };
 module.exports = syncMapping;

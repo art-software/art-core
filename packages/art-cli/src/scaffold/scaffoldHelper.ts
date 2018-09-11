@@ -1,8 +1,8 @@
 import { join, relative } from 'path';
 import { parallel } from 'async';
-import { merge } from 'lodash';
-import { TplMapping } from './typing';
+import { SyncMapping } from './typing';
 import { copy } from 'fs-extra';
+import replace from 'replace';
 
 /**
  * Copy specificed files to location.
@@ -13,13 +13,28 @@ import { copy } from 'fs-extra';
  * 
  * @return Promise all distination file path.
  */
-export const execCopyFilesTo = (tpls: TplMapping[]) => {
+export const execCopyFilesTo = (tplsMappping: SyncMapping[]) => {
   const asyncQueue: any[] = [];
 
-  tpls.forEach((tpl) => {
-    if (tpl.operation === 'copy') {
-      copy(tpl.from, tpl.to);
-    }
+  tplsMappping.forEach((tpl) => {
+    if (!tpl.fileFrom || !tpl.fileTo) { return; }
+    // copy file and replace file content if replace option present
+    asyncQueue.push(
+      () => {
+        copy(tpl.fileFrom as string, tpl.fileTo as string, () => {
+          if (!tpl.replace || !tpl.replace.length) { return; }
+          tpl.replace.forEach((replaceMap) => {
+            replace({
+              regex: replaceMap.from,
+              replacement: replaceMap.to,
+              paths: [tpl.fileTo],
+              recursive: false,
+              silent: true
+            });
+          });
+        });
+      }
+    );
   });
 
   return new Promise((resolve, reject) => {
@@ -33,22 +48,17 @@ export const execCopyFilesTo = (tpls: TplMapping[]) => {
   });
 };
 
-export const tplHandler = (tplFiles: string[], scaffoldFrom: string, scaffoldTo: string, scaffoldInstance): TplMapping[] => {
-  const tpl: TplMapping[] = [];
+export const tplMappingAssembler = (scaffoldFrom: string, scaffoldTo: string, scaffoldInstance): SyncMapping[] => {
 
-  tplFiles.forEach((fileName) => {
-    const scaffoldType = scaffoldInstance.scaffoldType;
-    const syncMapping = require(`./${scaffoldType}/syncMapping`);
-    const from = `${scaffoldFrom}/${fileName}`;
-    const to = join(scaffoldTo, relative(scaffoldFrom, from));
+  const scaffoldType = scaffoldInstance.scaffoldType;
+  const syncMapping: SyncMapping[] = require(`./${scaffoldType}/syncMapping`)(scaffoldInstance);
 
-    const tplMapping = merge({
-      name: fileName,
-      from,
-      to,
-    }, syncMapping[fileName]);
-    tpl.push(tplMapping);
+  syncMapping.forEach((mapping) => {
+    const fileFrom = `${scaffoldFrom}/${mapping.name}`;
+    const fileTo = join(scaffoldTo, mapping.rename || relative(scaffoldFrom, fileFrom));
+    mapping.fileFrom = fileFrom;
+    mapping.fileTo = fileTo;
   });
 
-  return tpl;
+  return syncMapping;
 };
