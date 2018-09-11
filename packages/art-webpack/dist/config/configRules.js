@@ -13,6 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 const appConfig_1 = __importDefault(require("./appConfig"));
 const path = __importStar(require("path"));
+const webpack_helper_1 = require("../utils/webpack.helper");
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 const isProdEnv = process.env.NODE_ENV === 'production';
 exports.configBaseRules = () => {
@@ -104,12 +105,14 @@ const jsRule = {
     test: /\.(js|jsx)$/,
     use: [
         { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } }
-    ]
+    ],
+    exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib')
 };
 const tsRule = {
     test: /\.(ts|tsx)$/,
     use: [
         { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } },
         { loader: 'ts-loader', options: { transpileOnly: true, silent: true } }
-    ]
+    ],
+    exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib')
 };

@@ -2,6 +2,7 @@ import { RuleSetUse, RuleSetRule } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import appNconf from './appConfig';
 import * as path from 'path';
+import { excludeNodeModulesExcept } from '../utils/webpack.helper';
 const projectVirtualPath = appNconf.get('art:projectVirtualPath');
 
 const isProdEnv = process.env.NODE_ENV === 'production';
@@ -111,7 +112,8 @@ const jsRule: RuleSetRule = {
   test: /\.(js|jsx)$/,
   use: [
     { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } }
-  ]
+  ],
+  exclude: excludeNodeModulesExcept('art-lib')
 };
 
 const tsRule: RuleSetRule = {
@@ -119,5 +121,6 @@ const tsRule: RuleSetRule = {
   use: [
     { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } },
     { loader: 'ts-loader',  options: { transpileOnly: true, silent: true } }
-  ]
+  ],
+  exclude: excludeNodeModulesExcept('art-lib')
 };

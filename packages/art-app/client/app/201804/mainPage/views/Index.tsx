@@ -16,6 +16,7 @@ export default class ViewIndex extends CoreComponent<any, any> {
     this.mainPageService.getData()
       .then((result) => {
         console.log(`it's result: ${JSON.stringify(result)}`);
+
       })
       .catch((err) => {
         console.log('haha, it\'s error here');

@@ -75,9 +75,11 @@ export default class App {
 
   private createApp(): Application {
     const app = express();
-    const publicPath = join(process.cwd(), './publish');
+    const publicPath = join(process.cwd(), './public');
     app.use(favicon(join(__dirname, '../favicon.ico')));
-    app.use('/publish', compression(), express.static(publicPath));
+    app.use('/public', compression(), express.static(publicPath));
+    const vendorPath = join(__dirname, '../../art-lib/dist/vendors/');
+    app.use('/static', compression(), express.static(vendorPath) );
     this.appTemplate(app);
     useExpressServer(app, {
       routePrefix: '/mock_api',
