@@ -33,5 +33,5 @@
     "@types/nconf": "^0.0.37",
     "@types/url-join": "^0.8.2"
   },
-  "gitHead": "21b839c97f8d120f1e892e6e67e1e1c96f87179d"
+  "gitHead": "211c8db0fce9d483d4c2c6cd574610fe2ff643e4"
 }
