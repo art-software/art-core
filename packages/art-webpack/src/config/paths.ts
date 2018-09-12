@@ -6,6 +6,7 @@ const paths = {
   appPackageJson: resolveAppPath('package.json'),
   appSrc: resolveAppPath('client'),
   appMockServer: resolveAppPath('mock'),
+  appMockServerConfig: resolveAppPath('tsconfig-mock.json'),
   appNodeModules: resolveAppPath('node_modules'),
   appArtConfig: resolveAppPath('art.config.js'),
   appTsConfig: resolveAppPath('tsconfig.json'),

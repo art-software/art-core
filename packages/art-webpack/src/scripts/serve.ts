@@ -25,7 +25,6 @@ const lunchNodeServer = (modules: string, port: number) => {
   if (isInteractive) { clearConsole(); }
   const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
   const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
-  console.log(nodemonPath);
   executeNodeScript(
     nodemonPath,
     '--watch', paths.appMockServer,
@@ -37,6 +36,20 @@ const lunchNodeServer = (modules: string, port: number) => {
   );
 
   nodeServerHasLunched = true;
+};
+
+let compileMockServerHasLunched = false;
+const compileMockServer = () => {
+
+  if (compileMockServerHasLunched) { return; }
+
+  executeNodeScript(
+    'tsc',
+    '-p', `${paths.appMockServerConfig}`,
+    '-w'
+  );
+
+  compileMockServerHasLunched = true;
 };
 
 const confirmModulesCb = (answer) => {
@@ -56,6 +69,7 @@ const confirmModulesCb = (answer) => {
           console.log('Compiler instance created successfully.');
           const artModules = appConfig.get('ART_MODULES');
           lunchNodeServer(artModules, port);
+          compileMockServer();
         }
       });
 

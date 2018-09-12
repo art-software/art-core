@@ -50,7 +50,6 @@ class CreateCommand implements CommandModule {
   }
 
   public handler = (argv) => {
-    console.log(argv);
     const commandType = argv._[1];
     const fileFilter = (file: string) => {
       const fileBaseName = basename(file);
@@ -66,7 +65,6 @@ class CreateCommand implements CommandModule {
 
     (this.commandEntry(commandType) as Promise<Answers>)
       .then((answers) => {
-        console.log(`answers: ${JSON.stringify(answers)}`);
         create(argv.scaffold, commandType, answers as any);
       })
       .catch((err) => {

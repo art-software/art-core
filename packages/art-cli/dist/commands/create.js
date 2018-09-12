@@ -14,7 +14,6 @@ class CreateCommand {
         this.command = 'create';
         this.describe = chalk_1.default.black.bold(`create art scaffold ${scaffolds.join(',')} `);
         this.handler = (argv) => {
-            console.log(argv);
             const commandType = argv._[1];
             const fileFilter = (file) => {
                 const fileBaseName = path_1.basename(file);
@@ -26,7 +25,6 @@ class CreateCommand {
             }
             this.commandEntry(commandType)
                 .then((answers) => {
-                console.log(`answers: ${JSON.stringify(answers)}`);
                 index_1.create(argv.scaffold, commandType, answers);
             })
                 .catch((err) => {

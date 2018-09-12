@@ -10,6 +10,7 @@ const paths = {
     appPackageJson: resolveAppPath_1.default('package.json'),
     appSrc: resolveAppPath_1.default('client'),
     appMockServer: resolveAppPath_1.default('mock'),
+    appMockServerConfig: resolveAppPath_1.default('tsconfig-mock.json'),
     appNodeModules: resolveAppPath_1.default('node_modules'),
     appArtConfig: resolveAppPath_1.default('art.config.js'),
     appTsConfig: resolveAppPath_1.default('tsconfig.json'),

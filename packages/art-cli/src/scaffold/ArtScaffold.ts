@@ -143,9 +143,11 @@ export default class ArtScaffold {
 
     const asyncQueue = [
       this.syncClientFiles.bind(this),
-      this.syncArtConfig.bind(this)
+      this.syncServerFiles.bind(this)
     ];
 
+    const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
+    updateArtConfig.bind(this)(this.scaffoldTo);
     return new Promise((resolve, reject) => {
       series(asyncQueue, (err, result) => {
         if (err) {
