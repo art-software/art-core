@@ -12,11 +12,11 @@ export default class ViewIndex extends CoreComponent<any, any> {
   public mainPageService: MainPageService;
 
   public clickToRequest() {
+
     console.log('click to request');
     this.mainPageService.getData()
       .then((result) => {
         console.log(`it's result: ${JSON.stringify(result)}`);
-
       })
       .catch((err) => {
         console.log('haha, it\'s error here');

@@ -104,15 +104,15 @@ const fontRule = {
 const jsRule = {
     test: /\.(js|jsx)$/,
     use: [
-        { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } }
+        { loader: 'happypack/loader?id=jsx' }
     ],
     exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib')
 };
 const tsRule = {
     test: /\.(ts|tsx)$/,
     use: [
-        { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } },
-        { loader: 'ts-loader', options: { transpileOnly: true, silent: true } }
+        { loader: 'happypack/loader?id=jsx' },
+        { loader: 'happypack/loader?id=ts' }
     ],
     exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib')
 };

@@ -11,6 +11,7 @@ import qs from 'qs';
 import foreach from 'lodash/foreach';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackCDNPlugin from '../plugins/HtmlWebpackCDNPlugin';
+import HappyPack from 'happypack';
 
 const envName = process.env.NODE_ENV || 'development';
 const isProd = envName === 'production';
@@ -57,10 +58,38 @@ export const configBasePlugins = (() => {
       clear: false
     }),
 
+    new HappyPack({
+      id: 'jsx',
+      threads: 3,
+      loaders: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-react']
+          }
+        }
+      ],
+    }),
+
+    new HappyPack({
+      id: 'ts',
+      threads: 3,
+      loaders: [
+        {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+            silent: false,
+            happyPackMode: true
+          }
+        }
+      ]
+    }),
+
     new ForkTsCheckerWebpackPlugin({
       tsconfig: paths.appTsConfig,
       tslint: paths.appTsLintConfig
-    })
+    }),
   ];
   if (isProd) {
     plugins.concat(configHtmlWebpackPlugin());

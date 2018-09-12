@@ -22,6 +22,7 @@ const qs_1 = __importDefault(require("qs"));
 const foreach_1 = __importDefault(require("lodash/foreach"));
 const html_webpack_plugin_1 = __importDefault(require("html-webpack-plugin"));
 const HtmlWebpackCDNPlugin_1 = __importDefault(require("../plugins/HtmlWebpackCDNPlugin"));
+const happypack_1 = __importDefault(require("happypack"));
 const envName = process.env.NODE_ENV || 'development';
 const isProd = envName === 'production';
 const configHtmlWebpackPlugin = (entries) => {
@@ -60,10 +61,36 @@ exports.configBasePlugins = (() => {
             format: chalk_1.default.cyan('build') + ' [:bar] ' + chalk_1.default.green.bold(':percent') + ' (:elapsed seconds)',
             clear: false
         }),
+        new happypack_1.default({
+            id: 'jsx',
+            threads: 3,
+            loaders: [
+                {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-react']
+                    }
+                }
+            ],
+        }),
+        new happypack_1.default({
+            id: 'ts',
+            threads: 3,
+            loaders: [
+                {
+                    loader: 'ts-loader',
+                    options: {
+                        transpileOnly: true,
+                        silent: false,
+                        happyPackMode: true
+                    }
+                }
+            ]
+        }),
         new fork_ts_checker_webpack_plugin_1.default({
             tsconfig: paths_1.default.appTsConfig,
             tslint: paths_1.default.appTsLintConfig
-        })
+        }),
     ];
     if (isProd) {
         plugins.concat(configHtmlWebpackPlugin());
