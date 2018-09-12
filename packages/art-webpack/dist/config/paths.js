@@ -9,7 +9,7 @@ const paths = {
     appPublic: resolveAppPath_1.default('public'),
     appPackageJson: resolveAppPath_1.default('package.json'),
     appSrc: resolveAppPath_1.default('client'),
-    appServer: resolveAppPath_1.default('server'),
+    appMockServer: resolveAppPath_1.default('mock'),
     appNodeModules: resolveAppPath_1.default('node_modules'),
     appArtConfig: resolveAppPath_1.default('art.config.js'),
     appTsConfig: resolveAppPath_1.default('tsconfig.json'),

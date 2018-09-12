@@ -19,9 +19,11 @@ const config_1 = require("../config");
 const prepareProxy_1 = __importDefault(require("art-dev-utils/lib/prepareProxy"));
 const prepareUrls_1 = __importDefault(require("art-dev-utils/lib/prepareUrls"));
 const webpack_dev_server_1 = __importDefault(require("webpack-dev-server"));
+const clearConsole_1 = __importDefault(require("art-dev-utils/lib/clearConsole"));
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const path = __importStar(require("path"));
+const paths_1 = __importDefault(require("../config/paths"));
 const envName = appConfig_1.default.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig_1.default.get(`devPort:${envName}`);
@@ -31,9 +33,13 @@ const lunchNodeServer = (modules, port) => {
     if (nodeServerHasLunched) {
         return;
     }
-    // if (isInteractive) { clearConsole(); }
+    if (isInteractive) {
+        clearConsole_1.default();
+    }
     const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
-    executeNodeScript_1.default('node', mockServerPath, '--ART_MODULES', `${modules}`, '--ART_WEBPACK_PORT', `${port}`);
+    const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
+    console.log(nodemonPath);
+    executeNodeScript_1.default(nodemonPath, '--watch', paths_1.default.appMockServer, '--ignore', paths_1.default.appMockServer, '-e', 'js, jsx, ts', mockServerPath, '--ART_MODULES', `${JSON.stringify(modules)}`, '--ART_WEBPACK_PORT', `${port}`);
     nodeServerHasLunched = true;
 };
 const confirmModulesCb = (answer) => {

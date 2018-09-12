@@ -5,7 +5,7 @@ const paths = {
   appPublic: resolveAppPath('public'),
   appPackageJson: resolveAppPath('package.json'),
   appSrc: resolveAppPath('client'),
-  appServer: resolveAppPath('server'),
+  appMockServer: resolveAppPath('mock'),
   appNodeModules: resolveAppPath('node_modules'),
   appArtConfig: resolveAppPath('art.config.js'),
   appTsConfig: resolveAppPath('tsconfig.json'),

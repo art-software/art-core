@@ -6,12 +6,12 @@ import createServeCompiler from '../utils/createServeCompiler';
 import { getWebpackConfig } from '../config';
 import prepareProxy from 'art-dev-utils/lib/prepareProxy';
 import prepareUrls from 'art-dev-utils/lib/prepareUrls';
-import paths from '../config/paths';
 import WebpackDevServer from 'webpack-dev-server';
 import clearConsole from 'art-dev-utils/lib/clearConsole';
 import { cyanText } from 'art-dev-utils/lib/chalkColors';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import * as path from 'path';
+import paths from '../config/paths';
 
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
@@ -22,12 +22,17 @@ let nodeServerHasLunched = false;
 const lunchNodeServer = (modules: string, port: number) => {
 
   if (nodeServerHasLunched) { return; }
-  // if (isInteractive) { clearConsole(); }
+  if (isInteractive) { clearConsole(); }
   const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
+  const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
+  console.log(nodemonPath);
   executeNodeScript(
-    'node',
+    nodemonPath,
+    '--watch', paths.appMockServer,
+    '--ignore', paths.appMockServer,
+    '-e', 'js, jsx, ts',
     mockServerPath,
-    '--ART_MODULES', `${modules}`,
+    '--ART_MODULES', `${JSON.stringify(modules)}`,
     '--ART_WEBPACK_PORT', `${port}`
   );
 
