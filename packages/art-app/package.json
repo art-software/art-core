@@ -1,6 +1,6 @@
 {
   "name": "art-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "application based on art frontend development framework",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -12,9 +12,9 @@
     "build": "STAGE=dev ../art-cli/dist/index.js build --modules='client/app/201804/mainPage/'"
   },
   "dependencies": {
-    "art-lib-react": "^0.0.2",
-    "art-server-mock": "^0.0.2",
-    "art-webpack": "^0.0.2",
+    "art-lib-react": "^0.0.3",
+    "art-server-mock": "^0.0.3",
+    "art-webpack": "^0.0.3",
     "less": "^3.8.1",
     "react": "16.4.2",
     "react-dom": "16.4.2",
