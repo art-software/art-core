@@ -1,12 +1,12 @@
 {
   "name": "art-webpack",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "art framework webpack",
   "main": "index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {
-    "art-dev-utils": "^0.0.3",
+    "art-dev-utils": "^0.0.4",
     "chalk": "^2.4.1",
     "cors": "^2.8.4",
     "es6-map": "^0.1.5",
@@ -60,5 +60,5 @@
     "venus-px2rem-loader": "^1.0.1",
     "webpack": "^4.16.5"
   },
-  "gitHead": "211c8db0fce9d483d4c2c6cd574610fe2ff643e4"
+  "gitHead": "3af2150c35955ccfaada915dfd9d98e58e360e25"
 }
