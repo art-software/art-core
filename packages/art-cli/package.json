@@ -1,6 +1,6 @@
 {
   "name": "art-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "art framework cli tool",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "art": "./dist/index.js"
   },
   "dependencies": {
-    "art-dev-utils": "^0.0.1",
+    "art-dev-utils": "^0.0.2",
     "async": "^2.6.1",
     "chalk": "^2.4.1",
     "empty-dir": "^1.0.0",
