@@ -78,7 +78,7 @@ export default class App {
     const publicPath = join(process.cwd(), './public');
     app.use(favicon(join(__dirname, '../favicon.ico')));
     app.use('/public', compression(), express.static(publicPath));
-    const vendorPath = join(__dirname, '../../art-lib/dist/vendors/');
+    const vendorPath = join(__dirname, '../../art-lib-react/dist/vendors/');
     app.use('/static', compression(), express.static(vendorPath) );
     this.appTemplate(app);
     useExpressServer(app, {

@@ -89,7 +89,7 @@ class App {
         const publicPath = path_1.join(process.cwd(), './public');
         app.use(serve_favicon_1.default(path_1.join(__dirname, '../favicon.ico')));
         app.use('/public', compression_1.default(), express_1.default.static(publicPath));
-        const vendorPath = path_1.join(__dirname, '../../art-lib/dist/vendors/');
+        const vendorPath = path_1.join(__dirname, '../../art-lib-react/dist/vendors/');
         app.use('/static', compression_1.default(), express_1.default.static(vendorPath));
         this.appTemplate(app);
         routing_controllers_1.useExpressServer(app, {

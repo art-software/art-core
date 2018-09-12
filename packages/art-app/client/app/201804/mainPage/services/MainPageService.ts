@@ -1,4 +1,4 @@
-import WebApiQnn from 'art-lib/src/core_all/services/WebApiQnn';
+import WebApiQnn from 'art-lib-react/src/core_all/services/WebApiQnn';
 
 export default class MainPageService extends WebApiQnn {
 

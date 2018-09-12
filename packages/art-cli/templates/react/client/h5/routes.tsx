@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import ViewIndex from './views/Index';
-import Page404 from 'art-lib/dist/components/errorpage/404';
+import Page404 from 'art-lib-react/dist/components/errorpage/404';
 
 const Routes = () => {
   return (

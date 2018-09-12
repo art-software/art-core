@@ -106,7 +106,7 @@ const jsRule = {
     use: [
         { loader: 'happypack/loader?id=jsx' }
     ],
-    exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib')
+    exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib-react')
 };
 const tsRule = {
     test: /\.(ts|tsx)$/,
@@ -114,5 +114,5 @@ const tsRule = {
         { loader: 'happypack/loader?id=jsx' },
         { loader: 'happypack/loader?id=ts' }
     ],
-    exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib')
+    exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib-react')
 };

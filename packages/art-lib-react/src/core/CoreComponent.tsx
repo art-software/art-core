@@ -1,6 +1,6 @@
 import React from 'react';
-import { isArray } from 'art-lib/src/utils/lang';
-import { trim } from 'art-lib/src/utils/string';
+import { isArray } from '../utils/lang';
+import { trim } from '../utils/string';
 import merge from '../utils/merge';
 import { IComponentProps } from './proptype';
 import classnames from 'classnames';

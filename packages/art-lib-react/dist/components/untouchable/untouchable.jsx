@@ -1,4 +1,4 @@
-import CoreComponent from 'art-lib/src/core/CoreComponent';
+import CoreComponent from 'art-lib-react/src/core/CoreComponent';
 import UnTouchableService from './untouchable-service';
 import { on, off } from '../../utils/events';
 export default class UnTouchable extends CoreComponent {

@@ -11,8 +11,8 @@ const fs_1 = require("fs");
 const optimize_css_assets_webpack_plugin_1 = __importDefault(require("optimize-css-assets-webpack-plugin"));
 const uglifyjs_webpack_plugin_1 = __importDefault(require("uglifyjs-webpack-plugin"));
 const version = '20180901';
-const defaultVendor = path_1.join(paths_1.default.appCwd, 'node_modules/art-lib/dist/vendors');
-const vendorPath = fs_1.existsSync(defaultVendor) ? defaultVendor : path_1.join(__dirname, '../../../art-lib/dist/vendors');
+const defaultVendor = path_1.join(paths_1.default.appCwd, 'node_modules/art-lib-react/dist/vendors');
+const vendorPath = fs_1.existsSync(defaultVendor) ? defaultVendor : path_1.join(__dirname, '../../../art-lib-react/dist/vendors');
 const vendors = [
     'polyfills',
     'react',
@@ -35,7 +35,7 @@ class WebpackDLLConfig {
         };
         this.resolve = {
             alias: {
-                lib: 'art-lib',
+                lib: 'art-lib-react',
                 polyfills: path_2.resolve(__dirname, '../config/polyfills.js'),
                 core: 'lib/dist/core',
                 core_all: 'lib/dist/core_all',

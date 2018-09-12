@@ -1,4 +1,4 @@
-import CoreComponent from 'art-lib/src/core/CoreComponent';
+import CoreComponent from '../../core/CoreComponent';
 import { IUnTouchableProps } from './propstype';
 import UnTouchableService from './untouchable-service';
 import { on, off } from '../../utils/events';

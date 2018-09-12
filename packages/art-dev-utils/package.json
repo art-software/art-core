@@ -2,7 +2,6 @@
   "name": "art-dev-utils",
   "version": "0.0.1",
   "description": "art framework development utils",
-  "main": "index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {

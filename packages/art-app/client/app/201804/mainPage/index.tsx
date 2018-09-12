@@ -1,4 +1,4 @@
-import 'art-lib/src/styles';
+import 'art-lib-react/src/styles';
 import './styles';
 import React from 'react';
 import ReactDOM from 'react-dom';

@@ -1,8 +1,7 @@
 {
-  "name": "art-lib",
+  "name": "art-lib-react",
   "version": "0.0.1",
-  "description": "art framework library",
-  "main": "index.js",
+  "description": "art framework react library",
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {

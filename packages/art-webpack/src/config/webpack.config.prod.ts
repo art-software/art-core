@@ -11,8 +11,8 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 const enableBundleHashName = appConfig.get('enableBundleHashName');
 const version = appConfig.get('version');
-const defaultVendor = join(paths.appCwd, 'node_modules/art-lib/dist/vendors');
-const vendorPath = existsSync(defaultVendor) ? defaultVendor : join(__dirname, '../../../art-lib/dist/vendors');
+const defaultVendor = join(paths.appCwd, 'node_modules/art-lib-react/dist/vendors');
+const vendorPath = existsSync(defaultVendor) ? defaultVendor : join(__dirname, '../../../art-lib-react/dist/vendors');
 
 function bundleFileNamePattern(endFix: string = '.js'): string {
   if (enableBundleHashName) {

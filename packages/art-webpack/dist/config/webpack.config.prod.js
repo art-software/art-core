@@ -15,8 +15,8 @@ const path_1 = require("path");
 const fs_1 = require("fs");
 const enableBundleHashName = appConfig_1.default.get('enableBundleHashName');
 const version = appConfig_1.default.get('version');
-const defaultVendor = path_1.join(paths_1.default.appCwd, 'node_modules/art-lib/dist/vendors');
-const vendorPath = fs_1.existsSync(defaultVendor) ? defaultVendor : path_1.join(__dirname, '../../../art-lib/dist/vendors');
+const defaultVendor = path_1.join(paths_1.default.appCwd, 'node_modules/art-lib-react/dist/vendors');
+const vendorPath = fs_1.existsSync(defaultVendor) ? defaultVendor : path_1.join(__dirname, '../../../art-lib-react/dist/vendors');
 function bundleFileNamePattern(endFix = '.js') {
     if (enableBundleHashName) {
         return `bundle[chunkhash]${endFix}`;

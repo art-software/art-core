@@ -2,7 +2,6 @@
   "name": "art-cli",
   "version": "0.0.1",
   "description": "art framework cli tool",
-  "main": "index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
   "bin": {
