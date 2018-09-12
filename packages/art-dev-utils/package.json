@@ -1,6 +1,6 @@
 {
   "name": "art-dev-utils",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "art framework development utils",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -32,5 +32,6 @@
     "@types/recursive-readdir": "^2.2.0",
     "@types/strip-ansi": "^3.0.0",
     "@types/webpack": "^4.4.11"
-  }
+  },
+  "gitHead": "21b839c97f8d120f1e892e6e67e1e1c96f87179d"
 }
