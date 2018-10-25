@@ -1,0 +1,39 @@
+[v-load-more] {
+  height: 60px;
+  line-height: 60px;
+  width: 100%;
+  text-align: center;
+  [v-progress] {
+    display: none !important;
+  }
+  &.loading {
+    [v-progress] {
+      display: inline-block !important;
+    }
+  }
+  &.nomoredata {
+    span {
+      margin: 0;
+      position: relative;
+      &:before,&:after {
+        content: ' ';
+        position: absolute;
+        top: 50%;
+        height: 1PX;
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        opacity: .8;
+        background: #999;
+        width: 50%;
+      }
+      &:before {
+        left: -55%;
+        background: linear-gradient(to left, #999, rgba(255,255,255,.1));
+      }
+      &:after {
+        right: -55%;
+        background: linear-gradient(to right, #999, rgba(255,255,255,.1));
+      }
+    }
+  }
+}

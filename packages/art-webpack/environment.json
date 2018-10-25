@@ -1,0 +1,10 @@
+{
+  "devHost": {
+    "development": "http://localhost",
+    "production": "http://localhost"
+  },
+  "devPort": {
+    "development": 3000,
+    "production": 3001
+  }
+}

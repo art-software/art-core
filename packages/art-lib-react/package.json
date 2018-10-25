@@ -1,0 +1,22 @@
+{
+  "name": "art-lib-react",
+  "version": "0.0.8",
+  "description": "art framework react library",
+  "author": "Bowen Zhong",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "art-dev-utils": "^0.0.8",
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "inline-style-prefixer": "^5.0.1",
+    "prop-types": "^15.6.2",
+    "qs": "^6.5.2",
+    "react": "16.4.2",
+    "react-dom": "16.4.2"
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.2.6",
+    "@types/qs": "^6.5.1"
+  }
+}

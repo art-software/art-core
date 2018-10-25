@@ -1,0 +1,41 @@
+[v-modal-portal][v-modal-portal~="toast"] {
+  &.toast-inline {
+    .modal-portal-wrap {
+      .modal-portal-content {
+        padding: .05rem .5rem .05rem .2rem
+      }
+      .modal-notice-icon,
+      .modal-notice-content {
+        display: inline-block;
+        margin: 0;
+        vertical-align: middle;
+      }
+      .modal-notice-content {
+        margin: 0.1rem 0;
+      }
+    }
+  }
+  .modal-portal-wrap {
+    position: relative;
+    min-width: 40%;
+    height: auto;
+    .modal-portal-content {
+      position: relative;
+      padding: 25px;
+      background-color: rgba(0, 0, 0, .8);
+      color: #fff;
+      text-align: center;
+      font-size: 28px;
+      -webkit-animation-duration: .3s;
+      animation-duration: .3s;
+    }
+    .modal-notice-icon {
+      margin: 10px 0 20px 0;
+      line-height: 0;
+    }
+    .modal-notice-content {
+      line-height: 1.5;
+      opacity: .8;
+    }
+  }
+}

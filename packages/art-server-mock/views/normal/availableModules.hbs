@@ -1,0 +1,37 @@
+<div>
+  <style>
+    .item-wrapper {
+      background: #f0f0f0;
+      margin: 2px 0;
+      border: 1px solid #ccc;
+      list-style-type:decimal;
+    }
+    ul {
+      padding-left: 1.8rem;
+      font-size: 12px;
+    }
+    li {
+      -webkit-transition: all .25s ease-out 0s;
+      transition: all .25s ease-out 0s;
+    }
+    li:hover {
+      border-color:#169fe6;
+      box-shadow: 0 0 10px 5px rgba(22,159,230,.6) inset;
+    }
+    .item-wrapper a {
+      padding-left:.4rem;
+      color: #666;
+      display: block;
+      line-height: 30px;
+      height: 30px;
+      font-size: 16px;
+      text-decoration: none;
+    }
+  </style>
+  <ul>
+    <h3>All available modules</h3>
+    {{#each entries}}
+    <li class="item-wrapper"> <a href="{{getModuleLink @root.ART_SERVER_HOST_ROOT key}}?env=me">{{key}}</a></li>
+    {{/each}}
+  </ul>
+</div>
