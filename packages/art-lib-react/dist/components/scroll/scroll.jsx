@@ -3,8 +3,8 @@ import React from 'react';
 import CoreComponent from '../../core/CoreComponent';
 import IScrollProbe from './lib/iscroll-probe';
 import { lockTouchEvent } from './lib/document';
-import { getElemHeight } from '../../utils/dom';
-import { shallowEqual } from '../../utils/shallow-compare';
+import { getElemHeight } from 'art-lib-utils/src/utils/dom';
+import { shallowEqual } from 'art-lib-utils/src/utils/shallow-compare';
 // Default lock document touch event within scrollbar.
 lockTouchEvent();
 const excludePropNames = ['defer', 'iScroll', 'onRefresh', 'onInitialize', 'options', 'height', 'style', 'width', 'className', 'class', 'wrapperStyle'];

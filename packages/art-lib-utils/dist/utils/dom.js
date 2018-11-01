@@ -10,6 +10,9 @@ export const offset = (elem) => {
         return;
     }
     const docElem = doc.documentElement;
+    if (!docElem) {
+        return;
+    }
     let box = { top: 0, left: 0 };
     // Support: BlackBerry 5, iOS 3 (original iPhone)
     // If we don't have gBCR, just use 0,0 rather than error
@@ -40,7 +43,7 @@ export const getStyles = (elem) => {
     // Support: IE<=11+, Firefox<=30+ (#15098, #14150)
     // IE throws on elements created in popups
     // FF meanwhile throws on frame elements through 'defaultView.getComputedStyle'
-    if (elem.ownerDocument && elem.ownerDocument.defaultView.opener) {
+    if (elem.ownerDocument && elem.ownerDocument.defaultView && elem.ownerDocument.defaultView.opener) {
         return elem.ownerDocument.defaultView.getComputedStyle(elem, '');
     }
     return window.getComputedStyle(elem, '');

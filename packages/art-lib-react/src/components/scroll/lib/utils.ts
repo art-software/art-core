@@ -1,4 +1,4 @@
-import { on, off, isPassiveMode as isPassiveModeEvent } from '../../../utils/events';
+import { on, off, isPassiveMode as isPassiveModeEvent } from 'art-lib-utils/src/utils/events';
 const win = (window as any);
 const elementStyle = document.createElement('div').style;
 const vendor = (function () {

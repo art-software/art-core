@@ -1,10 +1,10 @@
 import React from 'react';
-import { isArray } from '../utils/lang';
-import { trim } from '../utils/string';
-import merge from '../utils/merge';
+import { isArray } from 'art-lib-utils/src/utils/lang';
+import { trim } from 'art-lib-utils/src/utils/string';
+import merge from 'art-lib-utils/src/utils/merge';
 import classnames from 'classnames';
-import './viewport';
-import omit from '../utils/omit';
+import 'art-lib-utils/src/utils/viewport';
+import omit from 'art-lib-utils/src/utils/omit';
 export default class CoreComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -39,14 +39,3 @@ export default class CoreComponent extends React.Component {
         return omit(excludedKeys, props);
     }
 }
-// const componentUid = uniqueFactory('uuid_component_', 1);
-// export const uuidWrapper = (WrapperComponent): any => {
-//   return class ComponentWrapper extends React.Component<any, any> {
-//     public static uuid = componentUid();
-//     public render() {
-//       return (
-//         <WrapperComponent {...this.props} />
-//       );
-//     }
-//   };
-// };

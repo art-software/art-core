@@ -1,8 +1,8 @@
 import React from 'react';
 import IIndexService from '../services/IndexService';
-import CoreComponent from 'art-lib-react/src/core/CoreComponent';
+import CoreComponentAll from 'art-lib-react/src/core_all/CoreComponentAll';
 
-export default class ViewIndex extends CoreComponent<any, any> {
+export default class ViewIndex extends CoreComponentAll<any, any> {
 
   constructor(props, context) {
     super(props, context);

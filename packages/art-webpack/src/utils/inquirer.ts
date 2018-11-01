@@ -10,10 +10,16 @@ interface CbParamsProps {
 
 export const confirmModules = (callback: (answer: CbParamsProps) => any): void => {
  const availableModules = webpackEntries(false);
+ const moduleKeys = Object.keys(availableModules);
+ const modulesCount = moduleKeys.length;
 
- if (!Object.keys(availableModules).length) {
+ if (!modulesCount) {
    console.log(cyanBoldText('No available modules here, please check `--modules`!'));
    return;
+ }
+
+ for (let i = 0; i < modulesCount; i++) {
+   availableModules[moduleKeys[i]][0] = 'polyfills';
  }
 
  jclrz(availableModules);

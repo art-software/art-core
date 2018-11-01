@@ -3,10 +3,3 @@ export interface IComponentProps {
   style?: object;
   ref?: (node) => void;
 }
-
-export interface IOptionProps {
-  fnName?: string;
-  enabled?: boolean;
-  message?: string;
-  errorHandler?: (errorReport: any) => void;
-}

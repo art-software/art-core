@@ -1,7 +1,7 @@
 import React from 'react';
 import './style';
 import CoreComponent from '../../core/CoreComponent';
-import viewport from '../../core/viewport';
+import viewport from 'art-lib-utils/src/utils/viewport';
 const px2rem = viewport.px2rem;
 const currRem = viewport.currRem;
 const px2px = (value) => {

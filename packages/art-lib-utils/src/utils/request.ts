@@ -1,6 +1,13 @@
 import merge from './merge';
 import axios, { AxiosRequestConfig } from 'axios';
-import { RequestFunc, RequestMethods } from '../core/web-api';
+
+export type RequestFunc = (url: string, data: object, config: object) => Promise<any>;
+export interface RequestMethods {
+  GET: RequestFunc;
+  POST: RequestFunc;
+  PUT: RequestFunc;
+  DELETE: RequestFunc;
+}
 
 export const request = function (method: string = 'get'): RequestFunc {
   return function (url: string, data = {}, config = {}) {

@@ -9,16 +9,18 @@ const projectVirtualPath = appNconf.get('art:projectVirtualPath');
 const prod = isProd();
 
 export const configBaseRules = (): RuleSetRule[] => {
-  const config: RuleSetRule[] = [];
+  let config: RuleSetRule[] = [];
 
-  config.push(cssRule(prod));
-  config.push(lessRule(prod));
-  config.push(sassRule(prod));
-  config.push(htmlRule);
-  config.push(assetsRule);
-  config.push(fontRule);
-  config.push(jsRule);
-  config.push(tsRule);
+  config = config.concat([
+    cssRule(prod),
+    lessRule(prod),
+    sassRule(prod),
+    htmlRule,
+    assetsRule,
+    fontRule,
+    jsRule,
+    tsRule
+  ]);
 
   return config;
 };

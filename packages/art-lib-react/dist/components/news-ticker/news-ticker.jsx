@@ -2,10 +2,10 @@ import './style.less';
 import CoreComponent from '../../core/CoreComponent';
 import React from 'react';
 import Animation from '../animation/animation';
-import viewport from '../../core/viewport';
+import viewport from 'art-lib-utils/src/utils/viewport';
 import { prefix } from 'inline-style-prefixer';
 import { easeInOutQuad } from '../animation/easing';
-import { shallowEqual } from '../../utils/shallow-compare';
+import { shallowEqual } from 'art-lib-utils/src/utils/shallow-compare';
 export default class NewsTicker extends CoreComponent {
     constructor(props, context) {
         super(props, context);

@@ -10,6 +10,7 @@ export const offset = (elem: Element): undefined | { top: number, left: number }
   const doc = elem && elem.ownerDocument;
   if (!doc) { return; }
   const docElem = doc.documentElement;
+  if (!docElem) { return; }
 
   let box = { top: 0, left: 0 };
   // Support: BlackBerry 5, iOS 3 (original iPhone)
@@ -41,7 +42,7 @@ export const getStyles = (elem: Element): CSSStyleDeclaration => {
   // Support: IE<=11+, Firefox<=30+ (#15098, #14150)
   // IE throws on elements created in popups
   // FF meanwhile throws on frame elements through 'defaultView.getComputedStyle'
-  if (elem.ownerDocument && elem.ownerDocument.defaultView.opener) {
+  if (elem.ownerDocument && elem.ownerDocument.defaultView && elem.ownerDocument.defaultView.opener) {
     return elem.ownerDocument.defaultView.getComputedStyle(elem, '');
   }
   return window.getComputedStyle(elem, '');
@@ -53,12 +54,12 @@ export const accessProperty = (elem: Element | Window | Document | undefined, pr
     // As of 5/8/2012 this will yield incorrect results for Mobile Safari, but there
     // isn't a whole lot we can do. See pull request at this URL for discussion:
     // https://github.com/jquery/jquery/pull/764
-    return (elem as Window).document.documentElement['client' + propName];
+    return ((elem as Window).document.documentElement as HTMLElement)['client' + propName];
   }
 
   // Get document width or height
   if ((elem as Document).nodeType === 9) {
-    const doc = (elem as Document).documentElement;
+    const doc = (elem as Document).documentElement as HTMLElement;
     // Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height], whichever is greatest
     // unfortunately, this causes bug #3838 in IE6/8 only, but there is currently no good, small way to fix it.
     return Math.max(

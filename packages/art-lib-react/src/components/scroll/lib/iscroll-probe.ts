@@ -478,6 +478,7 @@ export default class IScroll {
   }
 
   private resize() {
+    // if (!this.options.resize) { return; }
     const that = this;
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(function () {
@@ -1942,7 +1943,7 @@ class Indicator {
 
     this.wrapperStyle[utils.style.transitionDuration] = time + 'ms';
 
-    this.fadeTimeout = setTimeout((function (value) {
+    this.fadeTimeout = window.setTimeout((function (value) {
       this.wrapperStyle.opacity = value;
       this.visible = +value;
     }).bind(this, val), delay);

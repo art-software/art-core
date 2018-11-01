@@ -16,14 +16,18 @@ function viewport(baseFontSize = defaultBaseFontSize, designWidth = defaultDesig
         dpr = 1;
     }
     console.log('current devicePixelRatio:', dpr);
-    docEl.setAttribute('data-dpr', dpr.toString());
+    if (docEl) {
+        docEl.setAttribute('data-dpr', dpr.toString());
+    }
     let metaEl = doc.querySelector('meta[name="viewport"]');
     let scale = 1;
     if (!metaEl) {
         scale = 1 / dpr;
         metaEl = doc.createElement('meta');
         metaEl.setAttribute('name', 'viewport');
-        doc.head.appendChild(metaEl);
+        if (doc.head) {
+            doc.head.appendChild(metaEl);
+        }
         // Note: IOS 11.0.3+ touch maybe make more change, we can't change viewport scale value less than 1.
         // it will result the screen left swipe issue.
         // if we don't hard code viewport in index.html, we automatically add viewport.
@@ -31,6 +35,9 @@ function viewport(baseFontSize = defaultBaseFontSize, designWidth = defaultDesig
         metaEl.setAttribute('content', 'width=device-width,user-scalable=no,initial-scale=' + scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale);
     }
     function refresh() {
+        if (!document.documentElement || !doc.documentElement) {
+            return;
+        }
         const winWidith = document.documentElement.clientWidth;
         rem = (winWidith / designWidth) * (baseFontSize / dpr) * dpr;
         doc.documentElement.style.fontSize = rem + 'px';

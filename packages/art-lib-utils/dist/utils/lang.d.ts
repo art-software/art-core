@@ -1,0 +1,15 @@
+export declare const type: (o: any) => string;
+export declare const isFunction: (o: any) => boolean;
+export declare const isNull: (o: any) => boolean;
+export declare const isNumber: (o: any) => boolean;
+export declare const isBoolean: (o: any) => boolean;
+export declare const isObject: (o: any, failfn?: boolean) => boolean;
+export declare const isPlainObject: (o: any) => boolean;
+export declare const isString: (o: any) => boolean;
+export declare const isUndefined: (o: any) => boolean;
+export declare const isArray: (arg: any) => arg is any[];
+export declare const now: () => number;
+export declare const fromJson: (json: any) => any;
+export declare const toJson: (obj: any, pretty?: any) => string | undefined;
+export declare const noop: () => void;
+export declare const isEmptyObject: (obj: any) => boolean;

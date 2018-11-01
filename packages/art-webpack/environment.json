@@ -1,7 +1,7 @@
 {
   "devHost": {
-    "development": "http://localhost",
-    "production": "http://localhost"
+    "development": "http://me.dev.com",
+    "production": "http://me.dev.com"
   },
   "devPort": {
     "development": 3000,

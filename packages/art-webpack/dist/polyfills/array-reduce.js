@@ -5,6 +5,7 @@
 // https://tc39.github.io/ecma262/#sec-array.prototype.reduce
 if (!Array.prototype.reduce) {
     Object.defineProperty(Array.prototype, 'reduce', {
+        configurable: true,
         value: function (callback /*, initialValue*/) {
             if (this === null) {
                 throw new TypeError('Array.prototype.reduce ' +

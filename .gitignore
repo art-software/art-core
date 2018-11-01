@@ -9,18 +9,7 @@ yarn-debug.log*
 yarn-error.log*
 /.changelog
 
-**/bridge.ts
-**/bridge.js
-
-**/requestConfig.ts
-**/requestConfig.js
-
-**/core_all
-
-**/art-app
-
-**/index.template.ejs
-
 note.md
 
-**/artIndex.hbs
+art-app
+art-lib-common

@@ -1,0 +1,12 @@
+{
+  "name": "art-lib-utils",
+  "version": "0.0.1",
+  "description": "utils lib which is framework agnostic",
+  "main": "index.js",
+  "author": "Bowen Zhong",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "typescript": "^3.0.1"
+  }
+}

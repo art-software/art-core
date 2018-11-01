@@ -3,7 +3,7 @@ import React from 'react';
 import CoreComponent from '../../core/CoreComponent';
 import { IUnTouchableProps } from './propstype';
 import UnTouchableService from './untouchable-service';
-import { on, off } from '../../utils/events';
+import { on, off } from 'art-lib-utils/src/utils/events';
 
 export default class UnTouchable extends CoreComponent<IUnTouchableProps, any> {
   constructor(props) {

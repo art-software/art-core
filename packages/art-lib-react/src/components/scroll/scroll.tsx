@@ -4,8 +4,8 @@ import CoreComponent from '../../core/CoreComponent';
 import IScrollProbe from './lib/iscroll-probe';
 import { IScrollbarProps } from './propstype';
 import { lockTouchEvent } from './lib/document';
-import { getElemHeight } from '../../utils/dom';
-import { shallowEqual } from '../../utils/shallow-compare';
+import { getElemHeight } from 'art-lib-utils/src/utils/dom';
+import { shallowEqual } from 'art-lib-utils/src/utils/shallow-compare';
 
 // Default lock document touch event within scrollbar.
 lockTouchEvent();

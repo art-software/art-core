@@ -8,7 +8,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import React from 'react';
-import viewport from '../../core/viewport';
+import viewport from 'art-lib-utils/src/utils/viewport';
 import Progress from '../../components/progress';
 import CoreComponent from '../../core/CoreComponent';
 import VisibleAction from './visible-action';

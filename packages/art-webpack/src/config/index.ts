@@ -12,7 +12,6 @@ export const getWebpackConfig = (): Configuration => {
   if (!isProd()) {
     return new WebpackDevConfig(hotEntry, output);
   } else {
-    // return new WebpackProdConfig(entry, output);
     const config = new WebpackProdConfig(entry, output);
     console.log(JSON.stringify(config));
     return new WebpackProdConfig(entry, output);

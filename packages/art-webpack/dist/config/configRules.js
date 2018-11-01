@@ -18,15 +18,17 @@ const webpack_helper_1 = require("../utils/webpack.helper");
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 const prod = env_1.isProd();
 exports.configBaseRules = () => {
-    const config = [];
-    config.push(cssRule(prod));
-    config.push(lessRule(prod));
-    config.push(sassRule(prod));
-    config.push(htmlRule);
-    config.push(assetsRule);
-    config.push(fontRule);
-    config.push(jsRule);
-    config.push(tsRule);
+    let config = [];
+    config = config.concat([
+        cssRule(prod),
+        lessRule(prod),
+        sassRule(prod),
+        htmlRule,
+        assetsRule,
+        fontRule,
+        jsRule,
+        tsRule
+    ]);
     return config;
 };
 const cssRule = (isProdEnv) => {

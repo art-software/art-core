@@ -4,7 +4,7 @@ import UnTouchable from '../untouchable';
 import FastClick from '../fastclick';
 import * as bodyClassList from './helper/body-class-list';
 import * as focusManager from './helper/focus-manager';
-import { isFunction } from '../../utils/lang';
+import { isFunction } from 'art-lib-utils/src/utils/lang';
 // so that our CSS is statically analyzable
 const CLASS_NAMES = {
     overlay: 'modal-portal-overlay',

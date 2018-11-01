@@ -1,5 +1,5 @@
 import React from 'react';
-import { uniqueFactory } from '../../utils/unique';
+import { uniqueFactory } from 'art-lib-utils/src/utils/unique';
 
 const componentUid = uniqueFactory('uuid_component_', 1);
 export const uuidWrapper = (WrapperComponent): any => {

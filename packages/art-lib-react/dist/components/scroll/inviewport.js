@@ -1,4 +1,4 @@
-import { getElemHeight, offsetToParentElem, getElemWidth } from '../../utils/dom';
+import { getElemHeight, offsetToParentElem, getElemWidth } from 'art-lib-utils/src/utils/dom';
 export const belowthefold = function (element, settings) {
     const iScroll = settings.container;
     const offset = offsetToParentElem(element, iScroll.scroller);

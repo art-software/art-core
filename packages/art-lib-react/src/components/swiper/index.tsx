@@ -1,12 +1,12 @@
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
 import { ISwiper } from './propstype';
-import { getElemWidth } from '../../utils/dom';
+import { getElemWidth } from 'art-lib-utils/src/utils/dom';
 import React, { TouchEvent } from 'react';
 import IScrollProbe from '../scroll/lib/iscroll-probe';
-import viewport from '../../core/viewport';
+import viewport from 'art-lib-utils/src/utils/viewport';
 import Scroll from '../../components/scroll';
-import { isFunction } from '../../utils/lang';
+import { isFunction } from 'art-lib-utils/src/utils/lang';
 import Indicator from './indicator';
 
 export default class Swiper extends CoreComponent<ISwiper, any> {
