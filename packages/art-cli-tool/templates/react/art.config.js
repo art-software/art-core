@@ -14,8 +14,8 @@ const artConfig = {
   version: Date.now(),
 
   devHost: {
-    dev: "http://me.ly.com",
-    prod: "http://me.ly.com"
+    dev: "http://me.dev.com",
+    prod: "http://me.dev.com"
   },
 
   webpack: {
