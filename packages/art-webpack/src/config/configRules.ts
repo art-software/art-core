@@ -125,7 +125,7 @@ const jsRule: RuleSetRule = {
   use: [
     { loader: 'happypack/loader?id=jsx' }
   ],
-  exclude: excludeNodeModulesExcept('art-lib-react')
+  exclude: excludeNodeModulesExcept('art-lib-react', 'art-lib-utils', 'art-lib-common')
 };
 
 const tsRule: RuleSetRule = {
@@ -134,5 +134,5 @@ const tsRule: RuleSetRule = {
     { loader: 'happypack/loader?id=jsx' },
     { loader: 'happypack/loader?id=ts' }
   ],
-  exclude: excludeNodeModulesExcept('art-lib-react')
+  exclude: excludeNodeModulesExcept('art-lib-react', 'art-lib-utils', 'art-lib-common')
 };
