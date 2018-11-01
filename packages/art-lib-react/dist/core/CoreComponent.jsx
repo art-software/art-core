@@ -1,10 +1,10 @@
 import React from 'react';
-import { isArray } from 'art-lib-utils/src/utils/lang';
-import { trim } from 'art-lib-utils/src/utils/string';
-import merge from 'art-lib-utils/src/utils/merge';
+import { isArray } from 'art-lib-utils/dist/utils/lang';
+import { trim } from 'art-lib-utils/dist/utils/string';
+import merge from 'art-lib-utils/dist/utils/merge';
 import classnames from 'classnames';
-import 'art-lib-utils/src/utils/viewport';
-import omit from 'art-lib-utils/src/utils/omit';
+import 'art-lib-utils/dist/utils/viewport';
+import omit from 'art-lib-utils/dist/utils/omit';
 export default class CoreComponent extends React.Component {
     constructor(props, context) {
         super(props, context);

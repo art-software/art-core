@@ -1,7 +1,7 @@
 import React from 'react';
 import './style';
 import CoreComponent from '../../core/CoreComponent';
-import viewport from 'art-lib-utils/src/utils/viewport';
+import viewport from 'art-lib-utils/dist/utils/viewport';
 import { IProgressProps } from './propstype';
 
 const px2rem = viewport.px2rem;

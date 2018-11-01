@@ -1,4 +1,4 @@
-import WebApiQnn from 'art-lib-common/src/core_all/services/WebApiQnn';
+import WebApiQnn from 'art-lib-common/dist/core_all/services/WebApiQnn';
 import { IIndexService } from './interfaces/IIndexService';
 
 export default class IndexService extends WebApiQnn implements IIndexService {

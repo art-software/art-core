@@ -8,7 +8,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 import React from 'react';
-import { shallowEqual } from 'art-lib-utils/src/utils/shallow-compare';
+import { shallowEqual } from 'art-lib-utils/dist/utils/shallow-compare';
 import CoreComponent from '../../core/CoreComponent';
 const isFocused = (el) => {
     return document.activeElement === el;

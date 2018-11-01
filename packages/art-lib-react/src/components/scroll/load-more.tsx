@@ -1,5 +1,5 @@
 import React from 'react';
-import viewport from 'art-lib-utils/src/utils/viewport';
+import viewport from 'art-lib-utils/dist/utils/viewport';
 import Progress from '../../components/progress';
 import CoreComponent from '../../core/CoreComponent';
 import VisibleAction from './visible-action';

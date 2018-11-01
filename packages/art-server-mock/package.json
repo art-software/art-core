@@ -1,12 +1,12 @@
 {
   "name": "art-server-mock",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "art framework server mock",
   "main": "dist/index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {
-    "art-dev-utils": "^0.0.8",
+    "art-dev-utils": "^0.0.9",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "compression": "^1.7.3",

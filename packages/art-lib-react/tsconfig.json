@@ -5,7 +5,7 @@
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "baseUrl": ".",
-    "declaration": false,
+    "declaration": true,
     "experimentalDecorators": true,
     "jsx": "preserve",
     "lib": [

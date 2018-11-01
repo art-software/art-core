@@ -5,7 +5,7 @@ import FastClick from '../fastclick';
 import { IModalPortalProps } from './propstype';
 import * as bodyClassList from './helper/body-class-list';
 import * as focusManager from './helper/focus-manager';
-import { isFunction } from 'art-lib-utils/src/utils/lang';
+import { isFunction } from 'art-lib-utils/dist/utils/lang';
 
 // so that our CSS is statically analyzable
 const CLASS_NAMES = {

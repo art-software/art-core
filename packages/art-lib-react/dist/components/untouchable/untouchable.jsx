@@ -2,7 +2,7 @@ import './style.less';
 import React from 'react';
 import CoreComponent from '../../core/CoreComponent';
 import UnTouchableService from './untouchable-service';
-import { on, off } from 'art-lib-utils/src/utils/events';
+import { on, off } from 'art-lib-utils/dist/utils/events';
 export default class UnTouchable extends CoreComponent {
     constructor(props) {
         super(props);
