@@ -1,6 +1,6 @@
 import { CommandModule, Argv } from 'yargs';
 import chalk from 'chalk';
-import { webpackDll } from './webpackTask';
+import { webpackDll } from '../helpers/webpackTask';
 
 class DllCommand implements CommandModule {
 

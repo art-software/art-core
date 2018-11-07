@@ -4,19 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
-const webpackTask_1 = require("../helpers/webpackTask");
-class BuildCommand {
+const moduleTask_1 = require("../helpers/moduleTask");
+class PublishCommand {
     constructor() {
-        this.command = 'build';
-        this.describe = chalk_1.default.black.bold(`build an art project with release mode `);
+        this.command = 'publish';
+        this.describe = chalk_1.default.black.bold(`publish compiled art modules `);
     }
     builder(args) {
         return args
-            .example(`$0 build -m="a,b,c"`, chalk_1.default.black.bold('build production version with given modules'))
+            .example(`$0 publish -m="a,b,c"`, chalk_1.default.black.bold('publish compiled given modules'))
             .option('m', {
             alias: 'modules',
             demandOption: true,
-            // default: '',
             describe: chalk_1.default.black.bold('you should project modules')
         })
             .updateStrings({
@@ -24,7 +23,7 @@ class BuildCommand {
         });
     }
     handler(args) {
-        webpackTask_1.webpackTask('build', { modules: args.modules });
+        moduleTask_1.moduleTask('publish', { modules: args.modules });
     }
 }
-module.exports = new BuildCommand();
+module.exports = new PublishCommand();

@@ -75,7 +75,7 @@ export const webpackOutput = (): OutputProps => {
   const host =  ensureSlash(appConfig.get(`devHost:${envName}`), false);
   const port = appConfig.get(`devPort:${envName}`);
   const output = appConfig.get(`art:webpack:output`) || {};
-  const publicPath = isProdEnv ? output.publicPath : `${host}:${port}/public/`;
+  const publicPath = isProdEnv ? output[`${appConfig.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
 
   return {
     filename: `[name]/${bundleFileNamePattern('.js')}`,

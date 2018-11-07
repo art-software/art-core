@@ -29,7 +29,8 @@ const configHtmlWebpackPlugin = (entries) => {
     const plugins = [];
     const newEntries = entries || configWebpackModules_1.webpackEntries(false);
     const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
-    const assetsProdPublicPath = appConfig_1.default.get('art:webpack:output:publicPath') || '';
+    console.log(`art:webpack:output:${appConfig_1.default.get('BUILD_ENV')}PublicPath`);
+    const assetsProdPublicPath = appConfig_1.default.get(`art:webpack:output:${appConfig_1.default.get('BUILD_ENV')}PublicPath`) || '';
     console.log(`assetsProdPublicPath: ${assetsProdPublicPath}`);
     const defaultTempleate = path.join(__dirname, '../../index.template.ejs');
     foreach_1.default(newEntries, (value, key) => {

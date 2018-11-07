@@ -13,7 +13,6 @@ export const getWebpackConfig = (): Configuration => {
     return new WebpackDevConfig(hotEntry, output);
   } else {
     const config = new WebpackProdConfig(entry, output);
-    console.log(JSON.stringify(config));
     return new WebpackProdConfig(entry, output);
   }
 };

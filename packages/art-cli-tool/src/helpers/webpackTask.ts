@@ -2,6 +2,7 @@ import * as path from 'path';
 import checkFileExist from 'art-dev-utils/lib/checkFileExist';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import parseModules from 'art-dev-utils/lib/parseModules';
+import inquirer from 'inquirer';
 
 interface Args {
   modules: string;
@@ -14,7 +15,7 @@ function getFinalPath(command: string) {
   return isDevStage ? symlinkPath : scriptPath;
 }
 
-export const webpackTask = (command: 'build' | 'serve', args: Args): void => {
+export const webpackTask = async (command: 'build' | 'serve', args: Args): Promise<void> => {
   const finalPath = getFinalPath(command);
   if (!checkFileExist([finalPath])) { return; }
 
@@ -22,8 +23,22 @@ export const webpackTask = (command: 'build' | 'serve', args: Args): void => {
   const { modules } = args;
   const parsedModules = parseModules(modules);
 
+  let buildEnv = 'integrate testing';
+  if (command === 'build') {
+    const envAnswer = await inquirer.prompt({
+      type: 'list',
+      name: 'buildEnv',
+      message: 'please chioce one environment to build',
+      choices: ['Integrate Testing', 'Production']
+    }) as any;
+
+    buildEnv = envAnswer.buildEnv;
+  }
+
+  console.log(`buildEnv: ${buildEnv}`);
   executeNodeScript('node', finalPath,
     '--NODE_ENV', nodeEnv,
+    '--BUILD_ENV', buildEnv === 'Production' ? 'prod' : 'inte',
     '--ART_MODULES', `${JSON.stringify(parsedModules)}`,
   );
 };

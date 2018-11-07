@@ -1,15 +1,15 @@
 import React from 'react';
-import IIndexService from '../services/IndexService';
+import IndexService from '../services/IndexService';
 import CoreComponentAll from 'art-lib-react/src/core_all/CoreComponentAll';
 
 export default class ViewIndex extends CoreComponentAll<any, any> {
 
   constructor(props, context) {
     super(props, context);
-    this.indexService = new IIndexService();
+    this.indexService = new IndexService();
   }
 
-  public indexService: IIndexService;
+  public indexService: IndexService;
 
   public clickToRequest() {
     console.log('click to request');

@@ -19,7 +19,8 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
   const plugins: any[] = [];
   const newEntries = entries || webpackEntries(false);
   const projectVirtualPath = appConfig.get('art:projectVirtualPath') || '';
-  const assetsProdPublicPath = appConfig.get('art:webpack:output:publicPath') || '';
+  console.log(`art:webpack:output:${appConfig.get('BUILD_ENV')}PublicPath`);
+  const assetsProdPublicPath = appConfig.get(`art:webpack:output:${appConfig.get('BUILD_ENV')}PublicPath`) || '';
   console.log(`assetsProdPublicPath: ${assetsProdPublicPath}`);
   const defaultTempleate = path.join(__dirname, '../../index.template.ejs');
 

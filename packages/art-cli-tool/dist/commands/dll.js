@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
-const webpackTask_1 = require("./webpackTask");
+const webpackTask_1 = require("../helpers/webpackTask");
 class DllCommand {
     constructor() {
         this.command = 'dll';

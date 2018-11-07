@@ -1,6 +1,6 @@
 import { CommandModule, Argv } from 'yargs';
 import chalk from 'chalk';
-import { webpackTask } from './webpackTask';
+import { webpackTask } from '../helpers/webpackTask';
 
 class BuildCommand implements CommandModule {
 

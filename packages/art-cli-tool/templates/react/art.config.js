@@ -24,7 +24,8 @@ const artConfig = {
     },
     output: {
       // Config CDN path for static files, images ....
-      publicPath: '//example.com/images/'
+      intePublicPath: 'replace_it',
+      prodPublicPath: 'replace_it'
     }
   }
 }

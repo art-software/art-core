@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
-const webpackTask_1 = require("./webpackTask");
+const webpackTask_1 = require("../helpers/webpackTask");
 class ServeCommand {
     constructor() {
         this.command = 'serve';

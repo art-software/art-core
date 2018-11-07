@@ -68,7 +68,7 @@ exports.webpackOutput = () => {
     const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
     const port = appConfig_1.default.get(`devPort:${envName}`);
     const output = appConfig_1.default.get(`art:webpack:output`) || {};
-    const publicPath = isProdEnv ? output.publicPath : `${host}:${port}/public/`;
+    const publicPath = isProdEnv ? output[`${appConfig_1.default.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
     return {
         filename: `[name]/${bundleFileNamePattern('.js')}`,
         chunkFilename: `_chunks/[id].[chunkhash].js`,

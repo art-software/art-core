@@ -10,10 +10,11 @@ import { getWebpackConfig } from '../config';
 import webpack from 'webpack';
 import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
 import imageMinifier from 'art-dev-utils/lib/imageMinifier';
+import inquirer from 'inquirer';
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
-confirmModules((answer) => {
+confirmModules(async (answer) => {
   if (!answer.availableModulesOk) { return; }
 
   measureFileSizesBeforeBuild(paths.appPublic)
