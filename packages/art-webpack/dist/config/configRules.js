@@ -14,7 +14,6 @@ const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plug
 const appConfig_1 = __importDefault(require("./appConfig"));
 const path = __importStar(require("path"));
 const env_1 = require("../utils/env");
-const webpack_helper_1 = require("../utils/webpack.helper");
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 const prod = env_1.isProd();
 exports.configBaseRules = () => {
@@ -118,7 +117,7 @@ const jsRule = {
     use: [
         { loader: 'happypack/loader?id=jsx' }
     ],
-    exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib-react', 'art-lib-utils', 'art-lib-common')
+    exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-common)\/).*/
 };
 const tsRule = {
     test: /\.(ts|tsx)$/,
@@ -126,5 +125,5 @@ const tsRule = {
         { loader: 'happypack/loader?id=jsx' },
         { loader: 'happypack/loader?id=ts' }
     ],
-    exclude: webpack_helper_1.excludeNodeModulesExcept('art-lib-react', 'art-lib-utils', 'art-lib-common')
+    exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-common)\/).*/
 };
