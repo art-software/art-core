@@ -6,7 +6,7 @@
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {
-    "art-dev-utils": "^0.0.9",
+    "art-dev-utils": "^0.0.10",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "compression": "^1.7.3",

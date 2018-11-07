@@ -1,6 +1,6 @@
 {
   "name": "art-webpack",
-  "version": "0.0.12",
+  "version": "0.0.15",
   "description": "art framework webpack",
   "main": "index.js",
   "author": "Bowen Zhong",
@@ -10,7 +10,7 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
-    "art-dev-utils": "^0.0.9",
+    "art-dev-utils": "^0.0.10",
     "async": "^2.6.1",
     "babel-loader": "^8.0.0",
     "chalk": "^2.4.1",

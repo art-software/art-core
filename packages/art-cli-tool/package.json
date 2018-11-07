@@ -8,7 +8,7 @@
     "art": "./dist/index.js"
   },
   "dependencies": {
-    "art-dev-utils": "^0.0.9",
+    "art-dev-utils": "^0.0.10",
     "async": "^2.6.1",
     "chalk": "^2.4.1",
     "empty-dir": "^1.0.0",
