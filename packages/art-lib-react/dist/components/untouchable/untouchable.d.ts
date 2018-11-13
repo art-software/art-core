@@ -10,5 +10,5 @@ export default class UnTouchable extends CoreComponent<IUnTouchableProps, any> {
     componentDidMount(): void;
     componentWillUnmount(): void;
     setTouchableRef: (el: HTMLElement | null) => any;
-    render(): JSX.Element;
+    render(): any;
 }

@@ -5,8 +5,13 @@
   "main": "index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
+  "scripts": {
+    "clean": "sudo rimraf dist",
+    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
+  },
   "dependencies": {
     "axios": "^0.18.0",
+    "cpx": "^1.5.0",
     "typescript": "^3.0.1"
   }
 }

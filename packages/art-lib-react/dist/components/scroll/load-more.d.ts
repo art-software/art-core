@@ -25,5 +25,5 @@ export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {
     onVisibleAction: (visible?: any, data?: any) => void;
     private handleClick;
     private reset;
-    render(): JSX.Element;
+    render(): any;
 }

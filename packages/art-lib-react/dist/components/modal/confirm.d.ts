@@ -15,5 +15,5 @@ export default class Confirm extends CoreComponent<IConfirmProps, any> {
         instance: any;
     };
     static close: () => void;
-    render(): JSX.Element;
+    render(): any;
 }

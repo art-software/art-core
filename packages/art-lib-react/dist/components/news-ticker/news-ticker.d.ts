@@ -31,5 +31,5 @@ export default class NewsTicker extends CoreComponent<INewsTicker, any> {
     private startAnimation;
     getNewSortedItems(oldItems: any[]): any[];
     renderItems(): any[];
-    render(): JSX.Element;
+    render(): any;
 }

@@ -7,10 +7,15 @@
   "bin": {
     "art": "./dist/index.js"
   },
+  "scripts": {
+    "clean": "sudo rimraf dist",
+    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
+  },
   "dependencies": {
     "art-dev-utils": "^0.0.10",
     "async": "^2.6.1",
     "chalk": "^2.4.1",
+    "cpx": "^1.5.0",
     "empty-dir": "^1.0.0",
     "escodegen": "^1.11.0",
     "esprima": "^4.0.1",

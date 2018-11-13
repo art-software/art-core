@@ -56,5 +56,5 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     next: () => void;
     prev: () => void;
     setAutoPlay: (autoPlay: boolean) => void;
-    render(): JSX.Element;
+    render(): any;
 }

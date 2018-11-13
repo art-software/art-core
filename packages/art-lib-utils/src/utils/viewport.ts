@@ -13,7 +13,7 @@ function viewport(baseFontSize: number = defaultBaseFontSize, designWidth: numbe
     dpr = 3;
   }
 
-  // TcTravel + Android
+  // Android
   if (isAndroid) {
     dpr = 1;
   }
@@ -60,9 +60,15 @@ function viewport(baseFontSize: number = defaultBaseFontSize, designWidth: numbe
   };
 }
 
+const getCurrentRem = (baseFontSize: number = defaultBaseFontSize, designWidth: number = defaultDesignWidth) => {
+  const newCurrRem = viewport(baseFontSize, designWidth).currRem;
+  return newCurrRem;
+};
+
 const { currRem, currScale, currDpr } = viewport(100, 750);
 
 export default {
+  getCurrentRem,
   currScale,
   currDpr,
   currRem,
@@ -72,7 +78,7 @@ export default {
    * @param d {Number} 屏幕实际像素PX值
    */
   dpiPX2px(d: number | string): string {
-    return parseFloat(d.toString()) / currRem * 100 + 'px';
+    return parseFloat(d.toString()) / getCurrentRem() * 100 + 'px';
   },
   /**
    * 转换屏幕实际像素PX值到特定设备分辨率下的缩放值
@@ -80,7 +86,7 @@ export default {
    * @param d {Number} 屏幕实际像素PX值
    */
   px2DPIpx(d: number | string): string {
-    return parseFloat(d.toString()) / 100 * currRem + 'px';
+    return parseFloat(d.toString()) / 100 * getCurrentRem() + 'px';
   },
   /**
    * 转换750PX下的视觉稿PX尺寸到REM值

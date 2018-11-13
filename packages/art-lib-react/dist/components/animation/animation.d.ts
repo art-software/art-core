@@ -14,5 +14,5 @@ export default class Animation extends CoreComponent<IAnimation, any> {
     componentDidUpdate(prevProps: any): void;
     private handleAnimateComplete;
     private execute;
-    render(): JSX.Element;
+    render(): any;
 }

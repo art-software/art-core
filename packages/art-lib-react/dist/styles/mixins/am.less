@@ -1,0 +1,67 @@
+// Bundle the AM mixins.
+// http://less2css.org/
+#art {
+  // define alll availble mixins within .namespace().
+  .namespace(@_namespace:'v') {
+
+    // Expose the variable.
+    @empty-rule-set:{};
+    @namespace: @_namespace;
+
+    .trait(@_trait; @ruleset) {
+      @trait: @_trait;
+      @traitAttribute: ~'@{namespace}';
+      @traitSelector: ~'[@{traitAttribute}~="@{trait}"]';
+      @selector: @traitSelector;
+      ._scope(@selector, @ruleset);
+    }
+
+    .module(@_module) {
+      @module: @_module;
+      @moduleAttribute: ~'@{namespace}-@{module}';
+      @moduleSelector: ~'[@{moduleAttribute}]';
+    }
+    //
+    .amSelector(@variant, @attribute, @selectorNew:'', @i:1) when(length(@variant)+1>=@i) {
+      @extractVariant: extract(@variant, @i);
+      .amSelector(@variant, @attribute, ~'@{selectorNew}[@{attribute}~="@{extractVariant}"]', (@i+1));
+      .assign(@i, @variant) when (@i=1+length(@variant)) {
+        @selector:~'@{selectorNew}';
+      }
+      .assign(@i, @variant);
+    }
+    
+    .module(@_module; @ruleset) {
+      .module(@_module);
+      // @selector is available as a shorthand for @moduleSelector,
+      // that's only useful if the module is appropriately scoped.
+      @selector: @moduleSelector;
+      ._scope(@selector, @ruleset);
+    }
+
+    .variant(@_variant; @ruleset) {
+      // return @selector definition
+      .amSelector(@_variant, @moduleAttribute);
+      ._scope(@selector, @ruleset);
+    }
+    .child(@_child; @ruleset:@empty-rule-set) {
+      @child: @_child;
+      @childAttribute: ~'@{moduleAttribute}-@{child}';
+      @childSelector: ~'[@{childAttribute}]';
+      @selector: @childSelector;
+      ._scope(@selector, @ruleset);
+
+      .variant(@_variant; @ruleset) {
+        // return @selector definition
+        .amSelector(@_variant, @childAttribute);
+        ._scope(@selector, @ruleset);
+      }
+    }
+
+    ._scope(@selector, @ruleset) {
+      @{selector} {
+        @ruleset();
+      }
+    }
+  }
+}

@@ -42,5 +42,5 @@ export default class ModalPortal extends CoreComponent<IModalPortalProps, any> {
     private buildClassName;
     private setContentRef;
     private handleKeyDown;
-    render(): JSX.Element | null;
+    render(): any;
 }

@@ -3,6 +3,7 @@ import checkFileExist from 'art-dev-utils/lib/checkFileExist';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import parseModules from 'art-dev-utils/lib/parseModules';
 import inquirer from 'inquirer';
+import chalk from 'chalk';
 
 interface Args {
   modules: string;
@@ -33,9 +34,9 @@ export const webpackTask = async (command: 'build' | 'serve', args: Args): Promi
     }) as any;
 
     buildEnv = envAnswer.buildEnv;
+    console.log(`current build environment is: ${chalk.green(buildEnv)}`);
   }
 
-  console.log(`buildEnv: ${buildEnv}`);
   executeNodeScript('node', finalPath,
     '--NODE_ENV', nodeEnv,
     '--BUILD_ENV', buildEnv === 'Production' ? 'prod' : 'inte',

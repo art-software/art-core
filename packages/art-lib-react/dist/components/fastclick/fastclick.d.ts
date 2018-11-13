@@ -34,5 +34,5 @@ export default class FastClick extends CoreComponent<any, any> {
     calculateTouchDistanceFromOrigin(touch: any): number;
     handleTouchEnd: (e: any) => void;
     handleTouchCancel: (e: any) => void;
-    render(): JSX.Element;
+    render(): any;
 }

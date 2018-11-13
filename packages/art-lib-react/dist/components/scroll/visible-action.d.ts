@@ -21,5 +21,5 @@ export default class VisibleAction extends CoreComponent<IVisibleActionProps, an
     isInViewport(iScroll: any): boolean;
     private execAction;
     private handleNodeElem;
-    render(): JSX.Element;
+    render(): any;
 }

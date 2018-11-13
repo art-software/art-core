@@ -1,0 +1,143 @@
+[v-swiper] {
+  // normal
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
+  -webkit-perspective-origin: center;
+  perspective-origin: center;
+  .swiper-content {
+    position: relative;
+    z-index: 2;
+    [v-scrollbar]{
+      overflow: visible;
+      width: 100%;
+      // override position: absolute within [v-split-pane] [v-scrollbar]
+      position: relative;
+    }
+  }
+ 
+  [v-scrollbar-view],.swiper-wrap{
+    -webkit-perspective: initial;
+    perspective: initial;
+  }
+  
+  [v-scrollbar],[v-scrollbar-view],.swiper-wrap,.swiper-item,img {
+    height: 100%;
+  }
+  [v-scrollbar-view], .swiper-wrap{
+    display: inline-block;
+    overflow: initial;
+    min-height:initial !important;
+    width: auto !important;
+    white-space: nowrap;
+  }
+  .swiper-item {
+    position: relative;
+    display: inline-block;
+  }
+  .last-child-no-gap .swiper-item:last-child {
+    margin-right: 0 !important;
+  }
+  img {
+    max-width: 100%;
+    width: 100%;
+  }
+  .iScrollIndicator {
+    border:none;
+  }
+  // 指示器
+  .swiper-indicator {
+    -webkit-transform: translate(0px, -26px) translateZ(0px);
+    transform: translate(0px, -26px) translateZ(0px);
+    // FIXME. ios scrollbar下面这里position:absolute定位在拖动scroll的
+    // 时候有时候回出现indicates消失的问题, 估计可能是scrollbar的transform导致样式渲染问题
+    // position:absolute;
+    // bottom: 8px;
+    // left: 0;
+    z-index: 10;
+    width: 100%;
+    line-height: 0;
+    ul {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    li {
+      display: inline-block;
+      margin: 0 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 100%;
+      background: rgba(255,255,255,.5);
+      text-indent: -999em;
+      &.active {
+        background: rgba(22,159,230,.5);
+      }
+    }
+  }
+
+  // with-spinner
+  .with-spinner .swiper-item {
+    // background: url('./assets/loading.png') no-repeat center center;
+    // background-size: 50px auto;
+  }
+  
+  // 3d
+  .swiper-3d {
+
+    .swiper-item{
+      overflow: hidden;
+      border-radius: 5PX;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .shadow,.swiper-slide-shadow-left,.swiper-slide-shadow-right{
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .swiper-slide-shadow-left {
+      background-image: -webkit-gradient(linear,left top,right top,from(rgba(0,0,0,.5)),to(rgba(0,0,0,0)));
+      background-image: -webkit-linear-gradient(right,rgba(0,0,0,.5),rgba(0,0,0,0));
+      background-image: -moz-linear-gradient(right,rgba(0,0,0,.5),rgba(0,0,0,0));
+      background-image: -o-linear-gradient(right,rgba(0,0,0,.5),rgba(0,0,0,0));
+      background-image: linear-gradient(to left,rgba(0,0,0,.5),rgba(0,0,0,0));
+      opacity:0;
+    }
+    .swiper-slide-shadow-right {
+      background-image:-webkit-gradient(linear,right top,left top,from(rgba(0,0,0,.5)),to(rgba(0,0,0,0)));
+      background-image:-webkit-linear-gradient(left,rgba(0,0,0,.5),rgba(0,0,0,0));
+      background-image: -moz-linear-gradient(left,rgba(0,0,0,.5),rgba(0,0,0,0));
+      background-image: -o-linear-gradient(left,rgba(0,0,0,.5),rgba(0,0,0,0));
+      background-image:linear-gradient(to right,rgba(0,0,0,.5),rgba(0,0,0,0));
+      opacity:0;
+    }
+  }
+
+  .swiper-wrap,[v-scrollbar-view] {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+ 
+  .swiper-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: .5;
+    -webkit-transition:  background 0.25s;
+    transition:  background 0.25s;
+  }
+}

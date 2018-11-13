@@ -1,4 +1,5 @@
 declare const _default: {
+    getCurrentRem: (baseFontSize?: number, designWidth?: number) => any;
     currScale: number;
     currDpr: number;
     currRem: any;

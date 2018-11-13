@@ -1,6 +1,6 @@
 export declare const getTime: () => number;
 export declare const extend: (target: any, obj: any) => void;
-export declare const isPassiveMode: () => boolean;
+export declare const isPassiveMode: () => any;
 export declare const addEvent: (el: any, type: any, fn: any, capture?: boolean) => void;
 export declare const removeEvent: (el: any, type: any, fn: any, capture?: boolean) => void;
 export declare const prefixPointerEvent: (pointerEvent: any) => any;
@@ -152,6 +152,6 @@ declare const _default: {
         width: any;
         height: any;
     };
-    isPassiveMode: () => boolean;
+    isPassiveMode: () => any;
 };
 export default _default;

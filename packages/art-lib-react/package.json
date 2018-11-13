@@ -5,11 +5,16 @@
   "author": "Bowen Zhong",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "clean": "sudo rimraf dist",
+    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
+  },
   "dependencies": {
     "art-dev-utils": "^0.0.10",
     "art-lib-utils": "^0.0.1",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "cpx": "^1.5.0",
     "inline-style-prefixer": "^5.0.1",
     "prop-types": "^15.6.2",
     "qs": "^6.5.2",

@@ -11,5 +11,5 @@ export default class Notice extends CoreComponent<INoticeProps, any> {
         instance: any;
     };
     static close: (instance?: null) => void;
-    render(): JSX.Element;
+    render(): any;
 }

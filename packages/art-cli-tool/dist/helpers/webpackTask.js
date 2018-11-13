@@ -23,6 +23,7 @@ const checkFileExist_1 = __importDefault(require("art-dev-utils/lib/checkFileExi
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const parseModules_1 = __importDefault(require("art-dev-utils/lib/parseModules"));
 const inquirer_1 = __importDefault(require("inquirer"));
+const chalk_1 = __importDefault(require("chalk"));
 const isDevStage = process.env.STAGE === 'dev';
 function getFinalPath(command) {
     const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
@@ -46,8 +47,8 @@ exports.webpackTask = (command, args) => __awaiter(this, void 0, void 0, functio
             choices: ['Integrate Testing', 'Production']
         });
         buildEnv = envAnswer.buildEnv;
+        console.log(`current build environment is: ${chalk_1.default.green(buildEnv)}`);
     }
-    console.log(`buildEnv: ${buildEnv}`);
     executeNodeScript_1.default('node', finalPath, '--NODE_ENV', nodeEnv, '--BUILD_ENV', buildEnv === 'Production' ? 'prod' : 'inte', '--ART_MODULES', `${JSON.stringify(parsedModules)}`);
 });
 exports.webpackDll = () => {
