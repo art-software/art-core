@@ -1,6 +1,6 @@
 {
   "name": "art-lib-react",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "art framework react library",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "art-dev-utils": "^0.0.10",
-    "art-lib-utils": "^0.0.1",
+    "art-lib-utils": "^0.0.2",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "cpx": "^1.5.0",
