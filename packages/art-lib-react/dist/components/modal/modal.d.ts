@@ -1,5 +1,6 @@
 import './style/modal.less';
 import CoreComponent from '../../core/CoreComponent';
+import React from 'react';
 import { IModalProps } from './propstype';
 export default class Modal extends CoreComponent<IModalProps, any> {
     static defaultProps: {
@@ -35,5 +36,5 @@ export default class Modal extends CoreComponent<IModalProps, any> {
     private portalRef;
     private handleAfterClosed;
     private handleBeforeOpen;
-    render(): any;
+    render(): React.ReactPortal | null;
 }

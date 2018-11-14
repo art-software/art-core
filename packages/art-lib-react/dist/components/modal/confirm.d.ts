@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import CoreComponent from '../../core/CoreComponent';
 import { IConfirmProps } from './propstype';
 import './style/confirm.less';
@@ -15,5 +16,5 @@ export default class Confirm extends CoreComponent<IConfirmProps, any> {
         instance: any;
     };
     static close: () => void;
-    render(): any;
+    render(): JSX.Element;
 }

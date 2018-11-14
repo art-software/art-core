@@ -1,6 +1,8 @@
+/// <reference types="react" />
 import CoreComponent from '../../core/CoreComponent';
 import { ILotteryProps } from './propstype';
 export default class Lottery extends CoreComponent<ILotteryProps, any> {
+    constructor(props: any, context: any);
     static defaultProps: {
         start: boolean;
         duration: number;
@@ -22,12 +24,12 @@ export default class Lottery extends CoreComponent<ILotteryProps, any> {
     private getRewards;
     private getRewardStyle;
     componentDidMount(): void;
-    private timeoutGetHeight;
+    private setRewards;
     componentWillReceiveProps(nextProps: any): void;
     handleDelta: (progress: any) => any;
     handleStep: (reward: any, index: any) => (delta: any) => void;
     move(delta: any, rewardItem: any, index: any): void;
     handleComplete: (rewardItem: any, index: any) => () => void;
     private resetGame;
-    render(): any;
+    render(): JSX.Element;
 }

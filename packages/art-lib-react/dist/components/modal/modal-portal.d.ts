@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import CoreComponent from '../../core/CoreComponent';
 import { IModalPortalProps } from './propstype';
 export default class ModalPortal extends CoreComponent<IModalPortalProps, any> {
@@ -42,5 +43,5 @@ export default class ModalPortal extends CoreComponent<IModalPortalProps, any> {
     private buildClassName;
     private setContentRef;
     private handleKeyDown;
-    render(): any;
+    render(): JSX.Element | null;
 }

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import CoreComponent from '../../core/CoreComponent';
 import { ILoadMoreProps } from './propstype';
 import './style/load-more.less';
@@ -25,5 +26,5 @@ export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {
     onVisibleAction: (visible?: any, data?: any) => void;
     private handleClick;
     private reset;
-    render(): any;
+    render(): JSX.Element;
 }

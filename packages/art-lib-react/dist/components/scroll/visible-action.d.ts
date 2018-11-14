@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import './style/visible-action.less';
 import CoreComponent from '../../core/CoreComponent';
 import { IVisibleActionProps } from './propstype';
@@ -21,5 +22,5 @@ export default class VisibleAction extends CoreComponent<IVisibleActionProps, an
     isInViewport(iScroll: any): boolean;
     private execAction;
     private handleNodeElem;
-    render(): any;
+    render(): JSX.Element;
 }

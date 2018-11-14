@@ -1347,6 +1347,10 @@
   dependencies:
     "@types/webpack" "*"
 
+"@types/prop-types@*":
+  version "15.5.6"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
+
 "@types/qs@^6.5.1":
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.5.1.tgz#a38f69c62528d56ba7bd1f91335a8004988d72f7"
@@ -1354,6 +1358,20 @@
 "@types/range-parser@*":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.2.tgz#fa8e1ad1d474688a757140c91de6dace6f4abc8d"
+
+"@types/react-dom@^16.0.9":
+  version "16.0.9"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.9.tgz#73ceb7abe6703822eab6600e65c5c52efd07fb91"
+  dependencies:
+    "@types/node" "*"
+    "@types/react" "*"
+
+"@types/react@*", "@types/react@^16.7.3":
+  version "16.7.3"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.3.tgz#dd96b19b21c450fab7d136f71d48f4b8fc72777e"
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
 
 "@types/recursive-readdir@^2.2.0":
   version "2.2.0"
@@ -3612,6 +3630,10 @@ csso@^3.5.0:
   resolved "https://registry.yarnpkg.com/csso/-/csso-3.5.1.tgz#7b9eb8be61628973c1b261e169d2f024008e758b"
   dependencies:
     css-tree "1.0.0-alpha.29"
+
+csstype@^2.2.0:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.7.tgz#bf9235d5872141eccfb2d16d82993c6b149179ff"
 
 currently-unhandled@^0.4.1:
   version "0.4.1"

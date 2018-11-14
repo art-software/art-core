@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import CoreComponent from '../../core/CoreComponent';
 export default class FastClick extends CoreComponent<any, any> {
     static defaultProps: {
@@ -34,5 +35,5 @@ export default class FastClick extends CoreComponent<any, any> {
     calculateTouchDistanceFromOrigin(touch: any): number;
     handleTouchEnd: (e: any) => void;
     handleTouchCancel: (e: any) => void;
-    render(): any;
+    render(): JSX.Element;
 }

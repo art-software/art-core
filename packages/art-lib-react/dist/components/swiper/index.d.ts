@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
 import { ISwiper } from './propstype';
@@ -56,5 +57,5 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     next: () => void;
     prev: () => void;
     setAutoPlay: (autoPlay: boolean) => void;
-    render(): any;
+    render(): JSX.Element;
 }

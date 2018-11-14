@@ -39,7 +39,7 @@ function viewport(baseFontSize = defaultBaseFontSize, designWidth = defaultDesig
             return;
         }
         const winWidith = document.documentElement.clientWidth;
-        rem = (winWidith / designWidth) * (baseFontSize / dpr) * dpr;
+        rem = (winWidith / designWidth) * baseFontSize;
         doc.documentElement.style.fontSize = rem + 'px';
     }
     refresh();
@@ -54,11 +54,17 @@ function viewport(baseFontSize = defaultBaseFontSize, designWidth = defaultDesig
         currDpr: dpr
     };
 }
+const viewportData = viewport(100, 750);
+let { currRem } = viewportData;
+const { currScale, currDpr } = viewportData;
 const getCurrentRem = (baseFontSize = defaultBaseFontSize, designWidth = defaultDesignWidth) => {
+    if (currRem) {
+        return currRem;
+    }
     const newCurrRem = viewport(baseFontSize, designWidth).currRem;
+    currRem = newCurrRem;
     return newCurrRem;
 };
-const { currRem, currScale, currDpr } = viewport(100, 750);
 export default {
     getCurrentRem,
     currScale,

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 export interface INewsTicker {
     itemSource: any[];
     itemHeight: number;

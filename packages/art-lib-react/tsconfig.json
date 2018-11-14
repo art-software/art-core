@@ -30,7 +30,9 @@
       "node_modules/@types"
     ],
     "types": [
-      "node"
+      "node",
+      "react",
+      "react-dom"
     ]
   },
   "exclude": [

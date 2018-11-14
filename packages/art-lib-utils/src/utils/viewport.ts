@@ -41,7 +41,7 @@ function viewport(baseFontSize: number = defaultBaseFontSize, designWidth: numbe
   function refresh() {
     if (!document.documentElement || !doc.documentElement) { return; }
     const winWidith = document.documentElement.clientWidth;
-    rem = (winWidith / designWidth) * (baseFontSize / dpr) * dpr;
+    rem = (winWidith / designWidth) * baseFontSize;
     doc.documentElement.style.fontSize = rem + 'px';
   }
 
@@ -60,12 +60,16 @@ function viewport(baseFontSize: number = defaultBaseFontSize, designWidth: numbe
   };
 }
 
-const getCurrentRem = (baseFontSize: number = defaultBaseFontSize, designWidth: number = defaultDesignWidth) => {
+const viewportData = viewport(100, 750);
+let { currRem } = viewportData;
+const { currScale, currDpr } = viewportData;
+
+const getCurrentRem = (baseFontSize = defaultBaseFontSize, designWidth = defaultDesignWidth) => {
+  if (currRem) { return currRem; }
   const newCurrRem = viewport(baseFontSize, designWidth).currRem;
+  currRem = newCurrRem;
   return newCurrRem;
 };
-
-const { currRem, currScale, currDpr } = viewport(100, 750);
 
 export default {
   getCurrentRem,

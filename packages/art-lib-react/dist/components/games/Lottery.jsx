@@ -5,8 +5,8 @@ import Animation from '../animation';
 import { easeInOutQuad } from '../animation/easing';
 import { shallowEqual } from 'art-lib-utils/dist/utils/shallow-compare';
 export default class Lottery extends CoreComponent {
-    constructor() {
-        super(...arguments);
+    constructor(props, context) {
+        super(props, context);
         this.state = {
             rewards: [],
         };
@@ -34,14 +34,12 @@ export default class Lottery extends CoreComponent {
                 backgroundPositionY: -initDistance
             };
         };
-        this.timeoutGetHeight = () => {
-            window.setTimeout(() => {
-                const rewards = this.getRewards(this.props.rewards);
-                rewards.forEach((reward) => {
-                    reward.style = this.getRewardStyle(reward);
-                });
-                this.setState({ rewards });
-            }, 1000);
+        this.setRewards = () => {
+            const rewards = this.getRewards(this.props.rewards);
+            rewards.forEach((reward) => {
+                reward.style = this.getRewardStyle(reward);
+            });
+            this.setState({ rewards });
         };
         this.handleDelta = (progress) => {
             return this.props.easing(progress);
@@ -57,6 +55,9 @@ export default class Lottery extends CoreComponent {
                 }
             }
         };
+        window.addEventListener('resize', () => {
+            this.setRewards();
+        });
     }
     deepCloneReward(rewards) {
         const newRewards = [];
@@ -66,12 +67,7 @@ export default class Lottery extends CoreComponent {
         return newRewards;
     }
     componentDidMount() {
-        const rewards = this.getRewards(this.props.rewards);
-        rewards.forEach((reward) => {
-            reward.style = this.getRewardStyle(reward);
-        });
-        this.setState({ rewards });
-        this.timeoutGetHeight();
+        this.setRewards();
     }
     componentWillReceiveProps(nextProps) {
         if (shallowEqual(nextProps, this.props)) {

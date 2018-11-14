@@ -1,4 +1,5 @@
 import './style';
+import React from 'react';
 import CoreComponent from '../../core/CoreComponent';
 import IScrollProbe from './lib/iscroll-probe';
 import { IScrollbarProps } from './propstype';
@@ -6,7 +7,7 @@ export declare type WithScroll = (waitForInit: ((scrollInstance: IScrollProbe) =
 export interface IScrollContext {
     withScroll: WithScroll;
 }
-export declare const ScrollContext: any;
+export declare const ScrollContext: React.Context<IScrollContext>;
 export default class Scroll extends CoreComponent<IScrollbarProps, any> {
     static defaultProps: {
         defer: boolean;
@@ -49,5 +50,5 @@ export default class Scroll extends CoreComponent<IScrollbarProps, any> {
     private teardownIScroll;
     private clearInitializeTimeout;
     setIScrollRef: (el: any) => void;
-    render(): any;
+    render(): JSX.Element;
 }

@@ -7,6 +7,15 @@ import { easeInOutQuad } from '../animation/easing';
 import { shallowEqual } from 'art-lib-utils/dist/utils/shallow-compare';
 
 export default class Lottery extends CoreComponent<ILotteryProps, any> {
+
+  constructor(props, context) {
+    super(props, context);
+
+    window.addEventListener('resize', () => {
+      this.setRewards();
+    });
+  }
+
   public static defaultProps = {
     start: false,
     duration: 6000,
@@ -65,22 +74,15 @@ export default class Lottery extends CoreComponent<ILotteryProps, any> {
   }
 
   public componentDidMount() {
+    this.setRewards();
+  }
+
+  private setRewards = () => {
     const rewards = this.getRewards(this.props.rewards);
     rewards.forEach((reward) => {
       reward.style = this.getRewardStyle(reward);
     });
     this.setState({ rewards });
-    this.timeoutGetHeight();
-  }
-
-  private timeoutGetHeight = () => {
-    window.setTimeout(() => {
-      const rewards = this.getRewards(this.props.rewards);
-      rewards.forEach((reward) => {
-        reward.style = this.getRewardStyle(reward);
-      });
-      this.setState({ rewards });
-    }, 1000);
   }
 
   public componentWillReceiveProps(nextProps) {

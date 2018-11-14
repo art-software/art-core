@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
 import { INewsTicker } from './propstype';
@@ -31,5 +32,5 @@ export default class NewsTicker extends CoreComponent<INewsTicker, any> {
     private startAnimation;
     getNewSortedItems(oldItems: any[]): any[];
     renderItems(): any[];
-    render(): any;
+    render(): JSX.Element;
 }

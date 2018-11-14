@@ -1,3 +1,4 @@
+/// <reference types="react" />
 export interface ISwiper {
     gap: number;
     loop?: boolean;

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import CoreComponent from '../../core/CoreComponent';
 import { INoticeProps } from './propstype';
 export default class Notice extends CoreComponent<INoticeProps, any> {
@@ -11,5 +12,5 @@ export default class Notice extends CoreComponent<INoticeProps, any> {
         instance: any;
     };
     static close: (instance?: null) => void;
-    render(): any;
+    render(): JSX.Element;
 }

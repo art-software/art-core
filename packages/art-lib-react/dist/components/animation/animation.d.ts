@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import CoreComponent from '../../core/CoreComponent';
 import { IAnimation } from './propstype';
 export default class Animation extends CoreComponent<IAnimation, any> {
@@ -14,5 +15,5 @@ export default class Animation extends CoreComponent<IAnimation, any> {
     componentDidUpdate(prevProps: any): void;
     private handleAnimateComplete;
     private execute;
-    render(): any;
+    render(): JSX.Element;
 }

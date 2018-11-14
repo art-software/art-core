@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
 import { IUnTouchableProps } from './propstype';
@@ -10,5 +11,5 @@ export default class UnTouchable extends CoreComponent<IUnTouchableProps, any> {
     componentDidMount(): void;
     componentWillUnmount(): void;
     setTouchableRef: (el: HTMLElement | null) => any;
-    render(): any;
+    render(): JSX.Element;
 }
