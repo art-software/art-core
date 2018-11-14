@@ -124,7 +124,8 @@ const jsRule: RuleSetRule = {
   test: /\.(js|jsx)$/,
   use: [
     { loader: 'happypack/loader?id=jsx' }
-  ]
+  ],
+  exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-common)\/).*/
 };
 
 const tsRule: RuleSetRule = {
