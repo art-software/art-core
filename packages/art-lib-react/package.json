@@ -25,5 +25,6 @@
     "@types/qs": "^6.5.1",
     "@types/react": "^16.7.3",
     "@types/react-dom": "^16.0.9"
-  }
+  },
+  "gitHead": "b1e4f7c6d898dee3627bb8f18ee9989eab7d13ca"
 }
