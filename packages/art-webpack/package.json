@@ -22,6 +22,7 @@
     "cpx": "^1.5.0",
     "css-hot-loader": "1.4.2",
     "css-loader": "^1.0.0",
+    "cssnano": "^4.1.7",
     "es6-map": "^0.1.5",
     "es6-promise": "^4.2.4",
     "es6-set": "^0.1.5",
