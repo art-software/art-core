@@ -16,7 +16,7 @@ const vendors = [
   'react-router-dom',
   'classnames',
   'axios',
-  'components/scroll/lib/iscroll-probe'
+  'art-lib-react/src/components/scroll/lib/iscroll-probe'
 ];
 export default class WebpackDLLConfig implements Configuration {
 
@@ -35,11 +35,7 @@ export default class WebpackDLLConfig implements Configuration {
   public resolve = {
     alias: {
       lib: 'art-lib-react',
-      polyfills: resolve(__dirname, '../config/polyfills.js'),
-      core: 'lib/dist/core',
-      core_all: 'lib/dist/core_all',
-      utils: 'lib/dist/utils',
-      components: 'lib/dist/components'
+      polyfills: resolve(__dirname, '../config/polyfills.js')
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
   };
@@ -57,7 +53,12 @@ export default class WebpackDLLConfig implements Configuration {
           { loader: 'babel-loader', options: { presets: ['@babel/preset-react', '@babel/preset-env']} },
           {
             loader: 'ts-loader',
-            options: { silent: true }
+            options: {
+              transpileOnly: true,
+              silent: true,
+              configFile: join(__dirname, '../../tsconfig.dll.json'),
+              allowTsInNodeModules: true
+            }
           }
         ]
       }
