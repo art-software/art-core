@@ -12,7 +12,9 @@ class ServeCommand implements CommandModule {
       .options('modules', {
         alias: 'm',
         describe: 'the modules you would like to serve',
-        demandOption: true
+        // demandOption: true
+        demandOption: false,
+        default: ''
       })
       .example(`${greenText('$0 serve -modules="client/test"')}`, 'Serve the client/test module');
   }

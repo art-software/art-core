@@ -1,9 +1,16 @@
 import * as path from 'path';
+import * as fs from 'fs';
 import checkFileExist from 'art-dev-utils/lib/checkFileExist';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import parseModules from 'art-dev-utils/lib/parseModules';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
+
+const artConfigPath = path.join(`${process.cwd()}`, 'art.config.js');
+let projectType;
+if (fs.existsSync(artConfigPath)) {
+  projectType = require(artConfigPath).projectType;
+}
 
 interface Args {
   modules: string;
@@ -11,8 +18,15 @@ interface Args {
 
 const isDevStage = process.env.STAGE === 'dev';
 function getFinalPath(command: string) {
-  const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
-  const symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
+  const isSSR = projectType === 'SSR' || process.env.PROJECTTYPE === 'SSR';
+  let scriptPath, symlinkPath;
+  if (isSSR) {
+    scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack-ssr/dist/scripts/${command}.js`);
+    symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack-ssr/dist/scripts/${command}.js`);
+  } else {
+    scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
+    symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
+  }
   return isDevStage ? symlinkPath : scriptPath;
 }
 

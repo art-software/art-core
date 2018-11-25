@@ -1,0 +1,11 @@
+{
+  "name": "art-ssr-app",
+  "version": "0.0.1",
+  "description": "art ssr sample application",
+  "main": "index.js",
+  "author": "Bowen Zhong",
+  "license": "MIT",
+  "scripts": {
+    "serve": "STAGE=dev PROJECTTYPE=SSR ../../packages/art-cli-tool/dist/index.js serve"
+  }
+}

@@ -19,15 +19,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
 const checkFileExist_1 = __importDefault(require("art-dev-utils/lib/checkFileExist"));
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const parseModules_1 = __importDefault(require("art-dev-utils/lib/parseModules"));
 const inquirer_1 = __importDefault(require("inquirer"));
 const chalk_1 = __importDefault(require("chalk"));
+const artConfigPath = path.join(`${process.cwd()}`, 'art.config.js');
+let projectType;
+if (fs.existsSync(artConfigPath)) {
+    projectType = require(artConfigPath).projectType;
+}
 const isDevStage = process.env.STAGE === 'dev';
 function getFinalPath(command) {
-    const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
-    const symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
+    const isSSR = projectType === 'SSR' || process.env.PROJECTTYPE === 'SSR';
+    let scriptPath, symlinkPath;
+    if (isSSR) {
+        scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack-ssr/dist/scripts/${command}.js`);
+        symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack-ssr/dist/scripts/${command}.js`);
+    }
+    else {
+        scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
+        symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
+    }
     return isDevStage ? symlinkPath : scriptPath;
 }
 exports.webpackTask = (command, args) => __awaiter(this, void 0, void 0, function* () {
