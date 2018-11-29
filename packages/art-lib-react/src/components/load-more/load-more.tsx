@@ -1,10 +1,10 @@
 import React from 'react';
-import viewport from 'art-lib-utils/dist/utils/viewport';
-import Progress from '../../components/progress';
-import CoreComponent from '../../core/CoreComponent';
-import VisibleAction from './visible-action';
-import { ILoadMoreProps } from './propstype';
 import './style/load-more.less';
+import viewport from 'art-lib-utils/dist/utils/viewport';
+import Progress from '../progress';
+import CoreComponent from '../../core/CoreComponent';
+import VisibleAction from '../scroll/visible-action';
+import { ILoadMoreProps } from './propstype';
 
 const px2rem = viewport.px2rem;
 const currRem = viewport.currRem;
@@ -26,7 +26,7 @@ export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {
       size: 30, gap: 1, color: undefined, shadowColor: undefined, logo: undefined
     },
     onLoadMore: () => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         setTimeout(function () {
           resolve();
         }, 2000);
@@ -38,14 +38,14 @@ export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {
     loading: false
   };
 
-  public onVisibleAction = (visible?, data?) => {
+  public onVisibleAction = (visible?) => {
     if (this.state.loading === true) { return; }
     if (visible === true) {
       this.setState({
         loading: true
       });
       console.log('ready to invoke loadmore()...');
-      (this.props as any).onLoadMore().then(this.reset).catch(this.reset);
+      this.props.onLoadMore().then(this.reset).catch(this.reset);
     }
   }
   private handleClick = () => {
@@ -61,7 +61,8 @@ export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {
   }
 
   public render() {
-    const { visible, clickMode, hasMoreData, enable, ref, threshold, defaultTxt, loadingTxt, noMoreDataTxt, barProps = {}, style, ...restProps } = this.props;
+    const { visible, clickMode, hasMoreData, enable, threshold,
+      defaultTxt, loadingTxt, noMoreDataTxt, barProps = {}, style } = this.props;
     const visibleActionStyle = Object.assign({ display: visible ? 'block' : 'none' }, style);
     const { gap, logo, size, color, shadowColor } = barProps as any;
     const logoStyle: any = {
@@ -83,7 +84,7 @@ export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {
       >
         <div
           {...this.applyArgs('load-more')}
-          {...restProps} onClick={this.handleClick}
+          onClick={this.handleClick}
           className={this.classNames({ loading: this.state.loading, nomoredata: !hasMoreData })}
         >
           <Progress className="anim" value={0.1} hideLabel={true} gap={gap} size={size} color={color} shadowColor={shadowColor}>

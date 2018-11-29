@@ -3,6 +3,7 @@ import './style/visible-action.less';
 import CoreComponent from '../../core/CoreComponent';
 import { IVisibleActionProps } from './propstype';
 import { inviewport } from './inviewport';
+import { ScrollContext, WithScroll } from './scroll';
 
 export default class VisibleAction extends CoreComponent<IVisibleActionProps, any> {
   public static defaultProps = {
@@ -14,7 +15,7 @@ export default class VisibleAction extends CoreComponent<IVisibleActionProps, an
     onAction: (visible, data) => { console.log('data:', visible, data); }
   };
 
-  private withIScroll: any;
+  private withIScroll: WithScroll;
   private visibleActionElem: any;
   private hasExecutedAction: boolean = false;
   public state = {
@@ -23,7 +24,6 @@ export default class VisibleAction extends CoreComponent<IVisibleActionProps, an
 
   constructor(props, context) {
     super(props, context);
-    this.withIScroll = context.withIScroll;
   }
 
   public componentDidMount() {
@@ -32,7 +32,7 @@ export default class VisibleAction extends CoreComponent<IVisibleActionProps, an
     }
     this.withIScroll(true, (iScroll) => {
       this.handleTouchMove(iScroll);
-      iScroll.on('scroll', (e) => {
+      iScroll.on('scroll', () => {
         this.handleTouchMove(iScroll);
       });
     });
@@ -57,7 +57,7 @@ export default class VisibleAction extends CoreComponent<IVisibleActionProps, an
   }
 
   private execAction() {
-    const onAction = (this.props as any).onAction;
+    const onAction = this.props.onAction;
 
     if (this.props.visibleOnce) {
       if (this.hasExecutedAction === false && this.state.visible === true) {
@@ -78,10 +78,18 @@ export default class VisibleAction extends CoreComponent<IVisibleActionProps, an
   public render() {
     const { children } = this.props;
     return (
-      // <div ref={this.handleNodeElem} {...this.applyArgs('visible-action')} {...restProps}>
-      <div ref={this.handleNodeElem} {...this.applyArgs('visible-action')}>
-        {children}
-      </div>
+      <ScrollContext.Consumer>
+        {
+          (context) => {
+            this.withIScroll = context.withScroll;
+            return (
+              <div ref={this.handleNodeElem} {...this.applyArgs('visible-action')}>
+                {children}
+              </div>
+            );
+          }
+        }
+      </ScrollContext.Consumer >
     );
   }
 }

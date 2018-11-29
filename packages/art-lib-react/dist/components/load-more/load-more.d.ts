@@ -1,7 +1,7 @@
 /// <reference types="react" />
+import './style/load-more.less';
 import CoreComponent from '../../core/CoreComponent';
 import { ILoadMoreProps } from './propstype';
-import './style/load-more.less';
 export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {
     static defaultProps: {
         threshold: number;
@@ -23,7 +23,7 @@ export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {
     state: {
         loading: boolean;
     };
-    onVisibleAction: (visible?: any, data?: any) => void;
+    onVisibleAction: (visible?: any) => void;
     private handleClick;
     private reset;
     render(): JSX.Element;

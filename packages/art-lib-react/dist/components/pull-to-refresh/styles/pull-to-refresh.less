@@ -1,0 +1,60 @@
+@import '../../../styles/mixins/am.less';
+
+@progressWidth: 50px;
+@pullToRefresh: {
+  position: relative;
+  z-index: 1000;
+  min-height: inherit;
+  height: 100%;
+  .indicator {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    z-index: 10;
+    overflow: hidden;
+    padding:10px 0;
+    width: 100%;
+    text-align: center;
+  }
+  .ptr-loading {
+    position: relative;
+    display: none;
+  }
+  .ptr-progress{
+    position: relative; 
+    display: block;
+  }
+};
+@refresh: {
+  .ptr-loading {
+    display: none;
+  }
+};
+@loading: {
+  .ptr-progress {
+    display: none;
+  }
+
+  .ptr-loading {
+    display: block;
+  }
+};
+@reset: {
+  // set transition easy animation while refresh content success.  
+  .ptr-content {
+    // android 4.2 transform need change to all
+    -webkit-transition: all .35s ease;
+    transition: all .35s ease;
+  }
+  .indicator {
+    -webkit-transition: all .35s ease;
+    transition: all .35s ease;
+  }
+};
+&{
+  #art .namespace();
+  .module(pull-to-refresh, @pullToRefresh);
+  .variant(refresh, @refresh);
+  .variant(loading, @loading);
+  .variant(reset, @reset);
+}

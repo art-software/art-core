@@ -2,6 +2,7 @@ import React from 'react';
 import './style/visible-action.less';
 import CoreComponent from '../../core/CoreComponent';
 import { inviewport } from './inviewport';
+import { ScrollContext } from './scroll';
 export default class VisibleAction extends CoreComponent {
     constructor(props, context) {
         super(props, context);
@@ -24,7 +25,6 @@ export default class VisibleAction extends CoreComponent {
                 this.visibleActionElem = node;
             }
         };
-        this.withIScroll = context.withIScroll;
     }
     componentDidMount() {
         if (!this.withIScroll) {
@@ -32,7 +32,7 @@ export default class VisibleAction extends CoreComponent {
         }
         this.withIScroll(true, (iScroll) => {
             this.handleTouchMove(iScroll);
-            iScroll.on('scroll', (e) => {
+            iScroll.on('scroll', () => {
                 this.handleTouchMove(iScroll);
             });
         });
@@ -54,11 +54,14 @@ export default class VisibleAction extends CoreComponent {
     }
     render() {
         const { children } = this.props;
-        return (
-        // <div ref={this.handleNodeElem} {...this.applyArgs('visible-action')} {...restProps}>
-        <div ref={this.handleNodeElem} {...this.applyArgs('visible-action')}>
-        {children}
-      </div>);
+        return (<ScrollContext.Consumer>
+        {(context) => {
+            this.withIScroll = context.withScroll;
+            return (<div ref={this.handleNodeElem} {...this.applyArgs('visible-action')}>
+                {children}
+              </div>);
+        }}
+      </ScrollContext.Consumer>);
     }
 }
 VisibleAction.defaultProps = {
