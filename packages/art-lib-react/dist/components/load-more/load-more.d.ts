@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import './style/load-more.less';
+import './styles/load-more.less';
 import CoreComponent from '../../core/CoreComponent';
 import { ILoadMoreProps } from './propstype';
 export default class LoadMore extends CoreComponent<ILoadMoreProps, any> {

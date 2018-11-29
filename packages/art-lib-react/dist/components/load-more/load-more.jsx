@@ -1,5 +1,5 @@
 import React from 'react';
-import './style/load-more.less';
+import './styles/load-more.less';
 import viewport from 'art-lib-utils/dist/utils/viewport';
 import Progress from '../progress';
 import CoreComponent from '../../core/CoreComponent';
