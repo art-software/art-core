@@ -6,7 +6,7 @@ import IScrollProbe from '../scroll/lib/iscroll-probe';
 export default class Swiper extends CoreComponent<ISwiper, any> {
     constructor(props: any, context: any);
     private id;
-    private is3D;
+    private hasEffects;
     private snapStepLast;
     private cloneNum;
     private stopAutoplay;
@@ -27,14 +27,13 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         centeredSlides: boolean;
         gradientBackground: never[];
         effect: string;
-        coverflowRotate: number;
-        coverflowDepth: number;
-        coverflowShadow: boolean;
+        flowRotation: number;
+        flowDepth: number;
+        flowShadow: boolean;
         onTap: (currentPage: any) => void;
         onSwiperChanged: (currentPage: any) => void;
     };
     componentDidMount(): void;
-    componentWillReceiveProps(nextProps: any): void;
     private adjustStates;
     private initScroll;
     private clearTimeout;
@@ -47,6 +46,8 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     private initSwiper;
     private autoPlay;
     private create3DStyle;
+    private coverflowStyle;
+    private rotateflowStyle;
     private swiperItemClassName;
     private handleSwipeItemTap;
     getStatus: () => {

@@ -9,12 +9,12 @@ export interface ISwiper {
   slidesPerView?     : number;                         // slide per view. range: [1, 2). Default: 1
   centeredSlides?    : boolean;                        // whether center slide. Default: false;
   gradientBackground?: any[];                          // whether set gradient background;
-  effect?            : string;                         // swiper effect: 'slide' | 'coverflow'; Default: 'slide';
+  effect?            : string;                         // swiper effect: 'slide' | 'coverflow' | 'rotateflow'; Default: 'slide';
   initialSlideIndex? : number;                         // Initial swiper index. Default: 0;
   showPagination?    : boolean;                        // whether show swiper pagination. Default: true;
-  coverflowShadow?   : boolean;                        // show shadow; effect === 'coverflow', coverflowShadow default true, otherwise default false;
-  coverflowRotate?   : number;                         // 3D rotateY value; Default: 40;
-  coverflowDepth?    : number;                         // 3D translateZ value; Default: 40;
+  flowShadow?        : boolean;                        // show shadow; effect === 'coverflow' || === 'rotateflow', coverflowShadow default true, otherwise default false;
+  flowRotation?      : number;                         // 3D rotateY value; Default: 40;
+  flowDepth?         : number;                         // 3D translateZ value; Default: 40;
   onSwiperChanged?   : (currentPage: number) => void;  // onSwiperChanged callback
   onTap?             : (currentPage: number) => void;  // onTap callback
 }

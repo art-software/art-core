@@ -12,9 +12,9 @@ export interface ISwiper {
     effect?: string;
     initialSlideIndex?: number;
     showPagination?: boolean;
-    coverflowShadow?: boolean;
-    coverflowRotate?: number;
-    coverflowDepth?: number;
+    flowShadow?: boolean;
+    flowRotation?: number;
+    flowDepth?: number;
     onSwiperChanged?: (currentPage: number) => void;
     onTap?: (currentPage: number) => void;
 }

@@ -18,13 +18,11 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       initialSlideIndex: props.initialSlideIndex
     };
     this.id = 'swiper' + new Date().getTime();
-    this.is3D = props.effect === 'coverflow';
-    console.log(`this.is3D: ${this.is3D}`);
-    // this.adjustStates(props);
+    this.hasEffects = props.effect !== 'slide';
   }
 
   private id = 'swiper' + new Date().getTime();
-  private is3D: boolean = false;
+  private hasEffects: boolean = false;
   private snapStepLast: number = 0;
   private cloneNum: number = 0;
   private stopAutoplay: boolean = false;
@@ -47,19 +45,15 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     centeredSlides: false,
     gradientBackground: [],
     effect: 'slide',
-    coverflowRotate: 40,
-    coverflowDepth: 40,
-    coverflowShadow: true,
+    flowRotation: 40,
+    flowDepth: 40,
+    flowShadow: true,
     onTap: (currentPage) => { /* console.log(currentPage); */ },
     onSwiperChanged: (currentPage) => { /* console.log(currentPage); */ },
   };
 
   public componentDidMount() {
     this.adjustStates(this.props);
-  }
-
-  public componentWillReceiveProps(nextProps) {
-    this.adjustStates(nextProps);
     this.initScroll(this.initSwiper);
   }
 
@@ -190,7 +184,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     if (scrollProbe.options.snapStepX !== undefined) {
       this.snapStepX = scrollProbe.options.snapStepX;
     }
-    if (this.is3D) {
+    if (this.hasEffects) {
       scrollProbe.on('scroll', () => {
         this.create3DStyle();
       });
@@ -227,7 +221,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         currentPage = maxPage;
         this.scrollProbe.goToPage(maxPage, 0, 0);
       }
-      if (this.is3D) {
+      if (this.hasEffects) {
         this.create3DStyle();
       }
     }
@@ -242,7 +236,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       this.scrollProbe.goToPage(this.state.initialSlideIndex, 0, 0);
       this.updateCurrentPage();
 
-      if (this.is3D) {
+      if (this.hasEffects) {
         this.create3DStyle();
       }
 
@@ -274,7 +268,20 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
   }
 
   private create3DStyle = () => {
-    const { coverflowRotate = 40, coverflowDepth = 40, coverflowShadow } = this.props;
+    switch (this.props.effect) {
+      case 'coverflow':
+        this.coverflowStyle();
+        break;
+      case 'rotateflow':
+        this.rotateflowStyle();
+        break;
+      default:
+        break;
+    }
+  }
+
+  private coverflowStyle = () => {
+    const { flowRotation = 40, flowDepth = 40, flowShadow } = this.props;
     const slides = document.querySelectorAll('#' + this.id + ' .swiper-item') as NodeListOf<HTMLElement>;
     if (!slides) { console.log('no swiper item found.'); return; }
 
@@ -285,10 +292,10 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       const shadowRight = slideElement.querySelector('.shadow .swiper-slide-shadow-right') as HTMLElement;
 
       // rotateY
-      let rotateY = x * coverflowRotate / this.snapStepX;
+      let rotateY = x * flowRotation / this.snapStepX;
 
       // translateZ
-      let translateZ = -Math.abs(x * coverflowDepth / this.snapStepX);
+      let translateZ = -Math.abs(x * flowDepth / this.snapStepX);
 
       // Fix for ultra small values
       if (Math.abs(rotateY) < 0.001) { rotateY = 0; }
@@ -298,7 +305,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       slideElement.style.webkitTransform = slideTransform;
       slideElement.style.transform = slideTransform;
 
-      if (coverflowShadow) {
+      if (flowShadow) {
         let opacity = x * 1 / this.snapStepX;
         let shadowLeftOpacity = opacity > 0 ? 0 : Math.abs(opacity);
         let shadowRightOpacity = opacity > 0 ? 0 : Math.abs(opacity);
@@ -314,6 +321,35 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         shadowLeft.style.opacity = `${shadowLeftOpacity}`;
         shadowRight.style.opacity = `${shadowRightOpacity}`;
       }
+    }
+  }
+
+  private rotateflowStyle = () => {
+    const { flowRotation = 20, flowDepth = 20 } = this.props;
+    const slides = document.querySelectorAll('#' + this.id + ' .swiper-item') as NodeListOf<HTMLElement>;
+    if (!slides) { console.log('no swiper item found.'); return; }
+
+    for (let i = 0; i < slides.length; i++) {
+      const x = -Math.round(this.scrollProbe.x + this.snapStepX * i);
+      const slideElement = slides[i];
+      // const shadowLeft = slideElement.querySelector('.shadow .swiper-slide-shadow-left') as HTMLElement;
+      // const shadowRight = slideElement.querySelector('.shadow .swiper-slide-shadow-right') as HTMLElement;
+
+      // rotate
+      let rotate = x * flowRotation / this.snapStepX;
+      let opacity = 1 - Math.abs(x / this.snapStepX);
+      let translateY = -Math.abs(x * flowDepth / this.snapStepX);
+
+      // Fix for ultra small values
+      if (Math.abs(rotate) < 0.001) { rotate = 0; }
+      if (Math.abs(translateY) < 0.001) { translateY = 0; }
+      if (Math.abs(opacity) < 0.001) { opacity = 0; }
+      // const slideTransform = `translate3d(0,0,${translateZ}px) rotate(${rotate}deg)`;
+      const slideTransform = `translate3d(0px,${translateY}px,0px) rotate(${-rotate}deg)`;
+
+      slideElement.style.webkitTransform = slideTransform;
+      slideElement.style.transform = slideTransform;
+      slideElement.style.opacity = `${opacity}`;
     }
   }
 
@@ -374,14 +410,14 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
   }
 
   public render() {
-    const { swiperHeight, gap, showSpinner, centeredSlides, gradientBackground, coverflowShadow } = this.props;
+    const { swiperHeight, gap, showSpinner, centeredSlides, gradientBackground, flowShadow } = this.props;
     const { loop, showPagination, slidesPerView, swipeItems, currentPage, pages } = this.state;
 
     const classNameSwiperWrap = this.classNameWithProps('swiper');
     const classNameSwipeItemsWrap = this.classNames({
       'swiper-wrap': true,
       'with-spinner': showSpinner,
-      'swiper-3d': this.is3D,
+      'swiper-3d': this.hasEffects,
       'last-child-no-gap': gap && !loop
     });
 
@@ -458,7 +494,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
                       onClick={this.handleSwipeItemTap(item.key)}
                     >
                       {
-                        this.is3D && coverflowShadow ?
+                        this.hasEffects && flowShadow ?
                           <div className="shadow">
                             <div className="swiper-slide-shadow-left" />
                             <div className="swiper-slide-shadow-right" />
