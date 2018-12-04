@@ -15,7 +15,6 @@ exports.getWebpackConfig = () => {
         return new webpack_config_dev_1.default(hotEntry, output);
     }
     else {
-        const config = new webpack_config_prod_1.default(entry, output);
         return new webpack_config_prod_1.default(entry, output);
     }
 };

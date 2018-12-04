@@ -29,16 +29,20 @@ const configHtmlWebpackPlugin = (entries) => {
     const plugins = [];
     const newEntries = entries || configWebpackModules_1.webpackEntries(false);
     const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
-    console.log(`art:webpack:output:${appConfig_1.default.get('BUILD_ENV')}PublicPath`);
-    const assetsProdPublicPath = appConfig_1.default.get(`art:webpack:output:${appConfig_1.default.get('BUILD_ENV')}PublicPath`) || '';
+    const buildEnv = appConfig_1.default.get('BUILD_ENV');
+    console.log(`art:webpack:output:${buildEnv}PublicPath`);
+    const assetsProdPublicPath = appConfig_1.default.get(`art:webpack:output:${buildEnv}PublicPath`) || '';
     console.log(`assetsProdPublicPath: ${assetsProdPublicPath}`);
-    const defaultTempleate = path.join(__dirname, '../../index.template.ejs');
     foreach_1.default(newEntries, (value, key) => {
         const fragment = key.split('?');
         const entryKey = fragment[0];
         const queryKey = fragment[1];
         const queryObj = qs_1.default.parse(queryKey);
         const myTemplate = path.join(process.cwd(), 'client', entryKey.replace(projectVirtualPath, ''), 'index.template.ejs');
+        if (!fs.existsSync(myTemplate)) {
+            throw new Error(chalk_1.default.red.bold('Sorry, it\'s a breaking change from art-webpack@0.0.22' +
+                ' no default template file provided any more, please put template file within module root folder.'));
+        }
         const htmlWebpackPluginOptions = {
             chunks: [entryKey],
             minify: isProdEnv ? {
@@ -47,10 +51,13 @@ const configHtmlWebpackPlugin = (entries) => {
                 collapseWhitespace: true,
                 collapseBooleanAttributes: true
             } : false,
-            template: fs.existsSync(myTemplate) ? myTemplate : defaultTempleate,
+            template: myTemplate,
+            filename: `${entryKey}/${queryObj.template || 'index.html'}`,
+            // customized template variables
+            buildEnv,
             title: queryObj.title || '',
-            cdnPath: (queryObj.cdn === '0' || queryObj.cdn === 'false' || !isProdEnv) ? '' : assetsProdPublicPath,
-            filename: `${entryKey}/${queryObj.template || 'index.html'}`
+            publicPath: assetsProdPublicPath,
+            cdnPath: (queryObj.cdn === '0' || queryObj.cdn === 'false' || !isProdEnv) ? '' : assetsProdPublicPath
         };
         plugins.push(new html_webpack_plugin_1.default(htmlWebpackPluginOptions));
     });
