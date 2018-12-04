@@ -248,10 +248,12 @@ class PullToRefresh extends CoreComponent {
         const vPullToRefresh = this.applyArgs('pull-to-refresh', this.classNames({ refresh, loading, reset }));
         const ptrStyle = prefix({
             transform: ptrTranslate,
+            WebkitTransform: ptrTranslate,
             visibility: ptrVisibility
         });
         const contentStyle = prefix({
-            transform: contentTranslate
+            transform: contentTranslate,
+            WebkitTransform: contentTranslate
         });
         return {
             ptrStyle,

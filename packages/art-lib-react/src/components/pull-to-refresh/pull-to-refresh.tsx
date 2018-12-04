@@ -304,11 +304,13 @@ class PullToRefresh extends CoreComponent<IPullToRefreshProps, any> {
 
     const ptrStyle = prefix({
       transform: ptrTranslate,
+      WebkitTransform: ptrTranslate,
       visibility: ptrVisibility
     });
 
     const contentStyle = prefix({
-      transform: contentTranslate
+      transform: contentTranslate,
+      WebkitTransform: contentTranslate
     });
 
     return {
