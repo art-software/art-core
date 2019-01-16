@@ -34,6 +34,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         onSwiperChanged: (currentPage: any) => void;
     };
     componentDidMount(): void;
+    componentDidUpdate(prevProps: any): void;
     private adjustStates;
     private initScroll;
     private clearTimeout;

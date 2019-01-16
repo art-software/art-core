@@ -57,6 +57,12 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     this.initScroll(this.initSwiper);
   }
 
+  public componentDidUpdate(prevProps) {
+    if (this.props.children !== prevProps.children) {
+      this.adjustStates(this.props);
+    }
+  }
+
   private adjustStates = (props: ISwiper) => {
     const { children, slidesPerView } = props;
     this.cloneNum = 0;

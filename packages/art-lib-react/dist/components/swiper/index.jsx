@@ -328,6 +328,11 @@ export default class Swiper extends CoreComponent {
         this.adjustStates(this.props);
         this.initScroll(this.initSwiper);
     }
+    componentDidUpdate(prevProps) {
+        if (this.props.children !== prevProps.children) {
+            this.adjustStates(this.props);
+        }
+    }
     bindScrollEvents(scrollProbe) {
         if (scrollProbe.options.snapStepX !== undefined) {
             this.snapStepX = scrollProbe.options.snapStepX;
