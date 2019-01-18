@@ -54,7 +54,6 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
 
   public componentDidMount() {
     this.adjustStates(this.props);
-    this.initScroll(this.initSwiper);
   }
 
   public componentDidUpdate(prevProps) {
@@ -93,7 +92,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       });
     }
 
-    if (slidesPerView && (slidesPerView < 1 || slidesPerView >= 2)) {
+    if (slidesPerView && (slidesPerView < 1 || slidesPerView > 2)) {
       Object.assign(this.state, { slidesPerView: 1 });
     }
 
@@ -107,9 +106,9 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
 
     // swiperItems.length > 0
     if (props.loop && swipeItems.length) {
-      this.cloneNum++;
+      ++this.cloneNum;
       if (slidesPerView as number > 1) {
-        this.cloneNum++;
+        ++this.cloneNum;
       }
       const first = React.cloneElement(swipeItems[0], { key: 10000 });
       const last = React.cloneElement(swipeItems[swipeItems.length - 1], { key: 10001 });
@@ -123,8 +122,10 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       }
     }
     this.setState({
-      initialSlideIndex: props.initialSlideIndex as number + this.cloneNum,
+      initialSlideIndex: (props.initialSlideIndex as number) + this.cloneNum,
       swipeItems
+    }, () => {
+      this.initScroll(this.initSwiper);
     });
   }
 
@@ -134,10 +135,10 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     // Note: scroll will be re-instance many times if scroll.options changed.
     // So we should always using withIScroll(true, ()=>{}) to wait lastest iscroll instance
     this.scroll.withScroll(true, (scroll) => {
-      if (this.scroll !== scroll) {
-        this.bindScrollEvents(scroll);
-        this.scroll = scroll;
-      }
+      // if (this.scroll !== scroll) {
+      this.bindScrollEvents(scroll);
+      // this.scroll = scroll;
+      // }
       if (callback) { callback(scroll); }
     });
   }
