@@ -16,5 +16,5 @@ export interface ISwiper {
     flowRotation?: number;
     flowDepth?: number;
     onSwiperChanged?: (currentPage: number) => void;
-    onTap?: (currentPage: number) => void;
+    onTap?: (currentPage: number, event: React.MouseEvent<HTMLDivElement>) => void;
 }

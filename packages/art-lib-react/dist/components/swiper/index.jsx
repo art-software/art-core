@@ -13,14 +13,14 @@ export default class Swiper extends CoreComponent {
         this.hasEffects = false;
         this.snapStepLast = 0;
         this.cloneNum = 0;
-        this.stopAutoplay = false;
+        this.stopAutoPlay = false;
         // 解决slidesPerView大于1的情况下，最后一帧touchmove距离大于剩余距离时，瞬间回弹bug
         this.startX = 0;
         this.snapStepX = 0;
         this.adjustStates = (props) => {
             const { children, slidesPerView } = props;
             this.cloneNum = 0;
-            this.stopAutoplay = false;
+            this.stopAutoPlay = false;
             Object.assign(this.state, {
                 loop: props.loop,
                 currentPage: 0,
@@ -99,7 +99,7 @@ export default class Swiper extends CoreComponent {
             clearTimeout(this.timeout);
         };
         this.handleTouchStart = (event) => {
-            this.stopAutoplay = true;
+            this.stopAutoPlay = true;
             this.clearTimeout();
             const touch = event.changedTouches[0];
             this.startX = touch.clientX;
@@ -113,7 +113,7 @@ export default class Swiper extends CoreComponent {
                 && (distX <= -this.scrollProbe.wrapperWidth
                     || (distX <= -this.snapStepLast && !centeredSlides))
                 && slidesPerView > 1
-                && this.stopAutoplay;
+                && this.stopAutoPlay;
             if (moveNext) {
                 this.scrollProbe.next();
             }
@@ -165,7 +165,7 @@ export default class Swiper extends CoreComponent {
         };
         this.autoPlay = (interval) => {
             const { pages, loop } = this.state;
-            if (this.stopAutoplay) {
+            if (this.stopAutoPlay) {
                 this.clearTimeout();
                 return;
             }
@@ -280,10 +280,10 @@ export default class Swiper extends CoreComponent {
                 'swiper-item-next': index === currentPage + 1
             });
         };
-        this.handleSwipeItemTap = (index) => {
+        this.handleSwipeItemTap = (index, event) => {
             return () => {
                 if (this.props.onTap && isFunction(this.props.onTap)) {
-                    this.props.onTap(index);
+                    this.props.onTap(index, event);
                 }
             };
         };
@@ -291,32 +291,36 @@ export default class Swiper extends CoreComponent {
             const { currentPage, pages } = this.state;
             return { currentPage: currentPage - this.cloneNum, pages };
         };
+        this.cancelAutoPlay = () => {
+            this.stopAutoPlay = true;
+            this.clearTimeout();
+        };
         this.goToPage = (index) => {
             console.log('swiper.goToPage()');
-            this.stopAutoplay = true;
+            this.stopAutoPlay = true;
             this.clearTimeout();
             index += this.cloneNum;
             this.scrollProbe.goToPage(index, 0);
         };
         this.next = () => {
             console.log('swiper.next()');
-            this.stopAutoplay = true;
+            this.stopAutoPlay = true;
             this.clearTimeout();
             this.scrollProbe.next();
         };
         this.prev = () => {
             console.log('swiper.prev()');
-            this.stopAutoplay = true;
+            this.stopAutoPlay = true;
             this.clearTimeout();
             this.scrollProbe.prev();
         };
         this.setAutoPlay = (autoPlay) => {
             if (!autoPlay) {
-                this.stopAutoplay = true;
+                this.stopAutoPlay = true;
                 this.clearTimeout();
                 return;
             }
-            this.stopAutoplay = false;
+            this.stopAutoPlay = false;
             this.autoPlay(this.props.autoPlayInterval || 3000);
         };
         this.state = {
@@ -413,7 +417,7 @@ export default class Swiper extends CoreComponent {
             <div className={classNameSwipeItemsWrap} style={sliderWrapperStyle}>
               {(swipeItems || []).map((item, index) => {
             Object.assign({}, item.props.style, childrenStyle);
-            return (<div key={item.key} style={itemStyle} className={this.swiperItemClassName(index)} onClick={this.handleSwipeItemTap(item.key)}>
+            return (<div key={item.key} style={itemStyle} className={this.swiperItemClassName(index)} onClick={(event) => this.handleSwipeItemTap(item.key, event)()}>
                       {this.hasEffects && flowShadow ?
                 <div className="shadow">
                             <div className="swiper-slide-shadow-left"/>
@@ -445,6 +449,6 @@ Swiper.defaultProps = {
     flowRotation: 40,
     flowDepth: 40,
     flowShadow: true,
-    onTap: (currentPage) => { },
+    onTap: (currentPage, event) => { },
     onSwiperChanged: (currentPage) => { },
 };

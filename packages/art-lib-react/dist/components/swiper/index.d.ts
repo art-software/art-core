@@ -1,7 +1,7 @@
-/// <reference types="react" />
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
 import { ISwiper } from './propstype';
+import React from 'react';
 import IScrollProbe from '../scroll/lib/iscroll-probe';
 export default class Swiper extends CoreComponent<ISwiper, any> {
     constructor(props: any, context: any);
@@ -9,7 +9,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     private hasEffects;
     private snapStepLast;
     private cloneNum;
-    private stopAutoplay;
+    private stopAutoPlay;
     private timeout;
     private startX;
     private scrollProbe;
@@ -30,7 +30,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         flowRotation: number;
         flowDepth: number;
         flowShadow: boolean;
-        onTap: (currentPage: any) => void;
+        onTap: (currentPage: number, event: React.MouseEvent<HTMLDivElement>) => void;
         onSwiperChanged: (currentPage: any) => void;
     };
     componentDidMount(): void;
@@ -55,6 +55,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         currentPage: number;
         pages: any;
     };
+    cancelAutoPlay: () => void;
     goToPage: (index: any) => void;
     next: () => void;
     prev: () => void;

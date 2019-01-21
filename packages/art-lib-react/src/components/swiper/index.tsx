@@ -25,7 +25,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
   private hasEffects: boolean = false;
   private snapStepLast: number = 0;
   private cloneNum: number = 0;
-  private stopAutoplay: boolean = false;
+  private stopAutoPlay: boolean = false;
   private timeout: number;
   // 解决slidesPerView大于1的情况下，最后一帧touchmove距离大于剩余距离时，瞬间回弹bug
   private startX = 0;
@@ -48,7 +48,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     flowRotation: 40,
     flowDepth: 40,
     flowShadow: true,
-    onTap: (currentPage) => { /* console.log(currentPage); */ },
+    onTap: (currentPage: number, event: React.MouseEvent<HTMLDivElement>) => { /* console.log(currentPage); */ },
     onSwiperChanged: (currentPage) => { /* console.log(currentPage); */ },
   };
 
@@ -65,7 +65,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
   private adjustStates = (props: ISwiper) => {
     const { children, slidesPerView } = props;
     this.cloneNum = 0;
-    this.stopAutoplay = false;
+    this.stopAutoPlay = false;
     Object.assign(this.state, {
       loop: props.loop,
       currentPage: 0,
@@ -148,7 +148,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
   }
 
   private handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    this.stopAutoplay = true;
+    this.stopAutoPlay = true;
     this.clearTimeout();
     const touch = event.changedTouches[0];
     this.startX = touch.clientX;
@@ -167,7 +167,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         || (distX <= -this.snapStepLast && !centeredSlides)
       )
       && slidesPerView > 1
-      && this.stopAutoplay;
+      && this.stopAutoPlay;
 
     if (moveNext) { this.scrollProbe.next(); }
 
@@ -256,7 +256,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
 
   private autoPlay = (interval: number) => {
     const { pages, loop } = this.state;
-    if (this.stopAutoplay) {
+    if (this.stopAutoPlay) {
       this.clearTimeout();
       return;
     }
@@ -370,10 +370,10 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     });
   }
 
-  private handleSwipeItemTap = (index: number) => {
+  private handleSwipeItemTap = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
     return () => {
       if (this.props.onTap && isFunction(this.props.onTap)) {
-        this.props.onTap(index);
+        this.props.onTap(index, event);
       }
     };
   }
@@ -383,9 +383,14 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     return { currentPage: currentPage - this.cloneNum, pages };
   }
 
+  public cancelAutoPlay = (): void => {
+    this.stopAutoPlay = true;
+    this.clearTimeout();
+  }
+
   public goToPage = (index) => {
     console.log('swiper.goToPage()');
-    this.stopAutoplay = true;
+    this.stopAutoPlay = true;
     this.clearTimeout();
     index += this.cloneNum;
     this.scrollProbe.goToPage(index, 0);
@@ -393,26 +398,26 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
 
   public next = () => {
     console.log('swiper.next()');
-    this.stopAutoplay = true;
+    this.stopAutoPlay = true;
     this.clearTimeout();
     this.scrollProbe.next();
   }
 
   public prev = () => {
     console.log('swiper.prev()');
-    this.stopAutoplay = true;
+    this.stopAutoPlay = true;
     this.clearTimeout();
     this.scrollProbe.prev();
   }
 
   public setAutoPlay = (autoPlay: boolean) => {
     if (!autoPlay) {
-      this.stopAutoplay = true;
+      this.stopAutoPlay = true;
       this.clearTimeout();
       return;
     }
 
-    this.stopAutoplay = false;
+    this.stopAutoPlay = false;
     this.autoPlay(this.props.autoPlayInterval || 3000);
   }
 
@@ -498,7 +503,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
                       key={item.key}
                       style={itemStyle}
                       className={this.swiperItemClassName(index)}
-                      onClick={this.handleSwipeItemTap(item.key)}
+                      onClick={(event) => this.handleSwipeItemTap(item.key, event)()}
                     >
                       {
                         this.hasEffects && flowShadow ?

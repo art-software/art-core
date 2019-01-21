@@ -16,5 +16,5 @@ export interface ISwiper {
   flowRotation?      : number;                         // 3D rotateY value; Default: 40;
   flowDepth?         : number;                         // 3D translateZ value; Default: 40;
   onSwiperChanged?   : (currentPage: number) => void;  // onSwiperChanged callback
-  onTap?             : (currentPage: number) => void;  // onTap callback
+  onTap?             : (currentPage: number, event: React.MouseEvent<HTMLDivElement>) => void;  // onTap callback
 }
