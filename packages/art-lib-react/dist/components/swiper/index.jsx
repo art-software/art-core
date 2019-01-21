@@ -134,6 +134,7 @@ export default class Swiper extends CoreComponent {
             let currentPage = this.scrollProbe.currentPage.pageX;
             const { pages, loop } = this.state;
             const maxPage = pages + this.cloneNum - 1;
+            const { maxScrollX, x } = this.scrollProbe;
             if (loop) {
                 if (currentPage > maxPage) {
                     currentPage = this.cloneNum;
@@ -142,6 +143,13 @@ export default class Swiper extends CoreComponent {
                 if (currentPage < this.cloneNum) {
                     currentPage = maxPage;
                     this.scrollProbe.goToPage(maxPage, 0, 0);
+                }
+                if (x >= 0) {
+                    currentPage = maxPage - this.cloneNum + 1;
+                    this.scrollProbe.goToPage(currentPage, 0, 0);
+                }
+                if (Math.abs(x) >= Math.abs(maxScrollX)) {
+                    this.scrollProbe.goToPage(this.cloneNum, 0, 0);
                 }
                 if (this.hasEffects) {
                     this.create3DStyle();
