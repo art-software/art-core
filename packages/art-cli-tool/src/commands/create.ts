@@ -3,8 +3,8 @@ import chalk from 'chalk';
 import emptyDir from 'empty-dir';
 import { basename } from 'path';
 import inquirer, { Question, Answers } from 'inquirer';
-import { create } from '../scaffold/index';
-const scaffolds = ['react'];
+import { create, ProjectScaffold, ModuleScaffold } from '../scaffold/index';
+const scaffolds = ['react', 'miniprogram'];
 
 class CreateCommand implements CommandModule {
 
@@ -63,9 +63,9 @@ class CreateCommand implements CommandModule {
       );
     }
 
-    (this.commandEntry(commandType) as Promise<Answers>)
+    (this.commandEntry(commandType) as Promise<ProjectScaffold | ModuleScaffold>)
       .then((answers) => {
-        create(argv.scaffold, commandType, answers as any);
+        create(argv.scaffold, commandType, answers);
       })
       .catch((err) => {
         return console.log(chalk.red(err));

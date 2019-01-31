@@ -8,7 +8,7 @@ const empty_dir_1 = __importDefault(require("empty-dir"));
 const path_1 = require("path");
 const inquirer_1 = __importDefault(require("inquirer"));
 const index_1 = require("../scaffold/index");
-const scaffolds = ['react'];
+const scaffolds = ['react', 'miniprogram'];
 class CreateCommand {
     constructor() {
         this.command = 'create';

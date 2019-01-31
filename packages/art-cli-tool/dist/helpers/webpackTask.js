@@ -7,31 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = __importStar(require("path"));
 const checkFileExist_1 = __importDefault(require("art-dev-utils/lib/checkFileExist"));
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const parseModules_1 = __importDefault(require("art-dev-utils/lib/parseModules"));
 const inquirer_1 = __importDefault(require("inquirer"));
 const chalk_1 = __importDefault(require("chalk"));
-const isDevStage = process.env.STAGE === 'dev';
-function getFinalPath(command) {
-    const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
-    const symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
-    return isDevStage ? symlinkPath : scriptPath;
-}
+const getWebpackScriptPath_1 = require("./getWebpackScriptPath");
 exports.webpackTask = (command, args) => __awaiter(this, void 0, void 0, function* () {
-    const finalPath = getFinalPath(command);
+    const finalPath = getWebpackScriptPath_1.getWebpackScriptPath(command);
     if (!checkFileExist_1.default([finalPath])) {
         return;
     }
@@ -52,6 +39,6 @@ exports.webpackTask = (command, args) => __awaiter(this, void 0, void 0, functio
     executeNodeScript_1.default('node', finalPath, '--NODE_ENV', nodeEnv, '--BUILD_ENV', buildEnv === 'Production' ? 'prod' : 'inte', '--ART_MODULES', `${JSON.stringify(parsedModules)}`);
 });
 exports.webpackDll = () => {
-    const dllScript = getFinalPath('dll');
+    const dllScript = getWebpackScriptPath_1.getWebpackScriptPath('dll');
     executeNodeScript_1.default('node', dllScript);
 };
