@@ -10,6 +10,16 @@
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
-    "art-dev-utils": "^0.0.10"
+    "art-dev-utils": "0.0.10",
+    "chalk": "2.4.1",
+    "fs-extra": "7.0.0",
+    "inquirer": "6.1.0",
+    "json-format": "1.0.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "5.0.4",
+    "@types/inquirer": "0.0.42",
+    "tslint": "5.11.0",
+    "typescript": "3.0.1"
   }
 }
