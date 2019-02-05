@@ -5,13 +5,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const inquirer_1 = __importDefault(require("inquirer"));
+const appConfig_1 = __importDefault(require("../config/appConfig"));
 const isWellStructuredClient_1 = require("../utils/isWellStructuredClient");
 const paths_1 = __importDefault(require("../config/paths"));
 const path_1 = require("path");
 const fs_1 = require("fs");
 const fs_extra_1 = require("fs-extra");
+const choosePort_1 = __importDefault(require("art-dev-utils/lib/choosePort"));
+const config_1 = require("../config");
+const devServer_1 = require("../compiler/devServer");
 const jsonFormat = require('json-format');
 const PROJECTJSON = 'project.config.json';
+const envName = appConfig_1.default.get('NODE_ENV');
+const HOST = process.env.HOST || '0.0.0.0';
+const DEFAULT_PORT = appConfig_1.default.get(`devPort:${envName}`);
+const isInteractive = process.stdout.isTTY;
 const clearCacheInquire = () => {
     return inquirer_1.default.prompt([
         {
@@ -50,5 +58,29 @@ clearCacheInquire().then((answer) => {
             }
         }
     }
-    console.log('choice a serve port');
+    choosePort_1.default(HOST, DEFAULT_PORT)
+        .then((port) => {
+        if (port === null) {
+            console.log('no avaliable port found');
+            return;
+        }
+        // Save new availble webpack dev port.
+        appConfig_1.default.set(`devPort:${envName}`, port);
+        const webpackConfig = config_1.getWebpackConfig();
+        const miniprogramDevServer = devServer_1.devServer(webpackConfig, answer.clearCache, () => {
+            console.log('watch done........');
+        });
+        ['SIGINT', 'SIGTERM'].forEach((sig) => {
+            process.on(sig, () => {
+                miniprogramDevServer.close();
+                process.exit();
+            });
+        });
+    })
+        .catch((error) => {
+        if (error && error.message) {
+            console.log(error.message);
+        }
+        process.exit(1);
+    });
 });

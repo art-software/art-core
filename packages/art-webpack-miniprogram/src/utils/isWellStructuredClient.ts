@@ -3,9 +3,7 @@
 import paths from '../config/paths';
 import { existsSync } from 'fs';
 import { join } from 'path';
-const APPJSON = 'app.json';
-const APPJS = 'app.js';
-const APPTS = 'app.ts';
+import { APPJSON, APPJS, APPTS } from '../constants/FileNames';
 
 const clientRootContains = (fileName: string): boolean => {
   const clientPath = paths.appSrc;

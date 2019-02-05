@@ -7,18 +7,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const paths_1 = __importDefault(require("../config/paths"));
 const fs_1 = require("fs");
 const path_1 = require("path");
-const APPJSON = 'app.json';
-const APPJS = 'app.js';
-const APPTS = 'app.ts';
+const FileNames_1 = require("../constants/FileNames");
 const clientRootContains = (fileName) => {
     const clientPath = paths_1.default.appSrc;
     return fs_1.existsSync(path_1.join(clientPath, fileName));
 };
 exports.isWellStructuredClient = () => {
-    if (!clientRootContains(APPJSON)) {
+    if (!clientRootContains(FileNames_1.APPJSON)) {
         return false;
     }
-    if (!clientRootContains(APPJS) && !clientRootContains(APPTS)) {
+    if (!clientRootContains(FileNames_1.APPJS) && !clientRootContains(FileNames_1.APPTS)) {
         return false;
     }
     return true;
