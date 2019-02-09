@@ -5,7 +5,7 @@ const artConfig = require(paths.appArtConfig);
 
 nconf.argv().env()
   .file({
-    file: path.resolve(__dirname, '../../environment.json')
+    file: path.resolve(__dirname, '../environment.json')
   })
   .merge('art', artConfig);
 
