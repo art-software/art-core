@@ -5,6 +5,7 @@ import { join } from 'path';
 import { isProd } from './env';
 import paths from '../config/paths';
 import vfs from 'vinyl-fs';
+import { FileTypes } from '../enums/FileTypes';
 
 const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
@@ -17,7 +18,7 @@ export const handleErros = (error: NodeJS.ErrnoException) => {
   });
 };
 
-export const fileTypeChecker = (type: string, filePath: string) => {
+export const fileTypeChecker = (type: FileTypes, filePath: string) => {
   const mimeTypes = {
     image: '**/*.{jpg,jpeg,png,gif,svg}',
     imageNative: '**/*{.native,-native}.{jpg,jpeg,png,gif,svg}',

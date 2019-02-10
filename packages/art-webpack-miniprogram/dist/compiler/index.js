@@ -4,17 +4,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = require("path");
-const paths_js_1 = __importDefault(require("../config/paths.js"));
-const FileNames_js_1 = require("../constants/FileNames.js");
+const paths_1 = __importDefault(require("../config/paths"));
+const FileNames_1 = require("../constants/FileNames");
 const compileProjectConfig_1 = require("./compileProjectConfig");
 const miniprogramWebpackEntry_1 = require("../config/miniprogramWebpackEntry");
 const vfsHelper_1 = require("../utils/vfsHelper");
 const compileJS_1 = require("./compileJS");
 const chalk_1 = __importDefault(require("chalk"));
 const appConfig_1 = __importDefault(require("../config/appConfig"));
-const env_js_1 = require("../utils/env.js");
+const env_1 = require("../utils/env");
 const fs_extra_1 = require("fs-extra");
 const compileLess_1 = require("./compileLess");
+const FileTypes_1 = require("../enums/FileTypes");
+const compileWxml_1 = require("./compileWxml");
+const compileJSON_1 = require("./compileJSON");
+const compileImage_1 = require("./compileImage");
+const compileExtra_1 = require("./compileExtra");
 const fileQueue = [];
 class MiniProgramCompiler {
     constructor(webpackConfig) {
@@ -23,7 +28,7 @@ class MiniProgramCompiler {
                 Promise.all(fileQueue)
                     .then(() => {
                     fileQueue.length = 0;
-                    const debugProjectConfigPath = path_1.join(paths_js_1.default.appDebug, miniprogramWebpackEntry_1.miniprogramWebpackEntry().entryKey, FileNames_js_1.PROJECTCONFIG);
+                    const debugProjectConfigPath = path_1.join(paths_1.default.appDebug, miniprogramWebpackEntry_1.miniprogramWebpackEntry().entryKey, FileNames_1.PROJECTCONFIG);
                     compileProjectConfig_1.compileProjectConfig({ projectConfigPath: debugProjectConfigPath })
                         .then(() => {
                         if (watcherDone) {
@@ -45,7 +50,7 @@ class MiniProgramCompiler {
         };
         this.remove = (path) => {
             const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
-            const fileCompiledPath = path_1.join(env_js_1.isProd() ? paths_js_1.default.appPublic : paths_js_1.default.appDebug, projectVirtualPath, path.replace('client', '')).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
+            const fileCompiledPath = path_1.join(env_1.isProd() ? paths_1.default.appPublic : paths_1.default.appDebug, projectVirtualPath, path.replace('client', '')).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
             fs_extra_1.removeSync(fileCompiledPath);
             console.log(`${chalk_1.default.blue('=>')} File ${chalk_1.default.cyan(path)} was removed`);
         };
@@ -62,14 +67,22 @@ class MiniProgramCompiler {
         this.webpackConfig = webpackConfig;
     }
     execCompileTask(filePath) {
-        if (vfsHelper_1.fileTypeChecker('scripts', filePath)) {
+        if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.scripts, filePath)) {
             return compileJS_1.compileJS(filePath, this.webpackConfig);
         }
-        if (vfsHelper_1.fileTypeChecker('less', filePath)) {
+        if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.less, filePath)) {
             return compileLess_1.compileLess(filePath, this.webpackConfig);
         }
-        // TODO Remove it later
-        return compileJS_1.compileJS(filePath, this.webpackConfig);
+        if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.xml, filePath)) {
+            return compileWxml_1.compileWxml(filePath);
+        }
+        if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.json, filePath)) {
+            return compileJSON_1.compileJSON(filePath);
+        }
+        if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.image, filePath)) {
+            return compileImage_1.compileImage(filePath);
+        }
+        return compileExtra_1.compileExtra(filePath);
     }
 }
 exports.MiniProgramCompiler = MiniProgramCompiler;

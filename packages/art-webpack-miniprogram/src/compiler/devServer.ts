@@ -3,6 +3,7 @@ import { MiniProgramCompiler } from './index';
 import { miniprogramWebpackEntry } from '../config/miniprogramWebpackEntry';
 import chokidar from 'chokidar';
 import paths from '../config/paths';
+import chalk from 'chalk';
 
 export const devServer = (webpackConfig: Configuration, ignoreInitial: boolean, watcherDone: () => any) => {
 
@@ -17,5 +18,8 @@ export const devServer = (webpackConfig: Configuration, ignoreInitial: boolean, 
     .on('ready', miniprogramCompiler.ready(watcherDone))
     .on('add', miniprogramCompiler.add)
     .on('unlink', miniprogramCompiler.remove)
-    .on('change', miniprogramCompiler.change);
+    .on('change', miniprogramCompiler.change)
+    .on('error', (err) => {
+      console.log(`${chalk.red('File system watch error:')} ${err}`);
+    });
 };

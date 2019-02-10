@@ -1,6 +1,6 @@
 import { join } from 'path';
-import paths from '../config/paths.js';
-import { PROJECTCONFIG } from '../constants/FileNames.js';
+import paths from '../config/paths';
+import { PROJECTCONFIG } from '../constants/FileNames';
 import { compileProjectConfig } from './compileProjectConfig';
 import { miniprogramWebpackEntry } from '../config/miniprogramWebpackEntry';
 import { Configuration } from 'webpack';
@@ -8,9 +8,14 @@ import { fileTypeChecker } from '../utils/vfsHelper';
 import { compileJS } from './compileJS';
 import chalk from 'chalk';
 import appConfig from '../config/appConfig';
-import { isProd } from '../utils/env.js';
+import { isProd } from '../utils/env';
 import { removeSync } from 'fs-extra';
 import { compileLess } from './compileLess';
+import { FileTypes } from '../enums/FileTypes';
+import { compileWxml } from './compileWxml';
+import { compileJSON } from './compileJSON';
+import { compileImage } from './compileImage';
+import { compileExtra } from './compileExtra';
 
 const fileQueue: Array<Promise<any>> = [];
 
@@ -21,14 +26,22 @@ export class MiniProgramCompiler {
   public webpackConfig: Configuration;
 
   private execCompileTask (filePath: string) {
-    if (fileTypeChecker('scripts', filePath)) {
+    if (fileTypeChecker(FileTypes.scripts, filePath)) {
       return compileJS(filePath, this.webpackConfig);
     }
-    if (fileTypeChecker('less', filePath)) {
+    if (fileTypeChecker(FileTypes.less, filePath)) {
       return compileLess(filePath, this.webpackConfig);
     }
-    // TODO Remove it later
-    return compileJS(filePath, this.webpackConfig);
+    if (fileTypeChecker(FileTypes.xml, filePath)) {
+      return compileWxml(filePath);
+    }
+    if (fileTypeChecker(FileTypes.json, filePath)) {
+      return compileJSON(filePath);
+    }
+    if (fileTypeChecker(FileTypes.image, filePath)) {
+      return compileImage(filePath);
+    }
+    return compileExtra(filePath);
   }
 
   public ready = (watcherDone: () => any) => {
