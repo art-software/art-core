@@ -16,5 +16,7 @@ exports.devServer = (webpackConfig, ignoreInitial, watcherDone) => {
         ignored: /(^|[/\\])\../
     })
         .on('ready', miniprogramCompiler.ready(watcherDone))
-        .on('add', miniprogramCompiler.add.bind(miniprogramCompiler));
+        .on('add', miniprogramCompiler.add)
+        .on('unlink', miniprogramCompiler.remove)
+        .on('change', miniprogramCompiler.change);
 };
