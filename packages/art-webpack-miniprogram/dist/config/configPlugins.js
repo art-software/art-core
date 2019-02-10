@@ -7,7 +7,6 @@ const progress_bar_webpack_plugin_1 = __importDefault(require("progress-bar-webp
 const chalk_1 = __importDefault(require("chalk"));
 const fork_ts_checker_webpack_plugin_1 = __importDefault(require("fork-ts-checker-webpack-plugin"));
 const paths_1 = __importDefault(require("./paths"));
-const happypack_1 = __importDefault(require("happypack"));
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 exports.configBasePlugins = (() => {
     const plugins = [
@@ -21,34 +20,34 @@ exports.configBasePlugins = (() => {
             filename: '[name]',
             chunkFilename: '[id]'
         }),
-        new happypack_1.default({
-            id: 'js',
-            threads: 3,
-            loaders: [
-                {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-env'
-                        ]
-                    }
-                }
-            ],
-        }),
-        new happypack_1.default({
-            id: 'ts',
-            threads: 3,
-            loaders: [
-                {
-                    loader: 'ts-loader',
-                    options: {
-                        transpileOnly: true,
-                        silent: false,
-                        happyPackMode: true
-                    }
-                }
-            ]
-        }),
+        // new HappyPack({
+        //   id: 'js',
+        //   threads: 3,
+        //   loaders: [
+        //     {
+        //       loader: 'babel-loader',
+        //       options: {
+        //         presets: [
+        //           '@babel/preset-env'
+        //         ]
+        //       }
+        //     }
+        //   ],
+        // }),
+        // new HappyPack({
+        //   id: 'ts',
+        //   threads: 3,
+        //   loaders: [
+        //     {
+        //       loader: 'ts-loader',
+        //       options: {
+        //         transpileOnly: true,
+        //         silent: false,
+        //         happyPackMode: true
+        //       }
+        //     }
+        //   ]
+        // }),
         new fork_ts_checker_webpack_plugin_1.default({
             tsconfig: paths_1.default.appTsConfig,
             tslint: paths_1.default.appTsLintConfig

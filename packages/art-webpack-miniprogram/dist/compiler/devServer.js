@@ -18,7 +18,7 @@ exports.devServer = (webpackConfig, ignoreInitial, watcherDone) => {
     })
         .on('ready', miniprogramCompiler.ready(watcherDone))
         .on('add', miniprogramCompiler.add)
-        .on('unlink', miniprogramCompiler.remove)
+        .on('unlink', miniprogramCompiler.remove) // TODO remove empty folders when all containing files deleted
         .on('change', miniprogramCompiler.change)
         .on('error', (err) => {
         console.log(`${chalk_1.default.red('File system watch error:')} ${err}`);

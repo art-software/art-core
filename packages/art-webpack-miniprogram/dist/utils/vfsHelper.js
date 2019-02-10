@@ -39,3 +39,7 @@ exports.getDest = (vfsInstance) => {
     const dest = path_1.join(env_1.isProd() ? paths_1.default.appPublic : paths_1.default.appDebug, projectVirtualPath);
     return vfsInstance.dest(dest, { cwd: paths_1.default.appCwd });
 };
+exports.getSrcOptions = (options) => {
+    const vfsOption = { cwd: paths_1.default.appCwd, base: 'client' };
+    return Object.assign({}, vfsOption, options);
+};

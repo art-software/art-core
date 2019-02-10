@@ -42,3 +42,8 @@ export const getDest = (vfsInstance: typeof vfs) => {
   );
   return vfsInstance.dest(dest, { cwd: paths.appCwd });
 };
+
+export const getSrcOptions = (options?: vfs.SrcOptions) => {
+  const vfsOption = { cwd: paths.appCwd, base: 'client' };
+  return Object.assign({}, vfsOption, options);
+};

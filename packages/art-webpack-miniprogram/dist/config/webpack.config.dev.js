@@ -9,7 +9,7 @@ const webpack_config_base_1 = require("./webpack.config.base");
 class WebpackDevConfig extends webpack_config_base_1.WebpackBaseConfig {
     constructor(entry, output) {
         super(entry, output);
-        this.devtool = '#source-map';
+        this.devtool = '#inline-source-map';
         this.plugins = this.plugins.concat(new mini_css_extract_plugin_1.default({
             filename: `./[name]/bundle.css`
         }), new webpack_1.default.NamedModulesPlugin());

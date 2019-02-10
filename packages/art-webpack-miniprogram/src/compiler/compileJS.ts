@@ -13,7 +13,7 @@ const composeWebpackEntry = (filePath: string) => {
 };
 
 export const compileJS = (path: string, webpackConfig: Configuration) => {
-  Object.assign(webpackConfig, {
+  const newWebpackConfig = Object.assign({}, webpackConfig, {
     entry: composeWebpackEntry(path)
   });
 
@@ -21,7 +21,7 @@ export const compileJS = (path: string, webpackConfig: Configuration) => {
 
     vfs.src(path)
       .pipe(plumber(handleErros))
-      .pipe(webpackStream(webpackConfig, webpack as any, () => {}))
+      .pipe(webpackStream(newWebpackConfig, webpack as any, () => {}))
       .pipe(getDest(vfs))
       .on('end', resolve);
   });

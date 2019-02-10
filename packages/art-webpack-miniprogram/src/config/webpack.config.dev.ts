@@ -8,7 +8,7 @@ export default class WebpackDevConfig extends WebpackBaseConfig implements Confi
     super(entry, output);
   }
 
-  public devtool = '#source-map' as '#source-map';
+  public devtool = '#inline-source-map' as '#inline-source-map';
 
   public plugins = this.plugins.concat(
     new MiniCssExtractPlugin({

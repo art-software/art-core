@@ -94,7 +94,15 @@ const fontRule: RuleSetRule = {
 const jsRule: RuleSetRule = {
   test: /\.(js)$/,
   use: [
-    { loader: 'happypack/loader?id=js' }
+    // { loader: 'happypack/loader?id=js' }
+    {
+      loader: 'babel-loader',
+      options: {
+        presets: [
+          '@babel/preset-env'
+        ]
+      }
+    }
   ],
   // TODO
   exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-common)\/).*/
@@ -103,7 +111,15 @@ const jsRule: RuleSetRule = {
 const tsRule: RuleSetRule = {
   test: /\.(ts)$/,
   use: [
-    { loader: 'happypack/loader?id=ts' }
+    // { loader: 'happypack/loader?id=ts' }
+    {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+        silent: false,
+        happyPackMode: true
+      }
+    }
   ],
   // TODO
   exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-common)\/).*/

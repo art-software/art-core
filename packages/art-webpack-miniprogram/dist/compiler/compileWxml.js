@@ -21,7 +21,8 @@ const htmlminOptions = {
 };
 exports.compileWxml = (path) => {
     return new Promise((resolve) => {
-        vinyl_fs_1.default.src(path)
+        console.log('wxml path: ', path);
+        vinyl_fs_1.default.src(path, vfsHelper_1.getSrcOptions())
             .pipe(gulp_plumber_1.default(vfsHelper_1.handleErros))
             .pipe(gulp_if_1.default(env_1.isProd(), gulp_htmlmin_1.default(htmlminOptions)))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default))

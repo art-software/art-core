@@ -8,7 +8,7 @@ const gulp_plumber_1 = __importDefault(require("gulp-plumber"));
 const vfsHelper_1 = require("../utils/vfsHelper");
 exports.compileImage = (path) => {
     return new Promise((resolve) => {
-        vinyl_fs_1.default.src(path)
+        vinyl_fs_1.default.src(path, vfsHelper_1.getSrcOptions())
             .pipe(gulp_plumber_1.default(vfsHelper_1.handleErros))
             // TODO do image minifiy within webpack or gulp
             // .pipe(gulpif(
