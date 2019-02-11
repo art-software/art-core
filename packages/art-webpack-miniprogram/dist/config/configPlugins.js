@@ -7,6 +7,7 @@ const progress_bar_webpack_plugin_1 = __importDefault(require("progress-bar-webp
 const chalk_1 = __importDefault(require("chalk"));
 const fork_ts_checker_webpack_plugin_1 = __importDefault(require("fork-ts-checker-webpack-plugin"));
 const paths_1 = __importDefault(require("./paths"));
+// import HappyPack from 'happypack';
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 exports.configBasePlugins = (() => {
     const plugins = [

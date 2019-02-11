@@ -2,7 +2,7 @@ import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import chalk from 'chalk';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import paths from './paths';
-import HappyPack from 'happypack';
+// import HappyPack from 'happypack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 export const configBasePlugins = (() => {

@@ -24,8 +24,6 @@ exports.configBaseRules = () => {
         sassRule(prod),
         assetsRule,
         fontRule,
-        jsRule,
-        tsRule
     ]);
     return config;
 };
@@ -113,7 +111,7 @@ const tsRule = {
             options: {
                 transpileOnly: true,
                 silent: false,
-                happyPackMode: true
+                happyPackMode: false
             }
         }
     ],
