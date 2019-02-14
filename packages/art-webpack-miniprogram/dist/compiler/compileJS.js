@@ -12,6 +12,8 @@ const gulp_babel_1 = __importDefault(require("gulp-babel"));
 const fs_extra_1 = require("fs-extra");
 const path_1 = require("path");
 const dependencyExtractor_1 = require("./dependencyExtractor");
+const dependencyMapping_1 = require("./dependencyMapping");
+const chalk_1 = __importDefault(require("chalk"));
 const defaultBabelConfig = {
     presets: ['@babel/preset-env']
 };
@@ -22,7 +24,9 @@ exports.compileJS = (path, webpackConfig) => {
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
     const babelConfig = Object.assign({}, defaultBabelConfig, customBabelConfig);
     const filePath = path_1.join(paths_1.default.appCwd, path);
-    dependencyExtractor_1.dependencyExtractor(filePath);
+    const dependencies = dependencyExtractor_1.dependencyExtractor(filePath);
+    const mapping = dependencyMapping_1.DependencyMapping.setMapping(path, dependencies);
+    console.log(chalk_1.default.green('Current mapping: '), mapping);
     return new Promise((resolve) => {
         // TODO add tslint checker?
         vinyl_fs_1.default.src(path, vfsHelper_1.getSrcOptions())

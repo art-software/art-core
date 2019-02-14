@@ -20,6 +20,7 @@ const compileWxml_1 = require("./compileWxml");
 const compileJSON_1 = require("./compileJSON");
 const compileImage_1 = require("./compileImage");
 const compileExtra_1 = require("./compileExtra");
+const dependencyMapping_1 = require("./dependencyMapping");
 const fileQueue = [];
 class MiniProgramCompiler {
     constructor(webpackConfig) {
@@ -53,6 +54,10 @@ class MiniProgramCompiler {
             const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
             const fileCompiledPath = path_1.join(env_1.isProd() ? paths_1.default.appPublic : paths_1.default.appDebug, projectVirtualPath, path.replace('client', '')).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
             fs_extra_1.removeSync(fileCompiledPath);
+            if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.scripts, fileCompiledPath)) {
+                const mapping = dependencyMapping_1.DependencyMapping.deleteMapping(path);
+                console.log(chalk_1.default.green('Current mapping: '), mapping);
+            }
             console.log(`${chalk_1.default.blue('=>')} File ${chalk_1.default.cyan(path)} was removed`);
         };
         this.change = (path) => {

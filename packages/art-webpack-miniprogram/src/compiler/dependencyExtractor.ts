@@ -12,7 +12,7 @@ const isNpmDependency = (path: string) => {
 };
 
 // extract import statement from js/ts files
-export const dependencyExtractor = (filePath: string, ) => {
+export const dependencyExtractor = (filePath: string): string[] => {
 
   const file = readFileSync(filePath, { encoding: 'utf8' });
 
@@ -22,6 +22,7 @@ export const dependencyExtractor = (filePath: string, ) => {
   });
 
   const importAsts: ImportDeclaration[] = [];
+  const dependencies: string[] = [];
 
   astTypes.visit(ast, {
     visitImportDeclaration(path) {
@@ -51,5 +52,8 @@ export const dependencyExtractor = (filePath: string, ) => {
   importAsts.forEach((astNode) => {
     const output = recast.print(astNode).code;
     console.log(chalk.green('import =>  '), output);
+    dependencies.push(output);
   });
+
+  return dependencies;
 };

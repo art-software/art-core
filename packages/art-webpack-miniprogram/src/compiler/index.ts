@@ -16,6 +16,7 @@ import { compileWxml } from './compileWxml';
 import { compileJSON } from './compileJSON';
 import { compileImage } from './compileImage';
 import { compileExtra } from './compileExtra';
+import { DependencyMapping } from './dependencyMapping';
 
 const fileQueue: Array<Promise<any>> = [];
 
@@ -82,6 +83,10 @@ export class MiniProgramCompiler {
       path.replace('client', '')
     ).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
     removeSync(fileCompiledPath);
+    if (fileTypeChecker(FileTypes.scripts, fileCompiledPath)) {
+      const mapping = DependencyMapping.deleteMapping(path);
+      console.log(chalk.green('Current mapping: '), mapping);
+    }
     console.log(`${chalk.blue('=>')} File ${chalk.cyan(path)} was removed`);
   }
 

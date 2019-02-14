@@ -8,6 +8,8 @@ import gulpBabel from 'gulp-babel';
 import { readJSONSync, existsSync } from 'fs-extra';
 import { join } from 'path';
 import { dependencyExtractor } from './dependencyExtractor';
+import { DependencyMapping } from './dependencyMapping';
+import chalk from 'chalk';
 
 const defaultBabelConfig = {
   presets: ['@babel/preset-env']
@@ -21,7 +23,9 @@ export const compileJS = (path: string, webpackConfig: Configuration) => {
   const babelConfig = Object.assign({}, defaultBabelConfig, customBabelConfig);
 
   const filePath = join(paths.appCwd, path);
-  dependencyExtractor(filePath);
+  const dependencies = dependencyExtractor(filePath);
+  const mapping = DependencyMapping.setMapping(path, dependencies);
+  console.log(chalk.green('Current mapping: '), mapping);
 
   return new Promise((resolve) => {
 

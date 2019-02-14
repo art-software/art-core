@@ -21,6 +21,7 @@ exports.dependencyExtractor = (filePath) => {
         parser: require('recast/parsers/typescript')
     });
     const importAsts = [];
+    const dependencies = [];
     ast_types_1.default.visit(ast, {
         visitImportDeclaration(path) {
             const importNode = path.node;
@@ -46,5 +47,7 @@ exports.dependencyExtractor = (filePath) => {
     importAsts.forEach((astNode) => {
         const output = recast_1.default.print(astNode).code;
         console.log(chalk_1.default.green('import =>  '), output);
+        dependencies.push(output);
     });
+    return dependencies;
 };
