@@ -54,6 +54,7 @@ class MiniProgramCompiler {
             const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
             const fileCompiledPath = path_1.join(env_1.isProd() ? paths_1.default.appPublic : paths_1.default.appDebug, projectVirtualPath, path.replace('client', '')).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
             fs_extra_1.removeSync(fileCompiledPath);
+            // update dependencies mapping
             if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.scripts, fileCompiledPath)) {
                 const mapping = dependencyMapping_1.DependencyMapping.deleteMapping(path);
                 console.log(chalk_1.default.green('Current mapping: '), mapping);

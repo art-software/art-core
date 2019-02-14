@@ -15,13 +15,13 @@ const composeWebpackEntry = (filePath) => {
     return entry;
 };
 exports.compileLess = (path, webpackConfig) => {
-    Object.assign(webpackConfig, {
+    const newWebpackConfig = Object.assign({}, webpackConfig, {
         entry: composeWebpackEntry(path)
     });
     return new Promise((resolve) => {
         vinyl_fs_1.default.src(path)
             .pipe(gulp_plumber_1.default(vfsHelper_1.handleErros))
-            .pipe(webpack_stream_1.default(webpackConfig, webpack_1.default, () => { }))
+            .pipe(webpack_stream_1.default(newWebpackConfig, webpack_1.default, () => { }))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default))
             .on('end', resolve);
     });

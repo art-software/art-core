@@ -24,6 +24,8 @@ exports.configBaseRules = () => {
         sassRule(prod),
         assetsRule,
         fontRule,
+        jsRule,
+        tsRule
     ]);
     return config;
 };

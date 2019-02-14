@@ -14,6 +14,7 @@ const path_1 = require("path");
 const dependencyExtractor_1 = require("./dependencyExtractor");
 const dependencyMapping_1 = require("./dependencyMapping");
 const chalk_1 = __importDefault(require("chalk"));
+const compileNpm_1 = require("./compileNpm");
 const defaultBabelConfig = {
     presets: ['@babel/preset-env']
 };
@@ -27,6 +28,7 @@ exports.compileJS = (path, webpackConfig) => {
     const dependencies = dependencyExtractor_1.dependencyExtractor(filePath);
     const mapping = dependencyMapping_1.DependencyMapping.setMapping(path, dependencies);
     console.log(chalk_1.default.green('Current mapping: '), mapping);
+    compileNpm_1.compileNpm(webpackConfig);
     return new Promise((resolve) => {
         // TODO add tslint checker?
         vinyl_fs_1.default.src(path, vfsHelper_1.getSrcOptions())

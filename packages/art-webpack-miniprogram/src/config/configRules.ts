@@ -16,8 +16,8 @@ export const configBaseRules = (): RuleSetRule[] => {
     sassRule(prod),
     assetsRule,
     fontRule,
-    // jsRule,
-    // tsRule
+    jsRule,
+    tsRule
   ]);
 
   return config;

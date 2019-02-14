@@ -15,6 +15,7 @@ const paths = {
     appNodeModules: resolveAppPath_1.default('node_modules'),
     appArtConfig: resolveAppPath_1.default('art.config.js'),
     appTsConfig: resolveAppPath_1.default('tsconfig.json'),
-    appTsLintConfig: resolveAppPath_1.default('tslint.json')
+    appTsLintConfig: resolveAppPath_1.default('tslint.json'),
+    appNpmMappings: resolveAppPath_1.default('npmMappings.js')
 };
 exports.default = paths;

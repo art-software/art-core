@@ -14,6 +14,9 @@ export class DependencyMapping {
     if (!DependencyMapping.needUpdate(filePath, dependencies)) {
       return DependencyMapping.mapping;
     }
+    if (dependencies.length === 0) {
+      return DependencyMapping.deleteMapping(filePath);
+    }
 
     return DependencyMapping.mapping.set(filePath, dependencies);
   }

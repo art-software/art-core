@@ -10,6 +10,7 @@ import { join } from 'path';
 import { dependencyExtractor } from './dependencyExtractor';
 import { DependencyMapping } from './dependencyMapping';
 import chalk from 'chalk';
+import { compileNpm } from './compileNpm';
 
 const defaultBabelConfig = {
   presets: ['@babel/preset-env']
@@ -26,6 +27,8 @@ export const compileJS = (path: string, webpackConfig: Configuration) => {
   const dependencies = dependencyExtractor(filePath);
   const mapping = DependencyMapping.setMapping(path, dependencies);
   console.log(chalk.green('Current mapping: '), mapping);
+
+  compileNpm(webpackConfig);
 
   return new Promise((resolve) => {
 

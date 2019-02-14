@@ -82,7 +82,10 @@ export class MiniProgramCompiler {
       projectVirtualPath,
       path.replace('client', '')
     ).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
+
     removeSync(fileCompiledPath);
+
+    // update dependencies mapping
     if (fileTypeChecker(FileTypes.scripts, fileCompiledPath)) {
       const mapping = DependencyMapping.deleteMapping(path);
       console.log(chalk.green('Current mapping: '), mapping);

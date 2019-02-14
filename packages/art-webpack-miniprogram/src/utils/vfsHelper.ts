@@ -35,10 +35,11 @@ export const fileTypeChecker = (type: FileTypes, filePath: string) => {
   }
 };
 
-export const getDest = (vfsInstance: typeof vfs) => {
+export const getDest = (vfsInstance: typeof vfs, path: string = '') => {
   const dest = join(
     isProd() ? paths.appPublic : paths.appDebug,
-    projectVirtualPath
+    projectVirtualPath,
+    path
   );
   return vfsInstance.dest(dest, { cwd: paths.appCwd });
 };
