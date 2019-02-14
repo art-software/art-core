@@ -39,6 +39,7 @@ class MiniProgramCompiler {
             };
         };
         this.add = (path) => {
+            console.log('add: ', path);
             fileQueue.push(new Promise((resolve, reject) => {
                 this.execCompileTask(path)
                     .then(() => {

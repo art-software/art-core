@@ -1,7 +1,7 @@
 import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import chalk from 'chalk';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import paths from './paths';
+// import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+// import paths from './paths';
 // import HappyPack from 'happypack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
@@ -49,10 +49,10 @@ export const configBasePlugins = (() => {
     //   ]
     // }),
 
-    new ForkTsCheckerWebpackPlugin({
-      tsconfig: paths.appTsConfig,
-      tslint: paths.appTsLintConfig
-    }),
+    // new ForkTsCheckerWebpackPlugin({
+    //   tsconfig: paths.appTsConfig,
+    //   tslint: paths.appTsLintConfig
+    // }),
   ];
 
   return plugins;
