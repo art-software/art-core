@@ -1,15 +1,14 @@
 import { DependencyMapping } from './dependencyMapping';
-import { writeFile } from 'fs';
 import paths from '../config/paths';
-import vfs from 'vinyl-fs';
-import { Configuration } from 'webpack';
 import { join } from 'path';
 import { isProd } from '../utils/env';
 import appConfig from '../config/appConfig';
-import plumber from 'gulp-plumber';
-import { handleErros, getDest, getSrcOptions } from '../utils/vfsHelper';
-import webpackStream from 'webpack-stream';
-import webpack from 'webpack';
+import rollupCommonjs from 'rollup-plugin-commonjs';
+import rollupResolve from 'rollup-plugin-node-resolve';
+import rollupBabel from 'rollup-plugin-babel';
+import rollupTypescript from 'rollup-plugin-typescript';
+import { babelConfig } from '../config/babelConfig';
+const rollup = require('rollup');
 
 const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
@@ -26,16 +25,7 @@ const getAllNpmDependencies = (): string[] => {
   return allNpmDependencies;
 };
 
-const writeEntryFile = (entryFilePath: string): Promise<null> => {
-  return new Promise((resolve, reject) => {
-    writeFile(entryFilePath, getAllNpmDependencies().join('\n'), (err) => {
-      if (err) { return reject(err); }
-      resolve();
-    });
-  });
-};
-
-const getWebpackDist = () => {
+const getDist = () => {
   return join(
     isProd() ? paths.appPublic : paths.appDebug,
     projectVirtualPath,
@@ -43,22 +33,40 @@ const getWebpackDist = () => {
   );
 };
 
-export const compileNpm = async (webpackConfig: Configuration) => {
-  const newWebpackConfig = Object.assign({}, webpackConfig, {
-    entry: paths.appNpmMappings,
-    output: {
-      filename: 'bundle.js',
-      path: getWebpackDist()
-    }
-  });
+export const compileNpm = () => {
+  const allNpmDependencies = getAllNpmDependencies();
+  console.log('allNpmDependencies: ', allNpmDependencies);
+  if (allNpmDependencies.length === 0) {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  }
 
-  await writeEntryFile(paths.appNpmMappings);
-
-  return new Promise((resolve) => {
-    vfs.src(paths.appNpmMappings)
-      .pipe(plumber(handleErros))
-      .pipe(webpackStream(newWebpackConfig, webpack as any, () => {}))
-      .pipe(getDest(vfs, 'lib'))
-      .on('end', resolve);
+  return rollup.rollup({
+    input: allNpmDependencies,
+    plugins: [
+      rollupResolve({
+        extensions: [ '.mjs', '.js', '.ts', '.json' ]
+      }),
+      rollupTypescript({
+        tsconfig: paths.appTsConfig
+      }),
+      rollupCommonjs({
+        include: process.env.STAGE === 'dev' ?
+          join(paths.appCwd, '../../node_modules/**') :
+          paths.appNodeModules + '/**',
+        extensions: [ '.js', '.ts' ]
+      }),
+      rollupBabel(
+        Object.assign({}, babelConfig, { babelrc: false })
+      )
+    ]
+  })
+  .then((bundles) => {
+    return bundles.write({
+      dir: getDist(),
+      format: 'cjs',
+      exports: 'named'
+    });
   });
 };

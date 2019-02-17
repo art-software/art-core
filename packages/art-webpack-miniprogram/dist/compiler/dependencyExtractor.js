@@ -7,6 +7,7 @@ const fs_1 = require("fs");
 const recast_1 = __importDefault(require("recast"));
 const ast_types_1 = __importDefault(require("ast-types"));
 const resolve_1 = __importDefault(require("resolve"));
+// import { ImportDeclaration } from 'ast-types/gen/nodes';
 const path_1 = require("path");
 const chalk_1 = __importDefault(require("chalk"));
 const isNpmDependency = (path) => {
@@ -40,14 +41,14 @@ exports.dependencyExtractor = (filePath) => {
                 // tslint:disable-next-line:no-unused-expression
                 importNode.comments.length === 0;
             }
-            importAsts.push(importNode);
+            importAsts.push(resolvedPath);
             this.traverse(path);
         }
     });
-    importAsts.forEach((astNode) => {
-        const output = recast_1.default.print(astNode).code;
-        console.log(chalk_1.default.green('import =>  '), output);
-        dependencies.push(output);
+    importAsts.forEach((resolvedPath) => {
+        // const output = recast.print(astNode).code;
+        console.log(chalk_1.default.green('import =>  '), resolvedPath);
+        dependencies.push(resolvedPath);
     });
     return dependencies;
 };

@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import recast from 'recast';
 import astTypes from 'ast-types';
 import resolve from 'resolve';
-import { ImportDeclaration } from 'ast-types/gen/nodes';
+// import { ImportDeclaration } from 'ast-types/gen/nodes';
 import { dirname } from 'path';
 import chalk from 'chalk';
 
@@ -21,7 +21,7 @@ export const dependencyExtractor = (filePath: string): string[] => {
     parser: require('recast/parsers/typescript')
   });
 
-  const importAsts: ImportDeclaration[] = [];
+  const importAsts: string[] = [];
   const dependencies: string[] = [];
 
   astTypes.visit(ast, {
@@ -43,16 +43,16 @@ export const dependencyExtractor = (filePath: string): string[] => {
         importNode.comments.length === 0;
       }
 
-      importAsts.push(importNode);
+      importAsts.push(resolvedPath);
 
       this.traverse(path);
     }
   });
 
-  importAsts.forEach((astNode) => {
-    const output = recast.print(astNode).code;
-    console.log(chalk.green('import =>  '), output);
-    dependencies.push(output);
+  importAsts.forEach((resolvedPath) => {
+    // const output = recast.print(astNode).code;
+    console.log(chalk.green('import =>  '), resolvedPath);
+    dependencies.push(resolvedPath);
   });
 
   return dependencies;
