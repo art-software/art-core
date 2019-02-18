@@ -48,10 +48,22 @@ export const dependencyExtractor = (filePath: string): string[] => {
   });
 
   importAsts.forEach((resolvedPath) => {
-    // const output = recast.print(astNode).code;
     console.log(chalk.green('import =>  '), resolvedPath);
     dependencies.push(resolvedPath);
   });
 
   return dependencies;
 };
+
+// export class DependencyExtractor {
+//   private static dependencies: string[] = [];
+
+//   public static getDependencies () {
+//     return DependencyExtractor.dependencies;
+//   }
+
+//   public static setDependency (DependenciesPath: string) {
+//     DependencyExtractor.dependencies.push(DependenciesPath);
+//     return DependencyExtractor.dependencies;
+//   }
+// }

@@ -9,7 +9,6 @@ import gulpBabel from 'gulp-babel';
 import { join, dirname, relative } from 'path';
 import { dependencyExtractor } from './dependencyExtractor';
 import { DependencyMapping } from './dependencyMapping';
-import chalk from 'chalk';
 import { compileNpm } from './compileNpm';
 import { babelConfig } from '../config/babelConfig';
 import { gulpAstTransform } from './gulpAstTransform';
@@ -27,8 +26,8 @@ export const compileJS = (path: string, webpackConfig: Configuration) => {
 
   const filePath = join(paths.appCwd, path);
   const dependencies = dependencyExtractor(filePath);
-  const mapping = DependencyMapping.setMapping(path, dependencies);
-  console.log(chalk.green('Current mapping: '), mapping);
+  DependencyMapping.setMapping(path, dependencies);
+  // console.log(chalk.green('Current mapping: '), mapping);
 
   compileNpm();
 
@@ -56,7 +55,6 @@ export const compileJS = (path: string, webpackConfig: Configuration) => {
             projectVirtualPath + '/lib'
           );
 
-          console.log(chalk.green(resolvedPath));
           importNode.source.value = join(relativePath, source);
 
           this.traverse(astPath);

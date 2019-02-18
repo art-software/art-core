@@ -20,7 +20,6 @@ const gulp_babel_1 = __importDefault(require("gulp-babel"));
 const path_1 = require("path");
 const dependencyExtractor_1 = require("./dependencyExtractor");
 const dependencyMapping_1 = require("./dependencyMapping");
-const chalk_1 = __importDefault(require("chalk"));
 const compileNpm_1 = require("./compileNpm");
 const babelConfig_1 = require("../config/babelConfig");
 const gulpAstTransform_1 = require("./gulpAstTransform");
@@ -34,8 +33,8 @@ exports.compileJS = (path, webpackConfig) => {
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
     const filePath = path_1.join(paths_1.default.appCwd, path);
     const dependencies = dependencyExtractor_1.dependencyExtractor(filePath);
-    const mapping = dependencyMapping_1.DependencyMapping.setMapping(path, dependencies);
-    console.log(chalk_1.default.green('Current mapping: '), mapping);
+    dependencyMapping_1.DependencyMapping.setMapping(path, dependencies);
+    // console.log(chalk.green('Current mapping: '), mapping);
     compileNpm_1.compileNpm();
     return new Promise((resolve) => {
         // TODO add tslint checker?
@@ -57,7 +56,6 @@ exports.compileJS = (path, webpackConfig) => {
                 }
                 const relativePath = path_1.relative(path.replace('client', projectVirtualPath) + '/..', // TODO not elegant enough
                 projectVirtualPath + '/lib');
-                console.log(chalk_1.default.green(resolvedPath));
                 importNode.source.value = path_1.join(relativePath, source);
                 this.traverse(astPath);
             }
