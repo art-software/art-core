@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dependencyMapping_1 = require("./dependencyMapping");
 const paths_1 = __importDefault(require("../config/paths"));
-const appConfig_1 = __importDefault(require("../config/appConfig"));
+// import appConfig from '../config/appConfig';
 const vinyl_fs_1 = __importDefault(require("vinyl-fs"));
 const dependencyTree_1 = require("./dependencyTree");
 const vfsHelper_1 = require("../utils/vfsHelper");
@@ -13,6 +13,7 @@ const gulp_plumber_1 = __importDefault(require("gulp-plumber"));
 const gulp_typescript_1 = __importDefault(require("gulp-typescript"));
 const gulp_babel_1 = __importDefault(require("gulp-babel"));
 const babelConfig_1 = require("../config/babelConfig");
+const path_1 = require("path");
 const NPM = 'node_modules';
 // TODO remove rollup totally?
 // TODO local dependencies and npm dependencies
@@ -22,7 +23,6 @@ const NPM = 'node_modules';
 // import rollupTypescript from 'rollup-plugin-typescript';
 // import { babelConfig } from '../config/babelConfig';
 // const rollup = require('rollup');
-const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 const getAllNpmDependencies = () => {
     const allNpmDependencies = [];
     const npmMapping = dependencyMapping_1.DependencyMapping.getAllMapping();
@@ -36,10 +36,6 @@ const getAllNpmDependencies = () => {
     });
     return allNpmDependencies;
 };
-const getDistRelativePath = (filePath) => {
-    const i = filePath.lastIndexOf(NPM) + NPM.length;
-    return filePath.slice(i);
-};
 exports.compileNpm = () => {
     const allNpmDependencies = getAllNpmDependencies();
     console.log('allNpmDependencies: ', allNpmDependencies);
@@ -48,14 +44,12 @@ exports.compileNpm = () => {
             resolve();
         });
     }
-    // const npmDependencies = dependencyTree(allNpmDependencies).map((dep) => {
-    //   const i = dep.lastIndexOf(NPM) + NPM.length;
-    //   return dep.slice(i);
-    // });
     const npmDependencies = dependencyTree_1.dependencyTree(allNpmDependencies);
-    const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
+    const rootDir = process.env.STAGE === 'dev' ?
+        path_1.join(paths_1.default.appCwd, '../../node_modules') : paths_1.default.appNodeModules;
+    const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig, { rootDir });
     return new Promise((resolve) => {
-        vinyl_fs_1.default.src(npmDependencies, vfsHelper_1.getSrcOptions({ base: '/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public' }))
+        vinyl_fs_1.default.src(npmDependencies, vfsHelper_1.getSrcOptions({ base: rootDir }))
             .pipe(gulp_plumber_1.default(vfsHelper_1.handleErros))
             .pipe(tsProject())
             .pipe(gulp_babel_1.default(babelConfig_1.babelConfig))

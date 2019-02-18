@@ -1,8 +1,6 @@
 import { DependencyMapping } from './dependencyMapping';
 import paths from '../config/paths';
-import { join } from 'path';
-import { isProd } from '../utils/env';
-import appConfig from '../config/appConfig';
+// import appConfig from '../config/appConfig';
 import vfs from 'vinyl-fs';
 import { dependencyTree } from './dependencyTree';
 import { getSrcOptions, handleErros, getDest } from '../utils/vfsHelper';
@@ -10,6 +8,7 @@ import plumber from 'gulp-plumber';
 import gulpTs from 'gulp-typescript';
 import gulpBabel from 'gulp-babel';
 import { babelConfig } from '../config/babelConfig';
+import { join } from 'path';
 const NPM = 'node_modules';
 // TODO remove rollup totally?
 // TODO local dependencies and npm dependencies
@@ -19,8 +18,6 @@ const NPM = 'node_modules';
 // import rollupTypescript from 'rollup-plugin-typescript';
 // import { babelConfig } from '../config/babelConfig';
 // const rollup = require('rollup');
-
-const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
 const getAllNpmDependencies = (): string[] => {
   const allNpmDependencies: string[] = [];
@@ -35,11 +32,6 @@ const getAllNpmDependencies = (): string[] => {
   return allNpmDependencies;
 };
 
-const getDistRelativePath = (filePath: string) => {
-  const i = filePath.lastIndexOf(NPM) + NPM.length;
-  return filePath.slice(i);
-};
-
 export const compileNpm = () => {
   const allNpmDependencies = getAllNpmDependencies();
   console.log('allNpmDependencies: ', allNpmDependencies);
@@ -49,17 +41,14 @@ export const compileNpm = () => {
     });
   }
 
-  // const npmDependencies = dependencyTree(allNpmDependencies).map((dep) => {
-  //   const i = dep.lastIndexOf(NPM) + NPM.length;
-  //   return dep.slice(i);
-  // });
-
   const npmDependencies = dependencyTree(allNpmDependencies);
 
-  const tsProject = gulpTs.createProject(paths.appTsConfig);
+  const rootDir = process.env.STAGE === 'dev' ?
+    join(paths.appCwd, '../../node_modules') : paths.appNodeModules;
+  const tsProject = gulpTs.createProject(paths.appTsConfig, { rootDir });
 
   return new Promise((resolve) => {
-    vfs.src(npmDependencies, getSrcOptions({ base: '/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public' }))
+    vfs.src(npmDependencies, getSrcOptions({ base: rootDir }))
       .pipe(plumber(handleErros))
       .pipe(tsProject())
       .pipe(gulpBabel(babelConfig))

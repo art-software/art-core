@@ -2,7 +2,6 @@ import { readFileSync } from 'fs';
 import recast from 'recast';
 import astTypes from 'ast-types';
 import resolve from 'resolve';
-// import { ImportDeclaration } from 'ast-types/gen/nodes';
 import { dirname } from 'path';
 import chalk from 'chalk';
 
@@ -39,8 +38,7 @@ export const dependencyExtractor = (filePath: string): string[] => {
       if (!isNpmDependency(resolvedPath)) { return this.traverse(path); }
 
       if (importNode.comments) {
-        // tslint:disable-next-line:no-unused-expression
-        importNode.comments.length === 0;
+        importNode.comments.length = 0;
       }
 
       importAsts.push(resolvedPath);

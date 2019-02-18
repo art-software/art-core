@@ -7,7 +7,6 @@ const fs_1 = require("fs");
 const recast_1 = __importDefault(require("recast"));
 const ast_types_1 = __importDefault(require("ast-types"));
 const resolve_1 = __importDefault(require("resolve"));
-// import { ImportDeclaration } from 'ast-types/gen/nodes';
 const path_1 = require("path");
 const chalk_1 = __importDefault(require("chalk"));
 const isNpmDependency = (path) => {
@@ -38,8 +37,7 @@ exports.dependencyExtractor = (filePath) => {
                 return this.traverse(path);
             }
             if (importNode.comments) {
-                // tslint:disable-next-line:no-unused-expression
-                importNode.comments.length === 0;
+                importNode.comments.length = 0;
             }
             importAsts.push(resolvedPath);
             this.traverse(path);

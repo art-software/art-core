@@ -1,7 +1,6 @@
 import { cruise } from 'dependency-cruiser';
 import paths from '../config/paths';
 import { join } from 'path';
-import chalk from 'chalk';
 
 export const dependencyTree = (entry: string[]): string[] => {
 
@@ -16,13 +15,9 @@ export const dependencyTree = (entry: string[]): string[] => {
 
   const dependencies = JSON.parse(cruiseResult.modules).modules;
 
-  const validDependencies = dependencies.filter((dependency) => {
+  return dependencies.filter((dependency) => {
     return dependency.coreModule !== true;
   }).map((notCoreDependency) => {
     return join(paths.appCwd, notCoreDependency.source);
   });
-
-  console.log(chalk.green('validDependencies: '), validDependencies);
-
-  return validDependencies;
 };
