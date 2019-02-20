@@ -6,12 +6,12 @@ import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 
 interface OutputProps {
   filename: string;
-  chunkFilename: string;
+  // chunkFilename: string;
   path: string;
   publicPath: string;
 }
 
-const envName = appConfig.get('NODE_ENV');
+const envName = appConfig.get('NODE_ENV') || 'development';
 const isProdEnv = isProd();
 
 export const webpackEntries = (): object => {
@@ -26,7 +26,6 @@ export const webpackOutput = (): OutputProps => {
 
   return {
     filename: `[name]`,
-    chunkFilename: `_chunks/[id].[chunkhash].js`,
     path: isProdEnv ? paths.appPublic : paths.appDebug,
     publicPath
   };

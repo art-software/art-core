@@ -87,6 +87,7 @@ class MiniProgramCompiler {
             return compileJSON_1.compileJSON(filePath);
         }
         if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.image, filePath)) {
+            // return new Promise((resolve) => { return resolve(); });
             return compileImage_1.compileImage(filePath);
         }
         return compileExtra_1.compileExtra(filePath);

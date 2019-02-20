@@ -40,6 +40,7 @@ export class MiniProgramCompiler {
       return compileJSON(filePath);
     }
     if (fileTypeChecker(FileTypes.image, filePath)) {
+      // return new Promise((resolve) => { return resolve(); });
       return compileImage(filePath);
     }
     return compileExtra(filePath);

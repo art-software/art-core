@@ -1337,6 +1337,12 @@
   dependencies:
     "@types/node" "*"
 
+"@types/gulp-rename@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@types/gulp-rename/-/gulp-rename-0.0.33.tgz#38d146e97786569f74f5391a1b1f9b5198674b6c"
+  dependencies:
+    "@types/node" "*"
+
 "@types/gzip-size@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@types/gzip-size/-/gzip-size-4.1.0.tgz#97982bd76d4cde8ba89114770b174091c5a4507c"
@@ -3517,6 +3523,10 @@ combined-stream@1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
+commander@*, commander@2.19.0:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
+
 commander@2.16.x, commander@~2.16.0:
   version "2.16.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.16.0.tgz#f16390593996ceb4f3eeb020b31d78528f7f8a50"
@@ -3524,10 +3534,6 @@ commander@2.16.x, commander@~2.16.0:
 commander@2.17.x, commander@^2.11.0, commander@~2.17.1:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
-
-commander@2.19.0:
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
 
 commander@^2.12.1:
   version "2.17.0"
@@ -6017,7 +6023,7 @@ gulp-plumber@1.2.1:
     plugin-error "^0.1.2"
     through2 "^2.0.3"
 
-gulp-rename@^1.2.0:
+gulp-rename@^1.2.0, gulp-rename@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-1.4.0.tgz#de1c718e7c4095ae861f7296ef4f3248648240bd"
 
@@ -8253,6 +8259,12 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+mockjs@^1.0.1-beta3:
+  version "1.0.1-beta3"
+  resolved "https://registry.yarnpkg.com/mockjs/-/mockjs-1.0.1-beta3.tgz#d234f3c27256397564f2c955142e891909537209"
+  dependencies:
+    commander "*"
 
 modify-values@^1.0.0:
   version "1.0.1"
@@ -10526,7 +10538,7 @@ rollup@1.2.0:
     "@types/node" "*"
     acorn "^6.1.0"
 
-routing-controllers@^0.7.7:
+routing-controllers@0.7.7, routing-controllers@^0.7.7:
   version "0.7.7"
   resolved "https://registry.yarnpkg.com/routing-controllers/-/routing-controllers-0.7.7.tgz#55b3dd3e676ade2527e522aad2834ac891cce0ee"
   dependencies:

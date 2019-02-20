@@ -9,6 +9,7 @@ import { readJSONSync, emptyDirSync } from 'fs-extra';
 import choosePort from 'art-dev-utils/lib/choosePort';
 import { getWebpackConfig } from '../config';
 import { devServer } from '../compiler/devServer';
+import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 const jsonFormat = require('json-format');
 
 const PROJECTJSON = 'project.config.json';
@@ -16,7 +17,7 @@ const PROJECTJSON = 'project.config.json';
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig.get(`devPort:${envName}`);
-const isInteractive = process.stdout.isTTY;
+// const isInteractive = process.stdout.isTTY;
 
 const clearCacheInquire = (): Promise<{ clearCache: boolean }> => {
   return inquirer.prompt([
@@ -36,6 +37,40 @@ const clearCacheInquire = (): Promise<{ clearCache: boolean }> => {
 if (!isWellStructuredClient()) {
   throw new Error(`${chalk.red('Invalid miniprogram client structure')}`);
 }
+
+let nodeServerHasLunched = false;
+const lunchNodeServer = (modules: string, port: number) => {
+
+  if (nodeServerHasLunched) { return; }
+  // if (isInteractive) { clearConsole(); }
+  const mockServerPath = join(__dirname, '../../../art-server-mock/dist/index.js');
+  const nodemonPath = join(require.resolve('nodemon'), '../../bin/nodemon.js');
+  executeNodeScript(
+    nodemonPath,
+    '--watch', paths.appMockServer,
+    '--ignore', paths.appMockServer,
+    '-e', 'js, jsx, ts',
+    mockServerPath,
+    '--ART_MODULES', `${JSON.stringify(modules)}`,
+    '--ART_WEBPACK_PORT', `${port}`
+  );
+
+  nodeServerHasLunched = true;
+};
+
+let compileMockServerHasLunched = false;
+const compileMockServer = () => {
+
+  if (compileMockServerHasLunched) { return; }
+
+  executeNodeScript(
+    'tsc',
+    '-p', `${paths.appMockServerConfig}`,
+    '-w'
+  );
+
+  compileMockServerHasLunched = true;
+};
 
 clearCacheInquire().then((answer) => {
   if (answer.clearCache) {
@@ -74,6 +109,8 @@ clearCacheInquire().then((answer) => {
       const miniprogramDevServer = devServer(webpackConfig, answer.clearCache, () => {
         console.log('watch done........');
       });
+      lunchNodeServer('', port - 1);
+      compileMockServer();
 
       ['SIGINT', 'SIGTERM'].forEach((sig) => {
         process.on(sig as NodeJS.Signals, () => {

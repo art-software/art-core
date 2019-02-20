@@ -48,7 +48,7 @@ const lessRule = (isProdEnv) => {
         { loader: 'less-loader', options: { sourceMap: !isProdEnv } }
     ];
     return {
-        test: /\.less$/i,
+        test: /\.(less|wxss)$/i,
         use: config
     };
 };
@@ -72,7 +72,11 @@ const assetsRule = {
             options: {
                 limit: 5000,
                 context: path.resolve(process.cwd(), './client'),
-                name: `${projectVirtualPath}/[path][name]-[hash:8].[ext]`
+                // TODO: add hash back, it's a temporary solution
+                // name: `${projectVirtualPath}/[path][name]-[hash:8].[ext]`,
+                name: `${projectVirtualPath}/[path][name].[ext]`,
+                outputPath: `.`,
+                emitFile: false
             }
         }
     ]

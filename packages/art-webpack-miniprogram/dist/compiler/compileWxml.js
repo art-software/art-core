@@ -9,6 +9,7 @@ const vfsHelper_1 = require("../utils/vfsHelper");
 const gulp_if_1 = __importDefault(require("gulp-if"));
 const env_1 = require("../utils/env");
 const gulp_htmlmin_1 = __importDefault(require("gulp-htmlmin"));
+const gulp_rename_1 = __importDefault(require("gulp-rename"));
 const htmlminOptions = {
     collapseWhitespace: true,
     keepClosingSlash: true,
@@ -24,6 +25,7 @@ exports.compileWxml = (path) => {
         console.log('wxml path: ', path);
         vinyl_fs_1.default.src(path, vfsHelper_1.getSrcOptions())
             .pipe(gulp_plumber_1.default(vfsHelper_1.handleErros))
+            .pipe(gulp_rename_1.default({ extname: '.wxml' }))
             .pipe(gulp_if_1.default(env_1.isProd(), gulp_htmlmin_1.default(htmlminOptions)))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default))
             .on('end', resolve);

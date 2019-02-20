@@ -8,7 +8,7 @@ const env_1 = require("../utils/env");
 const paths_1 = __importDefault(require("./paths"));
 const appConfig_1 = __importDefault(require("./appConfig"));
 const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
-const envName = appConfig_1.default.get('NODE_ENV');
+const envName = appConfig_1.default.get('NODE_ENV') || 'development';
 const isProdEnv = env_1.isProd();
 exports.webpackEntries = () => {
     return miniprogramWebpackEntry_1.miniprogramWebpackEntry().entry;
@@ -20,7 +20,6 @@ exports.webpackOutput = () => {
     const publicPath = isProdEnv ? output[`${appConfig_1.default.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
     return {
         filename: `[name]`,
-        chunkFilename: `_chunks/[id].[chunkhash].js`,
         path: isProdEnv ? paths_1.default.appPublic : paths_1.default.appDebug,
         publicPath
     };

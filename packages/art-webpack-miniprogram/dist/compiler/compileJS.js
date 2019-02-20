@@ -60,7 +60,7 @@ exports.compileJS = (path, webpackConfig) => {
                 this.traverse(astPath);
             }
         }))
-            .pipe(tsProject()) // TODO disable typeScript semantic errors
+            .pipe(tsProject()) // TODO remove typeScript semantic errors
             .pipe(gulp_babel_1.default(babelConfig_1.babelConfig))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default))
             .on('end', resolve);
