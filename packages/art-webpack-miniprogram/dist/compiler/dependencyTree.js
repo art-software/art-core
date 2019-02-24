@@ -11,7 +11,8 @@ exports.dependencyTree = (entry) => {
         return [];
     }
     const cruiseResult = dependency_cruiser_1.cruise(entry, {
-        outputType: 'json'
+        outputType: 'json',
+        preserveSymlinks: true
     });
     const dependencies = JSON.parse(cruiseResult.modules).modules;
     return dependencies.filter((dependency) => {

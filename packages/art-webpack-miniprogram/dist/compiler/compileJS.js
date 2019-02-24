@@ -34,7 +34,6 @@ exports.compileJS = (path, webpackConfig) => {
     const filePath = path_1.join(paths_1.default.appCwd, path);
     const dependencies = dependencyExtractor_1.dependencyExtractor(filePath);
     dependencyMapping_1.DependencyMapping.setMapping(path, dependencies);
-    // console.log(chalk.green('Current mapping: '), mapping);
     compileNpm_1.compileNpm();
     return new Promise((resolve) => {
         // TODO add tslint checker?

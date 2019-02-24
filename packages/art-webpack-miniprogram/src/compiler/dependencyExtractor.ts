@@ -10,6 +10,8 @@ const isNpmDependency = (path: string) => {
   return regex.test(path);
 };
 
+const dependencies: string[] = [];
+
 // extract import statement from js/ts files
 export const dependencyExtractor = (filePath: string): string[] => {
 
@@ -21,7 +23,6 @@ export const dependencyExtractor = (filePath: string): string[] => {
   });
 
   const importAsts: string[] = [];
-  const dependencies: string[] = [];
 
   astTypes.visit(ast, {
     visitImportDeclaration(path) {
@@ -49,7 +50,9 @@ export const dependencyExtractor = (filePath: string): string[] => {
 
   importAsts.forEach((resolvedPath) => {
     console.log(chalk.green('import =>  '), resolvedPath);
-    dependencies.push(resolvedPath);
+    if (!dependencies.includes(resolvedPath)) {
+      dependencies.push(resolvedPath);
+    }
   });
 
   return dependencies;

@@ -14,6 +14,7 @@ const gulp_typescript_1 = __importDefault(require("gulp-typescript"));
 const gulp_babel_1 = __importDefault(require("gulp-babel"));
 const babelConfig_1 = require("../config/babelConfig");
 const path_1 = require("path");
+const chalk_1 = __importDefault(require("chalk"));
 const NPM = 'node_modules';
 // TODO remove rollup totally?
 // TODO local dependencies and npm dependencies
@@ -38,18 +39,20 @@ const getAllNpmDependencies = () => {
 };
 exports.compileNpm = () => {
     const allNpmDependencies = getAllNpmDependencies();
-    console.log('allNpmDependencies: ', allNpmDependencies);
+    console.log(chalk_1.default.green('ready to compile npm, allNpmDependencies: '), allNpmDependencies);
     if (allNpmDependencies.length === 0) {
         return new Promise((resolve) => {
             resolve();
         });
     }
     const npmDependencies = dependencyTree_1.dependencyTree(allNpmDependencies);
+    console.log(chalk_1.default.green('npm dependencies tree: '), npmDependencies);
     const rootDir = process.env.STAGE === 'dev' ?
-        path_1.join(paths_1.default.appCwd, '../../node_modules') : paths_1.default.appNodeModules;
+        path_1.join(paths_1.default.appCwd, '../../node_modules/') : paths_1.default.appNodeModules;
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig, { rootDir });
+    console.log('rootDir: ', rootDir);
     return new Promise((resolve) => {
-        vinyl_fs_1.default.src(npmDependencies, vfsHelper_1.getSrcOptions({ base: rootDir }))
+        vinyl_fs_1.default.src(npmDependencies, vfsHelper_1.getSrcOptions({ base: rootDir, resolveSymlinks: false }))
             .pipe(gulp_plumber_1.default(vfsHelper_1.handleErros))
             .pipe(tsProject())
             .pipe(gulp_babel_1.default(babelConfig_1.babelConfig))

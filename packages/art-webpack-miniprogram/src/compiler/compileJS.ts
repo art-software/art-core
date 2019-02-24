@@ -27,7 +27,6 @@ export const compileJS = (path: string, webpackConfig: Configuration) => {
   const filePath = join(paths.appCwd, path);
   const dependencies = dependencyExtractor(filePath);
   DependencyMapping.setMapping(path, dependencies);
-  // console.log(chalk.green('Current mapping: '), mapping);
 
   compileNpm();
 

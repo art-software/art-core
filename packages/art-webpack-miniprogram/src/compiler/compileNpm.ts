@@ -9,6 +9,7 @@ import gulpTs from 'gulp-typescript';
 import gulpBabel from 'gulp-babel';
 import { babelConfig } from '../config/babelConfig';
 import { join } from 'path';
+import chalk from 'chalk';
 const NPM = 'node_modules';
 // TODO remove rollup totally?
 // TODO local dependencies and npm dependencies
@@ -34,7 +35,7 @@ const getAllNpmDependencies = (): string[] => {
 
 export const compileNpm = () => {
   const allNpmDependencies = getAllNpmDependencies();
-  console.log('allNpmDependencies: ', allNpmDependencies);
+  console.log(chalk.green('ready to compile npm, allNpmDependencies: '), allNpmDependencies);
   if (allNpmDependencies.length === 0) {
     return new Promise((resolve) => {
       resolve();
@@ -42,13 +43,16 @@ export const compileNpm = () => {
   }
 
   const npmDependencies = dependencyTree(allNpmDependencies);
+  console.log(chalk.green('npm dependencies tree: '), npmDependencies);
 
   const rootDir = process.env.STAGE === 'dev' ?
-    join(paths.appCwd, '../../node_modules') : paths.appNodeModules;
+    join(paths.appCwd, '../../node_modules/') : paths.appNodeModules;
   const tsProject = gulpTs.createProject(paths.appTsConfig, { rootDir });
 
+  console.log('rootDir: ', rootDir);
+
   return new Promise((resolve) => {
-    vfs.src(npmDependencies, getSrcOptions({ base: rootDir }))
+    vfs.src(npmDependencies, getSrcOptions({ base: rootDir, resolveSymlinks: false }))
       .pipe(plumber(handleErros))
       .pipe(tsProject())
       .pipe(gulpBabel(babelConfig))

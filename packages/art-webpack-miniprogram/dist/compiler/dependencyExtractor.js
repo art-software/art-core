@@ -13,6 +13,7 @@ const isNpmDependency = (path) => {
     const regex = /node_modules/g;
     return regex.test(path);
 };
+const dependencies = [];
 // extract import statement from js/ts files
 exports.dependencyExtractor = (filePath) => {
     const file = fs_1.readFileSync(filePath, { encoding: 'utf8' });
@@ -21,7 +22,6 @@ exports.dependencyExtractor = (filePath) => {
         parser: require('recast/parsers/typescript')
     });
     const importAsts = [];
-    const dependencies = [];
     ast_types_1.default.visit(ast, {
         visitImportDeclaration(path) {
             const importNode = path.node;
@@ -45,7 +45,9 @@ exports.dependencyExtractor = (filePath) => {
     });
     importAsts.forEach((resolvedPath) => {
         console.log(chalk_1.default.green('import =>  '), resolvedPath);
-        dependencies.push(resolvedPath);
+        if (!dependencies.includes(resolvedPath)) {
+            dependencies.push(resolvedPath);
+        }
     });
     return dependencies;
 };

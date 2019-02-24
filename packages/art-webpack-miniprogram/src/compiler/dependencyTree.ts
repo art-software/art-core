@@ -9,7 +9,8 @@ export const dependencyTree = (entry: string[]): string[] => {
   const cruiseResult = cruise(
     entry,
     {
-      outputType: 'json'
+      outputType: 'json',
+      preserveSymlinks: true
     }
   );
 
