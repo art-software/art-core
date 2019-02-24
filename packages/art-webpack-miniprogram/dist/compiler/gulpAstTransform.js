@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const through2_1 = __importDefault(require("through2"));
 const recast_1 = __importDefault(require("recast"));
+const chalk_1 = __importDefault(require("chalk"));
 const transform = (file, encoding, visitor) => {
     const inputSource = file.contents.toString(encoding);
     const ast = recast_1.default.parse(inputSource, {
@@ -18,6 +19,7 @@ const transform = (file, encoding, visitor) => {
 };
 exports.gulpAstTransform = (visitor) => {
     return through2_1.default.obj(function (file, encoding, callback) {
+        console.log(chalk_1.default.green('current file'), file.path);
         transform(file, encoding, visitor);
         callback(null, file);
     });

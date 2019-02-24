@@ -13,13 +13,9 @@ import { compileNpm } from './compileNpm';
 import { babelConfig } from '../config/babelConfig';
 import { gulpAstTransform } from './gulpAstTransform';
 import appConfig from '../config/appConfig';
+import { isNpmDependency } from '../utils/isNpmDependency';
 
 const projectVirtualPath = appConfig.get('art:projectVirtualPath');
-
-const isNpmDependency = (path: string) => {
-  const regex = /node_modules/g;
-  return regex.test(path);
-};
 
 export const compileJS = (path: string, webpackConfig: Configuration) => {
   const tsProject = gulpTs.createProject(paths.appTsConfig);

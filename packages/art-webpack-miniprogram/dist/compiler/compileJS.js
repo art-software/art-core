@@ -24,11 +24,8 @@ const compileNpm_1 = require("./compileNpm");
 const babelConfig_1 = require("../config/babelConfig");
 const gulpAstTransform_1 = require("./gulpAstTransform");
 const appConfig_1 = __importDefault(require("../config/appConfig"));
+const isNpmDependency_1 = require("../utils/isNpmDependency");
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
-const isNpmDependency = (path) => {
-    const regex = /node_modules/g;
-    return regex.test(path);
-};
 exports.compileJS = (path, webpackConfig) => {
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
     const filePath = path_1.join(paths_1.default.appCwd, path);
@@ -50,7 +47,7 @@ exports.compileJS = (path, webpackConfig) => {
                     basedir: path_1.dirname(filePath) + '/',
                     extensions: ['.ts', '.js']
                 });
-                if (!isNpmDependency(resolvedPath)) {
+                if (!isNpmDependency_1.isNpmDependency(resolvedPath)) {
                     return this.traverse(astPath);
                 }
                 const relativePath = path_1.relative(path.replace('client', projectVirtualPath) + '/..', // TODO not elegant enough
