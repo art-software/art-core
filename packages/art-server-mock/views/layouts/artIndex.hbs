@@ -12,7 +12,7 @@
   <title>Art</title>
   <link rel="stylesheet" type="text/css" href="{{normalizePath ART_CDN_ROOT '/public' virtualProjectName projectName moduleName bundleCss}}">
   <script src="//static.qianshengqian.com/qnn/jweixin-1.0.0.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vConsole/3.2.0/vconsole.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vConsole/3.2.0/vconsole.min.js"></script>
   <script>
     const vConsole = new VConsole();
   </script>
@@ -22,11 +22,6 @@
   <div class="container">
     {{{body}}}
   </div>
-  <!--APP 页面加载完毕之后 会自动调用'document.​getElement­sByName(​'tcshareur­l')[​0].​value') 报错-->
-  <input type="hidden" name="tcshareurl" value="" />
-  <input type="hidden" name="tcshareimg" value="" />
-  <input type="hidden" name="tcsharetext" value="" />
-  <input type="hidden" name="tcDesc" value="" />
 
   <script type="text/javascript">
     window.GLOBAL = {
