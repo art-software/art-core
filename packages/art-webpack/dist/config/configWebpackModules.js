@@ -71,7 +71,7 @@ exports.webpackOutput = () => {
     const publicPath = isProdEnv ? output[`${appConfig_1.default.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
     return {
         filename: `[name]/${bundleFileNamePattern('.js')}`,
-        chunkFilename: `_chunks/[id].[chunkhash].js`,
+        chunkFilename: `[id].[chunkhash].js`,
         path: path.resolve(paths_1.default.appCwd, './public/'),
         publicPath
     };

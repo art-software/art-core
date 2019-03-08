@@ -8,7 +8,7 @@ export default class DynamicChunkNamePlugin implements Plugin {
   public moduleEntry: object;
 
   public apply(compiler: Compiler): void {
-    compiler.hooks.emit.tap('DynamicChunkNamePlugin', (compilation) => {
+    compiler.hooks.compilation.tap('DynamicChunkNamePlugin', (compilation) => {
       compilation.hooks.beforeChunkIds.tap('DynamicChunkNamePlugin', (chunks) => {
         chunks.forEach((chunk) => {
           if (chunk.name) { return; }

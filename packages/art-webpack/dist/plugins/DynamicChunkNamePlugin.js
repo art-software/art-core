@@ -6,7 +6,7 @@ class DynamicChunkNamePlugin {
         this.moduleEntry = moduleEntry;
     }
     apply(compiler) {
-        compiler.hooks.emit.tap('DynamicChunkNamePlugin', (compilation) => {
+        compiler.hooks.compilation.tap('DynamicChunkNamePlugin', (compilation) => {
             compilation.hooks.beforeChunkIds.tap('DynamicChunkNamePlugin', (chunks) => {
                 chunks.forEach((chunk) => {
                     if (chunk.name) {

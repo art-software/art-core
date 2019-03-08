@@ -79,7 +79,7 @@ export const webpackOutput = (): OutputProps => {
 
   return {
     filename: `[name]/${bundleFileNamePattern('.js')}`,
-    chunkFilename: `_chunks/[id].[chunkhash].js`,
+    chunkFilename: `[id].[chunkhash].js`,
     path: path.resolve(paths.appCwd, './public/'),
     publicPath
   };
