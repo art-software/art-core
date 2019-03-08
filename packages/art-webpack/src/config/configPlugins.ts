@@ -12,6 +12,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackCDNPlugin from '../plugins/HtmlWebpackCDNPlugin';
 import HappyPack from 'happypack';
 import { isProd } from '../utils/env';
+import DynamicChunkNamePlugin from '../plugins/DynamicChunkNamePlugin';
 
 const isProdEnv = isProd();
 
@@ -60,6 +61,13 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
   return plugins;
 };
 
+const getRawModuleEntry = (entries) => {
+  for (const key in entries) {
+    entries[key] = entries[key].slice(1);
+  }
+  return entries;
+};
+
 export const configBasePlugins = (() => {
   let plugins = [
     new ProgressBarPlugin({
@@ -103,6 +111,11 @@ export const configBasePlugins = (() => {
       tsconfig: paths.appTsConfig,
       tslint: paths.appTsLintConfig
     }),
+
+    new DynamicChunkNamePlugin(
+      getRawModuleEntry(webpackEntries(false))
+    )
+
   ];
   if (isProdEnv) {
     plugins = plugins.concat(configHtmlWebpackPlugin());

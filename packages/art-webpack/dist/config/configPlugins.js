@@ -24,6 +24,7 @@ const html_webpack_plugin_1 = __importDefault(require("html-webpack-plugin"));
 const HtmlWebpackCDNPlugin_1 = __importDefault(require("../plugins/HtmlWebpackCDNPlugin"));
 const happypack_1 = __importDefault(require("happypack"));
 const env_1 = require("../utils/env");
+const DynamicChunkNamePlugin_1 = __importDefault(require("../plugins/DynamicChunkNamePlugin"));
 const isProdEnv = env_1.isProd();
 const configHtmlWebpackPlugin = (entries) => {
     const plugins = [];
@@ -63,6 +64,12 @@ const configHtmlWebpackPlugin = (entries) => {
     });
     plugins.push(new HtmlWebpackCDNPlugin_1.default());
     return plugins;
+};
+const getRawModuleEntry = (entries) => {
+    for (const key in entries) {
+        entries[key] = entries[key].slice(1);
+    }
+    return entries;
 };
 exports.configBasePlugins = (() => {
     let plugins = [
@@ -104,6 +111,7 @@ exports.configBasePlugins = (() => {
             tsconfig: paths_1.default.appTsConfig,
             tslint: paths_1.default.appTsLintConfig
         }),
+        new DynamicChunkNamePlugin_1.default(getRawModuleEntry(configWebpackModules_1.webpackEntries(false)))
     ];
     if (isProdEnv) {
         plugins = plugins.concat(configHtmlWebpackPlugin());
