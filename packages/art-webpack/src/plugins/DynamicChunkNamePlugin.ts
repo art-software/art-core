@@ -1,5 +1,5 @@
 import { Plugin, Compiler } from 'webpack';
-import { dirname, relative, join } from 'path';
+import { dirname } from 'path';
 
 export default class DynamicChunkNamePlugin implements Plugin {
   constructor(moduleEntry) {
