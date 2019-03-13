@@ -14,9 +14,12 @@ class DynamicChunkNamePlugin {
                     }
                     const moduleEntries = chunk.getModules();
                     const nodeModulesRegex = /node_modules/;
-                    for (const mod of moduleEntries) {
-                        for (const entry in this.moduleEntry) {
-                            const entryRegex = this.getEntryRegex(this.moduleEntry[entry][0]);
+                    for (const entry in this.moduleEntry) {
+                        const entryRegex = this.getEntryRegex(this.moduleEntry[entry][0]);
+                        if (!this.getModulesGroup(moduleEntries, entryRegex)) {
+                            continue;
+                        }
+                        for (const mod of moduleEntries) {
                             if (entryRegex.test(mod.context) || nodeModulesRegex.test(mod.context)) {
                                 const newChunkName = entry + '/chunks';
                                 chunk.id = `${newChunkName}/${this.getRandomString()}`;
@@ -33,6 +36,14 @@ class DynamicChunkNamePlugin {
             entryDir = entryDir.slice(2);
         }
         return new RegExp(`${entryDir}`);
+    }
+    getModulesGroup(modules, regex) {
+        for (let i = 0; i < modules.length; i++) {
+            if (regex.test(modules[i].issuer.context)) {
+                return true;
+            }
+        }
+        return false;
     }
     getRandomString() {
         return Math.random().toString(36).substr(2, 9) + '_' + Date.now();
