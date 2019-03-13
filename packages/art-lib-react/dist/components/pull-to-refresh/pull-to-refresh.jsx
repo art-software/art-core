@@ -167,6 +167,23 @@ class PullToRefresh extends CoreComponent {
             this.refreshUIState();
         });
     }
+    triggerPTR(ptrDuration) {
+        if (!this.withIScroll) {
+            console.error('pull to refresh must be wrapped within Scrollbar');
+            return;
+        }
+        this.withIScroll(true, (iScroll) => {
+            const { distanceToRefresh } = this.props;
+            if (!distanceToRefresh) {
+                return;
+            }
+            this.handleTouchStart(iScroll.y);
+            iScroll.scrollTo(0, distanceToRefresh + 1, ptrDuration);
+            setTimeout(() => {
+                this.handleTouchEnd();
+            }, ptrDuration);
+        });
+    }
     attachIScrollEvents(iScroll) {
         iScroll.on('scrollStart', (e) => {
             this.handleTouchStart(iScroll.y);

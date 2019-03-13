@@ -20,6 +20,7 @@ declare class PullToRefresh extends CoreComponent<IPullToRefreshProps, any> {
         onReload: () => Promise<{}>;
     };
     componentDidMount(): void;
+    triggerPTR(ptrDuration: number): void;
     attachIScrollEvents(iScroll: IScroll): void;
     handleTouchStart: (pageY: number) => void;
     handleTouchMove: (pageY: any) => void;
