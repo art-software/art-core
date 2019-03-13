@@ -22,8 +22,16 @@ export class WebpackBaseConfig implements Configuration {
   };
 
   public module = {
-    rules : configBaseRules()
+    rules: configBaseRules()
   };
 
   public plugins = configBasePlugins;
+
+  public optimization = {
+    splitChunks: {
+      cacheGroups: {
+        vendors: false as any
+      }
+    }
+  };
 }

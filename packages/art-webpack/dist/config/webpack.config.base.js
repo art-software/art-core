@@ -14,6 +14,13 @@ class WebpackBaseConfig {
             rules: configRules_1.configBaseRules()
         };
         this.plugins = configPlugins_1.configBasePlugins;
+        this.optimization = {
+            splitChunks: {
+                cacheGroups: {
+                    vendors: false
+                }
+            }
+        };
         this.entry = entry;
         this.output = output;
     }

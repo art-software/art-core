@@ -13,10 +13,11 @@ class DynamicChunkNamePlugin {
                         return;
                     }
                     const moduleEntries = chunk.getModules();
+                    const nodeModulesRegex = /node_modules/;
                     for (const mod of moduleEntries) {
                         for (const entry in this.moduleEntry) {
                             const entryRegex = this.getEntryRegex(this.moduleEntry[entry][0]);
-                            if (entryRegex.test(mod.context)) {
+                            if (entryRegex.test(mod.context) || nodeModulesRegex.test(mod.context)) {
                                 const newChunkName = entry + '/chunks';
                                 chunk.id = `${newChunkName}/${this.getRandomString()}`;
                             }
