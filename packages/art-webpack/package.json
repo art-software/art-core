@@ -1,6 +1,6 @@
 {
   "name": "art-webpack",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "art framework webpack",
   "main": "index.js",
   "author": "Bowen Zhong",
