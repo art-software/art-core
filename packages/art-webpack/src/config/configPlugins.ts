@@ -1,6 +1,7 @@
 import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import chalk from 'chalk';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import paths from './paths';
 import { webpackEntries } from './configWebpackModules';
 import appConfig from './appConfig';
@@ -73,6 +74,10 @@ export const configBasePlugins = (() => {
     new ProgressBarPlugin({
       format: chalk.cyan('build') + ' [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
       clear: false
+    }),
+
+    new MiniCssExtractPlugin({
+      chunkFilename: '[id].[chunkhash].css'
     }),
 
     new HappyPack({

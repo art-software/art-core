@@ -3,7 +3,6 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import appNconf from './appConfig';
 import * as path from 'path';
 import { isProd } from '../utils/env';
-import { excludeNodeModulesExcept } from '../utils/webpack.helper';
 const projectVirtualPath = appNconf.get('art:projectVirtualPath');
 
 const prod = isProd();
