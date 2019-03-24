@@ -1238,6 +1238,12 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/detect-port/-/detect-port-1.1.0.tgz#07075d264e2e5a432624b1e7ffc11379fe66be8a"
 
+"@types/empty-dir@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/empty-dir/-/empty-dir-1.0.1.tgz#56f1c7e39bf9995d3cac67e41202dd863f52c139"
+  dependencies:
+    "@types/node" "*"
+
 "@types/escodegen@^0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@types/escodegen/-/escodegen-0.0.6.tgz#5230a9ce796e042cda6f086dbf19f22ea330659c"

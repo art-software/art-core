@@ -2,7 +2,7 @@ import { CommandModule, Argv } from 'yargs';
 import { cyanBoldText, greenText, grayText } from 'art-dev-utils/lib/chalkColors';
 import { webpackTask } from '../helpers/webpackTask';
 import { getProjectType } from '../helpers/projectType';
-import { ProjectTypes } from '../constants/enums/ProjectTypes';
+import { ProjectTypes } from '../enums/ProjectTypes';
 
 const moduleRequired = getProjectType() !== ProjectTypes.miniprogram;
 

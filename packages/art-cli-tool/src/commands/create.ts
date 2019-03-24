@@ -4,8 +4,11 @@ import emptyDir from 'empty-dir';
 import { basename } from 'path';
 import inquirer, { Question, Answers } from 'inquirer';
 import { create, ProjectScaffold, ModuleScaffold } from '../scaffold/index';
-const scaffolds = ['react', 'miniprogram'];
+import { Scaffolds } from '../enums/Scaffolds';
+import { CreateCmdTypes } from '../enums/CreateCmdTypes';
+const scaffolds = [Scaffolds.react, Scaffolds.miniprogram];
 
+// TODO add miniprogram support
 class CreateCommand implements CommandModule {
 
   public readonly command = 'create';
@@ -15,7 +18,7 @@ class CreateCommand implements CommandModule {
   public builder(argv: Argv) {
     return argv
       .usage(`\n${chalk.cyan.bold('Usage:')} $0 create ${chalk.cyan.bold('<scaffold>')} [options]`)
-      .command('project', 'create a new project', (args: Argv) => {
+      .command(CreateCmdTypes.project, 'create a new project', (args: Argv) => {
         return args
           .usage(`\n${chalk.cyan.bold('Usage:')} $0 ${chalk.cyan.bold('create project [-p=""]')}`)
           .option('s', {
@@ -28,7 +31,7 @@ class CreateCommand implements CommandModule {
             'Invalid values:': chalk.red.bold('Invalid values:')
           });
       }, this.handler)
-      .command('module', 'create a new module within existed project workspace', (args: Argv) => {
+      .command(CreateCmdTypes.module, 'create a new module within existed project workspace', (args: Argv) => {
         return args
           .usage(`\n${chalk.cyan.bold('Usage:')} $0 ${chalk.cyan.bold('create module [-s=""]')}`)
           .option('s', {
@@ -50,6 +53,12 @@ class CreateCommand implements CommandModule {
   }
 
   public handler = (argv) => {
+    // TODO add miniprogram support
+    if (argv.scaffold === Scaffolds.miniprogram) {
+      console.log(`${chalk.green.bold('art create')} command is not currently support create ${chalk.green.bold(Scaffolds.miniprogram)} project`);
+      return;
+    }
+
     const commandType = argv._[1];
     const fileFilter = (file: string) => {
       const fileBaseName = basename(file);
@@ -57,7 +66,7 @@ class CreateCommand implements CommandModule {
     };
     const isEmpty = emptyDir.sync('.', fileFilter);
 
-    if (commandType === 'project' && !isEmpty) {
+    if (commandType === CreateCmdTypes.project && !isEmpty) {
       return console.log(
         chalk.red('\ncurrent working dir is not empty, please create new another project directory!')
       );
@@ -73,9 +82,9 @@ class CreateCommand implements CommandModule {
   }
 
   private commandEntry(commandType: string): Promise<Answers> | undefined {
-    if (commandType === 'project') {
+    if (commandType === CreateCmdTypes.project) {
       return this.createProject();
-    } else if (commandType === 'module') {
+    } else if (commandType === CreateCmdTypes.module) {
       return this.createModule();
     }
   }

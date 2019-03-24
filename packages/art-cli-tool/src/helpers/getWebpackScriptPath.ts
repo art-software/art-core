@@ -1,9 +1,10 @@
 import * as path from 'path';
 import { getProjectType } from './projectType';
-import { ProjectTypes } from '../constants/enums/ProjectTypes';
-import { CompilerNames } from '../constants/enums/CompilerNames';
+import { ProjectTypes } from '../enums/ProjectTypes';
+import { CompilerNames } from '../enums/CompilerNames';
+import { Stage } from '../enums/Stage';
 
-const isDevStage = process.env.STAGE === 'dev';
+const isDevStage = process.env.STAGE === Stage.dev;
 const projectType = getProjectType() || ProjectTypes.SPA;
 const compilerName = CompilerNames[projectType];
 

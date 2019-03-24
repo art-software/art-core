@@ -2,6 +2,7 @@ import { CommandModule, Argv } from 'yargs';
 import chalk from 'chalk';
 import { webpackTask } from '../helpers/webpackTask';
 
+// TODO add miniprogram support
 class BuildCommand implements CommandModule {
 
   public readonly command = 'build';

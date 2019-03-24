@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const moduleTask_1 = require("../helpers/moduleTask");
+// TODO add miniprogram support
 class PublishCommand {
     constructor() {
         this.command = 'publish';

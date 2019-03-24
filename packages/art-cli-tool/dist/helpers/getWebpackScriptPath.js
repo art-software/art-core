@@ -9,9 +9,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = __importStar(require("path"));
 const projectType_1 = require("./projectType");
-const ProjectTypes_1 = require("../constants/enums/ProjectTypes");
-const CompilerNames_1 = require("../constants/enums/CompilerNames");
-const isDevStage = process.env.STAGE === 'dev';
+const ProjectTypes_1 = require("../enums/ProjectTypes");
+const CompilerNames_1 = require("../enums/CompilerNames");
+const Stage_1 = require("../enums/Stage");
+const isDevStage = process.env.STAGE === Stage_1.Stage.dev;
 const projectType = projectType_1.getProjectType() || ProjectTypes_1.ProjectTypes.SPA;
 const compilerName = CompilerNames_1.CompilerNames[projectType];
 function getWebpackScriptPath(command) {
