@@ -1,5 +1,7 @@
 /**
  * Checks whether a value is empty.
+ * 'empty' including:
+ * [], {}, non-iterable object, falsy values
  */
 export const isEmpty = (value: any): boolean => {
   if (Array.isArray(value)) {
