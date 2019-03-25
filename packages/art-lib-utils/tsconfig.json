@@ -25,7 +25,7 @@
     "sourceMap": false,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "target": "es2016",
+    "target": "es6",
     "typeRoots": [
       "node_modules/@types"
     ],

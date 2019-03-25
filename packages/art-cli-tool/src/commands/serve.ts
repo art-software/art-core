@@ -1,6 +1,10 @@
 import { CommandModule, Argv } from 'yargs';
 import { cyanBoldText, greenText, grayText } from 'art-dev-utils/lib/chalkColors';
 import { webpackTask } from '../helpers/webpackTask';
+import { getProjectType } from '../helpers/projectType';
+import { ProjectTypes } from '../enums/ProjectTypes';
+
+const moduleRequired = getProjectType() !== ProjectTypes.miniprogram;
 
 class ServeCommand implements CommandModule {
   public readonly command = 'serve';
@@ -12,7 +16,7 @@ class ServeCommand implements CommandModule {
       .options('modules', {
         alias: 'm',
         describe: 'the modules you would like to serve',
-        demandOption: true
+        demandOption: moduleRequired
       })
       .example(`${greenText('$0 serve -modules="client/test"')}`, 'Serve the client/test module');
   }

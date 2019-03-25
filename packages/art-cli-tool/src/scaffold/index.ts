@@ -32,7 +32,7 @@ export const create = (scaffoldType: string, commandType: string, scaffoldData: 
       message: 'What scaffold do you want to choice?'
     }
   ])
-  .then((answer: any) => {
+  .then((answer: {scaffoldChoosen: string}) => {
     scaffold.setScaffoldChoosen(answer.scaffoldChoosen);
     scaffold[method]();
   });

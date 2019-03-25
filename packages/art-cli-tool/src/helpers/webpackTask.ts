@@ -1,36 +1,32 @@
-import * as path from 'path';
 import checkFileExist from 'art-dev-utils/lib/checkFileExist';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import parseModules from 'art-dev-utils/lib/parseModules';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
+import { getWebpackScriptPath } from './getWebpackScriptPath';
+import { Env, EnvShort } from '../enums/Env';
+import { getProjectType } from '../helpers/projectType';
+import { ProjectTypes } from '../enums/ProjectTypes';
 
 interface Args {
   modules: string;
 }
 
-const isDevStage = process.env.STAGE === 'dev';
-function getFinalPath(command: string) {
-  const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/${command}.js`);
-  const symlinkPath = path.resolve(process.cwd(), `../../node_modules/art-webpack/dist/scripts/${command}.js`);
-  return isDevStage ? symlinkPath : scriptPath;
-}
-
 export const webpackTask = async (command: 'build' | 'serve', args: Args): Promise<void> => {
-  const finalPath = getFinalPath(command);
+  const finalPath = getWebpackScriptPath(command);
   if (!checkFileExist([finalPath])) { return; }
 
   const nodeEnv = command === 'serve' ? 'development' : 'production';
   const { modules } = args;
   const parsedModules = parseModules(modules);
 
-  let buildEnv = 'integrate testing';
+  let buildEnv = Env.IntegrateTesting;
   if (command === 'build') {
     const envAnswer = await inquirer.prompt({
       type: 'list',
       name: 'buildEnv',
       message: 'please chioce one environment to build',
-      choices: ['Integrate Testing', 'Production']
+      choices: [Env.IntegrateTesting, Env.Production]
     }) as any;
 
     buildEnv = envAnswer.buildEnv;
@@ -39,13 +35,18 @@ export const webpackTask = async (command: 'build' | 'serve', args: Args): Promi
 
   executeNodeScript('node', finalPath,
     '--NODE_ENV', nodeEnv,
-    '--BUILD_ENV', buildEnv === 'Production' ? 'prod' : 'inte',
+    '--BUILD_ENV', buildEnv === Env.Production ? EnvShort.IntegrateTesting : EnvShort.Production,
     '--ART_MODULES', `${JSON.stringify(parsedModules)}`,
   );
 };
 
 export const webpackDll = () => {
-  const dllScript = getFinalPath('dll');
+  if (getProjectType() === ProjectTypes.miniprogram) {
+    console.log(`${chalk.green.bold('art dll')} command is not support in ${chalk.green.bold(ProjectTypes.miniprogram)} project`);
+    return;
+  }
+
+  const dllScript = getWebpackScriptPath('dll');
 
   executeNodeScript('node', dllScript);
 };

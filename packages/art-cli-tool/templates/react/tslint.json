@@ -55,6 +55,10 @@
       true,
       "ignore-comments"
     ],
-    "variable-name": false
+    "variable-name": false,
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ]
   }
 }

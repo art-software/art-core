@@ -8,19 +8,27 @@ const empty_dir_1 = __importDefault(require("empty-dir"));
 const path_1 = require("path");
 const inquirer_1 = __importDefault(require("inquirer"));
 const index_1 = require("../scaffold/index");
-const scaffolds = ['react'];
+const Scaffolds_1 = require("../enums/Scaffolds");
+const CreateCmdTypes_1 = require("../enums/CreateCmdTypes");
+const scaffolds = [Scaffolds_1.Scaffolds.react, Scaffolds_1.Scaffolds.miniprogram];
+// TODO add miniprogram support
 class CreateCommand {
     constructor() {
         this.command = 'create';
         this.describe = chalk_1.default.black.bold(`create art scaffold ${scaffolds.join(',')} `);
         this.handler = (argv) => {
+            // TODO add miniprogram support
+            if (argv.scaffold === Scaffolds_1.Scaffolds.miniprogram) {
+                console.log(`${chalk_1.default.green.bold('art create')} command is not currently support create ${chalk_1.default.green.bold(Scaffolds_1.Scaffolds.miniprogram)} project`);
+                return;
+            }
             const commandType = argv._[1];
             const fileFilter = (file) => {
                 const fileBaseName = path_1.basename(file);
                 return fileBaseName === '.' || fileBaseName !== '.git' || fileBaseName[0] !== '.';
             };
             const isEmpty = empty_dir_1.default.sync('.', fileFilter);
-            if (commandType === 'project' && !isEmpty) {
+            if (commandType === CreateCmdTypes_1.CreateCmdTypes.project && !isEmpty) {
                 return console.log(chalk_1.default.red('\ncurrent working dir is not empty, please create new another project directory!'));
             }
             this.commandEntry(commandType)
@@ -35,7 +43,7 @@ class CreateCommand {
     builder(argv) {
         return argv
             .usage(`\n${chalk_1.default.cyan.bold('Usage:')} $0 create ${chalk_1.default.cyan.bold('<scaffold>')} [options]`)
-            .command('project', 'create a new project', (args) => {
+            .command(CreateCmdTypes_1.CreateCmdTypes.project, 'create a new project', (args) => {
             return args
                 .usage(`\n${chalk_1.default.cyan.bold('Usage:')} $0 ${chalk_1.default.cyan.bold('create project [-p=""]')}`)
                 .option('s', {
@@ -48,7 +56,7 @@ class CreateCommand {
                 'Invalid values:': chalk_1.default.red.bold('Invalid values:')
             });
         }, this.handler)
-            .command('module', 'create a new module within existed project workspace', (args) => {
+            .command(CreateCmdTypes_1.CreateCmdTypes.module, 'create a new module within existed project workspace', (args) => {
             return args
                 .usage(`\n${chalk_1.default.cyan.bold('Usage:')} $0 ${chalk_1.default.cyan.bold('create module [-s=""]')}`)
                 .option('s', {
@@ -69,10 +77,10 @@ class CreateCommand {
             .help('help');
     }
     commandEntry(commandType) {
-        if (commandType === 'project') {
+        if (commandType === CreateCmdTypes_1.CreateCmdTypes.project) {
             return this.createProject();
         }
-        else if (commandType === 'module') {
+        else if (commandType === CreateCmdTypes_1.CreateCmdTypes.module) {
             return this.createModule();
         }
     }

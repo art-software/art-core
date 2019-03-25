@@ -2,6 +2,7 @@ import { CommandModule, Argv } from 'yargs';
 import chalk from 'chalk';
 import { moduleTask } from '../helpers/moduleTask';
 
+// TODO add miniprogram support
 class PublishCommand implements CommandModule {
 
   public readonly command = 'publish';
