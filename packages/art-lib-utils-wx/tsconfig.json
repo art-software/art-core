@@ -1,11 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "baseUrl": ".",
-    "declaration": true,
+    "declaration": false,
     "experimentalDecorators": true,
     "lib": [
       "es5",
@@ -15,7 +15,6 @@
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "paths": {},
     "preserveConstEnums": true,
     "removeComments": false,
     "outDir": "./dist/", /* Redirect output structure to the directory. */
@@ -27,14 +26,14 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": [
-      "node"
-    ]
+    "types": []
   },
+  
   "exclude": [
     "**/dist/*"
   ],
   "include": [
-    "./src/**/*"
+    "./src/**/*",
+    "./typings"
   ]
 }

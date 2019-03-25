@@ -8,3 +8,6 @@ declare namespace wx {
     [P in K]: T;
   };
 }
+
+/// <reference path="./lib.wx.api.d.ts" />
+/// <reference path="./lib.wx.page.d.ts" />
