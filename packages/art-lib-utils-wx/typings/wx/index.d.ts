@@ -1,3 +1,5 @@
+declare type IAnyObject = Record<string, any>
+
 declare namespace wx {
   /**
    * Construct a type with a set of properties K of type T
@@ -6,5 +8,3 @@ declare namespace wx {
     [P in K]: T;
   };
 }
-
-declare type IAnyObject = Record<string, any>
