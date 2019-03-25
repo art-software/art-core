@@ -1,6 +1,6 @@
 {
   "name": "art-lib-utils-wx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "utils lib for wx miniprogram",
   "main": "index.js",
   "author": "Bowen Zhong",
