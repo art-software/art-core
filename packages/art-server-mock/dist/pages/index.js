@@ -36,7 +36,7 @@ const fs = __importStar(require("fs"));
 const glob_1 = __importDefault(require("glob"));
 const runtimeEnv_1 = require("../utils/runtimeEnv");
 // TODO optimize it later
-const webpackEntries = require(`../../../${runtimeEnv_1.isWxMiniprogramEnv ? 'art-webpack-wx' : 'art-webpack'}/dist/config/configWebpackModules.js`);
+const webpackEntries = require(`../../../${runtimeEnv_1.isWxMiniprogramEnv ? 'art-webpack-miniprogram' : 'art-webpack'}/dist/config/configWebpackModules.js`);
 const virtualProjectName = config_1.default.get('art:projectVirtualPath');
 const entries = webpackEntries(true);
 const publicPath = path.join(process.cwd(), './public');

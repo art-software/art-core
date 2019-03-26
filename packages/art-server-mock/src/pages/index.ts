@@ -14,7 +14,7 @@ import glob from 'glob';
 import { isWxMiniprogramEnv } from '../utils/runtimeEnv';
 
 // TODO optimize it later
-const webpackEntries = require(`../../../${ isWxMiniprogramEnv ? 'art-webpack-wx' : 'art-webpack'}/dist/config/configWebpackModules.js`);
+const webpackEntries = require(`../../../${ isWxMiniprogramEnv ? 'art-webpack-miniprogram' : 'art-webpack'}/dist/config/configWebpackModules.js`);
 const virtualProjectName = appConfig.get('art:projectVirtualPath');
 const entries = webpackEntries(true);
 const publicPath = path.join(process.cwd(), './public');
