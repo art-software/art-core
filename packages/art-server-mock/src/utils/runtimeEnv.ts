@@ -1,2 +1,2 @@
 // @ts-ignore
-export const isWxMiniprogramEnv = !!wx;
+export const isWxMiniprogramEnv = typeof wx !== 'undefined';
