@@ -11,7 +11,8 @@ import choosePort from 'art-dev-utils/lib/choosePort';
 import printInstructions from 'art-dev-utils/lib/printInstructions';
 import prepareUrls from 'art-dev-utils/lib/prepareUrls';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
-import config from './config/config';
+// TODO optimize it later
+const config = require('./config/config');
 import openBrowser from 'art-dev-utils/lib/openBrowser';
 import { warningText } from 'art-dev-utils/lib/chalkColors';
 import IndexPage from './pages/index';

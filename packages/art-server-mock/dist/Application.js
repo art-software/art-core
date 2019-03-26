@@ -31,14 +31,15 @@ const choosePort_1 = __importDefault(require("art-dev-utils/lib/choosePort"));
 const printInstructions_1 = __importDefault(require("art-dev-utils/lib/printInstructions"));
 const prepareUrls_1 = __importDefault(require("art-dev-utils/lib/prepareUrls"));
 const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
-const config_1 = __importDefault(require("./config/config"));
+// TODO optimize it later
+const config = require('./config/config');
 const openBrowser_1 = __importDefault(require("art-dev-utils/lib/openBrowser"));
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const index_1 = __importDefault(require("./pages/index"));
 const runtimeEnv_1 = require("./utils/runtimeEnv");
 const artConfigPath = path_1.join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
-const envName = config_1.default.get('NODE_ENV') || 'development';
+const envName = config.get('NODE_ENV') || 'development';
 class App {
     appTemplate(app) {
         const handlebars = express_handlebars_1.default.create({
@@ -54,7 +55,7 @@ class App {
     }
     // UPDATE  GLOBAL veriables for handbars views
     appLocals(app, expressPort, webpackPort, urls) {
-        let devHost = ensureSlash_1.default(config_1.default.get(`devHost:${envName}`), false);
+        let devHost = ensureSlash_1.default(config.get(`devHost:${envName}`), false);
         const devServerHost = ensureSlash_1.default(`${devHost}:${expressPort}`, false);
         devHost = devHost
             ? ensureSlash_1.default(`${devHost}:${webpackPort}`, false)
@@ -106,9 +107,9 @@ class App {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            const host = config_1.default.get('HOST') || '0.0.0.0';
-            const webpackPort = config_1.default.get('ART_WEBPACK_PORT') || 3000;
-            const protocol = config_1.default.get('HTTPS') === 'true' ? 'https' : 'http';
+            const host = config.get('HOST') || '0.0.0.0';
+            const webpackPort = config.get('ART_WEBPACK_PORT') || 3000;
+            const protocol = config.get('HTTPS') === 'true' ? 'https' : 'http';
             const appName = artAppConfig.name;
             const isProd = process.env.NODE_ENV === 'production';
             let expressPort = null;
@@ -127,10 +128,10 @@ class App {
                     return console.log(err);
                 }
                 const urls = prepareUrls_1.default(protocol, host, expressPort);
-                const { hostname } = url.parse(config_1.default.get(`devHost:${envName}`));
+                const { hostname } = url.parse(config.get(`devHost:${envName}`));
                 this.appLocals(app, expressPort, isProd ? expressPort : webpackPort, urls);
                 printInstructions_1.default(appName, urls);
-                if (config_1.default.get('ART_SUPERVISOR_STATUS') === 'false') {
+                if (config.get('ART_SUPERVISOR_STATUS') === 'false') {
                     if (!hostname) {
                         return console.log(chalkColors_1.warningText('no valid hostname'));
                     }

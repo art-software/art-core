@@ -27,23 +27,24 @@ const sort_json_1 = __importDefault(require("sort-json"));
 const path = __importStar(require("path"));
 const qs = __importStar(require("qs"));
 const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
-const config_1 = __importDefault(require("../config/config"));
-// import { webpackEntries } from '../../../art-webpack/dist/config/configWebpackModules.js';
+// TODO optimize it later
+const appConfig = require('../config/config');
 const lodash_1 = require("lodash");
 const url_join_1 = __importDefault(require("url-join"));
 const chalk_1 = __importDefault(require("chalk"));
 const fs = __importStar(require("fs"));
 const glob_1 = __importDefault(require("glob"));
 const runtimeEnv_1 = require("../utils/runtimeEnv");
+// import { webpackEntries } from '../../../art-webpack/dist/config/configWebpackModules.js';
 // TODO optimize it later
-const webpackEntries = require(`../../../${runtimeEnv_1.isWxMiniprogramEnv ? 'art-webpack-miniprogram' : 'art-webpack'}/dist/config/configWebpackModules.js`);
-const virtualProjectName = config_1.default.get('art:projectVirtualPath');
+const webpackEntries = require(`../../../${runtimeEnv_1.isWxMiniprogramEnv ? 'art-webpack-miniprogram' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
+const virtualProjectName = appConfig.get('art:projectVirtualPath');
 const entries = webpackEntries(true);
 const publicPath = path.join(process.cwd(), './public');
 class IndexPage {
     constructor() {
         this.builtModuleMatched = (pathFragment) => {
-            const allConfigEntries = config_1.default.get('art:webpack:entry') || {};
+            const allConfigEntries = appConfig.get('art:webpack:entry') || {};
             const found = this.calcuMatchedModuleInfo(pathFragment, allConfigEntries);
             if (found) {
                 console.log(chalk_1.default.yellow.bold('Using') + ` built module ${chalk_1.default.cyan(found.entryKey)}`);
@@ -63,7 +64,7 @@ class IndexPage {
         if (baseUrl === '/') {
             return this.renderAvailableModulesView(req, res);
         }
-        const appEnv = config_1.default.get('NODE_ENV') || 'development';
+        const appEnv = appConfig.get('NODE_ENV') || 'development';
         const isProd = appEnv === 'production';
         if (isProd || !matchedModuleInfo) {
             // calculate the public/{module}/ if matched.

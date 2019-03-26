@@ -9,4 +9,4 @@ if (runtimeEnv_1.isWxMiniprogramEnv) {
 else {
     appConfig = require('../../../art-webpack/dist/config/appConfig.js');
 }
-exports.default = appConfig;
+module.exports = appConfig.default;
