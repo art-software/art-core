@@ -1,6 +1,6 @@
 {
   "name": "art-server-mock",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "art framework server mock",
   "main": "dist/index.js",
   "author": "Bowen Zhong",
