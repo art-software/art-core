@@ -35,6 +35,7 @@ const config_1 = __importDefault(require("./config/config"));
 const openBrowser_1 = __importDefault(require("art-dev-utils/lib/openBrowser"));
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const index_1 = __importDefault(require("./pages/index"));
+const runtimeEnv_1 = require("./utils/runtimeEnv");
 const artConfigPath = path_1.join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
 const envName = config_1.default.get('NODE_ENV') || 'development';
@@ -75,6 +76,10 @@ class App {
         return ctrls;
     }
     appIndexPage(app) {
+        // TODO optimize it later
+        if (runtimeEnv_1.isWxMiniprogramEnv) {
+            return app;
+        }
         const indexPage = new index_1.default();
         app.use('/', (req, res, next) => {
             req.moduleBase = '/';

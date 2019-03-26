@@ -15,6 +15,7 @@ import config from './config/config';
 import openBrowser from 'art-dev-utils/lib/openBrowser';
 import { warningText } from 'art-dev-utils/lib/chalkColors';
 import IndexPage from './pages/index';
+import { isWxMiniprogramEnv } from './utils/runtimeEnv';
 const artConfigPath = join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
 const envName = config.get('NODE_ENV') || 'development';
@@ -62,6 +63,10 @@ export default class App {
   }
 
   private appIndexPage(app: Application) {
+    // TODO optimize it later
+    if (isWxMiniprogramEnv) {
+      return app;
+    }
     const indexPage = new IndexPage();
     app.use('/', (req, res, next) => {
       (req as any).moduleBase = '/';

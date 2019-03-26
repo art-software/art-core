@@ -28,14 +28,17 @@ const path = __importStar(require("path"));
 const qs = __importStar(require("qs"));
 const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
 const config_1 = __importDefault(require("../config/config"));
-const configWebpackModules_js_1 = require("../../../art-webpack/dist/config/configWebpackModules.js");
+// import { webpackEntries } from '../../../art-webpack/dist/config/configWebpackModules.js';
 const lodash_1 = require("lodash");
 const url_join_1 = __importDefault(require("url-join"));
 const chalk_1 = __importDefault(require("chalk"));
 const fs = __importStar(require("fs"));
 const glob_1 = __importDefault(require("glob"));
+const runtimeEnv_1 = require("../utils/runtimeEnv");
+// TODO optimize it later
+const webpackEntries = require(`../../../${runtimeEnv_1.isWxMiniprogramEnv ? 'art-webpack-wx' : 'art-webpack'}/dist/config/configWebpackModules.js`);
 const virtualProjectName = config_1.default.get('art:projectVirtualPath');
-const entries = configWebpackModules_js_1.webpackEntries(true);
+const entries = webpackEntries(true);
 const publicPath = path.join(process.cwd(), './public');
 class IndexPage {
     constructor() {
