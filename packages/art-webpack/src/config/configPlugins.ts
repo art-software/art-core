@@ -76,9 +76,9 @@ export const configBasePlugins = (() => {
       clear: false
     }),
 
-    new MiniCssExtractPlugin({
-      chunkFilename: '[id].[chunkhash].css'
-    }),
+    // new MiniCssExtractPlugin({
+    //   chunkFilename: '[id].[chunkhash].css'
+    // }),
 
     new HappyPack({
       id: 'jsx',

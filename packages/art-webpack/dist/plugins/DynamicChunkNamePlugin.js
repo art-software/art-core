@@ -39,7 +39,8 @@ class DynamicChunkNamePlugin {
     }
     getModulesGroup(modules, regex) {
         for (let i = 0; i < modules.length; i++) {
-            if (regex.test(modules[i].issuer.context)) {
+            const context = (modules[i].issuer || {}).context;
+            if (regex.test(context)) {
                 return true;
             }
         }

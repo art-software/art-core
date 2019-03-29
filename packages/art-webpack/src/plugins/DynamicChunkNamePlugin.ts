@@ -41,7 +41,8 @@ export default class DynamicChunkNamePlugin implements Plugin {
 
   public getModulesGroup(modules: any[], regex: RegExp): boolean {
     for (let i = 0; i < modules.length; i++) {
-      if (regex.test(modules[i].issuer.context)) {
+      const context = (modules[i].issuer || {}).context;
+      if (regex.test(context)) {
         return true;
       }
     }
