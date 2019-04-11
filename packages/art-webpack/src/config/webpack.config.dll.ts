@@ -5,7 +5,8 @@ import { resolve } from 'path';
 import { existsSync } from 'fs';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
-const version = '20180901';
+// const version = '20180901';
+const version = '201903';
 const defaultVendor = join(paths.appCwd, 'node_modules/art-lib-react/dist/vendors');
 const vendorPath = existsSync(defaultVendor) ? defaultVendor : join(__dirname, '../../../art-lib-react/dist/vendors');
 

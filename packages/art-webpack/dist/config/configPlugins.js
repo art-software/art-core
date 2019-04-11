@@ -13,7 +13,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const progress_bar_webpack_plugin_1 = __importDefault(require("progress-bar-webpack-plugin"));
 const chalk_1 = __importDefault(require("chalk"));
 const fork_ts_checker_webpack_plugin_1 = __importDefault(require("fork-ts-checker-webpack-plugin"));
-const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 const paths_1 = __importDefault(require("./paths"));
 const configWebpackModules_1 = require("./configWebpackModules");
 const appConfig_1 = __importDefault(require("./appConfig"));
@@ -78,9 +77,9 @@ exports.configBasePlugins = (() => {
             format: chalk_1.default.cyan('build') + ' [:bar] ' + chalk_1.default.green.bold(':percent') + ' (:elapsed seconds)',
             clear: false
         }),
-        new mini_css_extract_plugin_1.default({
-            chunkFilename: '[id].[chunkhash].css'
-        }),
+        // new MiniCssExtractPlugin({
+        //   chunkFilename: '[id].[chunkhash].css'
+        // }),
         new happypack_1.default({
             id: 'jsx',
             threads: 3,

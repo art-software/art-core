@@ -1,15 +1,27 @@
 // Polyfill android 4.2+
 if (typeof Map === 'undefined') {
-  (window as any).Map = require('es6-map/polyfill');
+  try {
+    (window as any).Map = require('es6-map/polyfill');
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // Polyfill android 4.2+
 if (typeof Set === 'undefined') {
-  (window as any).Set = require('es6-set/polyfill');
+  try {
+    (window as any).Set = require('es6-set/polyfill');
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 if (typeof Promise === 'undefined') {
-  require('es6-promise').polyfill();
+  try {
+    require('es6-promise').polyfill();
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // It will use the native implementation if it's present.
