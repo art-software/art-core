@@ -39,7 +39,7 @@ exports.webpackTask = (command, args) => __awaiter(this, void 0, void 0, functio
         buildEnv = envAnswer.buildEnv;
         console.log(`current build environment is: ${chalk_1.default.green(buildEnv)}`);
     }
-    executeNodeScript_1.default('node', finalPath, '--NODE_ENV', nodeEnv, '--BUILD_ENV', buildEnv === Env_1.Env.Production ? Env_1.EnvShort.IntegrateTesting : Env_1.EnvShort.Production, '--ART_MODULES', `${JSON.stringify(parsedModules)}`);
+    executeNodeScript_1.default('node', finalPath, '--NODE_ENV', nodeEnv, '--BUILD_ENV', buildEnv === Env_1.Env.Production ? Env_1.EnvShort.Production : Env_1.EnvShort.IntegrateTesting, '--ART_MODULES', `${JSON.stringify(parsedModules)}`);
 });
 exports.webpackDll = () => {
     if (projectType_1.getProjectType() === ProjectTypes_1.ProjectTypes.miniprogram) {

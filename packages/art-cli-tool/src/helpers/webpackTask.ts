@@ -35,7 +35,7 @@ export const webpackTask = async (command: 'build' | 'serve', args: Args): Promi
 
   executeNodeScript('node', finalPath,
     '--NODE_ENV', nodeEnv,
-    '--BUILD_ENV', buildEnv === Env.Production ? EnvShort.IntegrateTesting : EnvShort.Production,
+    '--BUILD_ENV', buildEnv === Env.Production ? EnvShort.Production : EnvShort.IntegrateTesting,
     '--ART_MODULES', `${JSON.stringify(parsedModules)}`,
   );
 };
