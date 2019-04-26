@@ -4,14 +4,13 @@ import { webpackTask } from '../helpers/webpackTask';
 import { getProjectType } from '../helpers/projectType';
 import { ProjectTypes } from '../enums/ProjectTypes';
 
-const moduleRequired = getProjectType() !== ProjectTypes.miniprogram;
-
 class ServeCommand implements CommandModule {
   public readonly command = 'serve';
 
   public readonly desc = grayText('Serve one or more modules');
 
   public builder(args: Argv): Argv {
+    const moduleRequired = getProjectType() !== ProjectTypes.miniprogram;
     return args.usage(`${cyanBoldText('Usage:')} $0 serve --modules="modulePath1, modulePath2, ..."`)
       .options('modules', {
         alias: 'm',

@@ -4,13 +4,13 @@ const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const webpackTask_1 = require("../helpers/webpackTask");
 const projectType_1 = require("../helpers/projectType");
 const ProjectTypes_1 = require("../enums/ProjectTypes");
-const moduleRequired = projectType_1.getProjectType() !== ProjectTypes_1.ProjectTypes.miniprogram;
 class ServeCommand {
     constructor() {
         this.command = 'serve';
         this.desc = chalkColors_1.grayText('Serve one or more modules');
     }
     builder(args) {
+        const moduleRequired = projectType_1.getProjectType() !== ProjectTypes_1.ProjectTypes.miniprogram;
         return args.usage(`${chalkColors_1.cyanBoldText('Usage:')} $0 serve --modules="modulePath1, modulePath2, ..."`)
             .options('modules', {
             alias: 'm',
