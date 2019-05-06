@@ -10,13 +10,14 @@
     "art-lib-react": "^0.0.30",
     "art-lib-utils": "^0.0.5",
     "art-server-mock": "^0.0.17",
-    "art-webpack": "^0.0.29",
+    "art-webpack": "^0.0.33",
     "less": "^3.8.1",
     "mockjs": "^1.0.1-beta3",
     "react": "16.4.2",
     "react-dom": "16.4.2",
     "react-router-dom": "4.3.1",
-    "routing-controllers": "^0.7.7"
+    "routing-controllers": "^0.7.7",
+    "workbox-window": "^4.2.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.0.0",

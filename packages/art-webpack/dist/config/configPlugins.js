@@ -25,6 +25,11 @@ const HtmlWebpackCDNPlugin_1 = __importDefault(require("../plugins/HtmlWebpackCD
 const happypack_1 = __importDefault(require("happypack"));
 const env_1 = require("../utils/env");
 const DynamicChunkNamePlugin_1 = __importDefault(require("../plugins/DynamicChunkNamePlugin"));
+const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
+const workbox_webpack_plugin_1 = __importDefault(require("workbox-webpack-plugin"));
+const copy_webpack_plugin_1 = __importDefault(require("copy-webpack-plugin"));
+const enableSW = appConfig_1.default.get('art:sw:enable');
+const envName = appConfig_1.default.get('NODE_ENV');
 const isProdEnv = env_1.isProd();
 const configHtmlWebpackPlugin = (entries) => {
     const plugins = [];
@@ -63,6 +68,42 @@ const configHtmlWebpackPlugin = (entries) => {
         plugins.push(new html_webpack_plugin_1.default(htmlWebpackPluginOptions));
     });
     plugins.push(new HtmlWebpackCDNPlugin_1.default());
+    return plugins;
+};
+const configWorkboxWebpackPlugin = () => {
+    const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
+    const port = appConfig_1.default.get(`devPort:${envName}`);
+    const output = appConfig_1.default.get(`art:webpack:output`) || {};
+    const publicPath = isProdEnv ? output[`${appConfig_1.default.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
+    const webpackOutputPath = configWebpackModules_1.webpackOutput().path;
+    const artConfigWorkboxGenerateSWOptions = appConfig_1.default.get('art:sw:workboxGenerateSWOptions') || {};
+    const plugins = [];
+    const newEntries = configWebpackModules_1.webpackEntries(false);
+    foreach_1.default(newEntries, (value, entryKey) => {
+        const importScripts = [];
+        plugins.push(new copy_webpack_plugin_1.default([
+            {
+                from: path.resolve(process.cwd(), './service-worker/workbox-index.js'),
+                to: ensureSlash_1.default(webpackOutputPath, true) + `${entryKey}/[name].[hash].[ext]`,
+                transformPath(targetPath, absolutePath) {
+                    importScripts.push(publicPath + targetPath);
+                    return Promise.resolve(targetPath);
+                }
+            }
+        ]), 
+        // Generate a service worker script that will precache, and keep up to date,
+        // the HTML & assets that are part of the Webpack build.
+        new workbox_webpack_plugin_1.default.GenerateSW(Object.assign({}, {
+            swDest: `${entryKey}/service-worker.js`,
+            exclude: [new RegExp(`^(?!.*${entryKey}).*$`)],
+            importsDirectory: entryKey,
+            importWorkboxFrom: 'disabled',
+            importScripts,
+            skipWaiting: true,
+            clientsClaim: true,
+            navigateFallback: ensureSlash_1.default(publicPath + entryKey, true) + 'index.html'
+        }, artConfigWorkboxGenerateSWOptions)));
+    });
     return plugins;
 };
 const getRawModuleEntry = (entries) => {
@@ -118,6 +159,9 @@ exports.configBasePlugins = (() => {
     ];
     if (isProdEnv) {
         plugins = plugins.concat(configHtmlWebpackPlugin());
+        if (enableSW) {
+            plugins = plugins.concat(configWorkboxWebpackPlugin());
+        }
     }
     return plugins;
 })();
