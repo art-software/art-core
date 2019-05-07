@@ -44,6 +44,9 @@ exports.attachHotDevServerScripts = (entries) => {
  */
 exports.webpackEntries = (keepQuery) => {
     let argvModules = JSON.parse(appConfig_1.default.get('ART_MODULES') || '[]');
+    if (typeof argvModules === 'string') {
+        argvModules = JSON.parse(argvModules);
+    }
     const allModules = appConfig_1.default.get('art:webpack:entry');
     if (!argvModules.length) {
         argvModules = ['**'];
