@@ -1,7 +1,9 @@
 import { AxiosRequestConfig, AxiosInstance, AxiosPromise, AxiosError } from 'axios';
 export default abstract class WebApi {
-    protected constructor(basicRequestConfig?: AxiosRequestConfig);
+    protected constructor();
     private basicRequestConfig;
+    getBasicRequestConfig(): AxiosRequestConfig;
+    setBasicRequestConfig(basicRequestConfig: AxiosRequestConfig): AxiosRequestConfig;
     private assertion;
     getInstance(): AxiosInstance;
     requestGet(url: string, config?: AxiosRequestConfig): AxiosPromise<{}>;

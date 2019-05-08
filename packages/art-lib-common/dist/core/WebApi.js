@@ -3,8 +3,15 @@ import merge from 'art-lib-utils/dist/utils/merge';
 import axios from 'axios';
 import { HttpMethods } from 'art-lib-common/src/enums/HttpMethods';
 export default class WebApi {
-    constructor(basicRequestConfig = {}) {
-        this.basicRequestConfig = basicRequestConfig;
+    constructor() {
+        this.basicRequestConfig = {};
+    }
+    getBasicRequestConfig() {
+        return this.basicRequestConfig;
+    }
+    setBasicRequestConfig(basicRequestConfig) {
+        this.basicRequestConfig = merge(true, {}, this.basicRequestConfig, basicRequestConfig);
+        return this.basicRequestConfig;
     }
     assertion(target, message, checker) {
         let checkValue = target;

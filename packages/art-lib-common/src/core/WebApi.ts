@@ -4,11 +4,18 @@ import axios, { AxiosRequestConfig, AxiosInstance, AxiosPromise, AxiosError } fr
 import { HttpMethods } from 'art-lib-common/src/enums/HttpMethods';
 
 export default abstract class WebApi {
-  protected constructor(basicRequestConfig: AxiosRequestConfig = {}) {
-    this.basicRequestConfig = basicRequestConfig;
+  protected constructor() {}
+
+  private basicRequestConfig: AxiosRequestConfig = {};
+
+  public getBasicRequestConfig() {
+    return this.basicRequestConfig;
   }
 
-  private basicRequestConfig: AxiosRequestConfig;
+  public setBasicRequestConfig(basicRequestConfig: AxiosRequestConfig): AxiosRequestConfig {
+    this.basicRequestConfig = merge(true, {}, this.basicRequestConfig, basicRequestConfig);
+    return this.basicRequestConfig;
+  }
 
   private assertion(target: any, message: string, checker: (v: any) => {}) {
     let checkValue = target;
