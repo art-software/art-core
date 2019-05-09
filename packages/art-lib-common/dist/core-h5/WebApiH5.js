@@ -19,7 +19,7 @@ export default class WebApiH5 extends WebApi {
         const envName = this.getEnvName();
         const port = this.getPort();
         let domain = this.domainConfig[envName] || '';
-        if (port && envName !== EnvNames.local) {
+        if (port) {
             domain = `${domain}:${port}`;
         }
         return domain || '';

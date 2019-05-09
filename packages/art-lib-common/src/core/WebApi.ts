@@ -1,10 +1,10 @@
 import { isFunction, isObject, isString } from 'art-lib-utils/dist/utils/lang';
 import merge from 'art-lib-utils/dist/utils/merge';
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosPromise, AxiosError } from 'axios';
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import { HttpMethods } from 'art-lib-common/src/enums/HttpMethods';
 
 export default abstract class WebApi {
-  protected constructor() {}
+  protected constructor() { }
 
   private basicRequestConfig: AxiosRequestConfig = {};
 
@@ -27,17 +27,17 @@ export default abstract class WebApi {
     }
   }
 
-  public getInstance(): AxiosInstance {
+  public getAxiosInstance(): AxiosInstance {
     return axios;
   }
 
   public requestGet(url: string, config: AxiosRequestConfig = {}) {
-    config = merge(true, {}, config, { method: HttpMethods.post, url });
+    config = merge(true, {}, config, { method: HttpMethods.get, url });
     return this.request(config);
   }
 
   public requestPost(url: string, config: AxiosRequestConfig = {}) {
-    config = merge(true, {}, config, { method: HttpMethods.get, url });
+    config = merge(true, {}, config, { method: HttpMethods.post, url });
     return this.request(config);
   }
 
@@ -59,7 +59,7 @@ export default abstract class WebApi {
     return data;
   }
 
-  public request<T>(requestConfig: AxiosRequestConfig): AxiosPromise<T> {
+  public request(requestConfig: AxiosRequestConfig): Promise<any> {
     const finalRequestConfig = merge(true, {}, this.basicRequestConfig, requestConfig);
 
     const urlCheck = (checkData) => isObject(checkData) && isString(checkData.url);
@@ -67,11 +67,30 @@ export default abstract class WebApi {
 
     axios.interceptors.request.use(this.requestInterceptor);
     axios.interceptors.response.use(this.responseInterceptor);
-    return axios.request(finalRequestConfig)
-      .then((response) => {
-        return response;
-      })
-      .catch(this.errorHandler);
+    return this.preRequest(finalRequestConfig).then((config) => {
+      return axios.request(config)
+        .then((response) => {
+          return this.afterRequestResolve(response);
+        })
+        .catch(this.errorHandler);
+    }).catch(this.preRequestErrorHandler);
+  }
+
+  protected preRequest(requestConfig: AxiosRequestConfig) {
+    return new Promise((resolve, reject) => {
+      resolve(requestConfig);
+      reject(requestConfig);
+    });
+  }
+
+  protected preRequestErrorHandler(requestConfig: AxiosRequestConfig) {
+    return requestConfig;
+  }
+
+  protected afterRequestResolve(res: AxiosResponse) {
+    return new Promise((resolve) => {
+      return resolve(res);
+    });
   }
 
   protected errorHandler(err: AxiosError): any {
