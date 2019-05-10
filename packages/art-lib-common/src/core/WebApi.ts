@@ -4,9 +4,14 @@ import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse } f
 import { HttpMethods } from 'art-lib-common/src/enums/HttpMethods';
 
 export default abstract class WebApi {
-  protected constructor() { }
+  protected constructor() {
+    this.axios = axios.create();
+    this.axios.interceptors.request.use(this.requestInterceptor);
+    this.axios.interceptors.response.use(this.responseInterceptor);
+  }
 
   private basicRequestConfig: AxiosRequestConfig = {};
+  private axios: AxiosInstance;
 
   public getBasicRequestConfig() {
     return this.basicRequestConfig;
@@ -28,7 +33,7 @@ export default abstract class WebApi {
   }
 
   public getAxiosInstance(): AxiosInstance {
-    return axios;
+    return this.axios;
   }
 
   public requestGet(url: string, config: AxiosRequestConfig = {}) {
@@ -55,8 +60,8 @@ export default abstract class WebApi {
     return requestConfig;
   }
 
-  protected responseInterceptor(data: any): any {
-    return data;
+  protected responseInterceptor(response: AxiosResponse): any {
+    return response;
   }
 
   public request(requestConfig: AxiosRequestConfig): Promise<any> {
@@ -65,35 +70,38 @@ export default abstract class WebApi {
     const urlCheck = (checkData) => isObject(checkData) && isString(checkData.url);
     this.assertion(finalRequestConfig, 'request() http `requestConfig.url` must be providered!', urlCheck);
 
-    axios.interceptors.request.use(this.requestInterceptor);
-    axios.interceptors.response.use(this.responseInterceptor);
-    return this.preRequest(finalRequestConfig).then((config) => {
-      return axios.request(config)
-        .then((response) => {
-          return this.afterRequestResolve(response);
-        })
-        .catch(this.errorHandler);
-    }).catch(this.preRequestErrorHandler);
+    // return this.preRequest(finalRequestConfig).then((config) => {
+    //   return axios.request(config)
+    //     .then((response) => {
+    //       return this.afterRequestResolve(response);
+    //     })
+    //     .catch(this.requestErrorHandler);
+    // }).catch(this.preRequestErrorHandler);
+
+    return this.axios.request(finalRequestConfig)
+      .then((response) => {
+        return response;
+      })
+      .catch(this.requestErrorHandler);
   }
 
-  protected preRequest(requestConfig: AxiosRequestConfig) {
-    return new Promise((resolve, reject) => {
-      resolve(requestConfig);
-      reject(requestConfig);
-    });
-  }
+  // protected preRequest(requestConfig: AxiosRequestConfig) {
+  //   return new Promise((resolve) => {
+  //     resolve(requestConfig);
+  //   });
+  // }
 
-  protected preRequestErrorHandler(requestConfig: AxiosRequestConfig) {
-    return requestConfig;
-  }
+  // protected preRequestErrorHandler(requestConfig: AxiosRequestConfig) {
+  //   return requestConfig;
+  // }
 
-  protected afterRequestResolve(res: AxiosResponse) {
-    return new Promise((resolve) => {
-      return resolve(res);
-    });
-  }
+  // protected afterRequestResolve(res: AxiosResponse) {
+  //   return new Promise((resolve) => {
+  //     return resolve(res);
+  //   });
+  // }
 
-  protected errorHandler(err: AxiosError): any {
+  protected requestErrorHandler(err: AxiosError): any {
     // Do something handling error
   }
 }

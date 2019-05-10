@@ -1,7 +1,6 @@
 import WebApi from 'art-lib-common/src/core/WebApi';
 import { getQueryString } from 'art-lib-utils/dist/utils/url';
 import { EnvNames } from '../enums/EnvNames';
-import { AxiosResponse } from 'axios';
 
 export default abstract class WebApiH5 extends WebApi {
   constructor(domainConfig: object) {

@@ -2,6 +2,7 @@ import { AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse } from 'ax
 export default abstract class WebApi {
     protected constructor();
     private basicRequestConfig;
+    private axios;
     getBasicRequestConfig(): AxiosRequestConfig;
     setBasicRequestConfig(basicRequestConfig: AxiosRequestConfig): AxiosRequestConfig;
     private assertion;
@@ -11,10 +12,7 @@ export default abstract class WebApi {
     requestPut(url: string, config?: AxiosRequestConfig): Promise<any>;
     requestDelete(url: string, config?: AxiosRequestConfig): Promise<any>;
     protected requestInterceptor(requestConfig: AxiosRequestConfig): AxiosRequestConfig;
-    protected responseInterceptor(data: any): any;
+    protected responseInterceptor(response: AxiosResponse): any;
     request(requestConfig: AxiosRequestConfig): Promise<any>;
-    protected preRequest(requestConfig: AxiosRequestConfig): Promise<{}>;
-    protected preRequestErrorHandler(requestConfig: AxiosRequestConfig): AxiosRequestConfig;
-    protected afterRequestResolve(res: AxiosResponse): Promise<{}>;
-    protected errorHandler(err: AxiosError): any;
+    protected requestErrorHandler(err: AxiosError): any;
 }

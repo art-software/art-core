@@ -13,6 +13,10 @@ app.post('/testme/post', (req, res) => {
   res.send('post method success');
 });
 
+app.post('/testme/post/json', (req, res) => {
+  res.json({});
+});
+
 app.put('/testme/put', (req, res) => {
   res.send('put method success');
 });
