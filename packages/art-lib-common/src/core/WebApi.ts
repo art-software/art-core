@@ -70,36 +70,12 @@ export default abstract class WebApi {
     const urlCheck = (checkData) => isObject(checkData) && isString(checkData.url);
     this.assertion(finalRequestConfig, 'request() http `requestConfig.url` must be providered!', urlCheck);
 
-    // return this.preRequest(finalRequestConfig).then((config) => {
-    //   return axios.request(config)
-    //     .then((response) => {
-    //       return this.afterRequestResolve(response);
-    //     })
-    //     .catch(this.requestErrorHandler);
-    // }).catch(this.preRequestErrorHandler);
-
     return this.axios.request(finalRequestConfig)
       .then((response) => {
         return response;
       })
       .catch(this.requestErrorHandler);
   }
-
-  // protected preRequest(requestConfig: AxiosRequestConfig) {
-  //   return new Promise((resolve) => {
-  //     resolve(requestConfig);
-  //   });
-  // }
-
-  // protected preRequestErrorHandler(requestConfig: AxiosRequestConfig) {
-  //   return requestConfig;
-  // }
-
-  // protected afterRequestResolve(res: AxiosResponse) {
-  //   return new Promise((resolve) => {
-  //     return resolve(res);
-  //   });
-  // }
 
   protected requestErrorHandler(err: AxiosError): any {
     // Do something handling error
