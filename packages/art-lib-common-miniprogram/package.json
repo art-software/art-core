@@ -6,6 +6,8 @@
   "author": "Bowen Zhong",
   "license": "MIT",
   "dependencies": {
-    "art-lib-utils": "^0.0.5"
+    "art-dev-utils": "^0.0.11",
+    "art-lib-utils": "^0.0.5",
+    "art-lib-utils-wx": "^0.0.3"
   }
 }
