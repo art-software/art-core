@@ -3,6 +3,7 @@ import resolveAppPath from 'art-dev-utils/lib/resolveAppPath';
 const paths = {
   appCwd: resolveAppPath(''),
   appPublic: resolveAppPath('public'),
+  appDebug: resolveAppPath('debug'),
   appPackageJson: resolveAppPath('package.json'),
   appSrc: resolveAppPath('client'),
   appMockServer: resolveAppPath('mock'),
