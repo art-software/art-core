@@ -6,6 +6,9 @@ import chalk from 'chalk';
 import async from 'async';
 import inquirer from 'inquirer';
 
+const DEBUG_PATH = 'debug';
+const PUBLISH_PATH = DEBUG_PATH;
+
 confirmModules((answer) => {
   if (!answer.availableModulesOk) { return; }
 
@@ -13,19 +16,19 @@ confirmModules((answer) => {
 
   let allFiles: string[] = [];
   modules.forEach((modulePath) => {
-    allFiles = allFiles.concat(walk(path.join(process.cwd(), 'public', modulePath)));
+    allFiles = allFiles.concat(walk(path.join(process.cwd(), PUBLISH_PATH, modulePath)));
   });
 
   // Do file filter if necessary
   // allFiles = allFiles.filter((file: string, index: number) => {});
 
   allFiles.forEach((filePath) => {
-    const metaPath = path.relative(path.join(process.cwd(), 'public'), filePath);
+    const metaPath = path.relative(path.join(process.cwd(), PUBLISH_PATH), filePath);
     console.log(chalk.green(`${metaPath}`));
   });
 
   const uploadSingleFile = async (localAbsFilePath: string, serverRelativePath: string, callback) => {
-    const metaPath = path.relative(path.join(process.cwd(), 'public'), localAbsFilePath);
+    const metaPath = path.relative(path.join(process.cwd(), PUBLISH_PATH), localAbsFilePath);
     try {
       const uploadResult = await httpFileUploader(localAbsFilePath, serverRelativePath);
       if (!uploadResult) { return; }
@@ -40,7 +43,7 @@ confirmModules((answer) => {
   const asyncQueue: any[] = [];
 
   allFiles.forEach((fileAbsPath: string) => {
-    const metaPath = path.relative(path.join(process.cwd(), 'public'), fileAbsPath);
+    const metaPath = path.relative(path.join(process.cwd(), PUBLISH_PATH), fileAbsPath);
     let serverRelativePath = path.dirname(metaPath);
     serverRelativePath = 'frontend/' + serverRelativePath;
 

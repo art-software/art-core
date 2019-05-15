@@ -17,6 +17,7 @@ const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
 const paths_1 = __importDefault(require("./paths"));
 const lodash_1 = require("lodash");
 const env_1 = require("../utils/env");
+const BuildEnv_1 = require("../enums/BuildEnv");
 const envName = appConfig_1.default.get('NODE_ENV');
 const isProdEnv = env_1.isProd();
 const getHotDevServerScripts = () => {
@@ -68,14 +69,16 @@ exports.webpackEntries = (keepQuery) => {
  * Get webpack `output` element configuration
  */
 exports.webpackOutput = () => {
+    const buildEnv = appConfig_1.default.get('BUILD_ENV');
     const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
     const port = appConfig_1.default.get(`devPort:${envName}`);
     const output = appConfig_1.default.get(`art:webpack:output`) || {};
-    const publicPath = isProdEnv ? output[`${appConfig_1.default.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
+    const publicPath = isProdEnv ? output[`${buildEnv}PublicPath`] : `${host}:${port}/public/`;
+    const outRelativePath = buildEnv === BuildEnv_1.BuildEnv.prod ? './public/' : './debug/';
     return {
         filename: `[name]/${bundleFileNamePattern('.js')}`,
         chunkFilename: `[id].[chunkhash].js`,
-        path: path.resolve(paths_1.default.appCwd, './public/'),
+        path: path.resolve(paths_1.default.appCwd, outRelativePath),
         publicPath
     };
 };

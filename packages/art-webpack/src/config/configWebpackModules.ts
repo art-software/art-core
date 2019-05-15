@@ -5,6 +5,7 @@ import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 import paths from './paths';
 import { clone, forEach } from 'lodash';
 import { isProd } from '../utils/env';
+import { BuildEnv } from '../enums/BuildEnv';
 
 interface OutputProps {
   filename: string;
@@ -76,15 +77,17 @@ export const webpackEntries = (keepQuery: boolean): object => {
  * Get webpack `output` element configuration
  */
 export const webpackOutput = (): OutputProps => {
+  const buildEnv = appConfig.get('BUILD_ENV');
   const host =  ensureSlash(appConfig.get(`devHost:${envName}`), false);
   const port = appConfig.get(`devPort:${envName}`);
   const output = appConfig.get(`art:webpack:output`) || {};
-  const publicPath = isProdEnv ? output[`${appConfig.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
+  const publicPath = isProdEnv ? output[`${buildEnv}PublicPath`] : `${host}:${port}/public/`;
 
+  const outRelativePath = buildEnv === BuildEnv.prod ? './public/' : './debug/';
   return {
     filename: `[name]/${bundleFileNamePattern('.js')}`,
     chunkFilename: `[id].[chunkhash].js`,
-    path: path.resolve(paths.appCwd, './public/'),
+    path: path.resolve(paths.appCwd, outRelativePath),
     publicPath
   };
 };
