@@ -7,14 +7,14 @@ const webpack_1 = __importDefault(require("webpack"));
 const path_1 = require("path");
 const paths_1 = __importDefault(require("./paths"));
 const path_2 = require("path");
-const fs_1 = require("fs");
 const optimize_css_assets_webpack_plugin_1 = __importDefault(require("optimize-css-assets-webpack-plugin"));
 const uglifyjs_webpack_plugin_1 = __importDefault(require("uglifyjs-webpack-plugin"));
-// const version = '20180901';
-const version = '201903';
-const defaultVendor = path_1.join(paths_1.default.appCwd, 'node_modules/art-lib-react/dist/vendors');
-const vendorPath = fs_1.existsSync(defaultVendor) ? defaultVendor : path_1.join(__dirname, '../../../art-lib-react/dist/vendors');
-const vendors = [
+const appConfig_1 = __importDefault(require("./appConfig"));
+const version = appConfig_1.default.get('art:webpack:dll:version') || 'default-version';
+const customizedVendors = appConfig_1.default.get('art:webpack:dll:vendors') || [];
+const virtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
+const outputPath = path_1.join(process.cwd(), './public', virtualPath, 'vendors', version);
+const vendors = customizedVendors.length ? customizedVendors : [
     'polyfills',
     'react',
     'react-dom',
@@ -30,7 +30,7 @@ class WebpackDLLConfig {
             shared: vendors
         };
         this.output = {
-            path: vendorPath,
+            path: outputPath,
             filename: `art_framework.${version}.js`,
             library: `[name]_${version}`
         };
@@ -82,7 +82,7 @@ class WebpackDLLConfig {
                 }
             }),
             new webpack_1.default.DllPlugin({
-                path: path_1.join(vendorPath, 'manifest.json'),
+                path: path_1.join(outputPath, 'manifest.json'),
                 name: `[name]_${version}`,
                 context: path_1.join(paths_1.default.appCwd)
             })
