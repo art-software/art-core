@@ -14,6 +14,7 @@ import HtmlWebpackCDNPlugin from '../plugins/HtmlWebpackCDNPlugin';
 import HappyPack from 'happypack';
 import { isProd } from '../utils/env';
 import DynamicChunkNamePlugin from '../plugins/DynamicChunkNamePlugin';
+import { HtmlWebpackChunksPlugin } from '../plugins/HtmlWebpackChunksPlugin';
 
 const isProdEnv = isProd();
 
@@ -55,6 +56,10 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
     };
 
     plugins.push(new HtmlWebpackPlugin(htmlWebpackPluginOptions));
+
+    plugins.push(new HtmlWebpackChunksPlugin({
+      manifestPath: path.join(process.cwd(), 'client', entryKey.replace(projectVirtualPath, ''))
+    }));
   });
 
   plugins.push(new HtmlWebpackCDNPlugin());

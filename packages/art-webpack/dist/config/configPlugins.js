@@ -25,6 +25,7 @@ const HtmlWebpackCDNPlugin_1 = __importDefault(require("../plugins/HtmlWebpackCD
 const happypack_1 = __importDefault(require("happypack"));
 const env_1 = require("../utils/env");
 const DynamicChunkNamePlugin_1 = __importDefault(require("../plugins/DynamicChunkNamePlugin"));
+const HtmlWebpackChunksPlugin_1 = require("../plugins/HtmlWebpackChunksPlugin");
 const isProdEnv = env_1.isProd();
 const configHtmlWebpackPlugin = (entries) => {
     const plugins = [];
@@ -61,6 +62,9 @@ const configHtmlWebpackPlugin = (entries) => {
             cdnPath: (queryObj.cdn === '0' || queryObj.cdn === 'false' || !isProdEnv) ? '' : assetsProdPublicPath
         };
         plugins.push(new html_webpack_plugin_1.default(htmlWebpackPluginOptions));
+        plugins.push(new HtmlWebpackChunksPlugin_1.HtmlWebpackChunksPlugin({
+            manifestPath: path.join(process.cwd(), 'client', entryKey.replace(projectVirtualPath, ''))
+        }));
     });
     plugins.push(new HtmlWebpackCDNPlugin_1.default());
     return plugins;
