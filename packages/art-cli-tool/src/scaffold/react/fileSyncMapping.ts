@@ -42,6 +42,9 @@ export const clientMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
     {
       name: `./client/${scaffoldType}/`,
       rename: `./client/${scaffoldInstance.moduleName}/`
+    },
+    {
+      name: `./client/common/`
     }
   ];
 };

@@ -39,6 +39,9 @@ exports.clientMapping = (scaffoldInstance) => {
         {
             name: `./client/${scaffoldType}/`,
             rename: `./client/${scaffoldInstance.moduleName}/`
+        },
+        {
+            name: `./client/common/`
         }
     ];
 };
