@@ -1,5 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs_extra_1 = __importDefault(require("fs-extra"));
+const path_1 = require("path");
 exports.configMapping = (scaffoldInstance) => {
     return [
         {
@@ -35,15 +40,31 @@ exports.configMapping = (scaffoldInstance) => {
 };
 exports.clientMapping = (scaffoldInstance) => {
     const scaffoldType = scaffoldInstance.scaffoldChoosen.replace('react/', '');
-    return [
-        {
-            name: `./client/${scaffoldType}/`,
-            rename: `./client/${scaffoldInstance.moduleName}/`
-        },
-        {
-            name: `./client/common/`
-        }
-    ];
+    const commonFolderPath = path_1.join(process.cwd(), './client/common');
+    let commonFolderExist = false;
+    try {
+        commonFolderExist = fs_extra_1.default.pathExistsSync(commonFolderPath);
+    }
+    catch (e) {
+        console.log(e);
+        throw new Error('fs-extra pathExistsSync error');
+    }
+    return commonFolderExist ?
+        [
+            {
+                name: `./client/${scaffoldType}/`,
+                rename: `./client/${scaffoldInstance.moduleName}/`
+            }
+        ] :
+        [
+            {
+                name: `./client/${scaffoldType}/`,
+                rename: `./client/${scaffoldInstance.moduleName}/`
+            },
+            {
+                name: `./client/common/`
+            }
+        ];
 };
 exports.serverMapping = (scaffoldInstance) => {
     return [

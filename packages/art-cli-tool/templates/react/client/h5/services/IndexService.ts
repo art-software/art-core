@@ -1,4 +1,4 @@
-import WebApiCommon from '../../common/services/WebApiCommon';
+import WebApiCommon from 'client/common/services/WebApiCommon';
 import { IIndexService, AjaxResult, IData } from './interfaces/IIndexService';
 
 export default class IndexService extends WebApiCommon implements IIndexService {

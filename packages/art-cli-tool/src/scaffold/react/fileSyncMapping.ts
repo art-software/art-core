@@ -1,5 +1,7 @@
 import { SyncMapping } from '../typing';
 import ArtScaffold from '../ArtScaffold';
+import fs from 'fs-extra';
+import { join } from 'path';
 
 export const configMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   return [
@@ -37,16 +39,31 @@ export const configMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
 
 export const clientMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   const scaffoldType = scaffoldInstance.scaffoldChoosen.replace('react/', '');
+  const commonFolderPath = join(process.cwd(), './client/common');
+  let commonFolderExist = false;
+  try {
+    commonFolderExist = fs.pathExistsSync(commonFolderPath);
+  } catch (e) {
+    console.log(e);
+    throw new Error('fs-extra pathExistsSync error');
+  }
 
-  return [
-    {
-      name: `./client/${scaffoldType}/`,
-      rename: `./client/${scaffoldInstance.moduleName}/`
-    },
-    {
-      name: `./client/common/`
-    }
-  ];
+  return commonFolderExist ?
+    [
+      {
+        name: `./client/${scaffoldType}/`,
+        rename: `./client/${scaffoldInstance.moduleName}/`
+      }
+    ] :
+    [
+      {
+        name: `./client/${scaffoldType}/`,
+        rename: `./client/${scaffoldInstance.moduleName}/`
+      },
+      {
+        name: `./client/common/`
+      }
+    ];
 };
 
 export const serverMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
