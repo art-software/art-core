@@ -6,8 +6,8 @@ export default class WebApi {
     constructor() {
         this.basicRequestConfig = {};
         this.axios = axios.create();
-        this.axios.interceptors.request.use(this.requestInterceptor);
-        this.axios.interceptors.response.use(this.responseInterceptor);
+        this.axios.interceptors.request.use(this.requestInterceptor.bind(this));
+        this.axios.interceptors.response.use(this.responseInterceptor.bind(this));
     }
     getBasicRequestConfig() {
         return this.basicRequestConfig;

@@ -6,8 +6,8 @@ import { HttpMethods } from 'art-lib-common/src/enums/HttpMethods';
 export default abstract class WebApi {
   protected constructor() {
     this.axios = axios.create();
-    this.axios.interceptors.request.use(this.requestInterceptor);
-    this.axios.interceptors.response.use(this.responseInterceptor);
+    this.axios.interceptors.request.use(this.requestInterceptor.bind(this));
+    this.axios.interceptors.response.use(this.responseInterceptor.bind(this));
   }
 
   private basicRequestConfig: AxiosRequestConfig = {};
