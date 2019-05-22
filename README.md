@@ -17,7 +17,8 @@ Art framework provides art cli tool helping developer easily scaffolding applica
 1. Prerequisite Local Enviorment
 - make sure node.js installed
 
-  node.js 8.x or higher perferred. 
+  node.js 8.x or higher perferred.
+
   https://nodejs.org/en/download/
 
 - make sure `yarn` or `npm` installed
@@ -30,6 +31,7 @@ Art framework provides art cli tool helping developer easily scaffolding applica
   npm:
 
   npm normally comes with node.js installation
+
   https://www.npmjs.com/get-npm
 
 
@@ -144,7 +146,7 @@ Art framework provides art cli tool helping developer easily scaffolding applica
 
     When local module development fininshed, building source code.
     ```bash
-    art build -m "campaign/201812/christmas"
+    art build -m "home"
     ```
 
     A notice `please chioce one environment to build` will display, choicing `Integrate Testing` or `Production`, built files will be placed under `debug` or `public` directory respectively.
@@ -153,5 +155,5 @@ Art framework provides art cli tool helping developer easily scaffolding applica
 11. Publish module
 
     ```bash
-    art publish -m "campaign/201812/christmas"
+    art publish -m "home"
     ```
