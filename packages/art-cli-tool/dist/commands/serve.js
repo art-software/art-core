@@ -17,10 +17,18 @@ class ServeCommand {
             describe: 'the modules you would like to serve',
             demandOption: moduleRequired
         })
+            .options('port', {
+            alias: 'p',
+            describe: 'mock server port',
+            demandOption: false
+        })
             .example(`${chalkColors_1.greenText('$0 serve -modules="client/test"')}`, 'Serve the client/test module');
     }
     handler(args) {
-        webpackTask_1.webpackTask('serve', { modules: args.modules });
+        webpackTask_1.webpackTask('serve', {
+            modules: args.modules,
+            port: args.port
+        });
     }
 }
 module.exports = new ServeCommand();

@@ -8,7 +8,6 @@ import { existsSync, writeFileSync } from 'fs';
 import { readJSONSync, emptyDirSync } from 'fs-extra';
 import choosePort from 'art-dev-utils/lib/choosePort';
 import { getWebpackConfig } from '../config';
-import { devServer } from '../compiler/devServer';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 const jsonFormat = require('json-format');
 
@@ -17,7 +16,7 @@ const PROJECTJSON = 'project.config.json';
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig.get(`devPort:${envName}`);
-// const isInteractive = process.stdout.isTTY;
+const PORT = appConfig.get('PORT');
 
 const clearCacheInquire = (): Promise<{ clearCache: boolean }> => {
   return inquirer.prompt([
@@ -34,27 +33,31 @@ const clearCacheInquire = (): Promise<{ clearCache: boolean }> => {
   });
 };
 
-if (!isWellStructuredClient()) {
-  throw new Error(`${chalk.red('Invalid miniprogram client structure')}`);
-}
+isWellStructuredClient();
 
 let nodeServerHasLunched = false;
 const lunchNodeServer = (modules: string, port: number) => {
 
   if (nodeServerHasLunched) { return; }
-  // if (isInteractive) { clearConsole(); }
-  const mockServerPath = join(__dirname, '../../../art-server-mock/dist/index.js');
-  const nodemonPath = join(require.resolve('nodemon'), '../../bin/nodemon.js');
-  executeNodeScript(
-    nodemonPath,
-    '--watch', paths.appMockServer,
-    '--ignore', paths.appMockServer,
-    '-e', 'js, jsx, ts',
-    mockServerPath,
-    '--ART_MODULES', `${JSON.stringify(modules)}`,
-    '--ART_WEBPACK_PORT', `${port}`
-  );
 
+  const nodemonPath = join(require.resolve('nodemon'), '../../bin/nodemon.js');
+  const mockServerPath = join(__dirname, './startMockServer.js');
+  PORT ?
+    executeNodeScript(
+      nodemonPath,
+      '--watch', paths.appMockServer,
+      '--ignore', paths.appMockServer,
+      '-e', 'js, jsx, ts',
+      mockServerPath,
+      '--PORT', PORT
+    ) :
+    executeNodeScript(
+      nodemonPath,
+      '--watch', paths.appMockServer,
+      '--ignore', paths.appMockServer,
+      '-e', 'js, jsx, ts',
+      mockServerPath
+    );
   nodeServerHasLunched = true;
 };
 
@@ -64,7 +67,7 @@ const compileMockServer = () => {
   if (compileMockServerHasLunched) { return; }
 
   executeNodeScript(
-    'tsc',
+    '../../node_modules/.bin/tsc',
     '-p', `${paths.appMockServerConfig}`,
     '-w'
   );
@@ -106,15 +109,15 @@ clearCacheInquire().then((answer) => {
       // Save new availble webpack dev port.
       appConfig.set(`devPort:${envName}`, port);
       const webpackConfig = getWebpackConfig();
-      const miniprogramDevServer = devServer(webpackConfig, answer.clearCache, () => {
-        console.log('watch done........');
-      });
-      lunchNodeServer('', port - 1);
+      // const miniprogramDevServer = devServer(webpackConfig, answer.clearCache, () => {
+      //   console.log('watch done........');
+      // });
+      lunchNodeServer('', port);
       compileMockServer();
 
       ['SIGINT', 'SIGTERM'].forEach((sig) => {
         process.on(sig as NodeJS.Signals, () => {
-          miniprogramDevServer.close();
+          // miniprogramDevServer.close();
           process.exit();
         });
       });

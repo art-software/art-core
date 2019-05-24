@@ -10,6 +10,7 @@ import { ProjectTypes } from '../enums/ProjectTypes';
 
 interface Args {
   modules: string;
+  port?: string;
 }
 
 export const webpackTask = async (command: 'build' | 'serve', args: Args): Promise<void> => {
@@ -17,7 +18,7 @@ export const webpackTask = async (command: 'build' | 'serve', args: Args): Promi
   if (!checkFileExist([finalPath])) { return; }
 
   const nodeEnv = command === 'serve' ? 'development' : 'production';
-  const { modules } = args;
+  const { modules, port } = args;
   const parsedModules = parseModules(modules);
 
   let buildEnv = Env.IntegrateTesting;
@@ -37,6 +38,7 @@ export const webpackTask = async (command: 'build' | 'serve', args: Args): Promi
     '--NODE_ENV', nodeEnv,
     '--BUILD_ENV', buildEnv === Env.Production ? EnvShort.Production : EnvShort.IntegrateTesting,
     '--ART_MODULES', `${JSON.stringify(parsedModules)}`,
+    '--PORT', port || ''
   );
 };
 

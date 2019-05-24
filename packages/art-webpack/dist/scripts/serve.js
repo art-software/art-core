@@ -46,7 +46,7 @@ const compileMockServer = () => {
     if (compileMockServerHasLunched) {
         return;
     }
-    executeNodeScript_1.default('tsc', '-p', `${paths_1.default.appMockServerConfig}`, '-w');
+    executeNodeScript_1.default('../../node_modules/.bin/tsc', '-p', `${paths_1.default.appMockServerConfig}`, '-w');
     compileMockServerHasLunched = true;
 };
 const confirmModulesCb = (answer) => {

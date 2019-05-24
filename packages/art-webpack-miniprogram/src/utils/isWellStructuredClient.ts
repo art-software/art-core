@@ -4,6 +4,7 @@ import paths from '../config/paths';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { APPJSON, APPJS, APPTS } from '../constants/FileNames';
+import chalk from 'chalk';
 
 const clientRootContains = (fileName: string): boolean => {
   const clientPath = paths.appSrc;
@@ -12,9 +13,17 @@ const clientRootContains = (fileName: string): boolean => {
 
 export const isWellStructuredClient = (): boolean => {
 
-  if (!clientRootContains(APPJSON)) { return false; }
+  if (!clientRootContains(APPJSON)) {
+    throw new Error(`${chalk.red(
+      `Invalid miniprogram client structure, file ${APPJSON} not found in client root`
+    )}`);
+  }
 
-  if (!clientRootContains(APPJS) && !clientRootContains(APPTS)) { return false; }
+  if (!clientRootContains(APPJS) && !clientRootContains(APPTS)) {
+    throw new Error(`${chalk.red(
+      `Invalid miniprogram client structure, file ${APPJS} or ${APPTS} not found in client root`
+    )}`);
+  }
 
   return true;
 };
