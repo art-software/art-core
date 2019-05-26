@@ -1,7 +1,6 @@
 import through2 from 'through2';
 import recast from 'recast';
 import { Visitor } from 'recast/lib/types';
-import chalk from 'chalk';
 
 const transform = (file, encoding, visitor) => {
   const inputSource = file.contents.toString(encoding);
