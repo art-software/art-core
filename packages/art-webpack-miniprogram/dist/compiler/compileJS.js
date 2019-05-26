@@ -52,8 +52,7 @@ exports.compileJS = (path) => {
                     importNode.comments.length = 0;
                 }
                 importAsts.push(resolvedPath);
-                const relativePath = path_1.relative(path.replace('client', projectVirtualPath) + '/..', // TODO not elegant enough
-                projectVirtualPath + '/lib');
+                const relativePath = path_1.relative(path_1.join(path.replace('client', projectVirtualPath), '..'), projectVirtualPath + '/lib');
                 importNode.source.value = path_1.join(relativePath, source);
                 this.traverse(astPath);
             }

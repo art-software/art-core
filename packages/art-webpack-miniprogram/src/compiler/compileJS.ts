@@ -48,7 +48,7 @@ export const compileJS = (path: string) => {
           importAsts.push(resolvedPath);
 
           const relativePath = relative(
-            path.replace('client', projectVirtualPath) + '/..', // TODO not elegant enough
+            join(path.replace('client', projectVirtualPath), '..'),
             projectVirtualPath + '/lib'
           );
 

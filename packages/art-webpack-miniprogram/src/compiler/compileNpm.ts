@@ -42,6 +42,11 @@ export const compileNpm = (filePath: string) => {
     join(paths.appCwd, '../../node_modules/') : paths.appNodeModules;
   const tsProject = gulpTs.createProject(paths.appTsConfig, { rootDir });
 
+  if (uniqueNpmDependencies.length === 0) {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  }
   return new Promise((resolve) => {
     vfs.src(uniqueNpmDependencies, getSrcOptions({ base: rootDir, resolveSymlinks: false }))
       .pipe(plumber(handleErros))

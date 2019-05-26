@@ -49,6 +49,11 @@ exports.compileNpm = (filePath) => {
     const rootDir = process.env.STAGE === 'dev' ?
         path_1.join(paths_1.default.appCwd, '../../node_modules/') : paths_1.default.appNodeModules;
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig, { rootDir });
+    if (uniqueNpmDependencies.length === 0) {
+        return new Promise((resolve) => {
+            resolve();
+        });
+    }
     return new Promise((resolve) => {
         vinyl_fs_1.default.src(uniqueNpmDependencies, vfsHelper_1.getSrcOptions({ base: rootDir, resolveSymlinks: false }))
             .pipe(gulp_plumber_1.default(vfsHelper_1.handleErros))
