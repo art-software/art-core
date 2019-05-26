@@ -2,9 +2,7 @@ import { readFileSync } from 'fs';
 import recast from 'recast';
 import astTypes from 'ast-types';
 import resolve from 'resolve';
-import { dirname, relative } from 'path';
-import paths from '../config/paths';
-import chalk from 'chalk';
+import { dirname } from 'path';
 
 const isNpmDependency = (path: string) => {
   const regex = /node_modules/g;

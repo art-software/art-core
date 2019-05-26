@@ -25,19 +25,6 @@ const pathResolve = __importStar(require("resolve"));
 const isNpmDependency_1 = require("../utils/isNpmDependency");
 const through2_1 = __importDefault(require("through2"));
 const recast_1 = __importDefault(require("recast"));
-const getAllNpmDependencies = () => {
-    const allNpmDependencies = [];
-    const npmMapping = dependencyMapping_1.DependencyMapping.getAllMapping();
-    npmMapping.forEach((deps) => {
-        deps.forEach((dep) => {
-            if (allNpmDependencies.includes(dep)) {
-                return;
-            }
-            allNpmDependencies.push(dep);
-        });
-    });
-    return allNpmDependencies;
-};
 exports.compileNpm = (filePath) => {
     const fileNpmDependencies = dependencyMapping_1.DependencyMapping.getMapping(filePath) || [];
     if (fileNpmDependencies.length === 0) {
@@ -100,8 +87,6 @@ exports.compileNpm = (filePath) => {
             .pipe(tsProject())
             .pipe(gulp_babel_1.default(babelConfig_1.babelConfig))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default, 'lib'))
-            .on('end', () => {
-            resolve();
-        });
+            .on('end', resolve);
     });
 };

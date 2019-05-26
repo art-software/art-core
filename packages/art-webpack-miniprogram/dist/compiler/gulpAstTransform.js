@@ -16,10 +16,13 @@ const transform = (file, encoding, visitor) => {
     const output = recast_1.default.print(ast);
     file.contents = new Buffer(output.code);
 };
-exports.gulpAstTransform = (visitor) => {
+exports.gulpAstTransform = (visitor, afterTransform) => {
     return through2_1.default.obj(function (file, encoding, callback) {
         // console.log(chalk.green('current file'), file.path);
         transform(file, encoding, visitor);
+        if (afterTransform) {
+            afterTransform();
+        }
         callback(null, file);
     });
 };

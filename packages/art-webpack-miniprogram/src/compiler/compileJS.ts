@@ -6,7 +6,6 @@ import gulpTs from 'gulp-typescript';
 import paths from '../config/paths';
 import gulpBabel from 'gulp-babel';
 import { join, dirname, relative } from 'path';
-import { dependencyExtractor } from './dependencyExtractor';
 import { DependencyMapping } from './dependencyMapping';
 import { compileNpm } from './compileNpm';
 import { babelConfig } from '../config/babelConfig';
@@ -19,28 +18,16 @@ const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
 export const compileJS = (path: string) => {
   const tsProject = gulpTs.createProject(paths.appTsConfig);
+  const importAsts: string[] = [];
 
   const filePath = join(paths.appCwd, path);
-  const dependencies = dependencyExtractor(filePath);
-  if (dependencies.length) {
-    console.log(chalk.cyan('Node_modules imports:'));
-    dependencies.forEach((dep) => {
-      console.log(relative(paths.appCwd, dep));
-    });
-  }
-  DependencyMapping.setMapping(path, dependencies);
-
-  // if this file does not has npm dependencies, no npm compilation need.
-  if (dependencies.length) {
-    compileNpm(path);
-  }
 
   return new Promise((resolve) => {
 
     // TODO add tslint checker?
     vfs.src(path, getSrcOptions())
       .pipe(plumber(handleErros))
-      .pipe(gulpAstTransform({ // TODO simplify dependencyExtractor
+      .pipe(gulpAstTransform({
         visitImportDeclaration(astPath) {
           const importNode = astPath.node;
           const source = importNode.source.value;
@@ -54,6 +41,12 @@ export const compileJS = (path: string) => {
 
           if (!isNpmDependency(resolvedPath)) { return this.traverse(astPath); }
 
+          if (importNode.comments) {
+            importNode.comments.length = 0;
+          }
+
+          importAsts.push(resolvedPath);
+
           const relativePath = relative(
             path.replace('client', projectVirtualPath) + '/..', // TODO not elegant enough
             projectVirtualPath + '/lib'
@@ -62,6 +55,25 @@ export const compileJS = (path: string) => {
           importNode.source.value = join(relativePath, source);
 
           this.traverse(astPath);
+        }
+      }, () => {
+        const uniqueDependencies: string[] = [];
+        importAsts.forEach((resolvedPath) => {
+          if (!uniqueDependencies.includes(resolvedPath)) {
+            uniqueDependencies.push(resolvedPath);
+          }
+        });
+
+        if (uniqueDependencies.length) {
+          console.log(chalk.cyan('Node_modules imports:'));
+          uniqueDependencies.forEach((dep) => {
+            console.log(relative(paths.appCwd, dep));
+          });
+        }
+        DependencyMapping.setMapping(path, uniqueDependencies);
+        // if this file does not has npm dependencies, no npm compilation need.
+        if (uniqueDependencies.length) {
+          compileNpm(path);
         }
       }))
       .pipe(tsProject()) // TODO remove typeScript semantic errors

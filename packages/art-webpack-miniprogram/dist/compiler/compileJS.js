@@ -18,7 +18,6 @@ const gulp_typescript_1 = __importDefault(require("gulp-typescript"));
 const paths_1 = __importDefault(require("../config/paths"));
 const gulp_babel_1 = __importDefault(require("gulp-babel"));
 const path_1 = require("path");
-const dependencyExtractor_1 = require("./dependencyExtractor");
 const dependencyMapping_1 = require("./dependencyMapping");
 const compileNpm_1 = require("./compileNpm");
 const babelConfig_1 = require("../config/babelConfig");
@@ -29,19 +28,8 @@ const chalk_1 = __importDefault(require("chalk"));
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 exports.compileJS = (path) => {
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
+    const importAsts = [];
     const filePath = path_1.join(paths_1.default.appCwd, path);
-    const dependencies = dependencyExtractor_1.dependencyExtractor(filePath);
-    if (dependencies.length) {
-        console.log(chalk_1.default.cyan('Node_modules imports:'));
-        dependencies.forEach((dep) => {
-            console.log(path_1.relative(paths_1.default.appCwd, dep));
-        });
-    }
-    dependencyMapping_1.DependencyMapping.setMapping(path, dependencies);
-    // if this file does not has npm dependencies, no npm compilation need.
-    if (dependencies.length) {
-        compileNpm_1.compileNpm(path);
-    }
     return new Promise((resolve) => {
         // TODO add tslint checker?
         vinyl_fs_1.default.src(path, vfsHelper_1.getSrcOptions())
@@ -60,10 +48,32 @@ exports.compileJS = (path) => {
                 if (!isNpmDependency_1.isNpmDependency(resolvedPath)) {
                     return this.traverse(astPath);
                 }
+                if (importNode.comments) {
+                    importNode.comments.length = 0;
+                }
+                importAsts.push(resolvedPath);
                 const relativePath = path_1.relative(path.replace('client', projectVirtualPath) + '/..', // TODO not elegant enough
                 projectVirtualPath + '/lib');
                 importNode.source.value = path_1.join(relativePath, source);
                 this.traverse(astPath);
+            }
+        }, () => {
+            const uniqueDependencies = [];
+            importAsts.forEach((resolvedPath) => {
+                if (!uniqueDependencies.includes(resolvedPath)) {
+                    uniqueDependencies.push(resolvedPath);
+                }
+            });
+            if (uniqueDependencies.length) {
+                console.log(chalk_1.default.cyan('Node_modules imports:'));
+                uniqueDependencies.forEach((dep) => {
+                    console.log(path_1.relative(paths_1.default.appCwd, dep));
+                });
+            }
+            dependencyMapping_1.DependencyMapping.setMapping(path, uniqueDependencies);
+            // if this file does not has npm dependencies, no npm compilation need.
+            if (uniqueDependencies.length) {
+                compileNpm_1.compileNpm(path);
             }
         }))
             .pipe(tsProject()) // TODO remove typeScript semantic errors

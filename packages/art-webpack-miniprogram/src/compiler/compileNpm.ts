@@ -14,19 +14,6 @@ import { isNpmDependency } from '../utils/isNpmDependency';
 import through2 from 'through2';
 import recast from 'recast';
 
-const getAllNpmDependencies = (): string[] => {
-  const allNpmDependencies: string[] = [];
-  const npmMapping = DependencyMapping.getAllMapping();
-  npmMapping.forEach((deps) => {
-    deps.forEach((dep) => {
-      if (allNpmDependencies.includes(dep)) { return; }
-      allNpmDependencies.push(dep);
-    });
-  });
-
-  return allNpmDependencies;
-};
-
 export const compileNpm = (filePath: string) => {
 
   const fileNpmDependencies = DependencyMapping.getMapping(filePath) || [];
@@ -97,8 +84,6 @@ export const compileNpm = (filePath: string) => {
       .pipe(tsProject())
       .pipe(gulpBabel(babelConfig))
       .pipe(getDest(vfs, 'lib'))
-      .on('end', () => {
-        resolve();
-      });
+      .on('end', resolve);
   });
 };
