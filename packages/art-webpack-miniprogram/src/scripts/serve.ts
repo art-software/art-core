@@ -7,7 +7,7 @@ import { join } from 'path';
 import { existsSync, writeFileSync } from 'fs';
 import { readJSONSync, emptyDirSync } from 'fs-extra';
 import choosePort from 'art-dev-utils/lib/choosePort';
-import { getWebpackConfig } from '../config';
+// import { getWebpackConfig } from '../config';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import { devServer } from '../compiler/devServer';
 const jsonFormat = require('json-format');
@@ -109,8 +109,8 @@ clearCacheInquire().then((answer) => {
 
       // Save new availble webpack dev port.
       appConfig.set(`devPort:${envName}`, port);
-      const webpackConfig = getWebpackConfig();
-      const miniprogramDevServer = devServer(webpackConfig, answer.clearCache, () => {
+      // const webpackConfig = getWebpackConfig();
+      const miniprogramDevServer = devServer(answer.clearCache, () => {
         console.log('watch done........');
       });
       compileMockServer();

@@ -21,17 +21,13 @@ import { DependencyMapping } from './dependencyMapping';
 const fileQueue: Array<Promise<any>> = [];
 
 export class MiniProgramCompiler {
-  constructor(webpackConfig: Configuration) {
-    this.webpackConfig = webpackConfig;
-  }
-  public webpackConfig: Configuration;
 
   private execCompileTask (filePath: string) {
     if (fileTypeChecker(FileTypes.scripts, filePath)) {
       return compileJS(filePath);
     }
     if (fileTypeChecker(FileTypes.less, filePath)) {
-      return compileLess(filePath, this.webpackConfig);
+      return compileLess(filePath);
     }
     if (fileTypeChecker(FileTypes.xml, filePath)) {
       return compileWxml(filePath);

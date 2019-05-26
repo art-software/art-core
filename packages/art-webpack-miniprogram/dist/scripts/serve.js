@@ -12,7 +12,7 @@ const path_1 = require("path");
 const fs_1 = require("fs");
 const fs_extra_1 = require("fs-extra");
 const choosePort_1 = __importDefault(require("art-dev-utils/lib/choosePort"));
-const config_1 = require("../config");
+// import { getWebpackConfig } from '../config';
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const devServer_1 = require("../compiler/devServer");
 const jsonFormat = require('json-format');
@@ -85,8 +85,8 @@ clearCacheInquire().then((answer) => {
         }
         // Save new availble webpack dev port.
         appConfig_1.default.set(`devPort:${envName}`, port);
-        const webpackConfig = config_1.getWebpackConfig();
-        const miniprogramDevServer = devServer_1.devServer(webpackConfig, answer.clearCache, () => {
+        // const webpackConfig = getWebpackConfig();
+        const miniprogramDevServer = devServer_1.devServer(answer.clearCache, () => {
             console.log('watch done........');
         });
         compileMockServer();

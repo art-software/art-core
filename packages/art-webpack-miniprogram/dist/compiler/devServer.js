@@ -8,9 +8,9 @@ const miniprogramWebpackEntry_1 = require("../config/miniprogramWebpackEntry");
 const chokidar_1 = __importDefault(require("chokidar"));
 const paths_1 = __importDefault(require("../config/paths"));
 const chalk_1 = __importDefault(require("chalk"));
-exports.devServer = (webpackConfig, ignoreInitial, watcherDone) => {
+exports.devServer = (ignoreInitial, watcherDone) => {
     const watchPath = miniprogramWebpackEntry_1.miniprogramWebpackEntry().entryValue;
-    const miniprogramCompiler = new index_1.MiniProgramCompiler(webpackConfig);
+    const miniprogramCompiler = new index_1.MiniProgramCompiler();
     return chokidar_1.default.watch(watchPath, {
         cwd: paths_1.default.appCwd,
         ignoreInitial,

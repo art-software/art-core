@@ -23,7 +23,7 @@ const compileExtra_1 = require("./compileExtra");
 const dependencyMapping_1 = require("./dependencyMapping");
 const fileQueue = [];
 class MiniProgramCompiler {
-    constructor(webpackConfig) {
+    constructor() {
         this.ready = (watcherDone) => {
             return () => {
                 Promise.all(fileQueue)
@@ -71,14 +71,13 @@ class MiniProgramCompiler {
                 console.log(err);
             });
         };
-        this.webpackConfig = webpackConfig;
     }
     execCompileTask(filePath) {
         if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.scripts, filePath)) {
             return compileJS_1.compileJS(filePath);
         }
         if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.less, filePath)) {
-            return compileLess_1.compileLess(filePath, this.webpackConfig);
+            return compileLess_1.compileLess(filePath);
         }
         if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.xml, filePath)) {
             return compileWxml_1.compileWxml(filePath);
