@@ -40,7 +40,7 @@ class MiniProgramCompiler {
             };
         };
         this.add = (path) => {
-            console.log('add: ', path);
+            console.log(chalk_1.default.green('add: '), path);
             fileQueue.push(new Promise((resolve, reject) => {
                 this.execCompileTask(path)
                     .then(() => {
@@ -75,7 +75,7 @@ class MiniProgramCompiler {
     }
     execCompileTask(filePath) {
         if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.scripts, filePath)) {
-            return compileJS_1.compileJS(filePath, this.webpackConfig);
+            return compileJS_1.compileJS(filePath);
         }
         if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.less, filePath)) {
             return compileLess_1.compileLess(filePath, this.webpackConfig);

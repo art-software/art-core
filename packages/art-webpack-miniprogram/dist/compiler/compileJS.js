@@ -25,13 +25,23 @@ const babelConfig_1 = require("../config/babelConfig");
 const gulpAstTransform_1 = require("./gulpAstTransform");
 const appConfig_1 = __importDefault(require("../config/appConfig"));
 const isNpmDependency_1 = require("../utils/isNpmDependency");
+const chalk_1 = __importDefault(require("chalk"));
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
-exports.compileJS = (path, webpackConfig) => {
+exports.compileJS = (path) => {
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
     const filePath = path_1.join(paths_1.default.appCwd, path);
     const dependencies = dependencyExtractor_1.dependencyExtractor(filePath);
+    if (dependencies.length) {
+        console.log(chalk_1.default.cyan('Node_modules imports:'));
+        dependencies.forEach((dep) => {
+            console.log(path_1.relative(paths_1.default.appCwd, dep));
+        });
+    }
     dependencyMapping_1.DependencyMapping.setMapping(path, dependencies);
-    compileNpm_1.compileNpm();
+    // if this file does not has npm dependencies, no npm compilation need.
+    if (dependencies.length) {
+        compileNpm_1.compileNpm(path);
+    }
     return new Promise((resolve) => {
         // TODO add tslint checker?
         vinyl_fs_1.default.src(path, vfsHelper_1.getSrcOptions())

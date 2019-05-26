@@ -8,14 +8,13 @@ const recast_1 = __importDefault(require("recast"));
 const ast_types_1 = __importDefault(require("ast-types"));
 const resolve_1 = __importDefault(require("resolve"));
 const path_1 = require("path");
-const chalk_1 = __importDefault(require("chalk"));
 const isNpmDependency = (path) => {
     const regex = /node_modules/g;
     return regex.test(path);
 };
-const dependencies = [];
 // extract import statement from js/ts files
 exports.dependencyExtractor = (filePath) => {
+    const dependencies = [];
     const file = fs_1.readFileSync(filePath, { encoding: 'utf8' });
     const ast = recast_1.default.parse(file, {
         tokens: false,
@@ -44,20 +43,9 @@ exports.dependencyExtractor = (filePath) => {
         }
     });
     importAsts.forEach((resolvedPath) => {
-        console.log(chalk_1.default.green('import =>  '), resolvedPath);
         if (!dependencies.includes(resolvedPath)) {
             dependencies.push(resolvedPath);
         }
     });
     return dependencies;
 };
-// export class DependencyExtractor {
-//   private static dependencies: string[] = [];
-//   public static getDependencies () {
-//     return DependencyExtractor.dependencies;
-//   }
-//   public static setDependency (DependenciesPath: string) {
-//     DependencyExtractor.dependencies.push(DependenciesPath);
-//     return DependencyExtractor.dependencies;
-//   }
-// }

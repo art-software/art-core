@@ -2,7 +2,8 @@ import { readFileSync } from 'fs';
 import recast from 'recast';
 import astTypes from 'ast-types';
 import resolve from 'resolve';
-import { dirname } from 'path';
+import { dirname, relative } from 'path';
+import paths from '../config/paths';
 import chalk from 'chalk';
 
 const isNpmDependency = (path: string) => {
@@ -10,10 +11,10 @@ const isNpmDependency = (path: string) => {
   return regex.test(path);
 };
 
-const dependencies: string[] = [];
-
 // extract import statement from js/ts files
 export const dependencyExtractor = (filePath: string): string[] => {
+
+  const dependencies: string[] = [];
 
   const file = readFileSync(filePath, { encoding: 'utf8' });
 
@@ -49,7 +50,6 @@ export const dependencyExtractor = (filePath: string): string[] => {
   });
 
   importAsts.forEach((resolvedPath) => {
-    console.log(chalk.green('import =>  '), resolvedPath);
     if (!dependencies.includes(resolvedPath)) {
       dependencies.push(resolvedPath);
     }
@@ -57,16 +57,3 @@ export const dependencyExtractor = (filePath: string): string[] => {
 
   return dependencies;
 };
-
-// export class DependencyExtractor {
-//   private static dependencies: string[] = [];
-
-//   public static getDependencies () {
-//     return DependencyExtractor.dependencies;
-//   }
-
-//   public static setDependency (DependenciesPath: string) {
-//     DependencyExtractor.dependencies.push(DependenciesPath);
-//     return DependencyExtractor.dependencies;
-//   }
-// }

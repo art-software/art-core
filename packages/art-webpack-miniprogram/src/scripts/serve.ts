@@ -9,6 +9,7 @@ import { readJSONSync, emptyDirSync } from 'fs-extra';
 import choosePort from 'art-dev-utils/lib/choosePort';
 import { getWebpackConfig } from '../config';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
+import { devServer } from '../compiler/devServer';
 const jsonFormat = require('json-format');
 
 const PROJECTJSON = 'project.config.json';
@@ -109,15 +110,15 @@ clearCacheInquire().then((answer) => {
       // Save new availble webpack dev port.
       appConfig.set(`devPort:${envName}`, port);
       const webpackConfig = getWebpackConfig();
-      // const miniprogramDevServer = devServer(webpackConfig, answer.clearCache, () => {
-      //   console.log('watch done........');
-      // });
-      lunchNodeServer('', port);
+      const miniprogramDevServer = devServer(webpackConfig, answer.clearCache, () => {
+        console.log('watch done........');
+      });
       compileMockServer();
+      lunchNodeServer('', port);
 
       ['SIGINT', 'SIGTERM'].forEach((sig) => {
         process.on(sig as NodeJS.Signals, () => {
-          // miniprogramDevServer.close();
+          miniprogramDevServer.close();
           process.exit();
         });
       });

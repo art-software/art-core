@@ -1,5 +1,4 @@
 import * as pathResolve from 'resolve';
-import { Configuration } from 'webpack';
 import vfs from 'vinyl-fs';
 import plumber from 'gulp-plumber';
 import { handleErros, getDest, getSrcOptions } from '../utils/vfsHelper';
@@ -14,17 +13,27 @@ import { babelConfig } from '../config/babelConfig';
 import { gulpAstTransform } from './gulpAstTransform';
 import appConfig from '../config/appConfig';
 import { isNpmDependency } from '../utils/isNpmDependency';
+import chalk from 'chalk';
 
 const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
-export const compileJS = (path: string, webpackConfig: Configuration) => {
+export const compileJS = (path: string) => {
   const tsProject = gulpTs.createProject(paths.appTsConfig);
 
   const filePath = join(paths.appCwd, path);
   const dependencies = dependencyExtractor(filePath);
+  if (dependencies.length) {
+    console.log(chalk.cyan('Node_modules imports:'));
+    dependencies.forEach((dep) => {
+      console.log(relative(paths.appCwd, dep));
+    });
+  }
   DependencyMapping.setMapping(path, dependencies);
 
-  compileNpm();
+  // if this file does not has npm dependencies, no npm compilation need.
+  if (dependencies.length) {
+    compileNpm(path);
+  }
 
   return new Promise((resolve) => {
 

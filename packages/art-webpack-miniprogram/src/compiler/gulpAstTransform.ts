@@ -20,7 +20,7 @@ const transform = (file, encoding, visitor) => {
 
 export const gulpAstTransform = (visitor: Visitor) => {
   return through2.obj(function (file, encoding, callback) {
-    console.log(chalk.green('current file'), file.path);
+    // console.log(chalk.green('current file'), file.path);
     transform(file, encoding, visitor);
 
     callback(null, file);

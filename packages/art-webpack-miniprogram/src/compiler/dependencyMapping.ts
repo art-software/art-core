@@ -1,6 +1,7 @@
 export class DependencyMapping {
 
   private static mapping: Map<string, string[]> = new Map();
+  private static willCompiledDependencies: string[] = [];
 
   public static getAllMapping = () => {
     return DependencyMapping.mapping;
@@ -40,5 +41,18 @@ export class DependencyMapping {
   public static deleteMapping = (filePath: string) => {
     DependencyMapping.mapping.delete(filePath);
     return DependencyMapping.mapping;
+  }
+
+  public static setWillCompiledDependencies = (filePath: string) => {
+    if (DependencyMapping.willCompiledDependencies.includes(filePath)) {
+      return DependencyMapping.willCompiledDependencies;
+    }
+
+    DependencyMapping.willCompiledDependencies.push(filePath);
+    return DependencyMapping.willCompiledDependencies;
+  }
+
+  public static getWillCompiledDependencies = () => {
+    return DependencyMapping.willCompiledDependencies;
   }
 }

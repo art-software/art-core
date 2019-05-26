@@ -14,6 +14,7 @@ const fs_extra_1 = require("fs-extra");
 const choosePort_1 = __importDefault(require("art-dev-utils/lib/choosePort"));
 const config_1 = require("../config");
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
+const devServer_1 = require("../compiler/devServer");
 const jsonFormat = require('json-format');
 const PROJECTJSON = 'project.config.json';
 const envName = appConfig_1.default.get('NODE_ENV');
@@ -85,14 +86,14 @@ clearCacheInquire().then((answer) => {
         // Save new availble webpack dev port.
         appConfig_1.default.set(`devPort:${envName}`, port);
         const webpackConfig = config_1.getWebpackConfig();
-        // const miniprogramDevServer = devServer(webpackConfig, answer.clearCache, () => {
-        //   console.log('watch done........');
-        // });
-        lunchNodeServer('', port);
+        const miniprogramDevServer = devServer_1.devServer(webpackConfig, answer.clearCache, () => {
+            console.log('watch done........');
+        });
         compileMockServer();
+        lunchNodeServer('', port);
         ['SIGINT', 'SIGTERM'].forEach((sig) => {
             process.on(sig, () => {
-                // miniprogramDevServer.close();
+                miniprogramDevServer.close();
                 process.exit();
             });
         });

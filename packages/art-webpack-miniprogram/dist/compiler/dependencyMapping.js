@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class DependencyMapping {
 }
 DependencyMapping.mapping = new Map();
+DependencyMapping.willCompiledDependencies = [];
 DependencyMapping.getAllMapping = () => {
     return DependencyMapping.mapping;
 };
@@ -34,5 +35,15 @@ DependencyMapping.needUpdate = (filePath, dependencies) => {
 DependencyMapping.deleteMapping = (filePath) => {
     DependencyMapping.mapping.delete(filePath);
     return DependencyMapping.mapping;
+};
+DependencyMapping.setWillCompiledDependencies = (filePath) => {
+    if (DependencyMapping.willCompiledDependencies.includes(filePath)) {
+        return DependencyMapping.willCompiledDependencies;
+    }
+    DependencyMapping.willCompiledDependencies.push(filePath);
+    return DependencyMapping.willCompiledDependencies;
+};
+DependencyMapping.getWillCompiledDependencies = () => {
+    return DependencyMapping.willCompiledDependencies;
 };
 exports.DependencyMapping = DependencyMapping;

@@ -28,7 +28,7 @@ export class MiniProgramCompiler {
 
   private execCompileTask (filePath: string) {
     if (fileTypeChecker(FileTypes.scripts, filePath)) {
-      return compileJS(filePath, this.webpackConfig);
+      return compileJS(filePath);
     }
     if (fileTypeChecker(FileTypes.less, filePath)) {
       return compileLess(filePath, this.webpackConfig);
@@ -63,7 +63,7 @@ export class MiniProgramCompiler {
   }
 
   public add = (path: string) => {
-    console.log('add: ', path);
+    console.log(chalk.green('add: '), path);
     fileQueue.push(
       new Promise((resolve, reject) => {
         this.execCompileTask(path)
