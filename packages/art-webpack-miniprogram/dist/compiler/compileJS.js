@@ -25,6 +25,7 @@ const gulpAstTransform_1 = require("./gulpAstTransform");
 const appConfig_1 = __importDefault(require("../config/appConfig"));
 const isNpmDependency_1 = require("../utils/isNpmDependency");
 const chalk_1 = __importDefault(require("chalk"));
+const gulpTsReporter_1 = require("./gulpTsReporter");
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 exports.compileJS = (path) => {
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
@@ -75,7 +76,7 @@ exports.compileJS = (path) => {
                 compileNpm_1.compileNpm(path);
             }
         }))
-            .pipe(tsProject()) // TODO remove typeScript semantic errors
+            .pipe(tsProject(gulpTsReporter_1.gulpTsReporter()))
             .pipe(gulp_babel_1.default(babelConfig_1.babelConfig))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default))
             .on('end', resolve);

@@ -13,6 +13,7 @@ import { gulpAstTransform } from './gulpAstTransform';
 import appConfig from '../config/appConfig';
 import { isNpmDependency } from '../utils/isNpmDependency';
 import chalk from 'chalk';
+import { gulpTsReporter } from './gulpTsReporter';
 
 const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
@@ -76,7 +77,7 @@ export const compileJS = (path: string) => {
           compileNpm(path);
         }
       }))
-      .pipe(tsProject()) // TODO remove typeScript semantic errors
+      .pipe(tsProject(gulpTsReporter()))
       .pipe(gulpBabel(babelConfig))
       .pipe(getDest(vfs))
       .on('end', resolve);

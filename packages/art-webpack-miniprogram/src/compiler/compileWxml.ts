@@ -19,7 +19,6 @@ const htmlminOptions = {
 
 export const compileWxml = (path: string) => {
   return new Promise((resolve) => {
-    console.log('wxml path: ', path);
     vfs.src(path, getSrcOptions())
       .pipe(plumber(handleErros))
       .pipe(gulpRename({ extname: '.wxml' }))
