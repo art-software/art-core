@@ -22,7 +22,12 @@ exports.compileImage = (path) => {
             // )
             // .pipe(getDest(vfs))
             .pipe(vinyl_fs_1.default.dest(path_1.join(paths_1.default.appDebug, projectVirtualPath), { cwd: paths_1.default.appCwd }))
-            .pipe(vinyl_fs_1.default.dest(path_1.join(paths_1.default.appPublic, projectVirtualPath), { cwd: paths_1.default.appCwd }))
+            // .pipe(
+            //   vfs.dest(
+            //     join(paths.appPublic, projectVirtualPath),
+            //     { cwd: paths.appCwd }
+            //   )
+            // )
             .on('end', resolve);
     });
 };

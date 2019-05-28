@@ -57,13 +57,15 @@ class MiniProgramCompiler {
             const fileCompiledPath = path_1.join(env_1.isProd() ? paths_1.default.appPublic : paths_1.default.appDebug, projectVirtualPath, path.replace('client', '')).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
             try {
                 fs_extra_1.removeSync(fileCompiledPath);
+                const dirnamePath = path_1.dirname(fileCompiledPath);
                 console.log(`${chalk_1.default.blue('=>')} ${path} has been ${chalk_1.default.yellow('removed')}`);
+                cleanEmptyFoldersRecursively_1.cleanEmptyFoldersRecursively(dirnamePath);
             }
             catch (e) {
                 console.log(`${chalk_1.default.red('REMOVE FILE ERROR ')} ${path}`);
                 console.log(e);
             }
-            // update dependencies mapping
+            // update script file dependencies
             if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.scripts, fileCompiledPath)) {
                 const depsMapping = dependencyMapping_1.DependencyMapping.getMapping(path);
                 if (!depsMapping) {
@@ -102,10 +104,10 @@ class MiniProgramCompiler {
             }
         };
         this.change = (path) => {
-            console.log(`${chalk_1.default.blue('=>')} File ${chalk_1.default.cyan(path)} changed, ${chalk_1.default.magenta('transforming')}...`);
+            console.log(`${chalk_1.default.blue('=>')} ${path} changed, ${chalk_1.default.magenta('transforming')}...`);
             this.execCompileTask(path)
                 .then(() => {
-                console.log(`${chalk_1.default.blue('=>')} File ${chalk_1.default.cyan(path)} transform ${chalk_1.default.magenta('done')}`);
+                console.log(`${chalk_1.default.blue('=>')} ${path} ${chalk_1.default.magenta('transform done')}`);
             })
                 .catch((err) => {
                 console.log(err);

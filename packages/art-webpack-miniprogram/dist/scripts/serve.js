@@ -11,15 +11,10 @@ const paths_1 = __importDefault(require("../config/paths"));
 const path_1 = require("path");
 const fs_1 = require("fs");
 const fs_extra_1 = require("fs-extra");
-const choosePort_1 = __importDefault(require("art-dev-utils/lib/choosePort"));
-// import { getWebpackConfig } from '../config';
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const devServer_1 = require("../compiler/devServer");
 const jsonFormat = require('json-format');
 const PROJECTJSON = 'project.config.json';
-const envName = appConfig_1.default.get('NODE_ENV');
-const HOST = process.env.HOST || '0.0.0.0';
-const DEFAULT_PORT = appConfig_1.default.get(`devPort:${envName}`);
 const PORT = appConfig_1.default.get('PORT');
 const clearCacheInquire = () => {
     return inquirer_1.default.prompt([
@@ -37,7 +32,7 @@ const clearCacheInquire = () => {
 };
 isWellStructuredClient_1.isWellStructuredClient();
 let nodeServerHasLunched = false;
-const lunchNodeServer = (modules, port) => {
+const lunchNodeServer = () => {
     if (nodeServerHasLunched) {
         return;
     }
@@ -77,31 +72,15 @@ clearCacheInquire().then((answer) => {
             }
         }
     }
-    choosePort_1.default(HOST, DEFAULT_PORT)
-        .then((port) => {
-        if (port === null) {
-            console.log('no avaliable port found');
-            return;
-        }
-        // Save new availble webpack dev port.
-        appConfig_1.default.set(`devPort:${envName}`, port);
-        // const webpackConfig = getWebpackConfig();
-        const miniprogramDevServer = devServer_1.devServer(answer.clearCache, () => {
-            console.log('watch done........');
-        });
+    const miniprogramDevServer = devServer_1.devServer(!answer.clearCache, () => {
         compileMockServer();
-        lunchNodeServer('', port);
-        ['SIGINT', 'SIGTERM'].forEach((sig) => {
-            process.on(sig, () => {
-                miniprogramDevServer.close();
-                process.exit();
-            });
+        lunchNodeServer();
+        console.log('Initial compilation complete, watching for changes........');
+    });
+    ['SIGINT', 'SIGTERM'].forEach((sig) => {
+        process.on(sig, () => {
+            miniprogramDevServer.close();
+            process.exit();
         });
-    })
-        .catch((error) => {
-        if (error && error.message) {
-            console.log(error.message);
-        }
-        process.exit(1);
     });
 });

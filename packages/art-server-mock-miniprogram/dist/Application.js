@@ -24,7 +24,7 @@ const path_1 = require("path");
 const fs = __importStar(require("fs"));
 const compression_1 = __importDefault(require("compression"));
 const choosePort_1 = __importDefault(require("art-dev-utils/lib/choosePort"));
-const printInstructions_1 = __importDefault(require("art-dev-utils/lib/printInstructions"));
+const printInstructionsMiniprogram_1 = __importDefault(require("art-dev-utils/lib/printInstructionsMiniprogram"));
 const prepareUrls_1 = __importDefault(require("art-dev-utils/lib/prepareUrls"));
 const artConfigPath = path_1.join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
@@ -67,12 +67,13 @@ class App {
             if (expressPort === null) {
                 return;
             }
-            const server = app.listen(expressPort, host, (err) => {
+            app.listen(expressPort, host, (err) => {
                 if (err) {
                     return console.log(err);
                 }
                 const urls = prepareUrls_1.default('http', host, expressPort);
-                printInstructions_1.default(appName, urls);
+                // printInstructions(appName, urls);
+                printInstructionsMiniprogram_1.default(appName, urls);
             });
         });
     }

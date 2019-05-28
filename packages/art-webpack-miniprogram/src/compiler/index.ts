@@ -1,4 +1,4 @@
-import { join, relative } from 'path';
+import { join, relative, dirname } from 'path';
 import paths from '../config/paths';
 import { PROJECTCONFIG } from '../constants/FileNames';
 import { compileProjectConfig } from './compileProjectConfig';
@@ -83,13 +83,15 @@ export class MiniProgramCompiler {
 
     try {
       removeSync(fileCompiledPath);
+      const dirnamePath = dirname(fileCompiledPath);
       console.log(`${chalk.blue('=>')} ${path} has been ${chalk.yellow('removed')}`);
+      cleanEmptyFoldersRecursively(dirnamePath);
     } catch (e) {
       console.log(`${chalk.red('REMOVE FILE ERROR ')} ${path}`);
       console.log(e);
     }
 
-    // update dependencies mapping
+    // update script file dependencies
     if (fileTypeChecker(FileTypes.scripts, fileCompiledPath)) {
       const depsMapping = DependencyMapping.getMapping(path);
       if (!depsMapping) { return; }
@@ -129,10 +131,10 @@ export class MiniProgramCompiler {
   }
 
   public change = (path: string) => {
-    console.log(`${chalk.blue('=>')} File ${chalk.cyan(path)} changed, ${chalk.magenta('transforming')}...`);
+    console.log(`${chalk.blue('=>')} ${path} changed, ${chalk.magenta('transforming')}...`);
     this.execCompileTask(path)
       .then(() => {
-        console.log(`${chalk.blue('=>')} File ${chalk.cyan(path)} transform ${chalk.magenta('done')}`);
+        console.log(`${chalk.blue('=>')} ${path} ${chalk.magenta('transform done')}`);
       })
       .catch((err) => {
         console.log(err);

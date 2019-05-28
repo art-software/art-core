@@ -4,7 +4,7 @@ import { join } from 'path';
 import * as fs from 'fs';
 import compression from 'compression';
 import choosePort from 'art-dev-utils/lib/choosePort';
-import printInstructions from 'art-dev-utils/lib/printInstructions';
+import printInstructionsMiniprogram from 'art-dev-utils/lib/printInstructionsMiniprogram';
 import prepareUrls from 'art-dev-utils/lib/prepareUrls';
 const artConfigPath = join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
@@ -57,11 +57,12 @@ export default class App {
     const app = this.createApp();
 
     if (expressPort === null) { return; }
-    const server = app.listen(expressPort, host as string, (err) => {
+    app.listen(expressPort, host as string, (err) => {
       if (err) { return console.log(err); }
 
       const urls = prepareUrls('http', host, expressPort);
-      printInstructions(appName, urls);
+      // printInstructions(appName, urls);
+      printInstructionsMiniprogram(appName, urls);
     });
   }
 }

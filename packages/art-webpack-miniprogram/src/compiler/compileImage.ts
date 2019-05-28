@@ -24,12 +24,12 @@ export const compileImage = (path: string) => {
           { cwd: paths.appCwd }
         )
       )
-      .pipe(
-        vfs.dest(
-          join(paths.appPublic, projectVirtualPath),
-          { cwd: paths.appCwd }
-        )
-      )
+      // .pipe(
+      //   vfs.dest(
+      //     join(paths.appPublic, projectVirtualPath),
+      //     { cwd: paths.appCwd }
+      //   )
+      // )
       .on('end', resolve);
   });
 };
