@@ -26,6 +26,9 @@ const appConfig_1 = __importDefault(require("../config/appConfig"));
 const isNpmDependency_1 = require("../utils/isNpmDependency");
 const chalk_1 = __importDefault(require("chalk"));
 const gulpTsReporter_1 = require("./gulpTsReporter");
+const dependencyTree_1 = require("./dependencyTree");
+const fs_extra_1 = require("fs-extra");
+const cleanEmptyFoldersRecursively_1 = require("art-dev-utils/lib/cleanEmptyFoldersRecursively");
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 exports.compileJS = (path) => {
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
@@ -70,7 +73,48 @@ exports.compileJS = (path) => {
                     console.log(path_1.relative(paths_1.default.appCwd, dep));
                 });
             }
+            const preDependencyMapping = dependencyMapping_1.DependencyMapping.getMapping(path);
             dependencyMapping_1.DependencyMapping.setMapping(path, uniqueDependencies);
+            const deletedDependency = [];
+            if (preDependencyMapping && preDependencyMapping.length) {
+                preDependencyMapping.forEach((dep) => {
+                    if (!uniqueDependencies.includes(dep)) {
+                        deletedDependency.push(dep);
+                    }
+                });
+            }
+            if (deletedDependency.length) {
+                let allMapping = [];
+                for (const value of dependencyMapping_1.DependencyMapping.getAllMapping().values()) {
+                    allMapping = allMapping.concat(value);
+                }
+                const deleteableDeps = [];
+                deletedDependency.forEach((dep) => {
+                    if (!allMapping.includes(dep)) {
+                        deleteableDeps.push(dep);
+                    }
+                });
+                const deleteableDepsTree = dependencyTree_1.dependencyTree(deleteableDeps);
+                const rootDir = process.env.STAGE === 'dev' ?
+                    path_1.join(paths_1.default.appCwd, '../../node_modules/') : paths_1.default.appNodeModules;
+                deleteableDepsTree.forEach((depPath) => {
+                    dependencyMapping_1.DependencyMapping.removeWillCompiledDependencies(depPath);
+                    const relativePath = path_1.relative(rootDir, depPath);
+                    const absDebugPath = path_1.join(process.cwd(), 'debug', projectVirtualPath, 'lib', relativePath);
+                    try {
+                        fs_extra_1.removeSync(absDebugPath);
+                        console.log(`${chalk_1.default.blue('=>')} Dependency file ${path_1.relative(process.cwd(), absDebugPath)} has been ${chalk_1.default.yellow('removed')}`);
+                    }
+                    catch (e) {
+                        console.log(`${chalk_1.default.red('REMOVE FILE ERROR ')} ${absDebugPath}`);
+                        console.log(e);
+                    }
+                });
+                // delete empty folders in debug/lib directory
+                const debugLibPath = path_1.join(process.cwd(), 'debug', projectVirtualPath, 'lib');
+                cleanEmptyFoldersRecursively_1.cleanEmptyFoldersRecursively(debugLibPath);
+            }
+            // DependencyMapping.setMapping(path, uniqueDependencies);
             // if this file does not has npm dependencies, no npm compilation need.
             if (uniqueDependencies.length) {
                 compileNpm_1.compileNpm(path);

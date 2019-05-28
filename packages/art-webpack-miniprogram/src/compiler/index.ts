@@ -122,6 +122,7 @@ export class MiniProgramCompiler {
         }
       });
 
+      // delete empty folders in debug/lib directory
       const debugLibPath = join(process.cwd(), 'debug', projectVirtualPath, 'lib');
       cleanEmptyFoldersRecursively(debugLibPath);
     }
