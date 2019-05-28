@@ -52,6 +52,14 @@ export class DependencyMapping {
     return DependencyMapping.willCompiledDependencies;
   }
 
+  public static removeWillCompiledDependencies = (filePath: string) => {
+    const index = DependencyMapping.willCompiledDependencies.indexOf(filePath);
+    if (index >= 0) {
+      DependencyMapping.willCompiledDependencies.splice(index, 1);
+    }
+    return DependencyMapping.willCompiledDependencies;
+  }
+
   public static getWillCompiledDependencies = () => {
     return DependencyMapping.willCompiledDependencies;
   }

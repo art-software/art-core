@@ -1,9 +1,8 @@
-import { join } from 'path';
+import { join, relative } from 'path';
 import paths from '../config/paths';
 import { PROJECTCONFIG } from '../constants/FileNames';
 import { compileProjectConfig } from './compileProjectConfig';
 import { miniprogramWebpackEntry } from '../config/miniprogramWebpackEntry';
-import { Configuration } from 'webpack';
 import { fileTypeChecker } from '../utils/vfsHelper';
 import { compileJS } from './compileJS';
 import chalk from 'chalk';
@@ -17,12 +16,14 @@ import { compileJSON } from './compileJSON';
 import { compileImage } from './compileImage';
 import { compileExtra } from './compileExtra';
 import { DependencyMapping } from './dependencyMapping';
+import { dependencyTree } from './dependencyTree';
+import { cleanEmptyFoldersRecursively } from 'art-dev-utils/lib/cleanEmptyFoldersRecursively';
 
 const fileQueue: Array<Promise<any>> = [];
 
 export class MiniProgramCompiler {
 
-  private execCompileTask (filePath: string) {
+  private execCompileTask(filePath: string) {
     if (fileTypeChecker(FileTypes.scripts, filePath)) {
       return compileJS(filePath);
     }
@@ -48,7 +49,7 @@ export class MiniProgramCompiler {
         .then(() => {
           fileQueue.length = 0;
           const debugProjectConfigPath = join(paths.appDebug, miniprogramWebpackEntry().entryKey, PROJECTCONFIG);
-          compileProjectConfig({projectConfigPath: debugProjectConfigPath})
+          compileProjectConfig({ projectConfigPath: debugProjectConfigPath })
             .then(() => {
               if (watcherDone) {
                 watcherDone();
@@ -59,12 +60,12 @@ export class MiniProgramCompiler {
   }
 
   public add = (path: string) => {
-    console.log(chalk.green('add: '), path);
+    console.log(`${chalk.blue('=>')} ${chalk.green('Start add:')} ${path}`);
     fileQueue.push(
       new Promise((resolve, reject) => {
         this.execCompileTask(path)
           .then(() => {
-            console.log(`${chalk.blue('=>')} File ${chalk.cyan(path)} added`);
+            console.log(`${chalk.blue('=>')} ${path} ${chalk.green('added')}`);
             resolve(path);
           })
           .catch(reject);
@@ -80,14 +81,50 @@ export class MiniProgramCompiler {
       path.replace('client', '')
     ).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
 
-    removeSync(fileCompiledPath);
+    try {
+      removeSync(fileCompiledPath);
+      console.log(`${chalk.blue('=>')} ${path} has been ${chalk.yellow('removed')}`);
+    } catch (e) {
+      console.log(`${chalk.red('REMOVE FILE ERROR ')} ${path}`);
+      console.log(e);
+    }
 
     // update dependencies mapping
     if (fileTypeChecker(FileTypes.scripts, fileCompiledPath)) {
+      const depsMapping = DependencyMapping.getMapping(path);
+      if (!depsMapping) { return; }
       const mapping = DependencyMapping.deleteMapping(path);
-      console.log(chalk.green('Current mapping: '), mapping);
+      let allMapping: string[] = [];
+      for (const value of mapping.values()) {
+        allMapping = allMapping.concat(value);
+      }
+      const deleteableDeps: string[] = [];
+      depsMapping.forEach((dep) => {
+        if (!allMapping.includes(dep)) {
+          deleteableDeps.push(dep);
+        }
+      });
+
+      const deleteableDepsTree = dependencyTree(deleteableDeps);
+      const rootDir = process.env.STAGE === 'dev' ?
+        join(paths.appCwd, '../../node_modules/') : paths.appNodeModules;
+      deleteableDepsTree.forEach((filePath) => {
+        DependencyMapping.removeWillCompiledDependencies(filePath);
+
+        const relativePath = relative(rootDir, filePath);
+        const absDebugPath = join(process.cwd(), 'debug', projectVirtualPath, 'lib', relativePath);
+        try {
+          removeSync(absDebugPath);
+          console.log(`${chalk.blue('=>')} Dependency file ${relative(process.cwd(), absDebugPath)} has been ${chalk.yellow('removed')}`);
+        } catch (e) {
+          console.log(`${chalk.red('REMOVE FILE ERROR ')} ${absDebugPath}`);
+          console.log(e);
+        }
+      });
+
+      const debugLibPath = join(process.cwd(), 'debug', projectVirtualPath, 'lib');
+      cleanEmptyFoldersRecursively(debugLibPath);
     }
-    console.log(`${chalk.blue('=>')} File ${chalk.cyan(path)} was removed`);
   }
 
   public change = (path: string) => {

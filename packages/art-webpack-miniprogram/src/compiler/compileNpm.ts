@@ -24,7 +24,7 @@ export const compileNpm = (filePath: string) => {
   }
 
   const npmDependencies = dependencyTree(fileNpmDependencies);
-  console.log(chalk.cyan('Dependencies tree:'));
+  console.log(`${chalk.blue('=>')} ${chalk.green('Dependencies tree:')}`);
   const uniqueNpmDependencies: string[] = [];
   npmDependencies.forEach((dep) => {
     if (!uniqueNpmDependencies.includes(dep)) {

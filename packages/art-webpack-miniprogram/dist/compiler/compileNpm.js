@@ -33,7 +33,7 @@ exports.compileNpm = (filePath) => {
         });
     }
     const npmDependencies = dependencyTree_1.dependencyTree(fileNpmDependencies);
-    console.log(chalk_1.default.cyan('Dependencies tree:'));
+    console.log(`${chalk_1.default.blue('=>')} ${chalk_1.default.green('Dependencies tree:')}`);
     const uniqueNpmDependencies = [];
     npmDependencies.forEach((dep) => {
         if (!uniqueNpmDependencies.includes(dep)) {

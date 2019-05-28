@@ -19,7 +19,7 @@ exports.compileProjectConfig = (options) => {
     });
     return new Promise((resolve) => {
         if (fs_1.existsSync(options.projectConfigPath)) {
-            console.log(`${chalk_1.default.blue('=>')} File ${chalk_1.default.cyan(`${FileNames_1.PROJECTCONFIG}`)} has existed`);
+            console.log(`${chalk_1.default.blue('=>')} ${FileNames_1.PROJECTCONFIG} ${chalk_1.default.green('has existed')}`);
             resolve();
         }
         else {

@@ -65,7 +65,7 @@ exports.compileJS = (path) => {
                 }
             });
             if (uniqueDependencies.length) {
-                console.log(chalk_1.default.cyan('Node_modules imports:'));
+                console.log(`${chalk_1.default.blue('=>')} ${chalk_1.default.green('Node_modules imports:')}`);
                 uniqueDependencies.forEach((dep) => {
                     console.log(path_1.relative(paths_1.default.appCwd, dep));
                 });

@@ -21,6 +21,8 @@ const compileJSON_1 = require("./compileJSON");
 const compileImage_1 = require("./compileImage");
 const compileExtra_1 = require("./compileExtra");
 const dependencyMapping_1 = require("./dependencyMapping");
+const dependencyTree_1 = require("./dependencyTree");
+const cleanEmptyFoldersRecursively_1 = require("art-dev-utils/lib/cleanEmptyFoldersRecursively");
 const fileQueue = [];
 class MiniProgramCompiler {
     constructor() {
@@ -40,11 +42,11 @@ class MiniProgramCompiler {
             };
         };
         this.add = (path) => {
-            console.log(chalk_1.default.green('add: '), path);
+            console.log(`${chalk_1.default.blue('=>')} ${chalk_1.default.green('Start add:')} ${path}`);
             fileQueue.push(new Promise((resolve, reject) => {
                 this.execCompileTask(path)
                     .then(() => {
-                    console.log(`${chalk_1.default.blue('=>')} File ${chalk_1.default.cyan(path)} added`);
+                    console.log(`${chalk_1.default.blue('=>')} ${path} ${chalk_1.default.green('added')}`);
                     resolve(path);
                 })
                     .catch(reject);
@@ -53,13 +55,50 @@ class MiniProgramCompiler {
         this.remove = (path) => {
             const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
             const fileCompiledPath = path_1.join(env_1.isProd() ? paths_1.default.appPublic : paths_1.default.appDebug, projectVirtualPath, path.replace('client', '')).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
-            fs_extra_1.removeSync(fileCompiledPath);
+            try {
+                fs_extra_1.removeSync(fileCompiledPath);
+                console.log(`${chalk_1.default.blue('=>')} ${path} has been ${chalk_1.default.yellow('removed')}`);
+            }
+            catch (e) {
+                console.log(`${chalk_1.default.red('REMOVE FILE ERROR ')} ${path}`);
+                console.log(e);
+            }
             // update dependencies mapping
             if (vfsHelper_1.fileTypeChecker(FileTypes_1.FileTypes.scripts, fileCompiledPath)) {
+                const depsMapping = dependencyMapping_1.DependencyMapping.getMapping(path);
+                if (!depsMapping) {
+                    return;
+                }
                 const mapping = dependencyMapping_1.DependencyMapping.deleteMapping(path);
-                console.log(chalk_1.default.green('Current mapping: '), mapping);
+                let allMapping = [];
+                for (const value of mapping.values()) {
+                    allMapping = allMapping.concat(value);
+                }
+                const deleteableDeps = [];
+                depsMapping.forEach((dep) => {
+                    if (!allMapping.includes(dep)) {
+                        deleteableDeps.push(dep);
+                    }
+                });
+                const deleteableDepsTree = dependencyTree_1.dependencyTree(deleteableDeps);
+                const rootDir = process.env.STAGE === 'dev' ?
+                    path_1.join(paths_1.default.appCwd, '../../node_modules/') : paths_1.default.appNodeModules;
+                deleteableDepsTree.forEach((filePath) => {
+                    dependencyMapping_1.DependencyMapping.removeWillCompiledDependencies(filePath);
+                    const relativePath = path_1.relative(rootDir, filePath);
+                    const absDebugPath = path_1.join(process.cwd(), 'debug', projectVirtualPath, 'lib', relativePath);
+                    try {
+                        fs_extra_1.removeSync(absDebugPath);
+                        console.log(`${chalk_1.default.blue('=>')} Dependency file ${path_1.relative(process.cwd(), absDebugPath)} has been ${chalk_1.default.yellow('removed')}`);
+                    }
+                    catch (e) {
+                        console.log(`${chalk_1.default.red('REMOVE FILE ERROR ')} ${absDebugPath}`);
+                        console.log(e);
+                    }
+                });
+                const debugLibPath = path_1.join(process.cwd(), 'debug', projectVirtualPath, 'lib');
+                cleanEmptyFoldersRecursively_1.cleanEmptyFoldersRecursively(debugLibPath);
             }
-            console.log(`${chalk_1.default.blue('=>')} File ${chalk_1.default.cyan(path)} was removed`);
         };
         this.change = (path) => {
             console.log(`${chalk_1.default.blue('=>')} File ${chalk_1.default.cyan(path)} changed, ${chalk_1.default.magenta('transforming')}...`);

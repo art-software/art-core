@@ -66,7 +66,7 @@ export const compileJS = (path: string) => {
         });
 
         if (uniqueDependencies.length) {
-          console.log(chalk.cyan('Node_modules imports:'));
+          console.log(`${chalk.blue('=>')} ${chalk.green('Node_modules imports:')}`);
           uniqueDependencies.forEach((dep) => {
             console.log(relative(paths.appCwd, dep));
           });

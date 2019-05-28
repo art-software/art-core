@@ -43,6 +43,13 @@ DependencyMapping.setWillCompiledDependencies = (filePath) => {
     DependencyMapping.willCompiledDependencies.push(filePath);
     return DependencyMapping.willCompiledDependencies;
 };
+DependencyMapping.removeWillCompiledDependencies = (filePath) => {
+    const index = DependencyMapping.willCompiledDependencies.indexOf(filePath);
+    if (index >= 0) {
+        DependencyMapping.willCompiledDependencies.splice(index, 1);
+    }
+    return DependencyMapping.willCompiledDependencies;
+};
 DependencyMapping.getWillCompiledDependencies = () => {
     return DependencyMapping.willCompiledDependencies;
 };
