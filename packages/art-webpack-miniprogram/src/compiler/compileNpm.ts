@@ -13,6 +13,9 @@ import * as pathResolve from 'resolve';
 import { isNpmDependency } from '../utils/isNpmDependency';
 import through2 from 'through2';
 import recast from 'recast';
+import gulpUglify from 'gulp-uglify';
+import { isProd } from '../utils/env';
+import gulpif from 'gulp-if';
 
 export const compileNpm = (filePath: string) => {
 
@@ -88,6 +91,17 @@ export const compileNpm = (filePath: string) => {
       }))
       .pipe(tsProject())
       .pipe(gulpBabel(babelConfig))
+      .pipe(gulpif(
+        isProd(),
+        gulpUglify({
+          compress: {
+            warnings: true,
+            dead_code: true,
+            drop_debugger: true,
+            drop_console: true
+          }
+        })
+      ))
       .pipe(getDest(vfs, 'lib'))
       .on('end', resolve);
   });

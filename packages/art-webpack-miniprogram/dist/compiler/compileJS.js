@@ -29,6 +29,9 @@ const gulpTsReporter_1 = require("./gulpTsReporter");
 const dependencyTree_1 = require("./dependencyTree");
 const fs_extra_1 = require("fs-extra");
 const cleanEmptyFoldersRecursively_1 = require("art-dev-utils/lib/cleanEmptyFoldersRecursively");
+const gulp_uglify_1 = __importDefault(require("gulp-uglify"));
+const env_1 = require("../utils/env");
+const gulp_if_1 = __importDefault(require("gulp-if"));
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 exports.compileJS = (path) => {
     const tsProject = gulp_typescript_1.default.createProject(paths_1.default.appTsConfig);
@@ -122,6 +125,14 @@ exports.compileJS = (path) => {
         }))
             .pipe(tsProject(gulpTsReporter_1.gulpTsReporter()))
             .pipe(gulp_babel_1.default(babelConfig_1.babelConfig))
+            .pipe(gulp_if_1.default(env_1.isProd(), gulp_uglify_1.default({
+            compress: {
+                warnings: true,
+                dead_code: true,
+                drop_debugger: true,
+                drop_console: true
+            }
+        })))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default))
             .on('end', resolve);
     });

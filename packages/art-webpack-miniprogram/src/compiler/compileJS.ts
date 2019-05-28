@@ -17,6 +17,9 @@ import { gulpTsReporter } from './gulpTsReporter';
 import { dependencyTree } from './dependencyTree';
 import { removeSync } from 'fs-extra';
 import { cleanEmptyFoldersRecursively } from 'art-dev-utils/lib/cleanEmptyFoldersRecursively';
+import gulpUglify from 'gulp-uglify';
+import { isProd } from '../utils/env';
+import gulpif from 'gulp-if';
 
 const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
@@ -126,6 +129,17 @@ export const compileJS = (path: string) => {
       }))
       .pipe(tsProject(gulpTsReporter()))
       .pipe(gulpBabel(babelConfig))
+      .pipe(gulpif(
+        isProd(),
+        gulpUglify({
+          compress: {
+            warnings: true,
+            dead_code: true,
+            drop_debugger: true,
+            drop_console: true
+          }
+        })
+      ))
       .pipe(getDest(vfs))
       .on('end', resolve);
   });

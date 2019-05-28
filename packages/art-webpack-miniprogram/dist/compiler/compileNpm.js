@@ -25,6 +25,9 @@ const pathResolve = __importStar(require("resolve"));
 const isNpmDependency_1 = require("../utils/isNpmDependency");
 const through2_1 = __importDefault(require("through2"));
 const recast_1 = __importDefault(require("recast"));
+const gulp_uglify_1 = __importDefault(require("gulp-uglify"));
+const env_1 = require("../utils/env");
+const gulp_if_1 = __importDefault(require("gulp-if"));
 exports.compileNpm = (filePath) => {
     const fileNpmDependencies = dependencyMapping_1.DependencyMapping.getMapping(filePath) || [];
     if (fileNpmDependencies.length === 0) {
@@ -91,6 +94,14 @@ exports.compileNpm = (filePath) => {
         }))
             .pipe(tsProject())
             .pipe(gulp_babel_1.default(babelConfig_1.babelConfig))
+            .pipe(gulp_if_1.default(env_1.isProd(), gulp_uglify_1.default({
+            compress: {
+                warnings: true,
+                dead_code: true,
+                drop_debugger: true,
+                drop_console: true
+            }
+        })))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default, 'lib'))
             .on('end', resolve);
     });
