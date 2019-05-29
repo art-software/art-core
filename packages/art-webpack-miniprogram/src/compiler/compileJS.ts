@@ -133,7 +133,6 @@ export const compileJS = (path: string) => {
         isProd(),
         gulpUglify({
           compress: {
-            warnings: true,
             dead_code: true,
             drop_debugger: true,
             drop_console: true

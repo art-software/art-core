@@ -23,7 +23,9 @@ const compileExtra_1 = require("./compileExtra");
 const dependencyMapping_1 = require("./dependencyMapping");
 const dependencyTree_1 = require("./dependencyTree");
 const cleanEmptyFoldersRecursively_1 = require("art-dev-utils/lib/cleanEmptyFoldersRecursively");
+const recursive_readdir_1 = __importDefault(require("recursive-readdir"));
 const fileQueue = [];
+const fileBuildQueue = [];
 class MiniProgramCompiler {
     constructor() {
         this.ready = (watcherDone) => {
@@ -111,6 +113,26 @@ class MiniProgramCompiler {
             })
                 .catch((err) => {
                 console.log(err);
+            });
+        };
+        this.buildAll = () => {
+            const clienPath = paths_1.default.appSrc;
+            recursive_readdir_1.default(clienPath, (err, files) => {
+                if (err) {
+                    throw err;
+                }
+                files.forEach((file) => {
+                    const processRelativePath = path_1.relative(process.cwd(), file);
+                    console.log(`${chalk_1.default.blue('=>')} ${chalk_1.default.green('Start add:')} ${processRelativePath}`);
+                    fileBuildQueue.push(new Promise((resolve, reject) => {
+                        this.execCompileTask(processRelativePath)
+                            .then(() => {
+                            console.log(`${chalk_1.default.blue('=>')} ${processRelativePath} ${chalk_1.default.green('added')}`);
+                            resolve(processRelativePath);
+                        })
+                            .catch(reject);
+                    }));
+                });
             });
         };
     }

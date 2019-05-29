@@ -18,8 +18,10 @@ import { compileExtra } from './compileExtra';
 import { DependencyMapping } from './dependencyMapping';
 import { dependencyTree } from './dependencyTree';
 import { cleanEmptyFoldersRecursively } from 'art-dev-utils/lib/cleanEmptyFoldersRecursively';
+import recursiveReaddir from 'recursive-readdir';
 
 const fileQueue: Array<Promise<any>> = [];
+const fileBuildQueue: Array<Promise<any>> = [];
 
 export class MiniProgramCompiler {
 
@@ -139,5 +141,26 @@ export class MiniProgramCompiler {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  public buildAll = () => {
+    const clienPath = paths.appSrc;
+    recursiveReaddir(clienPath, (err, files) => {
+      if (err) { throw err; }
+      files.forEach((file) => {
+        const processRelativePath = relative(process.cwd(), file);
+        console.log(`${chalk.blue('=>')} ${chalk.green('Start add:')} ${processRelativePath}`);
+        fileBuildQueue.push(
+          new Promise((resolve, reject) => {
+            this.execCompileTask(processRelativePath)
+              .then(() => {
+                console.log(`${chalk.blue('=>')} ${processRelativePath} ${chalk.green('added')}`);
+                resolve(processRelativePath);
+              })
+              .catch(reject);
+          })
+        );
+      });
+    });
   }
 }

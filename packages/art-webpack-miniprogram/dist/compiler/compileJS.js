@@ -127,7 +127,6 @@ exports.compileJS = (path) => {
             .pipe(gulp_babel_1.default(babelConfig_1.babelConfig))
             .pipe(gulp_if_1.default(env_1.isProd(), gulp_uglify_1.default({
             compress: {
-                warnings: true,
                 dead_code: true,
                 drop_debugger: true,
                 drop_console: true

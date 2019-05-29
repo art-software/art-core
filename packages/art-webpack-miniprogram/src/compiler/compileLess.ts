@@ -20,8 +20,8 @@ export const compileLess = (path: string) => {
         gulpif(
           isProd(),
           gulpCleanCss({}, (details) => {
-            console.log(`${chalk.blue('=>')} ${chalk.green('originalSize:')} ${details.name}: ${details.stats.originalSize}`);
-            console.log(`${chalk.blue('=>')} ${chalk.green('minifiedSize:')} ${details.name}: ${details.stats.minifiedSize}`);
+            console.log(`${chalk.blue('=>')} ${chalk.green('originalSize:')} ${details.name}: ${details.stats.originalSize / 1000}kb`);
+            console.log(`${chalk.blue('=>')} ${chalk.green('minifiedSize:')} ${details.name}: ${details.stats.minifiedSize / 1000}kb`);
           })
         )
       )

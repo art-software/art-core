@@ -19,8 +19,8 @@ exports.compileLess = (path) => {
             .pipe(gulp_less_1.default())
             .pipe(gulp_rename_1.default({ extname: '.wxss' }))
             .pipe(gulp_if_1.default(env_1.isProd(), gulp_clean_css_1.default({}, (details) => {
-            console.log(`${chalk_1.default.blue('=>')} ${chalk_1.default.green('originalSize:')} ${details.name}: ${details.stats.originalSize}`);
-            console.log(`${chalk_1.default.blue('=>')} ${chalk_1.default.green('minifiedSize:')} ${details.name}: ${details.stats.minifiedSize}`);
+            console.log(`${chalk_1.default.blue('=>')} ${chalk_1.default.green('originalSize:')} ${details.name}: ${details.stats.originalSize / 1000}kb`);
+            console.log(`${chalk_1.default.blue('=>')} ${chalk_1.default.green('minifiedSize:')} ${details.name}: ${details.stats.minifiedSize / 1000}kb`);
         })))
             .pipe(vfsHelper_1.getDest(vinyl_fs_1.default))
             .on('end', resolve);
