@@ -7,7 +7,6 @@ const path_1 = require("path");
 const paths_1 = __importDefault(require("../config/paths"));
 const FileNames_1 = require("../constants/FileNames");
 const compileProjectConfig_1 = require("./compileProjectConfig");
-const miniprogramWebpackEntry_1 = require("../config/miniprogramWebpackEntry");
 const vfsHelper_1 = require("../utils/vfsHelper");
 const compileJS_1 = require("./compileJS");
 const chalk_1 = __importDefault(require("chalk"));
@@ -24,6 +23,7 @@ const dependencyMapping_1 = require("./dependencyMapping");
 const dependencyTree_1 = require("./dependencyTree");
 const cleanEmptyFoldersRecursively_1 = require("art-dev-utils/lib/cleanEmptyFoldersRecursively");
 const recursive_readdir_1 = __importDefault(require("recursive-readdir"));
+const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 const fileQueue = [];
 const fileBuildQueue = [];
 class MiniProgramCompiler {
@@ -33,7 +33,7 @@ class MiniProgramCompiler {
                 Promise.all(fileQueue)
                     .then(() => {
                     fileQueue.length = 0;
-                    const debugProjectConfigPath = path_1.join(paths_1.default.appDebug, miniprogramWebpackEntry_1.miniprogramWebpackEntry().entryKey, FileNames_1.PROJECTCONFIG);
+                    const debugProjectConfigPath = path_1.join(paths_1.default.appDebug, projectVirtualPath, FileNames_1.PROJECTCONFIG);
                     compileProjectConfig_1.compileProjectConfig({ projectConfigPath: debugProjectConfigPath })
                         .then(() => {
                         if (watcherDone) {
@@ -55,7 +55,6 @@ class MiniProgramCompiler {
             }));
         };
         this.remove = (path) => {
-            const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
             const fileCompiledPath = path_1.join(env_1.isProd() ? paths_1.default.appPublic : paths_1.default.appDebug, projectVirtualPath, path.replace('client', '')).replace(/.less$/i, '.wxss').replace(/.ts$/i, '.js');
             try {
                 fs_extra_1.removeSync(fileCompiledPath);

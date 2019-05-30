@@ -2,7 +2,6 @@ import { join, relative, dirname } from 'path';
 import paths from '../config/paths';
 import { PROJECTCONFIG } from '../constants/FileNames';
 import { compileProjectConfig } from './compileProjectConfig';
-import { miniprogramWebpackEntry } from '../config/miniprogramWebpackEntry';
 import { fileTypeChecker } from '../utils/vfsHelper';
 import { compileJS } from './compileJS';
 import chalk from 'chalk';
@@ -19,6 +18,8 @@ import { DependencyMapping } from './dependencyMapping';
 import { dependencyTree } from './dependencyTree';
 import { cleanEmptyFoldersRecursively } from 'art-dev-utils/lib/cleanEmptyFoldersRecursively';
 import recursiveReaddir from 'recursive-readdir';
+
+const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
 const fileQueue: Array<Promise<any>> = [];
 const fileBuildQueue: Array<Promise<any>> = [];
@@ -50,7 +51,7 @@ export class MiniProgramCompiler {
       Promise.all(fileQueue)
         .then(() => {
           fileQueue.length = 0;
-          const debugProjectConfigPath = join(paths.appDebug, miniprogramWebpackEntry().entryKey, PROJECTCONFIG);
+          const debugProjectConfigPath = join(paths.appDebug, projectVirtualPath, PROJECTCONFIG);
           compileProjectConfig({ projectConfigPath: debugProjectConfigPath })
             .then(() => {
               if (watcherDone) {
@@ -76,7 +77,6 @@ export class MiniProgramCompiler {
   }
 
   public remove = (path: string) => {
-    const projectVirtualPath = appConfig.get('art:projectVirtualPath');
     const fileCompiledPath = join(
       isProd() ? paths.appPublic : paths.appDebug,
       projectVirtualPath,
