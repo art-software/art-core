@@ -11,11 +11,11 @@ export abstract class WebApiMiniProgramCommon extends WebApiMiniProgram {
 
   private domainConfig: object;
 
-  private getEnvName(): string {
+  protected getEnvName(): string {
     return getQueryString('env') || EnvNames.prod;
   }
 
-  private getPort(): string {
+  protected getPort(): string {
     return getQueryString('port') || '';
   }
 
@@ -32,7 +32,10 @@ export abstract class WebApiMiniProgramCommon extends WebApiMiniProgram {
   protected preRequest(requestConfig: wx.RequestOption): Promise<wx.RequestOption> {
     return new Promise((resolve) => {
       const urlPath = ensureSlash(requestConfig.url, false);
-      const domain = ensureSlash(this.getDomain(), false);
+      let domain = ensureSlash(this.getDomain(), false);
+      if (this.getEnvName() === EnvNames.local) {
+        domain = domain + '/mock_api';
+      }
 
       requestConfig.url = domain + urlPath;
       resolve(requestConfig);

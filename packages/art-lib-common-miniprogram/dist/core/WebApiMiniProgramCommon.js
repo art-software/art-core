@@ -25,7 +25,10 @@ export class WebApiMiniProgramCommon extends WebApiMiniProgram {
     preRequest(requestConfig) {
         return new Promise((resolve) => {
             const urlPath = ensureSlash(requestConfig.url, false);
-            const domain = ensureSlash(this.getDomain(), false);
+            let domain = ensureSlash(this.getDomain(), false);
+            if (this.getEnvName() === EnvNames.local) {
+                domain = domain + '/mock_api';
+            }
             requestConfig.url = domain + urlPath;
             resolve(requestConfig);
         });
