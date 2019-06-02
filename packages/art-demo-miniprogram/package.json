@@ -8,9 +8,9 @@
   "dependencies": {
     "art-lib-common-miniprogram": "^0.0.1",
     "art-lib-utils": "^0.0.5",
-    "art-lib-utils-wx": "^0.0.3",
+    "art-lib-utils-wx": "^0.0.4",
     "art-server-mock-miniprogram": "^0.0.1",
-    "art-webpack-miniprogram": "^0.0.3",
+    "art-webpack-miniprogram": "^0.0.4",
     "less": "3.8.1",
     "mockjs": "^1.0.1-beta3",
     "routing-controllers": "0.7.7"

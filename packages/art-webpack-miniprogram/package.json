@@ -1,6 +1,6 @@
 {
   "name": "art-webpack-miniprogram",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "art framework webpack for wechat miniprogram",
   "main": "index.js",
   "author": "Bowen Zhong",

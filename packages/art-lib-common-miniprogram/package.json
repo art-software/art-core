@@ -12,6 +12,6 @@
   "dependencies": {
     "art-dev-utils": "^0.0.12",
     "art-lib-utils": "^0.0.5",
-    "art-lib-utils-wx": "^0.0.3"
+    "art-lib-utils-wx": "^0.0.4"
   }
 }
