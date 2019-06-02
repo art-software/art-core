@@ -89,3 +89,32 @@ export const appendUrlParameter = (key, value, url) => {
     }
     return finalUrlFragments.join('');
 };
+/**
+ * save current page params and add new params to href
+ * @param url what url u want to add params, no this param, will set current page
+ * @param saveParamsKey what params do u want to save, like ['env', 'port'], no that parmas will save all
+ * @param appendParams what params u want to append, like {name: 'ygm', age: 18}
+ * @return {String} new Url
+ */
+export const setUrlParams = (url = '', saveParamsKey = [], appendParams = {}) => {
+    const currentPageData = getCurrentPage();
+    let route = url ? url : currentPageData.route;
+    // @ts-ignore
+    const { options } = currentPageData;
+    if (saveParamsKey.length) {
+        saveParamsKey.forEach((paramKey) => {
+            if (options[paramKey]) {
+                const saveParam = {};
+                saveParam[paramKey] = options[paramKey];
+                Object.assign(appendParams, saveParam);
+            }
+        });
+    }
+    else {
+        Object.assign(appendParams, options);
+    }
+    for (const param in appendParams) {
+        route = appendUrlParameter(param, appendParams[param], route);
+    }
+    return route || '';
+};
