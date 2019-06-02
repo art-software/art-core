@@ -1,6 +1,6 @@
 {
   "name": "art-demo-miniprogram",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "art demo of miniprogram",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "art-lib-utils": "^0.0.5",
     "art-lib-utils-wx": "^0.0.4",
     "art-server-mock-miniprogram": "^0.0.1",
-    "art-webpack-miniprogram": "^0.0.4",
+    "art-webpack-miniprogram": "^0.0.5",
     "less": "3.8.1",
     "mockjs": "^1.0.1-beta3",
     "routing-controllers": "0.7.7"

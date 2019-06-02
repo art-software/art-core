@@ -1,6 +1,6 @@
 {
   "name": "art-lib-common-miniprogram",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "art common framework for wx miniprogram",
   "main": "index.js",
   "author": "Bowen Zhong",
