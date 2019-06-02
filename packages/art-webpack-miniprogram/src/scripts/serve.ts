@@ -62,7 +62,7 @@ const compileMockServer = () => {
   if (compileMockServerHasLunched) { return; }
 
   executeNodeScript(
-    process.env.STAGE === 'dev' ? '../../node_modules/.bin/tsc' : '../../.bin/tsc',
+    process.env.STAGE === 'dev' ? '../../node_modules/.bin/tsc' : '../../../.bin/tsc',
     '-p', `${paths.appMockServerConfig}`,
     '-w'
   );

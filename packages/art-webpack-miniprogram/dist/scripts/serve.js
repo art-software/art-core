@@ -48,7 +48,7 @@ const compileMockServer = () => {
     if (compileMockServerHasLunched) {
         return;
     }
-    executeNodeScript_1.default(process.env.STAGE === 'dev' ? '../../node_modules/.bin/tsc' : '../../.bin/tsc', '-p', `${paths_1.default.appMockServerConfig}`, '-w');
+    executeNodeScript_1.default(process.env.STAGE === 'dev' ? '../../node_modules/.bin/tsc' : '../../../.bin/tsc', '-p', `${paths_1.default.appMockServerConfig}`, '-w');
     compileMockServerHasLunched = true;
 };
 clearCacheInquire().then((answer) => {
