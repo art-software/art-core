@@ -6,9 +6,6 @@ import { join } from 'path';
 export const configMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   return [
     {
-      name: '.babelrc'
-    },
-    {
       name: '.eslintrc.json'
     },
     {

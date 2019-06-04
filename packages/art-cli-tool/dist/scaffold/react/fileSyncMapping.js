@@ -8,9 +8,6 @@ const path_1 = require("path");
 exports.configMapping = (scaffoldInstance) => {
     return [
         {
-            name: '.babelrc'
-        },
-        {
             name: '.eslintrc.json'
         },
         {
