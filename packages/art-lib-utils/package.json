@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "clean": "sudo rimraf dist",
-    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
+    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w",
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.18.0",
