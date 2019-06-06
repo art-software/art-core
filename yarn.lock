@@ -2937,6 +2937,23 @@ arrify@^1.0.0, arrify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
+art-lib-common-miniprogram@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/art-lib-common-miniprogram/-/art-lib-common-miniprogram-0.0.1.tgz#9888bc947ed77bef96a159bd0e099d961f039e00"
+  integrity sha512-aAqdwEvFvMqnpnF5SAGLSG7WgbicSpvlupA0W/M56dJKV5QEHlpqZxR218PsUnLYp9IfVaRAzIiGvvA6Xb9yMA==
+  dependencies:
+    art-dev-utils "^0.0.12"
+    art-lib-utils "^0.0.5"
+    art-lib-utils-wx "^0.0.3"
+
+art-lib-utils-wx@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/art-lib-utils-wx/-/art-lib-utils-wx-0.0.3.tgz#ee6a8a57b80a7e3f3e7b9c421cc7542e29a54c1b"
+  integrity sha512-4tfZsfoDPPjtCIeW4LthZw1KxCn+fsIDuD8Zx0zlbgeCQd5q814DRrIRvkwAASQdM741qW4sXV98nJTugcXnuw==
+  dependencies:
+    cpx "^1.5.0"
+    typescript "^3.0.1"
+
 asap@^2.0.0, asap@~2.0.3:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
