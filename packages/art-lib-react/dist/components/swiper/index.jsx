@@ -17,6 +17,9 @@ export default class Swiper extends CoreComponent {
         // 解决slidesPerView大于1的情况下，最后一帧touchmove距离大于剩余距离时，瞬间回弹bug
         this.startX = 0;
         this.snapStepX = 0;
+        this.forceUpdateSwiper = () => {
+            this.adjustStates(this.props);
+        };
         this.adjustStates = (props) => {
             const { children, slidesPerView } = props;
             this.cloneNum = 0;
@@ -342,7 +345,7 @@ export default class Swiper extends CoreComponent {
         this.adjustStates(this.props);
     }
     componentDidUpdate(prevProps) {
-        if (this.props.children !== prevProps.children) {
+        if (this.props.children.length !== prevProps.children.length) {
             this.adjustStates(this.props);
         }
     }

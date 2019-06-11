@@ -57,9 +57,13 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
   }
 
   public componentDidUpdate(prevProps) {
-    if (this.props.children !== prevProps.children) {
+    if (this.props.children.length !== prevProps.children.length) {
       this.adjustStates(this.props);
     }
+  }
+
+  public forceUpdateSwiper = () => {
+    this.adjustStates(this.props);
   }
 
   private adjustStates = (props: ISwiper) => {
