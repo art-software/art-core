@@ -1,5 +1,5 @@
 declare const _default: {
-    get(name: any): string;
+    get(name: string): string;
     set(name: string, value: string, path: string, cycle: number): void;
     remove(name: string, path: string): void;
     /**
