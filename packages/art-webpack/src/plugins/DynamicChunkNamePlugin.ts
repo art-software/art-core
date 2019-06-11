@@ -1,5 +1,5 @@
 import { Plugin, Compiler } from 'webpack';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 
 export default class DynamicChunkNamePlugin implements Plugin {
   constructor(moduleEntry) {
@@ -17,9 +17,20 @@ export default class DynamicChunkNamePlugin implements Plugin {
 
           for (const entry in this.moduleEntry) {
             const entryRegex = this.getEntryRegex(this.moduleEntry[entry][0]);
-            if (!this.getModulesGroup(moduleEntries, entryRegex)) { continue; }
+            const commonFolderRegex = this.getCommonFolderRegex();
+            if (
+              !(
+                this.getModulesGroup(moduleEntries, entryRegex) ||
+                this.getModulesGroup(moduleEntries, commonFolderRegex) ||
+                this.getModulesGroup(moduleEntries, nodeModulesRegex)
+              )
+            ) { continue; }
             for (const mod of moduleEntries) {
-              if (entryRegex.test(mod.context) || nodeModulesRegex.test(mod.context)) {
+              if (
+                entryRegex.test(mod.context) ||
+                nodeModulesRegex.test(mod.context) ||
+                mod.context === null
+              ) {
                 const newChunkName = entry + '/chunks';
                 chunk.id = `${newChunkName}/${this.getRandomString()}`;
               }
@@ -39,10 +50,15 @@ export default class DynamicChunkNamePlugin implements Plugin {
     return new RegExp(`${entryDir}`);
   }
 
+  public getCommonFolderRegex() {
+    const entryDir = join(process.cwd(), './client');
+    return new RegExp(`${entryDir}`);
+  }
+
   public getModulesGroup(modules: any[], regex: RegExp): boolean {
     for (let i = 0; i < modules.length; i++) {
       const context = (modules[i].issuer || {}).context;
-      if (regex.test(context)) {
+      if (modules[i].issuer === null || regex.test(context)) {
         return true;
       }
     }
