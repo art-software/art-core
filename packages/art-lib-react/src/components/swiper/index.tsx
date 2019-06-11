@@ -85,7 +85,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
 
     if (children.length <= 1) {
       Object.assign(this.state, {
-        showPagination: false,
+        // showPagination: false,
         autoPlayInterval: false,
         initialSlideIndex: 0,
         loop: false
@@ -105,7 +105,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     }
 
     // swiperItems.length > 0
-    if (props.loop && swipeItems.length) {
+    if (props.loop && swipeItems.length > 1) {
       ++this.cloneNum;
       if (slidesPerView as number > 1) {
         ++this.cloneNum;

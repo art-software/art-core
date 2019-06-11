@@ -38,7 +38,7 @@ export default class Swiper extends CoreComponent {
             }
             if (children.length <= 1) {
                 Object.assign(this.state, {
-                    showPagination: false,
+                    // showPagination: false,
                     autoPlayInterval: false,
                     initialSlideIndex: 0,
                     loop: false
@@ -55,7 +55,7 @@ export default class Swiper extends CoreComponent {
                 swipeItems.push(swipeElement);
             }
             // swiperItems.length > 0
-            if (props.loop && swipeItems.length) {
+            if (props.loop && swipeItems.length > 1) {
                 ++this.cloneNum;
                 if (slidesPerView > 1) {
                     ++this.cloneNum;
