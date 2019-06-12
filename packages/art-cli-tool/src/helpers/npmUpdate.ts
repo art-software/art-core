@@ -3,8 +3,9 @@ import chalk from 'chalk';
 import { FileNames } from '../constants/FileNames';
 import { Stage } from '../enums/Stage';
 import { join } from 'path';
-import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import { existsSync } from 'fs';
+import spawn from 'cross-spawn';
+import preferredPm from 'preferred-pm';
 
 export const npmUpdate = () => {
 
@@ -29,10 +30,38 @@ export const npmUpdate = () => {
     }
   }
 
-  executeNodeScript(
-    bin,
-    '--update',
-    '--ignore', notArtPkgGlob,
-    '--skip-unused'
-  );
+  preferredPm(process.cwd())
+    .then((pm) => {
+      const pmName = pm.name;
+      const env = Object.create( process.env );
+      env.UPDATE_INSTALLER = pmName;
+      const child = spawn(
+        bin,
+        [
+          '--update',
+          '--ignore', notArtPkgGlob,
+          '--skip-unused'
+        ],
+        {
+          stdio: 'inherit',
+          env
+        }
+      );
+
+      child.on('close', (code) => {
+        if (code !== 0) {
+          console.log();
+          console.log(chalk.cyan('Art dependencies update') + ' exited with code ' + code + '.');
+          console.log();
+          return;
+        }
+      });
+
+      child.on('error', (err) => {
+        console.log(err);
+      });
+    })
+    .catch((err) => {
+      console.log(chalk.red('Package manage detection error: '), err);
+    });
 };
