@@ -22,7 +22,7 @@
     "esprima": "^4.0.1",
     "fs-extra": "^7.0.0",
     "inquirer": "^6.1.0",
-    "npm-check": "git://github.com/zbw322092/npm-check.git#forkv0.0.4",
+    "npm-check-support-yarn": "git://github.com/zbw322092/npm-check.git#forkv0.0.4",
     "preferred-pm": "^1.0.1",
     "qs": "^6.5.2",
     "replace": "^1.0.0",

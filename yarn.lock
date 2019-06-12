@@ -2949,20 +2949,6 @@ art-lib-common-miniprogram@^0.0.1:
     art-lib-utils "^0.0.5"
     art-lib-utils-wx "^0.0.3"
 
-art-lib-react@^0.0.30:
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/art-lib-react/-/art-lib-react-0.0.30.tgz#d5dafe62dd61e5e34a61772cbb3f6c0fcdab9a0d"
-  dependencies:
-    art-lib-utils "^0.0.5"
-    axios "^0.18.0"
-    classnames "^2.2.6"
-    cpx "^1.5.0"
-    inline-style-prefixer "^5.0.1"
-    prop-types "^15.6.2"
-    qs "^6.5.2"
-    react "16.4.2"
-    react-dom "16.4.2"
-
 art-lib-utils-wx@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/art-lib-utils-wx/-/art-lib-utils-wx-0.0.3.tgz#ee6a8a57b80a7e3f3e7b9c421cc7542e29a54c1b"
@@ -10343,7 +10329,7 @@ npm-bundled@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.3.tgz#7e71703d973af3370a9591bafe3a63aca0be2308"
 
-"npm-check@git://github.com/zbw322092/npm-check.git#forkv0.0.4":
+"npm-check-support-yarn@git://github.com/zbw322092/npm-check.git#forkv0.0.4":
   version "5.9.0"
   resolved "git://github.com/zbw322092/npm-check.git#eb0d08bb4e3520c0bc175b620c05cdc57f4fe918"
   dependencies:

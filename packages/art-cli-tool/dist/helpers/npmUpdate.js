@@ -21,8 +21,8 @@ exports.npmUpdate = () => {
         bin = path_1.join(__dirname, '../../../../node_modules/.bin/npm-check');
     }
     else {
-        const npmCheckPathOne = path_1.join(__dirname, '../../../npm-check/bin/cli.js');
-        const npmCheckPathTwo = path_1.join(__dirname, '../../node_modules/.bin/npm-check');
+        const npmCheckPathOne = path_1.join(__dirname, '../../../npm-check-support-yarn/bin/cli.js');
+        const npmCheckPathTwo = path_1.join(__dirname, '../../node_modules/npm-check-support-yarn/bin/cli.js');
         if (fs_1.existsSync(npmCheckPathOne)) {
             bin = npmCheckPathOne;
         }

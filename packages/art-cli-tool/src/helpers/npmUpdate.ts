@@ -19,8 +19,8 @@ export const npmUpdate = () => {
   if (process.env.STAGE === Stage.dev) {
     bin = join(__dirname, '../../../../node_modules/.bin/npm-check');
   } else {
-    const npmCheckPathOne = join(__dirname, '../../../npm-check/bin/cli.js');
-    const npmCheckPathTwo = join(__dirname, '../../node_modules/.bin/npm-check');
+    const npmCheckPathOne = join(__dirname, '../../../npm-check-support-yarn/bin/cli.js');
+    const npmCheckPathTwo = join(__dirname, '../../node_modules/npm-check-support-yarn/bin/cli.js');
     if (existsSync(npmCheckPathOne)) {
       bin = npmCheckPathOne;
     } else if (existsSync(npmCheckPathTwo)) {
