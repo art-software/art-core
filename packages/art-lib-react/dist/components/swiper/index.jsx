@@ -122,6 +122,11 @@ export default class Swiper extends CoreComponent {
             }
             event.preventDefault();
         };
+        this.handleTouchEnd = (event) => {
+            if (this.props.isTouchStopAutoPlay === false) {
+                this.setAutoPlay(true);
+            }
+        };
         this.scrollElem = (scroll) => {
             this.scroll = scroll;
         };
@@ -421,7 +426,7 @@ export default class Swiper extends CoreComponent {
             scrollY: false,
             eventPassthrough: 'vertical',
         };
-        return (<div id={this.id} style={wrapperStyle} className={classNameSwiperWrap} onTouchStart={this.handleTouchStart} onTouchMove={this.handleTouchMove} {...this.applyArgs('swiper')}>
+        return (<div id={this.id} style={wrapperStyle} className={classNameSwiperWrap} onTouchStart={this.handleTouchStart} onTouchMove={this.handleTouchMove} onTouchEnd={this.handleTouchEnd} {...this.applyArgs('swiper')}>
         <div className="swiper-bg" style={gradientBackgroundStyle}></div>
         <div className="swiper-content" style={{ height: viewport.px2DPIpx(swiperHeight) }}>
           <Scroll ref={this.scrollElem} onInitialize={this.handleScrollbarInitialize} options={scrollbarOptions}>
@@ -452,6 +457,7 @@ Swiper.defaultProps = {
     showSpinner: true,
     initialSlideIndex: 0,
     autoPlayInterval: 3000,
+    isTouchStopAutoPlay: true,
     slidesPerView: 1,
     showPagination: true,
     centeredSlides: false,

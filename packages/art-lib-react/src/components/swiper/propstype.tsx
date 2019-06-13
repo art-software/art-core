@@ -6,6 +6,7 @@ export interface ISwiper {
   swiperHeight       : number;                         // swiper element height (in px, 750px width scale)
   showSpinner?       : boolean;                        // whether show spinner before swiper image loaded. Default: true;
   autoPlayInterval?  : number;                         // swiper autoplay interval in ms. Default: 3000;
+  isTouchStopAutoPlay?: boolean;                       // whether touch event stop swiper auto play. Default: true
   slidesPerView?     : number;                         // slide per view. range: [1, 2). Default: 1
   centeredSlides?    : boolean;                        // whether center slide. Default: false;
   gradientBackground?: any[];                          // whether set gradient background;

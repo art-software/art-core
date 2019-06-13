@@ -6,6 +6,7 @@ export interface ISwiper {
     swiperHeight: number;
     showSpinner?: boolean;
     autoPlayInterval?: number;
+    isTouchStopAutoPlay?: boolean;
     slidesPerView?: number;
     centeredSlides?: boolean;
     gradientBackground?: any[];
