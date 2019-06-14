@@ -1,7 +1,7 @@
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
 import { ISwiper } from './propstype';
-import { getElemWidth } from 'art-lib-utils/dist/utils/dom';
+import { getStyles } from 'art-lib-utils/dist/utils/dom';
 import React, { TouchEvent } from 'react';
 import IScrollProbe from '../scroll/lib/iscroll-probe';
 import viewport from 'art-lib-utils/dist/utils/viewport';
@@ -454,8 +454,9 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
 
     const swiper = document.querySelector('#' + this.id);
     // if (swiper === null) { console.log('no swiper dom element find'); return; }
-    const swiperWidth = Math.floor(getElemWidth(swiper as any));
-    const singleSwiperWidth = Math.floor(swiperWidth / slidesPerView);
+    const swiperWidth = swiper ? Number((getStyles(swiper).width || '0px').slice(0, -2))
+      : window.document.documentElement.clientWidth;
+    const singleSwiperWidth = swiperWidth / slidesPerView;
 
     const snapStepX = singleSwiperWidth + gap;
 
