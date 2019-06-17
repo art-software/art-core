@@ -1,11 +1,12 @@
-import { Workbox } from 'workbox-window';
+// import { Workbox } from 'workbox-window';
+import artConfig from '../art.config.js';
 
-const enableServiceWorker = true;
+const enableServiceWorker = artConfig.sw.enable;
 // 当资源发生变化时，为了防止旧缓存资源被继续使用，从而造成隐患
 // 有update和delete两种处理旧资源的方式可选，设置为false则使用delete方式
-const isUpdateResource = true;
+const isUpdateResource = artConfig.sw.isUpdateRuntimeCache;
 
-export default function enableOrDisableServiceWorker() {
+export default function handleServiceWorker() {
   if (enableServiceWorker) {
     if ('serviceWorker' in navigator) {
       if (process.env.NODE_ENV === 'production') {
@@ -23,8 +24,9 @@ export default function enableOrDisableServiceWorker() {
   }
 }
 
-function registerServiceWorker() {
-  // const { Workbox } = await import(/* webpackChunkName: 'workbox-window' */'workbox-window');
+async function registerServiceWorker() {
+  // @ts-ignore
+  const { Workbox } = await import(/* webpackChunkName: 'workbox-window' */'workbox-window');
   const workbox = new Workbox('./service-worker.js');
 
   workbox.addEventListener('installed', (event) => {

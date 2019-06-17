@@ -13,7 +13,7 @@
 
 importScripts(
   "https://dev.local.com/art-demo-test/client/demo-one/workbox-index.a8d089a8f66878509d4bb94b49803bc7.js",
-  "https://dev.local.com/art-demo-test/client/demo-one/precache-manifest.670209f069c512ed7824535d9533a123.js"
+  "https://dev.local.com/art-demo-test/client/demo-one/precache-manifest.5aa3b0dee7e6330f0c9d416c9c446814.js"
 );
 
 workbox.core.skipWaiting();
@@ -31,6 +31,6 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("https://dev.local.com/art-demo-test/client/demo-one/index.html"));
 
 workbox.routing.registerRoute(/\/api3\//, new workbox.strategies.NetworkFirst({ "cacheName":"api-response-runtime-cache", plugins: [new workbox.expiration.Plugin({ maxEntries: 200, maxAgeSeconds: 604800, purgeOnQuotaError: false }), new workbox.cacheableResponse.Plugin({ statuses: [ 200 ] })] }), 'GET');
-workbox.routing.registerRoute(/publicPath/, new workbox.strategies.StaleWhileRevalidate({ "cacheName":"cdn-assets-runtime-cache", plugins: [new workbox.expiration.Plugin({ maxEntries: 50, maxAgeSeconds: 1296000, purgeOnQuotaError: false }), new workbox.cacheableResponse.Plugin({ statuses: [ 0, 200 ] })] }), 'GET');
+workbox.routing.registerRoute(/https:\/\/dev.local.com\/art-demo-test\//, new workbox.strategies.StaleWhileRevalidate({ "cacheName":"cdn-assets-runtime-cache", plugins: [new workbox.expiration.Plugin({ maxEntries: 50, maxAgeSeconds: 1296000, purgeOnQuotaError: false }), new workbox.cacheableResponse.Plugin({ statuses: [ 0, 200 ] })] }), 'GET');
 workbox.routing.registerRoute(/https:\/\/static.qianshengqian.com\//, new workbox.strategies.StaleWhileRevalidate({ "cacheName":"third-party-assets-runtime-cache", plugins: [new workbox.expiration.Plugin({ maxEntries: 10, maxAgeSeconds: 2592000, purgeOnQuotaError: false }), new workbox.cacheableResponse.Plugin({ statuses: [ 0, 200 ] })] }), 'GET');
 workbox.routing.registerRoute(/https:\/\/qsqweb-10000035.image.myqcloud.com\//, new workbox.strategies.StaleWhileRevalidate({ "cacheName":"myqcloud-assets-runtime-cache", plugins: [new workbox.expiration.Plugin({ maxEntries: 100, maxAgeSeconds: 1296000, purgeOnQuotaError: false }), new workbox.cacheableResponse.Plugin({ statuses: [ 0, 200 ] })] }), 'GET');

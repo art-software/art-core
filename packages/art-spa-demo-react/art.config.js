@@ -53,7 +53,7 @@ const artConfig = {
           }
         },
         {
-          urlPattern: new RegExp('publicPath'),
+          urlPattern: new RegExp('https://dev.local.com/art-demo-test/'),
           handler: 'StaleWhileRevalidate',
           options: {
             cacheName: 'cdn-assets-runtime-cache',
