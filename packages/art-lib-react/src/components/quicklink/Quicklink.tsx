@@ -1,7 +1,7 @@
 import React from 'react';
 import CoreComponent from 'art-lib-react/src/core/CoreComponent';
 import quicklink from './helper/quicklinkConfig';
-import { IQuickLink } from './helper/propsType';
+import { IQuickLink } from './propsType';
 
 export default class Quicklink extends CoreComponent<IQuickLink, any> {
 

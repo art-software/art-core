@@ -8,6 +8,7 @@ const preFetched = {};
  */
 function support(feature: string) {
   const link = document.createElement('link');
+  // @ts-ignore
   return link.relList && link.relList.supports && link.relList.supports(feature);
 }
 
