@@ -89,7 +89,7 @@ export default class ModalPortal extends CoreComponent {
                 this.props.shouldReturnFocusAfterClose);
         };
         this.shouldBeClosed = () => {
-            return !this.state.isOpen && !this.state.beforeClose;
+            return !this.state.isOpen && !this.state.beforeClose && !this.props.cacheModal;
         };
         this.setOverlayRef = (overlay) => {
             if (this.props.overlayRef) {
@@ -126,7 +126,7 @@ export default class ModalPortal extends CoreComponent {
         this.buildClassName = (which, additional) => {
             return this.classNames(CLASS_NAMES[which], additional, {
                 [`${CLASS_NAMES[which]}-after-open`]: this.state.afterOpen,
-                [`${CLASS_NAMES[which]}-before-close`]: this.state.beforeClose
+                [`${CLASS_NAMES[which]}-before-close`]: this.state.beforeClose || (!this.state.isOpen && this.props.cacheModal)
             });
         };
         // modal content element ref

@@ -10,6 +10,7 @@ export interface IModalBaseProps {
     mask?: boolean;
     bodyOpenClassName?: string;
     overlayClassName?: string;
+    cacheModal?: boolean;
     shouldFocusAfterRender?: boolean;
     shouldReturnFocusAfterClose?: boolean;
     shouldCloseOnOverlayClick?: boolean;
