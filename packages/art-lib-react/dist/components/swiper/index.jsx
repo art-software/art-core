@@ -123,7 +123,7 @@ export default class Swiper extends CoreComponent {
             event.preventDefault();
         };
         this.handleTouchEnd = (event) => {
-            if (this.props.isTouchStopAutoPlay === false) {
+            if (this.props.isTouchStopAutoPlay === false && this.props.children.length > 1) {
                 this.setAutoPlay(true);
             }
         };
