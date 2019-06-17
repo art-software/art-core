@@ -22,7 +22,7 @@ export interface IModalBaseProps {
 
 export interface IModalProps extends IModalBaseProps {
   parentSelector?: () => any; // function which return the dom element the modal should be appended to
-  portalType?: 'normal' | 'toast' | 'confirm' | 'alert' | 'fullscreen' | 'actionsheet' | 'popover';
+  portalType?: 'normal' | 'toast' | 'confirm' | 'alert' | 'fullscreen' | 'actionsheet' | 'popover' | 'popup';
   portalClassName?: string;
 }
 

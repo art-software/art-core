@@ -24,7 +24,7 @@ export interface IModalBaseProps {
 }
 export interface IModalProps extends IModalBaseProps {
     parentSelector?: () => any;
-    portalType?: 'normal' | 'toast' | 'confirm' | 'alert' | 'fullscreen' | 'actionsheet' | 'popover';
+    portalType?: 'normal' | 'toast' | 'confirm' | 'alert' | 'fullscreen' | 'actionsheet' | 'popover' | 'popup';
     portalClassName?: string;
 }
 export interface IModalPortalProps extends IModalBaseProps {
