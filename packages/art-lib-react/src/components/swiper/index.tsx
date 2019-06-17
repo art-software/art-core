@@ -180,7 +180,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
   }
 
   private handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
-    if (this.props.isTouchStopAutoPlay === false) {
+    if (this.props.isTouchStopAutoPlay === false && this.props.children.length > 1) {
       this.setAutoPlay(true);
     }
   }
