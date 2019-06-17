@@ -7,7 +7,7 @@
   "private": false,
   "scripts": {
     "clean": "sudo rimraf -g 'dist/!(vendors)/**/*'",
-    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
+    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && ../../node_modules/.bin/tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
     "art-lib-utils": "^0.0.5",
