@@ -1,6 +1,6 @@
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
-import { getElemWidth } from 'art-lib-utils/dist/utils/dom';
+import { getStyles } from 'art-lib-utils/dist/utils/dom';
 import React from 'react';
 import viewport from 'art-lib-utils/dist/utils/viewport';
 import Scroll from '../../components/scroll';
@@ -391,8 +391,9 @@ export default class Swiper extends CoreComponent {
         });
         const swiper = document.querySelector('#' + this.id);
         // if (swiper === null) { console.log('no swiper dom element find'); return; }
-        const swiperWidth = Math.floor(getElemWidth(swiper));
-        const singleSwiperWidth = Math.floor(swiperWidth / slidesPerView);
+        const swiperWidth = swiper ? Number((getStyles(swiper).width || '0px').slice(0, -2))
+            : window.document.documentElement.clientWidth;
+        const singleSwiperWidth = swiperWidth / slidesPerView;
         const snapStepX = singleSwiperWidth + gap;
         this.snapStepLast = (singleSwiperWidth * 2) - gap - swiperWidth;
         // centeredSlides
