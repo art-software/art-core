@@ -1,0 +1,51 @@
+{
+  "name": "art-demo-spa-react",
+  "version": "0.0.7",
+  "description": "art demo SPA react",
+  "main": "index.js",
+  "author": "Bowen Zhong",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "art-lib-common": "^0.0.5",
+    "art-lib-react": "^0.0.35",
+    "art-lib-utils": "^0.0.5",
+    "art-server-mock": "^0.0.18",
+    "art-webpack": "^0.0.42",
+    "less": "3.8.1",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
+    "react-loadable": "5.5.0",
+    "react-router-dom": "4.3.1"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "@types/mockjs": "^1.0.1",
+    "@types/node": "^10.5.6",
+    "@types/react": "^16.7.3",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-loadable": "^5.5.0",
+    "@types/react-router-dom": "^4.3.0",
+    "mockjs": "^1.0.1-beta3",
+    "routing-controllers": "^0.7.7",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  },
+  "postcssSortingConfig": {
+    "order": [
+      "custom-properties",
+      "dollar-variables",
+      "declarations",
+      "at-rules",
+      "rules"
+    ],
+    "properties-order": [
+      "display",
+      "position",
+      "top",
+      "right",
+      "bottom",
+      "left"
+    ]
+  }
+}

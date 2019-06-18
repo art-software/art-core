@@ -13,9 +13,9 @@ const ProjectTypes_1 = require("../enums/ProjectTypes");
 const CompilerNames_1 = require("../enums/CompilerNames");
 const Stage_1 = require("../enums/Stage");
 const isDevStage = process.env.STAGE === Stage_1.Stage.dev;
-const projectType = projectType_1.getProjectType() || ProjectTypes_1.ProjectTypes.SPA;
-const compilerName = CompilerNames_1.CompilerNames[projectType];
 function getWebpackScriptPath(command) {
+    const projectType = projectType_1.getProjectType() || ProjectTypes_1.ProjectTypes.SPA;
+    const compilerName = CompilerNames_1.CompilerNames[projectType];
     const scriptPath = path.resolve(process.cwd(), `./node_modules/${compilerName}/dist/scripts/${command}.js`);
     const symlinkPath = path.resolve(process.cwd(), `../../node_modules/${compilerName}/dist/scripts/${command}.js`);
     return isDevStage ? symlinkPath : scriptPath;

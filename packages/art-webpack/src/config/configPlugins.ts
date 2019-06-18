@@ -17,6 +17,7 @@ import DynamicChunkNamePlugin from '../plugins/DynamicChunkNamePlugin';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 import WorkboxWebpackPlugin from 'workbox-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { HtmlWebpackChunksPlugin } from '../plugins/HtmlWebpackChunksPlugin';
 
 const enableSW = appConfig.get('art:sw:enable');
 const envName = appConfig.get('NODE_ENV');
@@ -60,6 +61,10 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
     };
 
     plugins.push(new HtmlWebpackPlugin(htmlWebpackPluginOptions));
+
+    plugins.push(new HtmlWebpackChunksPlugin({
+      manifestPath: path.join(process.cwd(), 'client', entryKey.replace(projectVirtualPath, ''))
+    }));
   });
 
   plugins.push(new HtmlWebpackCDNPlugin());

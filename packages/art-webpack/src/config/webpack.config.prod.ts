@@ -8,11 +8,12 @@ import appConfig from './appConfig';
 import ChunkHashOutputPlugin from '../plugins/webpack-plugin-chunkhash-output';
 import paths from './paths';
 import { join } from 'path';
-import { existsSync } from 'fs';
 const enableBundleHashName = appConfig.get('enableBundleHashName');
 const version = appConfig.get('art:version');
-const defaultVendor = join(paths.appCwd, 'node_modules/art-lib-react/dist/vendors');
-const vendorPath = existsSync(defaultVendor) ? defaultVendor : join(__dirname, '../../../art-lib-react/dist/vendors');
+
+const dllVersion = appConfig.get('art:webpack:dll:version') || 'default-version';
+const virtualPath = appConfig.get('art:projectVirtualPath') || '';
+const outputPath = join(process.cwd(), './public', virtualPath, 'vendors', dllVersion);
 
 function bundleFileNamePattern(endFix: string = '.js'): string {
   if (enableBundleHashName) {
@@ -29,7 +30,7 @@ export default class WebpackProdConfig extends WebpackBaseConfig implements Conf
   public plugins = this.plugins.concat(
     new webpack.DllReferencePlugin({
       context: join(paths.appCwd),
-      manifest: join(vendorPath, 'manifest.json')
+      manifest: join(outputPath, 'manifest.json')
     }),
 
     new UglifyJsPlugin({

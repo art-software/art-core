@@ -16,7 +16,7 @@ export const compileProjectConfig = (options: { build?: boolean, projectConfigPa
 
   return new Promise((resolve) => {
     if (existsSync(options.projectConfigPath)) {
-      console.log(`${chalk.blue('=>')} File ${chalk.cyan(`${PROJECTCONFIG}`)} has existed`);
+      console.log(`${chalk.blue('=>')} ${PROJECTCONFIG} ${chalk.green('has existed')}`);
       resolve();
     } else {
       writeFileSync(options.projectConfigPath, jsonFormat(projectConfig, {

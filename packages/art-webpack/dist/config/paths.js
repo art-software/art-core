@@ -7,6 +7,7 @@ const resolveAppPath_1 = __importDefault(require("art-dev-utils/lib/resolveAppPa
 const paths = {
     appCwd: resolveAppPath_1.default(''),
     appPublic: resolveAppPath_1.default('public'),
+    appDebug: resolveAppPath_1.default('debug'),
     appPackageJson: resolveAppPath_1.default('package.json'),
     appSrc: resolveAppPath_1.default('client'),
     appMockServer: resolveAppPath_1.default('mock'),

@@ -1,0 +1,29 @@
+{
+  "name": "art-lib-common",
+  "version": "0.0.5",
+  "description": "art common framework agnostic lib",
+  "main": "index.js",
+  "author": "Bowen Zhong",
+  "license": "MIT",
+  "scripts": {
+    "clean": "sudo rimraf dist",
+    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w",
+    "test": "jest"
+  },
+  "dependencies": {
+    "art-lib-utils": "^0.0.5",
+    "axios": "^0.18.0",
+    "cpx": "^1.5.0",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/jest": "^24.0.12",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "jest": "^24.8.0",
+    "jest-environment-jsdom": "^24.8.0",
+    "jest-environment-jsdom-global": "^1.2.0",
+    "ts-jest": "^24.0.2"
+  }
+}

@@ -1,9 +1,12 @@
 {
   "name": "art-dev-utils",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "art framework development utils",
   "author": "Bowen Zhong",
   "license": "MIT",
+  "scripts": {
+    "build": "sudo tsc -w"
+  },
   "dependencies": {
     "address": "^1.0.3",
     "async": "^2.6.1",

@@ -1,6 +1,6 @@
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
-import { getElemWidth } from 'art-lib-utils/dist/utils/dom';
+import { getStyles } from 'art-lib-utils/dist/utils/dom';
 import React from 'react';
 import viewport from 'art-lib-utils/dist/utils/viewport';
 import Scroll from '../../components/scroll';
@@ -17,6 +17,9 @@ export default class Swiper extends CoreComponent {
         // 解决slidesPerView大于1的情况下，最后一帧touchmove距离大于剩余距离时，瞬间回弹bug
         this.startX = 0;
         this.snapStepX = 0;
+        this.forceUpdateSwiper = () => {
+            this.adjustStates(this.props);
+        };
         this.adjustStates = (props) => {
             const { children, slidesPerView } = props;
             this.cloneNum = 0;
@@ -38,7 +41,7 @@ export default class Swiper extends CoreComponent {
             }
             if (children.length <= 1) {
                 Object.assign(this.state, {
-                    showPagination: false,
+                    // showPagination: false,
                     autoPlayInterval: false,
                     initialSlideIndex: 0,
                     loop: false
@@ -55,7 +58,7 @@ export default class Swiper extends CoreComponent {
                 swipeItems.push(swipeElement);
             }
             // swiperItems.length > 0
-            if (props.loop && swipeItems.length) {
+            if (props.loop && swipeItems.length > 1) {
                 ++this.cloneNum;
                 if (slidesPerView > 1) {
                     ++this.cloneNum;
@@ -118,6 +121,11 @@ export default class Swiper extends CoreComponent {
                 this.scrollProbe.next();
             }
             event.preventDefault();
+        };
+        this.handleTouchEnd = (event) => {
+            if (this.props.isTouchStopAutoPlay === false) {
+                this.setAutoPlay(true);
+            }
         };
         this.scrollElem = (scroll) => {
             this.scroll = scroll;
@@ -342,7 +350,7 @@ export default class Swiper extends CoreComponent {
         this.adjustStates(this.props);
     }
     componentDidUpdate(prevProps) {
-        if (this.props.children !== prevProps.children) {
+        if (this.props.children.length !== prevProps.children.length) {
             this.adjustStates(this.props);
         }
     }
@@ -383,8 +391,9 @@ export default class Swiper extends CoreComponent {
         });
         const swiper = document.querySelector('#' + this.id);
         // if (swiper === null) { console.log('no swiper dom element find'); return; }
-        const swiperWidth = Math.floor(getElemWidth(swiper));
-        const singleSwiperWidth = Math.floor(swiperWidth / slidesPerView);
+        const swiperWidth = swiper ? Number((getStyles(swiper).width || '0px').slice(0, -2))
+            : window.document.documentElement.clientWidth;
+        const singleSwiperWidth = swiperWidth / slidesPerView;
         const snapStepX = singleSwiperWidth + gap;
         this.snapStepLast = (singleSwiperWidth * 2) - gap - swiperWidth;
         // centeredSlides
@@ -418,7 +427,7 @@ export default class Swiper extends CoreComponent {
             scrollY: false,
             eventPassthrough: 'vertical',
         };
-        return (<div id={this.id} style={wrapperStyle} className={classNameSwiperWrap} onTouchStart={this.handleTouchStart} onTouchMove={this.handleTouchMove} {...this.applyArgs('swiper')}>
+        return (<div id={this.id} style={wrapperStyle} className={classNameSwiperWrap} onTouchStart={this.handleTouchStart} onTouchMove={this.handleTouchMove} onTouchEnd={this.handleTouchEnd} {...this.applyArgs('swiper')}>
         <div className="swiper-bg" style={gradientBackgroundStyle}></div>
         <div className="swiper-content" style={{ height: viewport.px2DPIpx(swiperHeight) }}>
           <Scroll ref={this.scrollElem} onInitialize={this.handleScrollbarInitialize} options={scrollbarOptions}>
@@ -449,6 +458,7 @@ Swiper.defaultProps = {
     showSpinner: true,
     initialSlideIndex: 0,
     autoPlayInterval: 3000,
+    isTouchStopAutoPlay: true,
     slidesPerView: 1,
     showPagination: true,
     centeredSlides: false,

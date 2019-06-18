@@ -28,6 +28,7 @@ const DynamicChunkNamePlugin_1 = __importDefault(require("../plugins/DynamicChun
 const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
 const workbox_webpack_plugin_1 = __importDefault(require("workbox-webpack-plugin"));
 const copy_webpack_plugin_1 = __importDefault(require("copy-webpack-plugin"));
+const HtmlWebpackChunksPlugin_1 = require("../plugins/HtmlWebpackChunksPlugin");
 const enableSW = appConfig_1.default.get('art:sw:enable');
 const envName = appConfig_1.default.get('NODE_ENV');
 const isProdEnv = env_1.isProd();
@@ -66,6 +67,9 @@ const configHtmlWebpackPlugin = (entries) => {
             cdnPath: (queryObj.cdn === '0' || queryObj.cdn === 'false' || !isProdEnv) ? '' : assetsProdPublicPath
         };
         plugins.push(new html_webpack_plugin_1.default(htmlWebpackPluginOptions));
+        plugins.push(new HtmlWebpackChunksPlugin_1.HtmlWebpackChunksPlugin({
+            manifestPath: path.join(process.cwd(), 'client', entryKey.replace(projectVirtualPath, ''))
+        }));
     });
     plugins.push(new HtmlWebpackCDNPlugin_1.default());
     return plugins;

@@ -12,11 +12,11 @@ const appConfig_1 = __importDefault(require("./appConfig"));
 const webpack_plugin_chunkhash_output_1 = __importDefault(require("../plugins/webpack-plugin-chunkhash-output"));
 const paths_1 = __importDefault(require("./paths"));
 const path_1 = require("path");
-const fs_1 = require("fs");
 const enableBundleHashName = appConfig_1.default.get('enableBundleHashName');
 const version = appConfig_1.default.get('art:version');
-const defaultVendor = path_1.join(paths_1.default.appCwd, 'node_modules/art-lib-react/dist/vendors');
-const vendorPath = fs_1.existsSync(defaultVendor) ? defaultVendor : path_1.join(__dirname, '../../../art-lib-react/dist/vendors');
+const dllVersion = appConfig_1.default.get('art:webpack:dll:version') || 'default-version';
+const virtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
+const outputPath = path_1.join(process.cwd(), './public', virtualPath, 'vendors', dllVersion);
 function bundleFileNamePattern(endFix = '.js') {
     if (enableBundleHashName) {
         return `bundle[chunkhash]${endFix}`;
@@ -28,7 +28,7 @@ class WebpackProdConfig extends webpack_config_base_1.WebpackBaseConfig {
         super(entry, output);
         this.plugins = this.plugins.concat(new webpack_1.default.DllReferencePlugin({
             context: path_1.join(paths_1.default.appCwd),
-            manifest: path_1.join(vendorPath, 'manifest.json')
+            manifest: path_1.join(outputPath, 'manifest.json')
         }), new uglifyjs_webpack_plugin_1.default({
             cache: true,
             parallel: true,

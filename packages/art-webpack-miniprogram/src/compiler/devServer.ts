@@ -1,14 +1,12 @@
-import { Configuration } from 'webpack';
 import { MiniProgramCompiler } from './index';
-import { miniprogramWebpackEntry } from '../config/miniprogramWebpackEntry';
 import chokidar from 'chokidar';
 import paths from '../config/paths';
 import chalk from 'chalk';
 
-export const devServer = (webpackConfig: Configuration, ignoreInitial: boolean, watcherDone: () => any) => {
+export const devServer = (ignoreInitial: boolean, watcherDone: () => any) => {
 
-  const watchPath = miniprogramWebpackEntry().entryValue;
-  const miniprogramCompiler = new MiniProgramCompiler(webpackConfig);
+  const watchPath = paths.appSrc;
+  const miniprogramCompiler = new MiniProgramCompiler();
 
   return chokidar.watch(watchPath, {
     cwd: paths.appCwd,

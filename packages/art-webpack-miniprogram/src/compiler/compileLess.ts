@@ -1,38 +1,31 @@
-import { Configuration } from 'webpack';
 import vfs from 'vinyl-fs';
 import plumber from 'gulp-plumber';
 import { handleErros, getDest, getSrcOptions } from '../utils/vfsHelper';
-import webpackStream from 'webpack-stream';
-import webpack from 'webpack';
+import gulpLess from 'gulp-less';
+import gulpRename from 'gulp-rename';
+import gulpCleanCss from 'gulp-clean-css';
+import gulpif from 'gulp-if';
 import { isProd } from '../utils/env';
-import paths from '../config/paths';
-import appConfig from '../config/appConfig';
+import chalk from 'chalk';
 
-const projectVirtualPath = appConfig.get('art:projectVirtualPath');
-
-const composeWebpackEntry = (filePath: string) => {
-  console.log('filePath: ', filePath);
-  const entry = {};
-  const realPath = filePath.split('client')[1];
-  entry[`${realPath.replace('.less', '.wxss')}`] = filePath;
-  return entry;
-};
-
-export const compileLess = (path: string, webpackConfig: Configuration) => {
-  const newWebpackConfig = Object.assign({}, webpackConfig, {
-    entry: composeWebpackEntry(path)
-  });
-  // delete (newWebpackConfig.output as any).filename;
+export const compileLess = (path: string) => {
 
   return new Promise((resolve) => {
 
     vfs.src(path, getSrcOptions())
       .pipe(plumber(handleErros))
-      .pipe(webpackStream(newWebpackConfig, webpack as any, () => {}))
+      .pipe(gulpLess())
+      .pipe(gulpRename({ extname: '.wxss' }))
+      .pipe(
+        gulpif(
+          isProd(),
+          gulpCleanCss({}, (details) => {
+            console.log(`${chalk.blue('=>')} ${chalk.green('originalSize:')} ${details.name}: ${details.stats.originalSize / 1000}kb`);
+            console.log(`${chalk.blue('=>')} ${chalk.green('minifiedSize:')} ${details.name}: ${details.stats.minifiedSize / 1000}kb`);
+          })
+        )
+      )
       .pipe(getDest(vfs))
-      .pipe(vfs.dest(
-        isProd() ? paths.appPublic : paths.appDebug
-      ))
       .on('end', resolve);
   });
 };

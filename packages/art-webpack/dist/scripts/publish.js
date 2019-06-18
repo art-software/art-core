@@ -25,6 +25,8 @@ const path = __importStar(require("path"));
 const chalk_1 = __importDefault(require("chalk"));
 const async_1 = __importDefault(require("async"));
 const inquirer_2 = __importDefault(require("inquirer"));
+const DEBUG_PATH = 'debug';
+const PUBLISH_PATH = DEBUG_PATH;
 inquirer_1.confirmModules((answer) => {
     if (!answer.availableModulesOk) {
         return;
@@ -32,16 +34,16 @@ inquirer_1.confirmModules((answer) => {
     const modules = answer.moduleEntryKeys;
     let allFiles = [];
     modules.forEach((modulePath) => {
-        allFiles = allFiles.concat(fileHelper_1.walk(path.join(process.cwd(), 'public', modulePath)));
+        allFiles = allFiles.concat(fileHelper_1.walk(path.join(process.cwd(), PUBLISH_PATH, modulePath)));
     });
     // Do file filter if necessary
     // allFiles = allFiles.filter((file: string, index: number) => {});
     allFiles.forEach((filePath) => {
-        const metaPath = path.relative(path.join(process.cwd(), 'public'), filePath);
+        const metaPath = path.relative(path.join(process.cwd(), PUBLISH_PATH), filePath);
         console.log(chalk_1.default.green(`${metaPath}`));
     });
     const uploadSingleFile = (localAbsFilePath, serverRelativePath, callback) => __awaiter(this, void 0, void 0, function* () {
-        const metaPath = path.relative(path.join(process.cwd(), 'public'), localAbsFilePath);
+        const metaPath = path.relative(path.join(process.cwd(), PUBLISH_PATH), localAbsFilePath);
         try {
             const uploadResult = yield httpFileUploader_1.httpFileUploader(localAbsFilePath, serverRelativePath);
             if (!uploadResult) {
@@ -57,7 +59,7 @@ inquirer_1.confirmModules((answer) => {
     });
     const asyncQueue = [];
     allFiles.forEach((fileAbsPath) => {
-        const metaPath = path.relative(path.join(process.cwd(), 'public'), fileAbsPath);
+        const metaPath = path.relative(path.join(process.cwd(), PUBLISH_PATH), fileAbsPath);
         let serverRelativePath = path.dirname(metaPath);
         serverRelativePath = 'frontend/' + serverRelativePath;
         asyncQueue.push((callback) => {

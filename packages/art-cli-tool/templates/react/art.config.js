@@ -11,8 +11,6 @@ const artConfig = {
   // If false will received `public/some/module/bundle.js`
   enableBundleHashName: false,
 
-  version: Date.now(),
-
   devHost: {
     dev: "http://me.dev.com",
     prod: "http://me.dev.com"
@@ -26,6 +24,10 @@ const artConfig = {
       // Config CDN path for static files, images ....
       intePublicPath: 'replace_it',
       prodPublicPath: 'replace_it'
+    },
+    dll: {
+      version: 'dll_version_01',
+      vendors: [] // modify this option cautiously
     }
   }
 }

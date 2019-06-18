@@ -10,14 +10,18 @@ import { getWebpackConfig } from '../config';
 import webpack from 'webpack';
 import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
 import imageMinifier from 'art-dev-utils/lib/imageMinifier';
-import inquirer from 'inquirer';
+import appConfig from '../config/appConfig';
+import { BuildEnv } from '../enums/BuildEnv';
+const BUILD_ENV = appConfig.get('BUILD_ENV');
+const BUILD_PATH = BUILD_ENV === BuildEnv.prod ? paths.appPublic : paths.appDebug;
+
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 confirmModules(async (answer) => {
   if (!answer.availableModulesOk) { return; }
 
-  measureFileSizesBeforeBuild(paths.appPublic)
+  measureFileSizesBeforeBuild(BUILD_PATH)
     .then((fileSizes) => {
       // empty specificed modules if it will be rebuild.
       console.log();
@@ -25,9 +29,9 @@ confirmModules(async (answer) => {
         console.log(
           chalk.black.bold(`Clean folder "${chalk.cyan(entryKey)}"`)
         );
-        emptyDirSync(join(paths.appPublic, entryKey));
+        emptyDirSync(join(BUILD_PATH, entryKey));
         try {
-          outputJsonSync(join(paths.appPublic, entryKey, 'version.txt'), {
+          outputJsonSync(join(BUILD_PATH, entryKey, 'version.txt'), {
             head: gitRev.long(),
             branch: gitRev.branch()
           });
@@ -62,11 +66,11 @@ confirmModules(async (answer) => {
       console.log('File sizes after gzip:\n');
 
       // images optimzation.
-      imageMinifier(stats, paths.appPublic).then(() => {
+      imageMinifier(stats, BUILD_PATH).then(() => {
         printFileSizesAfterBuild(
           stats,
           previousFileSizes,
-          paths.appPublic,
+          BUILD_PATH,
           WARN_AFTER_BUNDLE_GZIP_SIZE,
           WARN_AFTER_CHUNK_GZIP_SIZE
         );
