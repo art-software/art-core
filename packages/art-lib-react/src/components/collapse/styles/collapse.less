@@ -1,0 +1,50 @@
+.art-collapse {
+  .collapse-title-wrapper {
+    position: relative;
+    overflow: hidden;
+    .collapse-title {
+      font-family: PingFangSC-Regular;
+      font-size: 32px;
+      color: #333333;
+      letter-spacing: 0;
+      padding: 28px 40px;
+    }
+    .collapse-arrow-wrapper {
+      width: 24px;
+      height: 16px;
+      float: right;
+      position: relative;
+      top: 14px;
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+      -webkit-transition-duration: 0.3s;
+      transition-duration: 0.3s;
+      &.rotate {
+        -webkit-transform: rotate(-180deg);
+        transform: rotate(-180deg);
+      }
+      .collapse-arrow {
+        width: 24px;
+        height: 24px;
+        border: 0 solid #BDBDBD;
+        border-right-width: 4px;
+        border-bottom-width: 4px;
+        -webkit-transform: scale(0.7071) rotate(45deg);
+        transform: scale(0.7071) rotate(45deg);
+        box-sizing: border-box;
+        position: relative;
+        top: -8px;
+      }
+    }
+  }
+  .collapse-content-wrapper {
+    overflow: hidden;
+    will-change: height;
+    -webkit-transition: height 0.3s ease-in-out;
+    transition: height 0.3s ease-in-out;
+    .collapse-content {
+      position: relative;
+      overflow: hidden;
+    }
+  }
+}
