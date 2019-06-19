@@ -29,6 +29,10 @@ const artConfig = {
       // intePublicPath: 'https://cdn.yuguomin.com/h5/',
       intePublicPath: 'https://dev.local.com/art-demo-test/',
       prodPublicPath: 'https://cdn.qianshengqian.com/h5/'
+    },
+    dll: {
+      version: 'dll_version_01',
+      vendors: [] // modify this option cautiously
     }
   },
 

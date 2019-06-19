@@ -13,13 +13,13 @@ export default class ViewIndex extends CoreComponentAll<any, any> {
 
   public clickToRequest() {
     console.log('click to request');
-    this.indexService.getData()
-      .then((result) => {
-        console.log(`it's result: ${JSON.stringify(result)}`);
-      })
-      .catch((err) => {
-        console.log('haha, it\'s error here');
-      });
+    // this.indexService.getData()
+    //   .then((result) => {
+    //     console.log(`it's result: ${JSON.stringify(result)}`);
+    //   })
+    //   .catch((err) => {
+    //     console.log('haha, it\'s error here');
+    //   });
   }
 
   public render() {
