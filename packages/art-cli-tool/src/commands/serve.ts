@@ -1,13 +1,14 @@
 import { CommandModule, Argv } from 'yargs';
-import { cyanBoldText, greenText, grayText } from 'art-dev-utils/lib/chalkColors';
+import { cyanBoldText, greenText } from 'art-dev-utils/lib/chalkColors';
 import { webpackTask } from '../helpers/webpackTask';
 import { getProjectType } from '../helpers/projectType';
 import { ProjectTypes } from '../enums/ProjectTypes';
+import chalk from 'chalk';
 
 class ServeCommand implements CommandModule {
   public readonly command = 'serve';
 
-  public readonly desc = grayText('Serve one or more modules');
+  public readonly desc = chalk.black.bold('Serve one or more modules');
 
   public builder(args: Argv): Argv {
     const moduleRequired = getProjectType() !== ProjectTypes.miniprogram;

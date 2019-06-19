@@ -1,7 +1,7 @@
 import './style.less';
 import CoreComponent from '../../core/CoreComponent';
 import { ISwiper } from './propstype';
-import { getElemWidth } from 'art-lib-utils/dist/utils/dom';
+import { getStyles } from 'art-lib-utils/dist/utils/dom';
 import React, { TouchEvent } from 'react';
 import IScrollProbe from '../scroll/lib/iscroll-probe';
 import viewport from 'art-lib-utils/dist/utils/viewport';
@@ -40,6 +40,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     showSpinner: true,
     initialSlideIndex: 0,
     autoPlayInterval: 3000,
+    isTouchStopAutoPlay: true,
     slidesPerView: 1,
     showPagination: true,
     centeredSlides: false,
@@ -57,9 +58,13 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
   }
 
   public componentDidUpdate(prevProps) {
-    if (this.props.children !== prevProps.children) {
+    if (this.props.children.length !== prevProps.children.length) {
       this.adjustStates(this.props);
     }
+  }
+
+  public forceUpdateSwiper = () => {
+    this.adjustStates(this.props);
   }
 
   private adjustStates = (props: ISwiper) => {
@@ -85,7 +90,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
 
     if (children.length <= 1) {
       Object.assign(this.state, {
-        showPagination: false,
+        // showPagination: false,
         autoPlayInterval: false,
         initialSlideIndex: 0,
         loop: false
@@ -105,7 +110,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     }
 
     // swiperItems.length > 0
-    if (props.loop && swipeItems.length) {
+    if (props.loop && swipeItems.length > 1) {
       ++this.cloneNum;
       if (slidesPerView as number > 1) {
         ++this.cloneNum;
@@ -172,6 +177,12 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     if (moveNext) { this.scrollProbe.next(); }
 
     event.preventDefault();
+  }
+
+  private handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    if (this.props.isTouchStopAutoPlay === false && this.props.children.length > 1) {
+      this.setAutoPlay(true);
+    }
   }
 
   private scrollElem = (scroll) => {
@@ -443,8 +454,9 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
 
     const swiper = document.querySelector('#' + this.id);
     // if (swiper === null) { console.log('no swiper dom element find'); return; }
-    const swiperWidth = Math.floor(getElemWidth(swiper as any));
-    const singleSwiperWidth = Math.floor(swiperWidth / slidesPerView);
+    const swiperWidth = swiper ? Number((getStyles(swiper).width || '0px').slice(0, -2))
+      : window.document.documentElement.clientWidth;
+    const singleSwiperWidth = swiperWidth / slidesPerView;
 
     const snapStepX = singleSwiperWidth + gap;
 
@@ -492,6 +504,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         className={classNameSwiperWrap}
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
+        onTouchEnd={this.handleTouchEnd}
         {...this.applyArgs('swiper')}
       >
         <div className="swiper-bg" style={gradientBackgroundStyle}></div>

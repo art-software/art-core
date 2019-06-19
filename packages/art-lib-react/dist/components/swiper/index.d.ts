@@ -22,6 +22,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         showSpinner: boolean;
         initialSlideIndex: number;
         autoPlayInterval: number;
+        isTouchStopAutoPlay: boolean;
         slidesPerView: number;
         showPagination: boolean;
         centeredSlides: boolean;
@@ -35,11 +36,13 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     };
     componentDidMount(): void;
     componentDidUpdate(prevProps: any): void;
+    forceUpdateSwiper: () => void;
     private adjustStates;
     private initScroll;
     private clearTimeout;
     private handleTouchStart;
     private handleTouchMove;
+    private handleTouchEnd;
     private scrollElem;
     private handleScrollbarInitialize;
     bindScrollEvents(scrollProbe: IScrollProbe): void;

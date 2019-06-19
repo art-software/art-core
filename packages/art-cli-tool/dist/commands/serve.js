@@ -1,13 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const webpackTask_1 = require("../helpers/webpackTask");
 const projectType_1 = require("../helpers/projectType");
 const ProjectTypes_1 = require("../enums/ProjectTypes");
+const chalk_1 = __importDefault(require("chalk"));
 class ServeCommand {
     constructor() {
         this.command = 'serve';
-        this.desc = chalkColors_1.grayText('Serve one or more modules');
+        this.desc = chalk_1.default.black.bold('Serve one or more modules');
     }
     builder(args) {
         const moduleRequired = projectType_1.getProjectType() !== ProjectTypes_1.ProjectTypes.miniprogram;

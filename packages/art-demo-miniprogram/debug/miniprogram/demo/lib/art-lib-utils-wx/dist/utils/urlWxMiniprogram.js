@@ -88,3 +88,30 @@ exports.appendUrlParameter = function (key, value, url) {
 
   return finalUrlFragments.join('');
 };
+
+exports.setUrlParams = function () {
+  var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var saveParamsKey = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var appendParams = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var currentPageData = exports.getCurrentPage();
+  var route = url ? url : currentPageData.route;
+  var options = currentPageData.options;
+
+  if (saveParamsKey.length) {
+    saveParamsKey.forEach(function (paramKey) {
+      if (options[paramKey]) {
+        var saveParam = {};
+        saveParam[paramKey] = options[paramKey];
+        Object.assign(appendParams, saveParam);
+      }
+    });
+  } else {
+    Object.assign(appendParams, options);
+  }
+
+  for (var param in appendParams) {
+    route = exports.appendUrlParameter(param, appendParams[param], route);
+  }
+
+  return route || '';
+};

@@ -14,7 +14,7 @@ Page({
     var _this = this;
 
     wx.setNavigationBarTitle({
-      title: 'Home'
+      title: 'Home Page'
     });
     var homeService = new HomeService_1.HomeService();
     homeService.demoGet().then(function (result) {

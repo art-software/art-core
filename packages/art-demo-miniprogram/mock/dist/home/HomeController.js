@@ -17,7 +17,7 @@ let TabHomeController = class TabHomeController {
             code: '0000',
             message: 'success',
             data: {
-                name: 'John'
+                name: 'Tom'
             }
         };
     }

@@ -8,7 +8,7 @@ Page({
 
   onLoad() {
     wx.setNavigationBarTitle({
-      title: 'Home'
+      title: 'Home Page'
     });
 
     const homeService = new HomeService();
