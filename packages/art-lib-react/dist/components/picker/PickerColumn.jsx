@@ -221,7 +221,7 @@ export default class PickerColumn extends CoreComponent {
         return removeUnit ? DPIpx.slice(0, -2) : DPIpx;
     }
     render() {
-        return (<div className={this.props.className}>
+        return (<div className={this.classNames('picker-column-block', this.props.className)}>
         <Scroll height={this.getColumnHeight()} ref={this.setScrollRef}>
           <div>
             <div>

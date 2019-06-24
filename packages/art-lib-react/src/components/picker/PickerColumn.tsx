@@ -259,7 +259,7 @@ export default class PickerColumn extends CoreComponent<IPickerColumnProps, any>
 
   public render() {
     return (
-      <div className={this.props.className}>
+      <div className={this.classNames('picker-column-block', this.props.className)}>
         <Scroll height={this.getColumnHeight()} ref={this.setScrollRef}>
           <div>
             <div>
