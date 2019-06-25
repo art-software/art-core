@@ -2,6 +2,8 @@ import { Options } from 'body-parser';
 import express, { Application } from 'express';
 import Logger from './utils/Logger';
 import winston from 'winston';
+import cluster from 'cluster';
+import { Coordinator } from './Coordinator';
 
 export interface ServerConfig {
   bodyParser: Options;
@@ -47,4 +49,24 @@ export default class RenderServer {
   }
 
   public config: ServerConfig;
+  private app: Application;
+
+  private createApp() {
+    this.app = this.config.createApplication();
+  }
+
+  public start() {
+    // create an express app
+    this.createApp();
+    if (this.config.devMode) {
+      // TODO
+      // worker
+    } else if (cluster.isMaster) {
+      const coordinator = new Coordinator();
+      coordinator.start();
+    } else {
+      // TODO
+      // worker
+    }
+  }
 }
