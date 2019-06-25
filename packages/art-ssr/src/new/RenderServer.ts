@@ -19,6 +19,7 @@ export interface ServerConfig {
   processJobsConcurrent: boolean;
   createApplication: () => Application;
   loggerInstance?: winston.Logger;
+  onServer?: (app: Application, process: NodeJS.Process) => any;
 }
 
 function createApplication() {
@@ -41,7 +42,7 @@ const defaultConfig = {
 };
 
 export default class RenderServer {
-  constructor(config: Partial<ServerConfig> & { getComponent: any }, onServer?: any) {
+  constructor(config: Partial<ServerConfig> & { getComponent: any }) {
     this.config = { ...defaultConfig, ...config };
 
     // init logger
