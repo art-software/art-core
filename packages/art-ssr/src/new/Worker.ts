@@ -6,6 +6,7 @@ import { Lifecycle } from './enums/Lifecycle';
 import http from 'http';
 import Logger from './utils/logger';
 import { Termination } from './enums/Signals';
+import { renderBatch } from './controllers/render/renderBatch';
 
 export class Worker {
   constructor(app: Application, config: ServerConfig, workerId?: number) {
@@ -26,10 +27,9 @@ export class Worker {
     app.use(bodyParser.json(config.bodyParser));
   }
 
-  // TODO
-  // protected attachEndpoint (app: Application, config: ServerConfig, callback) {
-  //   app.post(config.endpoint, renderBatch(config, callback));
-  // }
+  protected attachEndpoint (app: Application, config: ServerConfig, callback: () => any) {
+    app.post(config.endpoint, renderBatch(config, callback));
+  }
 
   private exit(code: number) {
     return () => {
@@ -112,8 +112,9 @@ export class Worker {
       Logger.info('Connected', { listen: [this.config.host, this.config.port] });
     });
 
-    // TODO
-    // attachEndpoint
+    this.attachEndpoint(this.app, this.config, () => {
+      return this.server && this.closing;
+    });
 
     // Gracefully shutdown the worker when not running in a cluster (devMode = true)
     if (this.config.devMode) {

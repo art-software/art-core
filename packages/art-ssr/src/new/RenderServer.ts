@@ -4,6 +4,7 @@ import Logger from './utils/Logger';
 import winston from 'winston';
 import cluster from 'cluster';
 import { Coordinator } from './Coordinator';
+import { Worker } from './Worker';
 
 export interface ServerConfig {
   bodyParser: Options;
@@ -50,24 +51,24 @@ export default class RenderServer {
   }
 
   public config: ServerConfig;
-  private app: Application;
 
   private createApp() {
-    this.app = this.config.createApplication();
+    const app = this.config.createApplication();
+    return app;
   }
 
   public start() {
     // create an express app
-    this.createApp();
+    const app = this.createApp();
     if (this.config.devMode) {
-      // TODO
-      // worker
+      const worker = new Worker(app, this.config);
+      worker.start();
     } else if (cluster.isMaster) {
       const coordinator = new Coordinator();
       coordinator.start();
     } else {
-      // TODO
-      // worker
+      const worker = new Worker(app, this.config, cluster.worker.id);
+      worker.start();
     }
   }
 }
