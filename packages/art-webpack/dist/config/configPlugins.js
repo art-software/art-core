@@ -80,15 +80,24 @@ const configWorkboxWebpackPlugin = () => {
     const output = appConfig_1.default.get(`art:webpack:output`) || {};
     const publicPath = isProdEnv ? output[`${appConfig_1.default.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
     const webpackOutputPath = configWebpackModules_1.webpackOutput().path;
+    const artConfigWorkboxOutputDirectory = appConfig_1.default.get('art:sw:workboxOutputDirectory') || '';
     const artConfigWorkboxGenerateSWOptions = appConfig_1.default.get('art:sw:workboxGenerateSWOptions') || {};
     const plugins = [];
     const newEntries = configWebpackModules_1.webpackEntries(false);
     foreach_1.default(newEntries, (value, entryKey) => {
         const importScripts = [];
+        const importsDirectory = ensureSlash_1.default(`${entryKey}/${artConfigWorkboxOutputDirectory}`, false);
         plugins.push(new copy_webpack_plugin_1.default([
             {
                 from: path.resolve(process.cwd(), './service-worker/workbox-index.js'),
-                to: ensureSlash_1.default(webpackOutputPath, true) + `${entryKey}/[name].[hash].[ext]`,
+                to: ensureSlash_1.default(webpackOutputPath, true) + `${importsDirectory}/[name].[hash].[ext]`,
+                transform(content, originalPath) {
+                    const fileContent = content.toString('utf8');
+                    const moduleName = entryKey.slice(entryKey.lastIndexOf('/') + 1);
+                    const replacedFileContent = fileContent.replace('<module>', moduleName);
+                    const transformedContent = Buffer.from(replacedFileContent, 'utf8');
+                    return Promise.resolve(transformedContent);
+                },
                 transformPath(targetPath, absolutePath) {
                     importScripts.push(publicPath + targetPath);
                     return Promise.resolve(targetPath);
@@ -100,9 +109,9 @@ const configWorkboxWebpackPlugin = () => {
         new workbox_webpack_plugin_1.default.GenerateSW(Object.assign({}, {
             swDest: `${entryKey}/service-worker.js`,
             exclude: [new RegExp(`^(?!.*${entryKey}).*$`)],
-            importsDirectory: entryKey,
-            importWorkboxFrom: 'disabled',
+            importsDirectory,
             importScripts,
+            importWorkboxFrom: 'disabled',
             skipWaiting: true,
             clientsClaim: true,
             navigateFallback: ensureSlash_1.default(publicPath + entryKey, true) + 'index.html'

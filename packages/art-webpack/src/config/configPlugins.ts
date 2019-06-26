@@ -78,6 +78,7 @@ const configWorkboxWebpackPlugin = (): any[] => {
   const output = appConfig.get(`art:webpack:output`) || {};
   const publicPath = isProdEnv ? output[`${appConfig.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
   const webpackOutputPath = webpackOutput().path;
+  const artConfigWorkboxOutputDirectory = appConfig.get('art:sw:workboxOutputDirectory') || '';
   const artConfigWorkboxGenerateSWOptions = appConfig.get('art:sw:workboxGenerateSWOptions') || {};
 
   const plugins: any[] = [];
@@ -85,12 +86,20 @@ const configWorkboxWebpackPlugin = (): any[] => {
   const newEntries = webpackEntries(false);
   foreach(newEntries, (value, entryKey) => {
     const importScripts: string[] = [];
+    const importsDirectory = ensureSlash(`${entryKey}/${artConfigWorkboxOutputDirectory}`, false);
     plugins.push(
       new CopyWebpackPlugin([
         {
           from: path.resolve(process.cwd(), './service-worker/workbox-index.js'),
-          to: ensureSlash(webpackOutputPath, true) + `${entryKey}/[name].[hash].[ext]`,
-          transformPath(targetPath, absolutePath) {
+          to: ensureSlash(webpackOutputPath, true) + `${importsDirectory}/[name].[hash].[ext]`,
+          transform(content: Buffer, originalPath: string) {
+            const fileContent = content.toString('utf8');
+            const moduleName = entryKey.slice(entryKey.lastIndexOf('/') + 1);
+            const replacedFileContent = fileContent.replace('<module>', moduleName);
+            const transformedContent = Buffer.from(replacedFileContent, 'utf8');
+            return Promise.resolve(transformedContent);
+          },
+          transformPath(targetPath: string, absolutePath: string) {
             importScripts.push(publicPath + targetPath);
             return Promise.resolve(targetPath);
           }
@@ -102,9 +111,9 @@ const configWorkboxWebpackPlugin = (): any[] => {
         Object.assign({}, {
           swDest: `${entryKey}/service-worker.js`, // 输入路径相对于output.path
           exclude: [new RegExp(`^(?!.*${entryKey}).*$`)], // 多模块同时编译时，排除非当前模块需要缓存的文件
-          importsDirectory: entryKey, // assets存放的路径，相对于output.path
-          importWorkboxFrom: 'disabled',
+          importsDirectory, // assets存放的路径，相对于output.path
           importScripts,
+          importWorkboxFrom: 'disabled',
           skipWaiting: true,
           clientsClaim: true,
           navigateFallback: ensureSlash(publicPath + entryKey, true) + 'index.html'

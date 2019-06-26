@@ -43,7 +43,7 @@ export default class WebpackProdConfig extends WebpackBaseConfig implements Conf
           warnings: true,
           dead_code: true,
           drop_debugger: true,
-          drop_console: false
+          drop_console: true
         }
       }
     }),

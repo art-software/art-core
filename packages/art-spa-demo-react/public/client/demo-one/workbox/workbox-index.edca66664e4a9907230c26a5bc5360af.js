@@ -3,11 +3,11 @@ const modulePathPrefix = 'https://static.qianshengqian.com/workbox-v4.2.0';
 importScripts(modulePathPrefix + '/workbox-sw.js');
 
 // 设置workbox资源所在的路径前缀，否则无法找到workbox资源
-workbox.setConfig({ modulePathPrefix });
+workbox.setConfig({ modulePathPrefix, debug: true });
 
 // 设置在install阶段需要缓存的precache资源的缓存仓库名称
 workbox.core.setCacheNameDetails({
-  prefix: 'workbox',
+  prefix: 'demo-one',
   suffix: '',
   precache: 'install-time-precache',
   runtime: 'runtime-cache'

@@ -8,7 +8,7 @@
     "priority": null
   },
   {
-    "url": "https://dev.local.com/art-demo-test/client/demo-one/bundle.css?1560912339216",
+    "url": "https://dev.local.com/art-demo-test/client/demo-three/bundle.css?1561549221300",
     "priority": null
   },
   {
@@ -16,11 +16,11 @@
     "priority": null
   },
   {
-    "url": "https://dev.local.com/art-demo-test/client/vendors/dll_version_01/art_framework.dll_version_01.js",
+    "url": "https://dev.local.com/art-demo-test/client/vendors/dll_version_02/art_framework.dll_version_02.js",
     "priority": null
   },
   {
-    "url": "https://dev.local.com/art-demo-test/client/demo-one/bundle.js?1560912339216",
+    "url": "https://dev.local.com/art-demo-test/client/demo-three/bundle.js?1561549221300",
     "priority": null
   }
 ]
