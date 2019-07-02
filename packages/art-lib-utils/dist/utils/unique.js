@@ -1,5 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // We can't create an unique seed instance.
-export const uniqueFactory = (prefix = 'unique', start = 1) => {
+exports.uniqueFactory = (prefix = 'unique', start = 1) => {
     // start with 1
     const uniqueMap = { unique: start };
     return () => {
@@ -10,4 +12,4 @@ export const uniqueFactory = (prefix = 'unique', start = 1) => {
     };
 };
 // global shared one seed instance.
-export default uniqueFactory();
+exports.default = exports.uniqueFactory();

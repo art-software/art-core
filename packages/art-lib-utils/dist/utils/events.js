@@ -1,4 +1,6 @@
-import { canUseDOM } from './dom';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const dom_1 = require("./dom");
 const canUseEventListeners = true;
 const bind = canUseEventListeners && window.addEventListener ? 'addEventListener' : 'attachEvent';
 const unbind = canUseEventListeners && window.removeEventListener ? 'removeEventListener' : 'detachEvent';
@@ -12,8 +14,8 @@ const prefix = bind !== 'addEventListener' ? 'on' : '';
  * @param eventListener Callback function.
  * @param capture event capture phase.
  */
-export const on = (target, eventType, eventListener, capture) => {
-    if (!canUseDOM || !target) {
+exports.on = (target, eventType, eventListener, capture) => {
+    if (!dom_1.canUseDOM || !target) {
         return;
     }
     if (capture === true && !canEventHasCapture) {
@@ -28,7 +30,7 @@ export const on = (target, eventType, eventListener, capture) => {
     }
     // Warning. Unable to preventDefault inside passive event listener due to target being treated as passive
     // If you're call preventDefault on every touchstart then you should also have a CSS rule to disable touch scrolling like .sortable-handler { touch-action: none; }
-    capture = isPassiveMode() ? { passive: false, capture: false } : capture || false;
+    capture = exports.isPassiveMode() ? { passive: false, capture: false } : capture || false;
     target[bind](prefix + eventType, eventListener, capture);
     return {
         off() {
@@ -44,17 +46,17 @@ export const on = (target, eventType, eventListener, capture) => {
  * @param eventListener Callback function.
  * @param capture event capture phase.
  */
-export const off = (target, eventType, eventListener, capture) => {
-    if (!canUseDOM || !canUseEventListeners || !target) {
+exports.off = (target, eventType, eventListener, capture) => {
+    if (!dom_1.canUseDOM || !canUseEventListeners || !target) {
         return;
     }
-    capture = isPassiveMode() ? { passive: false, capture: false } : capture || false;
+    capture = exports.isPassiveMode() ? { passive: false, capture: false } : capture || false;
     target[unbind](prefix + eventType, eventListener, capture);
     return eventListener;
 };
 // ref https://github.com/WICG/EventListenerOptions/pull/30
 // Passive event listeners, chrome and touch events
-export const isPassiveMode = () => {
+exports.isPassiveMode = () => {
     let supportsPassiveOption = false;
     try {
         addEventListener('test', function () { }, Object.defineProperty({}, 'passive', {
@@ -66,8 +68,8 @@ export const isPassiveMode = () => {
     catch (e) { }
     return supportsPassiveOption;
 };
-export const one = (node, eventNames, eventListener) => {
-    if (!canUseDOM || !canUseEventListeners || !node) {
+exports.one = (node, eventNames, eventListener) => {
+    if (!dom_1.canUseDOM || !canUseEventListeners || !node) {
         return;
     }
     const typeArray = eventNames.split(' ');
@@ -75,22 +77,22 @@ export const one = (node, eventNames, eventListener) => {
         if (e.currentTarget === null) {
             return;
         }
-        e.currentTarget.removeEventListener(e.type, recursiveFunction, isPassiveMode() ? { passive: false, capture: false } : false);
+        e.currentTarget.removeEventListener(e.type, recursiveFunction, exports.isPassiveMode() ? { passive: false, capture: false } : false);
         return eventListener(e);
     };
     for (let i = typeArray.length - 1; i >= 0; i--) {
-        on(node, typeArray[i], recursiveFunction);
+        exports.on(node, typeArray[i], recursiveFunction);
     }
 };
-export const getEvent = (event) => {
+exports.getEvent = (event) => {
     return event || window.event;
 };
-export const getTarget = (event) => {
-    event = getEvent(event);
+exports.getTarget = (event) => {
+    event = exports.getEvent(event);
     return event.target || event.srcElement;
 };
-export const preventDefault = (event) => {
-    event = getEvent(event);
+exports.preventDefault = (event) => {
+    event = exports.getEvent(event);
     if (event.preventDefault) {
         event.preventDefault();
     }
@@ -98,8 +100,8 @@ export const preventDefault = (event) => {
         event.returnValue = false;
     }
 };
-export const stopPropagation = (event) => {
-    event = getEvent(event);
+exports.stopPropagation = (event) => {
+    event = exports.getEvent(event);
     if (event.stopPropagation) {
         event.stopPropagation();
     }
@@ -107,8 +109,8 @@ export const stopPropagation = (event) => {
         event.cancelBubble = true;
     }
 };
-export const getCharCode = (event) => {
-    event = getEvent(event);
+exports.getCharCode = (event) => {
+    event = exports.getEvent(event);
     if (typeof event.charCode === 'number') {
         return event.charCode;
     }
@@ -116,7 +118,7 @@ export const getCharCode = (event) => {
         return event.keyCode;
     }
 };
-export const eventsFor = {
+exports.eventsFor = {
     mouse: {
         start: 'mousedown',
         move: 'mousemove',
@@ -129,6 +131,6 @@ export const eventsFor = {
     }
 };
 // Default to mouse events
-export const dragEventFor = (isTouchDevice) => {
-    return isTouchDevice ? eventsFor.touch : eventsFor.mouse;
+exports.dragEventFor = (isTouchDevice) => {
+    return isTouchDevice ? exports.eventsFor.touch : exports.eventsFor.mouse;
 };

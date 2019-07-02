@@ -1,7 +1,8 @@
 {
-  "name": "art-ssr-react-router",
+  "name": "art-ssr-react",
   "version": "0.0.1",
-  "description": "art ssr react router helper",
+  "description": "art ssr react",
+  "main": "./dist/index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
   "scripts": {
@@ -9,16 +10,15 @@
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
+    "art-ssr": "^0.0.1",
     "cpx": "^1.5.0",
     "react": "16.4.2",
-    "react-dom": "16.4.2",
-    "react-router-config": "^5.0.1"
+    "react-dom": "16.4.2"
   },
   "devDependencies": {
     "@types/node": "^10.5.6",
     "@types/react": "^16.7.3",
     "@types/react-dom": "^16.0.9",
-    "@types/react-router-config": "^5.0.0",
     "typescript": "^3.0.1"
   }
 }

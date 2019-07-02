@@ -6,8 +6,8 @@ const ENCODE = [
   ['>', '&gt;'],
 ];
 
-const DATA_KEY = 'hypernova-key';
-const DATA_ID = 'hypernova-id';
+const DATA_KEY = 'ssr-key';
+const DATA_ID = 'ssr-id';
 
 function uuid() {
   // @ts-ignore

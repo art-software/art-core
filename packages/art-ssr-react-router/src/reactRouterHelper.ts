@@ -1,3 +1,4 @@
+import React from 'react';
 import { matchRoutes, RouteConfigComponentProps } from 'react-router-config';
 
 interface CustomRouteConfig {
@@ -32,4 +33,38 @@ export const convertCustomRouteConfig = (customRouteConfig: CustomRouteConfig[],
       routes: route.routes ? convertCustomRouteConfig(route.routes, path) : []
     };
   });
+};
+
+export const generateAsyncRouteComponent = ({ loader, Placeholder }) => {
+  let Component = null;
+  return class AsyncRouteComponent extends React.Component {
+    constructor(props?: any, context?: any) {
+      super(props, context);
+    }
+
+    public state = {
+      Component
+    };
+
+    public updateState() {
+      if (this.state.Component !== Component) {
+        this.setState({
+          Component
+        });
+      }
+    }
+
+    public render() {
+      const { Component: ComponentFromState } = this.state;
+      // if (ComponentFromState) {
+      //   return <ComponentFromState { ...this.props } />
+      // }
+
+      if (Placeholder) {
+        // return <Placeholder { ...this.props } />;
+      }
+
+      return  null;
+    }
+  };
 };

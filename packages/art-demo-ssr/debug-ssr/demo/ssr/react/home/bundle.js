@@ -27051,8 +27051,8 @@ Object.defineProperty(exports, "__esModule", {
 var LEFT = '<!--';
 var RIGHT = '-->';
 var ENCODE = [['&', '&amp;'], ['>', '&gt;']];
-var DATA_KEY = 'hypernova-key';
-var DATA_ID = 'hypernova-id';
+var DATA_KEY = 'ssr-key';
+var DATA_ID = 'ssr-id';
 
 function uuid() {
   // @ts-ignore

@@ -1,4 +1,6 @@
-import { isArray, isPlainObject } from './lang';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const lang_1 = require("./lang");
 /**
  *
  * @param deep
@@ -21,13 +23,13 @@ const merge = function (deep = false, target = {}, ...source) {
                 // Prevent never-ending loop
                 if (target !== copy) {
                     // Recurse if we're merging plain objects or arrays
-                    if (deep && copy && ((copyIsArray = isArray(copy)) || isPlainObject(copy))) {
+                    if (deep && copy && ((copyIsArray = lang_1.isArray(copy)) || lang_1.isPlainObject(copy))) {
                         if (copyIsArray) {
                             copyIsArray = false;
-                            clone = src && isArray(src) ? src : [];
+                            clone = src && lang_1.isArray(src) ? src : [];
                         }
                         else {
-                            clone = src && isPlainObject(src) ? src : {};
+                            clone = src && lang_1.isPlainObject(src) ? src : {};
                         }
                         // Never move original objects, clone them
                         target[name] = merge(deep, clone, copy);
@@ -43,4 +45,4 @@ const merge = function (deep = false, target = {}, ...source) {
     // Return the modified object
     return target;
 };
-export default merge;
+exports.default = merge;

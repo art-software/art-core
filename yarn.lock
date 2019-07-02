@@ -1749,6 +1749,10 @@
   version "4.14.116"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.116.tgz#5ccf215653e3e8c786a58390751033a9adca0eb9"
 
+"@types/lru-cache@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@types/lru-cache/-/lru-cache-5.1.0.tgz#57f228f2b80c046b4a1bd5cac031f81f207f4f03"
+
 "@types/mime@*":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
@@ -1820,6 +1824,14 @@
   dependencies:
     "@types/react" "*"
     "@types/webpack" "*"
+
+"@types/react-router-config@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-router-config/-/react-router-config-5.0.0.tgz#901110a781b5ca0e56886d18686196638cde75f0"
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+    "@types/react-router" "*"
 
 "@types/react-router-dom@^4.3.0":
   version "4.3.3"
@@ -5221,7 +5233,7 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
-diagnostics@^1.0.1:
+diagnostics@^1.0.1, diagnostics@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/diagnostics/-/diagnostics-1.1.1.tgz#cab6ac33df70c9d9a727490ae43ac995a769b22a"
   dependencies:
@@ -9498,6 +9510,16 @@ logform@^1.9.0:
     ms "^2.1.1"
     triple-beam "^1.2.0"
 
+logform@^2.1.1:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/logform/-/logform-2.1.2.tgz#957155ebeb67a13164069825ce67ddb5bb2dd360"
+  dependencies:
+    colors "^1.2.1"
+    fast-safe-stringify "^2.0.4"
+    fecha "^2.3.3"
+    ms "^2.1.1"
+    triple-beam "^1.3.0"
+
 logging-helpers@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/logging-helpers/-/logging-helpers-1.0.0.tgz#b5a37b32ad53eb0137c58c7898a47b175ddb7c36"
@@ -11964,6 +11986,12 @@ react-loadable@5.5.0:
   resolved "https://registry.yarnpkg.com/react-loadable/-/react-loadable-5.5.0.tgz#582251679d3da86c32aae2c8e689c59f1196d8c4"
   dependencies:
     prop-types "^15.5.0"
+
+react-router-config@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-router-config/-/react-router-config-5.0.1.tgz#e6663010f42aa5e39c2f21412d8f958f6866e48a"
+  dependencies:
+    "@babel/runtime" "^7.1.2"
 
 react-router-dom@4.3.1:
   version "4.3.1"
@@ -14521,6 +14549,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vm2@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.8.2.tgz#7744c40f669c079db4fda44b8edae64afd26cfb0"
+
 w3c-hr-time@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/w3c-hr-time/-/w3c-hr-time-1.0.1.tgz#82ac2bff63d950ea9e3189a58a65625fedf19045"
@@ -14630,6 +14662,10 @@ webpack-log@^1.0.1, webpack-log@^1.1.2, webpack-log@^1.2.0:
     log-symbols "^2.1.0"
     loglevelnext "^1.0.1"
     uuid "^3.1.0"
+
+webpack-node-externals@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/webpack-node-externals/-/webpack-node-externals-1.7.2.tgz#6e1ee79ac67c070402ba700ef033a9b8d52ac4e3"
 
 webpack-sources@^1.0.1, webpack-sources@^1.1.0:
   version "1.1.0"
@@ -14807,6 +14843,13 @@ winston-transport@^4.2.0:
     readable-stream "^2.3.6"
     triple-beam "^1.2.0"
 
+winston-transport@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.3.0.tgz#df68c0c202482c448d9b47313c07304c2d7c2c66"
+  dependencies:
+    readable-stream "^2.3.6"
+    triple-beam "^1.2.0"
+
 winston@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/winston/-/winston-3.0.0.tgz#1f0b24a96586798bcf0cd149fb07ed47cb01a1b2"
@@ -14820,6 +14863,20 @@ winston@^3.0.0:
     stack-trace "0.0.x"
     triple-beam "^1.3.0"
     winston-transport "^4.2.0"
+
+winston@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/winston/-/winston-3.2.1.tgz#63061377976c73584028be2490a1846055f77f07"
+  dependencies:
+    async "^2.6.1"
+    diagnostics "^1.1.1"
+    is-stream "^1.1.0"
+    logform "^2.1.1"
+    one-time "0.0.4"
+    readable-stream "^3.1.1"
+    stack-trace "0.0.x"
+    triple-beam "^1.3.0"
+    winston-transport "^4.3.0"
 
 wordwrap@0.0.2:
   version "0.0.2"

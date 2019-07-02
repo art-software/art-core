@@ -6,8 +6,8 @@ const ENCODE = [
     ['&', '&amp;'],
     ['>', '&gt;'],
 ];
-const DATA_KEY = 'hypernova-key';
-const DATA_ID = 'hypernova-id';
+const DATA_KEY = 'ssr-key';
+const DATA_ID = 'ssr-id';
 function uuid() {
     // @ts-ignore
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (x) => (x ^ Math.random() * 16 >> x / 4).toString(16));
