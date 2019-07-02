@@ -36,8 +36,14 @@ export const convertCustomRouteConfig = (customRouteConfig: CustomRouteConfig[],
 };
 
 export const generateAsyncRouteComponent = ({ loader, Placeholder }) => {
-  let Component = null;
+  let Component;
   return class AsyncRouteComponent extends React.Component {
+    public static load() {
+      return loader().then((ResolvedComponent) => {
+        Component = ResolvedComponent.default || ResolvedComponent;
+      });
+    }
+
     constructor(props?: any, context?: any) {
       super(props, context);
     }
@@ -56,12 +62,12 @@ export const generateAsyncRouteComponent = ({ loader, Placeholder }) => {
 
     public render() {
       const { Component: ComponentFromState } = this.state;
-      // if (ComponentFromState) {
-      //   return <ComponentFromState { ...this.props } />
-      // }
+      if (ComponentFromState) {
+        return <ComponentFromState { ...this.props } />;
+      }
 
       if (Placeholder) {
-        // return <Placeholder { ...this.props } />;
+        return <Placeholder />;
       }
 
       return  null;
