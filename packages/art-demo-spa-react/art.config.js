@@ -22,7 +22,7 @@ const artConfig = {
     },
     output: {
       // Config CDN path for static files, images ....
-      intePublicPath: 'replace_it',
+      intePublicPath: 'http://10.8.30.131:9090/',
       prodPublicPath: 'replace_it'
     },
     dll: {
