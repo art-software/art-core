@@ -13,7 +13,7 @@
 
 importScripts(
   "https://dev.local.com/art-demo-test/client/demo-three/workbox/workbox-index.c057489f109914a8af32d21e95cc3a19.js",
-  "https://dev.local.com/art-demo-test/client/demo-three/workbox/precache-manifest.e0672dfacacc6ed161248c86f562aa3a.js"
+  "https://dev.local.com/art-demo-test/client/demo-three/workbox/precache-manifest.02e137ee69b0ebca2b443541e846a66a.js"
 );
 
 workbox.core.skipWaiting();

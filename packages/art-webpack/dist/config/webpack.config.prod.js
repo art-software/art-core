@@ -39,7 +39,7 @@ class WebpackProdConfig extends webpack_config_base_1.WebpackBaseConfig {
                     warnings: true,
                     dead_code: true,
                     drop_debugger: true,
-                    drop_console: true
+                    drop_console: false
                 }
             }
         }), new optimize_css_assets_webpack_plugin_1.default({

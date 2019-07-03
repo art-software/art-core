@@ -3,34 +3,23 @@ import { sw } from '../art.config.js';
 
 export default function setServiceWorker() {
   if ('serviceWorker' in navigator) {
-    // if (sw.enable) {
-    //   fetch('/sw/enable')
-    //     .then((response) => response.json())
-    //     .then((response) => {
-    //       console.log(response);
     if (sw.enable) {
-      if (process.env.NODE_ENV === 'production') {
-        registerServiceWorker();
-      }
-    } else {
-      try {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-          registrations.forEach((registration) => {
-            registration.unregister();
-            // TODO 删除cache storage和indexedDB数据
-            // TODO refresh
-          });
+      fetch('/sw/enable')
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          if (true) {
+            if (process.env.NODE_ENV === 'production') {
+              registerServiceWorker();
+            }
+          } else {
+            unregisterServiceWorker();
+          }
+        })
+        .catch((reason) => {
+          console.log(reason);
         });
-      } catch (error) {
-        // TODO 对ServiceWorkerContainer对象中不包含getRegistrations方法的浏览器做兼容处理
-        window.alert('注意！当前浏览器不支持 ServiceWorkerContainer.getRegistrations，可能导致功能异常！');
-      }
     }
-    //     })
-    //     .catch((reason) => {
-    //       console.log(reason);
-    //     });
-    // }
   } else {
     // TODO 统计不兼容service worker的浏览器数据(navigator.userAgent)
   }
@@ -71,4 +60,20 @@ function registerServiceWorker() {
   // workbox.addEventListener('externalactivated', (event) => { });
 
   workbox.register();
+}
+
+function unregisterServiceWorker() {
+  try {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        console.log(registration.scope);
+        registration.unregister();
+        // TODO 删除cache storage和indexedDB数据
+        // TODO refresh
+      });
+    });
+  } catch (error) {
+    // TODO 对ServiceWorkerContainer对象中不包含getRegistrations方法的浏览器做兼容处理
+    window.alert('注意！当前浏览器不支持 ServiceWorkerContainer.getRegistrations，可能导致功能异常！');
+  }
 }

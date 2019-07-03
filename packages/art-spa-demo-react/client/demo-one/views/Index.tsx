@@ -12,7 +12,7 @@ export default class ViewIndex extends CoreComponentAll<any, any> {
   public indexService: IndexService;
 
   public clickToRequest() {
-    console.log('click to request');
+    console.log('click to request1');
     // this.indexService.getData()
     //   .then((result) => {
     //     console.log(`it's result: ${JSON.stringify(result)}`);
@@ -26,7 +26,7 @@ export default class ViewIndex extends CoreComponentAll<any, any> {
     return (
       <div className="index-page">
         <div className="title">Hi there, it's react</div>
-        <button className="btn-request" onClick={this.clickToRequest.bind(this)}>Click to Request</button>
+        <button className="btn-request" onClick={this.clickToRequest.bind(this)}>Click to Request1</button>
       </div>
     );
   }
