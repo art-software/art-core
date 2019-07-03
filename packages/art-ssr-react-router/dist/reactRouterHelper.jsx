@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
+const react_router_config_1 = require("react-router-config");
 exports.convertCustomRouteConfig = (customRouteConfig, parentRoute) => {
     return customRouteConfig.map((route) => {
         if (typeof route.path === 'function') {
@@ -24,7 +25,8 @@ exports.convertCustomRouteConfig = (customRouteConfig, parentRoute) => {
         };
     });
 };
-exports.generateAsyncRouteComponent = ({ loader, Placeholder }) => {
+exports.generateAsyncRouteComponent = (component) => {
+    const { loader, Placeholder } = component;
     let Component;
     return class AsyncRouteComponent extends react_1.default.Component {
         constructor(props, context) {
@@ -56,4 +58,21 @@ exports.generateAsyncRouteComponent = ({ loader, Placeholder }) => {
             return null;
         }
     };
+};
+/**
+ * First match the routes via react-router-config's `matchRoutes` function.
+ * Then iterate over all of the matched routes, if they've got a load function
+ * call it.
+ *
+ * This helps us to make sure all the async code is loaded before rendering.
+ */
+exports.ensureReady = (routeConfig, providedLocation) => {
+    const matches = react_router_config_1.matchRoutes(routeConfig, providedLocation || window.location.pathname);
+    return Promise.all(matches.map((match) => {
+        const { component } = match.route;
+        if (component && component.load) {
+            return component.load();
+        }
+        return undefined;
+    }));
 };

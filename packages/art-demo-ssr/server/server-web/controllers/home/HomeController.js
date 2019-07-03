@@ -21,39 +21,64 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
-const HomeService_1 = require("../../services/home/HomeService");
 let HomeController = class HomeController {
-    home(req, res) {
+    // @Get('/home')
+    // public async home(@Req() req: Request, @Res() res: Response) {
+    //   const homeService = new HomeService();
+    //   const { html } = await homeService.requestRenderHome();
+    //   const renderedHtml = `
+    //     <!DOCTYPE html>
+    //     <html lang="en">
+    //     <head>
+    //       <meta charset="UTF-8">
+    //       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    //       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    //       <title>Document</title>
+    //     </head>
+    //     <body>
+    //       ${html}
+    //       <script type="text/javascript" src="http://me.dev.com:3001/static/art_framework.20180901.js"></script>
+    //       <script type="text/javascript" src="http://me.dev.com:3000/public/demo/ssr/react/home/bundle.js"></script>
+    //     </body>
+    //     </html>
+    //   `;
+    //   return res.send(renderedHtml);
+    // }
+    // @Get('/about')
+    // public async about(@Req() req: Request, @Res() res: Response) {
+    //   const homeService = new HomeService();
+    //   const { html } = await homeService.requestRenderAbout();
+    //   const renderedHtml = `
+    //     <!DOCTYPE html>
+    //     <html lang="en">
+    //     <head>
+    //       <meta charset="UTF-8">
+    //       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    //       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    //       <title>Document</title>
+    //     </head>
+    //     <body>
+    //       ${html}
+    //       <script type="text/javascript" src="http://me.dev.com:3001/static/art_framework.20180901.js"></script>
+    //       <script type="text/javascript" src="http://me.dev.com:3000/public/demo/ssr/react/home/bundle.js"></script>
+    //     </body>
+    //     </html>
+    //   `;
+    //   return res.send(renderedHtml);
+    // }
+    handler(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const homeService = new HomeService_1.HomeService();
-            const { html } = yield homeService.requestRender();
-            const renderedHtml = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-      </head>
-      <body>
-        ${html}
-        <script type="text/javascript" src="http://me.dev.com:3001/static/art_framework.20180901.js"></script>
-        <script type="text/javascript" src="http://me.dev.com:3000/public/demo/ssr/react/home/bundle.js"></script>
-      </body>
-      </html>
-    `;
-            return res.send(renderedHtml);
+            const url = req.url;
         });
     }
 };
 __decorate([
-    routing_controllers_1.Get('/home'),
+    routing_controllers_1.Get(),
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], HomeController.prototype, "home", null);
+], HomeController.prototype, "handler", null);
 HomeController = __decorate([
     routing_controllers_1.Controller()
 ], HomeController);

@@ -86,7 +86,7 @@ export function load(name) {
   });
 }
 
-export default function hypernova(runner) {
+export default function ssrRender(runner) {
   return typeof window === 'undefined'
     ? runner.server()
     : runner.client();

@@ -13,7 +13,7 @@ interface CustomRouteConfig {
   [propName: string]: any;
 }
 
-export const convertCustomRouteConfig = (customRouteConfig: CustomRouteConfig[], parentRoute: string) => {
+export const convertCustomRouteConfig = (customRouteConfig: CustomRouteConfig[], parentRoute?: string) => {
   return customRouteConfig.map((route) => {
     if (typeof route.path === 'function') {
       const pathResult = route.path(parentRoute || '').replace('//', '/');
@@ -35,7 +35,8 @@ export const convertCustomRouteConfig = (customRouteConfig: CustomRouteConfig[],
   });
 };
 
-export const generateAsyncRouteComponent = ({ loader, Placeholder }) => {
+export const generateAsyncRouteComponent = (component) => {
+  const { loader, Placeholder } = component;
   let Component;
   return class AsyncRouteComponent extends React.Component {
     public static load() {
@@ -73,4 +74,22 @@ export const generateAsyncRouteComponent = ({ loader, Placeholder }) => {
       return  null;
     }
   };
+};
+
+/**
+ * First match the routes via react-router-config's `matchRoutes` function.
+ * Then iterate over all of the matched routes, if they've got a load function
+ * call it.
+ *
+ * This helps us to make sure all the async code is loaded before rendering.
+ */
+export const ensureReady = (routeConfig, providedLocation?) => {
+  const matches = matchRoutes(routeConfig, providedLocation || window.location.pathname);
+  return Promise.all(matches.map((match) => {
+    const { component } = match.route;
+    if (component && (component as any).load) {
+      return (component as any).load();
+    }
+    return undefined;
+  }));
 };

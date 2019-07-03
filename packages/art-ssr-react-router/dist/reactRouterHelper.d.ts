@@ -11,11 +11,8 @@ interface CustomRouteConfig {
     render?: (props: RouteConfigComponentProps<any>) => React.ReactNode;
     [propName: string]: any;
 }
-export declare const convertCustomRouteConfig: (customRouteConfig: CustomRouteConfig[], parentRoute: string) => any;
-export declare const generateAsyncRouteComponent: ({ loader, Placeholder }: {
-    loader: any;
-    Placeholder: any;
-}) => {
+export declare const convertCustomRouteConfig: (customRouteConfig: CustomRouteConfig[], parentRoute?: string | undefined) => any;
+export declare const generateAsyncRouteComponent: (component: any) => {
     new (props?: any, context?: any): {
         state: {
             Component: any;
@@ -34,4 +31,12 @@ export declare const generateAsyncRouteComponent: ({ loader, Placeholder }: {
     load(): any;
     contextType?: React.Context<any> | undefined;
 };
+/**
+ * First match the routes via react-router-config's `matchRoutes` function.
+ * Then iterate over all of the matched routes, if they've got a load function
+ * call it.
+ *
+ * This helps us to make sure all the async code is loaded before rendering.
+ */
+export declare const ensureReady: (routeConfig: any, providedLocation?: any) => Promise<any[]>;
 export {};

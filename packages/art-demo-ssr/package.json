@@ -14,6 +14,7 @@
     "art-server-mock": "^0.0.18",
     "art-ssr": "^0.0.1",
     "art-ssr-react": "^0.0.1",
+    "art-ssr-react-router": "^0.0.1",
     "compression": "^1.7.3",
     "dotenv": "^6.0.0",
     "less": "3.8.1",
