@@ -99,8 +99,8 @@ class BatchManager {
         const context = this.jobContexts[token];
         const { name } = context;
         const { getComponent } = this.config;
-        const component = getComponent(name, context);
-        const result = typeof component === 'function' ? component : component.default[name];
+        const component = getComponent(name, context).default;
+        const result = typeof component === 'function' ? component : component[name];
         // render html using render function returned from getComponent
         return Promise.resolve(result)
             .then((renderFn) => {

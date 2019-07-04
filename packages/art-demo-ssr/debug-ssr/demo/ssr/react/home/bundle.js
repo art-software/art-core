@@ -27142,11 +27142,11 @@ function load(name) {
 
 exports.load = load;
 
-function hypernova(runner) {
+function ssrRender(runner) {
   return typeof window === 'undefined' ? runner.server() : runner.client();
 }
 
-exports.default = hypernova;
+exports.default = ssrRender;
 
 /***/ }),
 

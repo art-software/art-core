@@ -13,6 +13,7 @@
     "art-lib-utils": "^0.0.5",
     "art-server-mock": "^0.0.18",
     "art-ssr": "^0.0.1",
+    "art-ssr-aggregator-node": "^0.0.1",
     "art-ssr-react": "^0.0.1",
     "art-ssr-react-router": "^0.0.1",
     "compression": "^1.7.3",
