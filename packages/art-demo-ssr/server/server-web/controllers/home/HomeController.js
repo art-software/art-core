@@ -26,30 +26,7 @@ let HomeController = class HomeController {
     home(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const homeService = new HomeService_1.HomeService();
-            const html = yield homeService.requestRenderHome();
-            const renderedHtml = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-      </head>
-      <body>
-        ${html}
-        <script type="text/javascript" src="http://me.dev.com:3001/static/art_framework.20180901.js"></script>
-        <script type="text/javascript" src="http://me.dev.com:3000/public/demo/ssr/react/home/bundle.js"></script>
-      </body>
-      </html>
-    `;
-            return res.send(renderedHtml);
-        });
-    }
-    about(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const homeService = new HomeService_1.HomeService();
-            const html = yield homeService.requestRenderAbout();
+            const html = yield homeService.requestRenderHome(req);
             const renderedHtml = `
       <!DOCTYPE html>
       <html lang="en">
@@ -72,18 +49,13 @@ let HomeController = class HomeController {
 };
 __decorate([
     routing_controllers_1.Get('/home'),
+    routing_controllers_1.Get('/about'),
+    routing_controllers_1.Get('/mine'),
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], HomeController.prototype, "home", null);
-__decorate([
-    routing_controllers_1.Get('/about'),
-    __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], HomeController.prototype, "about", null);
 HomeController = __decorate([
     routing_controllers_1.Controller()
 ], HomeController);

@@ -1,7 +1,7 @@
 import { renderReact } from 'art-ssr-react';
-import Home from '../home/view/Home';
-import About from '../home/view/About';
-// import { ensureReady, convertCustomRouteConfig } from 'art-ssr-react-router/dist/reactRouterHelper';
+import IndexSSR from '../home/view/IndexSSR';
+// import { StaticRouter } from 'react-router-dom';
+// import { ensureReady, convertCustomRouteC\onfig } from 'art-ssr-react-router/dist/reactRouterHelper';
 // import routes from './routes';
 // import { StaticRouter } from 'react-router-dom';
 // import { renderRoutes } from 'react-router-config';
@@ -36,6 +36,5 @@ import About from '../home/view/About';
 // }
 
 export default {
-  Home: renderReact('Home', Home),
-  About: renderReact('About', About)
+  Home: renderReact('Home', IndexSSR)
 };
