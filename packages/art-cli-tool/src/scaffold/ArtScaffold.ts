@@ -1,6 +1,6 @@
 import qs from 'qs';
 import chalk from 'chalk';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { existsSync } from 'fs';
 import { series } from 'async';
 import inquirer = require('inquirer');
@@ -135,9 +135,9 @@ export default class ArtScaffold {
     });
   }
 
-  public autoInstallAfterCreateProject () {
+  public async autoInstallAfterCreateProject () {
     const moduleNamesArr = NpmModules[this.scaffoldType] || [];
-    printInstructions(chalk.white(`creating scaffold [${this.scaffoldType}] project succeed, the next step is installing npm modules!`));
+    printInstructions(chalk.magenta(`creating scaffold [${this.scaffoldType}] project succeed, the next step is installing npm modules!`));
     const questionAutoInstalle: Question[] = [
       {
         type: 'confirm', 
@@ -155,19 +155,21 @@ export default class ArtScaffold {
         default: 0
       },
     ];
-    inquirer.prompt(questionAutoInstalle).then((answersAuto: Answers) => {
-      if (answersAuto.autoInstall) {
-        inquirer.prompt(questionsInstallMethod).then((answersMethod: Answers) => {
-          this.installModules(answersMethod, moduleNamesArr, 'particular');
-          this.installModules(answersMethod, [], 'default');
-        })
-      } else {
-        console.log(chalk.cyan(`createing scaffold [${this.scaffoldType}] project has already succeed, and you can install these modules you needed manually!`));
-      }
+    const inquirerAuto = await inquirer.prompt(questionAutoInstalle).then((answersAuto: Answers) => {
+      return answersAuto;
     });
+    if (inquirerAuto.autoInstall) {
+      const inquirerMethod = await inquirer.prompt(questionsInstallMethod).then((answersMethod: Answers) => {
+        return answersMethod;
+      });
+      this.installNpmModules(inquirerMethod, moduleNamesArr, 'particular');
+      this.installNpmModules(inquirerMethod, [], 'default');
+    } else {
+      printInstructions(chalk.blue(`please don't forget to install these modules: ${chalk.magenta(moduleNamesArr.join(' '))}`));
+    }
   }
 
-  public installModules (answersMethod, moduleNamesArr, type) {
+  public installNpmModules (answersMethod: Answers, moduleNamesArr: string[], type: string) {
     printInstructions(chalk.green(`install ${type} modules starting...`));
     moduleNamesArr.map((item) =>{
       console.log(chalk.magenta(item));
@@ -182,14 +184,9 @@ export default class ArtScaffold {
         stdio: 'inherit'
       }
     );
-    child.on('data', (data) => {
-      console.log(data);
-    });
     child.on('close', (code) => {
       if (code !== 0) {
-        console.log();
         console.log(chalk.cyan('install npm modules' + type) + ' exited with code ' + code + '.');
-        console.log();
         return;
       }
     });

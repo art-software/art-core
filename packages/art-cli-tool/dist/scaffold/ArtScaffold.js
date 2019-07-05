@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -105,38 +113,42 @@ class ArtScaffold {
         });
     }
     autoInstallAfterCreateProject() {
-        const moduleNamesArr = NpmModules_1.NpmModules[this.scaffoldType] || [];
-        printLog_1.printInstructions(chalk_1.default.white(`creating scaffold [${this.scaffoldType}] project succeed, the next step is installing npm modules!`));
-        const questionAutoInstalle = [
-            {
-                type: 'confirm',
-                name: 'autoInstall',
-                message: 'Install npm modules for your project?',
-                default: true
-            }
-        ];
-        const questionsInstallMethod = [
-            {
-                type: 'list',
-                name: 'modulesManager',
-                message: 'please choose one manager to add modules',
-                choices: [ModulesManagers_1.ModulesManagers.YARN, ModulesManagers_1.ModulesManagers.NPM],
-                default: 0
-            },
-        ];
-        inquirer.prompt(questionAutoInstalle).then((answersAuto) => {
-            if (answersAuto.autoInstall) {
-                inquirer.prompt(questionsInstallMethod).then((answersMethod) => {
-                    this.installModules(answersMethod, moduleNamesArr, 'particular');
-                    this.installModules(answersMethod, [], 'default');
+        return __awaiter(this, void 0, void 0, function* () {
+            const moduleNamesArr = NpmModules_1.NpmModules[this.scaffoldType] || [];
+            printLog_1.printInstructions(chalk_1.default.magenta(`creating scaffold [${this.scaffoldType}] project succeed, the next step is installing npm modules!`));
+            const questionAutoInstalle = [
+                {
+                    type: 'confirm',
+                    name: 'autoInstall',
+                    message: 'Install npm modules for your project?',
+                    default: true
+                }
+            ];
+            const questionsInstallMethod = [
+                {
+                    type: 'list',
+                    name: 'modulesManager',
+                    message: 'please choose one manager to add modules',
+                    choices: [ModulesManagers_1.ModulesManagers.YARN, ModulesManagers_1.ModulesManagers.NPM],
+                    default: 0
+                },
+            ];
+            const inquirerAuto = yield inquirer.prompt(questionAutoInstalle).then((answersAuto) => {
+                return answersAuto;
+            });
+            if (inquirerAuto.autoInstall) {
+                const inquirerMethod = yield inquirer.prompt(questionsInstallMethod).then((answersMethod) => {
+                    return answersMethod;
                 });
+                this.installNpmModules(inquirerMethod, moduleNamesArr, 'particular');
+                this.installNpmModules(inquirerMethod, [], 'default');
             }
             else {
-                console.log(chalk_1.default.cyan(`createing scaffold [${this.scaffoldType}] project has already succeed, and you can install these modules you needed manually!`));
+                printLog_1.printInstructions(chalk_1.default.blue(`please don't forget to install these modules: ${chalk_1.default.magenta(moduleNamesArr.join(' '))}`));
             }
         });
     }
-    installModules(answersMethod, moduleNamesArr, type) {
+    installNpmModules(answersMethod, moduleNamesArr, type) {
         printLog_1.printInstructions(chalk_1.default.green(`install ${type} modules starting...`));
         moduleNamesArr.map((item) => {
             console.log(chalk_1.default.magenta(item));
@@ -147,14 +159,9 @@ class ArtScaffold {
         ], {
             stdio: 'inherit'
         });
-        child.on('data', (data) => {
-            console.log(data);
-        });
         child.on('close', (code) => {
             if (code !== 0) {
-                console.log();
                 console.log(chalk_1.default.cyan('install npm modules' + type) + ' exited with code ' + code + '.');
-                console.log();
                 return;
             }
         });
