@@ -10,3 +10,4 @@ yarn-error.log*
 /.changelog
 
 note.md
+install-test/

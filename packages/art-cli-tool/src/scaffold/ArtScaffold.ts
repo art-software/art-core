@@ -3,6 +3,10 @@ import chalk from 'chalk';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { series } from 'async';
+import inquirer = require('inquirer');
+import { Answers, Question } from 'inquirer';
+import spawn from 'cross-spawn';
+import { NpmModules } from '../constants/NpmModules';
 
 export default class ArtScaffold {
   /**
@@ -120,8 +124,51 @@ export default class ArtScaffold {
       series(asyncQueue, (err, result) => {
         if (err) {
           reject(err);
-        } else { resolve(result); }
+        } else {
+          this.autoInstallAfterCreateProject();
+          // resolve(result);
+        }
       });
+    });
+  }
+
+  public autoInstallAfterCreateProject () {
+    const moduleNamesArr = NpmModules[this.scaffoldType] || [];
+    console.log(chalk.cyan(`createing scaffold [${this.scaffoldType}] project has already succeed,and we can install this necessary npm modules for you directly: ${moduleNamesArr.join(' ')}`));
+    const questions: Question[] = [
+      {
+        type: 'confirm', 
+        name: 'autoInstall', 
+        message: 'Install npm modules for your project?', 
+        default: true 
+      },
+    ];
+    inquirer.prompt(questions).then((answers: Answers) => {
+      if (answers.autoInstall) {
+        // TODO 同意直接安装后询问用yarn还是install安装，装package.json和art必须的包
+        const child = spawn(
+          'npm',
+          [
+            'install',
+            ...moduleNamesArr
+          ],
+          {
+            stdio: 'inherit'
+          }
+        );
+        child.on('close', (code) => {
+          if (code !== 0) {
+            console.log();
+            console.log(chalk.cyan('install npm modules') + ' exited with code ' + code + '.');
+            console.log();
+            return;
+          }
+        });
+  
+        child.on('error', (err) => {
+          console.log(err);
+        });
+      }
     });
   }
 

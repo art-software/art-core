@@ -8,6 +8,9 @@ const chalk_1 = __importDefault(require("chalk"));
 const path_1 = require("path");
 const fs_1 = require("fs");
 const async_1 = require("async");
+const inquirer = require("inquirer");
+const cross_spawn_1 = __importDefault(require("cross-spawn"));
+const NpmModules_1 = require("../constants/NpmModules");
 class ArtScaffold {
     /**
      * constructor
@@ -92,9 +95,44 @@ class ArtScaffold {
                     reject(err);
                 }
                 else {
-                    resolve(result);
+                    this.autoInstallAfterCreateProject();
+                    // resolve(result);
                 }
             });
+        });
+    }
+    autoInstallAfterCreateProject() {
+        const moduleNamesArr = NpmModules_1.NpmModules[this.scaffoldType] || [];
+        console.log(chalk_1.default.cyan(`createing scaffold [${this.scaffoldType}] project has already succeed,and we can install this necessary npm modules for you directly: ${moduleNamesArr.join(' ')}`));
+        const questions = [
+            {
+                type: 'confirm',
+                name: 'autoInstall',
+                message: 'Install npm modules for your project?',
+                default: true
+            },
+        ];
+        inquirer.prompt(questions).then((answers) => {
+            if (answers.autoInstall) {
+                // TODO 同意直接安装后询问用yarn还是install安装，装package.json和art必须的包
+                const child = cross_spawn_1.default('npm', [
+                    'install',
+                    ...moduleNamesArr
+                ], {
+                    stdio: 'inherit'
+                });
+                child.on('close', (code) => {
+                    if (code !== 0) {
+                        console.log();
+                        console.log(chalk_1.default.cyan('install npm modules') + ' exited with code ' + code + '.');
+                        console.log();
+                        return;
+                    }
+                });
+                child.on('error', (err) => {
+                    console.log(err);
+                });
+            }
         });
     }
     createScaffoldModule() {
