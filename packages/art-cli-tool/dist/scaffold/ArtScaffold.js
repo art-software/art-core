@@ -140,8 +140,8 @@ class ArtScaffold {
                 const inquirerMethod = yield inquirer.prompt(questionsInstallMethod).then((answersMethod) => {
                     return answersMethod;
                 });
-                this.installNpmModules(inquirerMethod, moduleNamesArr, 'particular');
-                this.installNpmModules(inquirerMethod, [], 'default');
+                yield this.installNpmModules(inquirerMethod, moduleNamesArr, 'particular');
+                yield this.installNpmModules(inquirerMethod, [], 'default');
             }
             else {
                 printLog_1.printInstructions(chalk_1.default.blue(`please don't forget to install these modules: ${chalk_1.default.magenta(moduleNamesArr.join(' '))}`));

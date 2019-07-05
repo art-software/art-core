@@ -162,8 +162,8 @@ export default class ArtScaffold {
       const inquirerMethod = await inquirer.prompt(questionsInstallMethod).then((answersMethod: Answers) => {
         return answersMethod;
       });
-      this.installNpmModules(inquirerMethod, moduleNamesArr, 'particular');
-      this.installNpmModules(inquirerMethod, [], 'default');
+      await this.installNpmModules(inquirerMethod, moduleNamesArr, 'particular');
+      await this.installNpmModules(inquirerMethod, [], 'default');
     } else {
       printInstructions(chalk.blue(`please don't forget to install these modules: ${chalk.magenta(moduleNamesArr.join(' '))}`));
     }
