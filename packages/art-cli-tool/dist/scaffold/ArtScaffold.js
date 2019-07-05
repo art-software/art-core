@@ -11,6 +11,9 @@ const async_1 = require("async");
 const inquirer = require("inquirer");
 const cross_spawn_1 = __importDefault(require("cross-spawn"));
 const NpmModules_1 = require("../constants/NpmModules");
+const ModulesManagers_1 = require("../enums/ModulesManagers");
+const InstallCommands_1 = require("../constants/InstallCommands");
+const printLog_1 = require("./printLog");
 class ArtScaffold {
     /**
      * constructor
@@ -103,36 +106,60 @@ class ArtScaffold {
     }
     autoInstallAfterCreateProject() {
         const moduleNamesArr = NpmModules_1.NpmModules[this.scaffoldType] || [];
-        console.log(chalk_1.default.cyan(`createing scaffold [${this.scaffoldType}] project has already succeed,and we can install this necessary npm modules for you directly: ${moduleNamesArr.join(' ')}`));
-        const questions = [
+        printLog_1.printInstructions(chalk_1.default.white(`creating scaffold [${this.scaffoldType}] project succeed, the next step is installing npm modules!`));
+        const questionAutoInstalle = [
             {
                 type: 'confirm',
                 name: 'autoInstall',
                 message: 'Install npm modules for your project?',
                 default: true
+            }
+        ];
+        const questionsInstallMethod = [
+            {
+                type: 'list',
+                name: 'modulesManager',
+                message: 'please choose one manager to add modules',
+                choices: [ModulesManagers_1.ModulesManagers.YARN, ModulesManagers_1.ModulesManagers.NPM],
+                default: 0
             },
         ];
-        inquirer.prompt(questions).then((answers) => {
-            if (answers.autoInstall) {
-                // TODO 同意直接安装后询问用yarn还是install安装，装package.json和art必须的包
-                const child = cross_spawn_1.default('npm', [
-                    'install',
-                    ...moduleNamesArr
-                ], {
-                    stdio: 'inherit'
-                });
-                child.on('close', (code) => {
-                    if (code !== 0) {
-                        console.log();
-                        console.log(chalk_1.default.cyan('install npm modules') + ' exited with code ' + code + '.');
-                        console.log();
-                        return;
-                    }
-                });
-                child.on('error', (err) => {
-                    console.log(err);
+        inquirer.prompt(questionAutoInstalle).then((answersAuto) => {
+            if (answersAuto.autoInstall) {
+                inquirer.prompt(questionsInstallMethod).then((answersMethod) => {
+                    this.installModules(answersMethod, moduleNamesArr, 'particular');
+                    this.installModules(answersMethod, [], 'default');
                 });
             }
+            else {
+                console.log(chalk_1.default.cyan(`createing scaffold [${this.scaffoldType}] project has already succeed, and you can install these modules you needed manually!`));
+            }
+        });
+    }
+    installModules(answersMethod, moduleNamesArr, type) {
+        printLog_1.printInstructions(chalk_1.default.green(`install ${type} modules starting...`));
+        moduleNamesArr.map((item) => {
+            console.log(chalk_1.default.magenta(item));
+        });
+        const child = cross_spawn_1.default(answersMethod.modulesManager, [
+            InstallCommands_1.InstallCommands[answersMethod.modulesManager][type],
+            ...moduleNamesArr
+        ], {
+            stdio: 'inherit'
+        });
+        child.on('data', (data) => {
+            console.log(data);
+        });
+        child.on('close', (code) => {
+            if (code !== 0) {
+                console.log();
+                console.log(chalk_1.default.cyan('install npm modules' + type) + ' exited with code ' + code + '.');
+                console.log();
+                return;
+            }
+        });
+        child.on('error', (err) => {
+            console.log(err);
         });
     }
     createScaffoldModule() {

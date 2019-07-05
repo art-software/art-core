@@ -7,6 +7,9 @@ import inquirer = require('inquirer');
 import { Answers, Question } from 'inquirer';
 import spawn from 'cross-spawn';
 import { NpmModules } from '../constants/NpmModules';
+import { ModulesManagers } from '../enums/ModulesManagers';
+import { InstallCommands } from '../constants/InstallCommands';
+import { printInstructions } from './printLog';
 
 export default class ArtScaffold {
   /**
@@ -134,41 +137,65 @@ export default class ArtScaffold {
 
   public autoInstallAfterCreateProject () {
     const moduleNamesArr = NpmModules[this.scaffoldType] || [];
-    console.log(chalk.cyan(`createing scaffold [${this.scaffoldType}] project has already succeed,and we can install this necessary npm modules for you directly: ${moduleNamesArr.join(' ')}`));
-    const questions: Question[] = [
+    printInstructions(chalk.white(`creating scaffold [${this.scaffoldType}] project succeed, the next step is installing npm modules!`));
+    const questionAutoInstalle: Question[] = [
       {
         type: 'confirm', 
         name: 'autoInstall', 
         message: 'Install npm modules for your project?', 
         default: true 
+      }
+    ];
+    const questionsInstallMethod: Question[] = [
+      {
+        type: 'list',
+        name: 'modulesManager',
+        message: 'please choose one manager to add modules',
+        choices: [ ModulesManagers.YARN, ModulesManagers.NPM ],
+        default: 0
       },
     ];
-    inquirer.prompt(questions).then((answers: Answers) => {
-      if (answers.autoInstall) {
-        // TODO 同意直接安装后询问用yarn还是install安装，装package.json和art必须的包
-        const child = spawn(
-          'npm',
-          [
-            'install',
-            ...moduleNamesArr
-          ],
-          {
-            stdio: 'inherit'
-          }
-        );
-        child.on('close', (code) => {
-          if (code !== 0) {
-            console.log();
-            console.log(chalk.cyan('install npm modules') + ' exited with code ' + code + '.');
-            console.log();
-            return;
-          }
-        });
-  
-        child.on('error', (err) => {
-          console.log(err);
-        });
+    inquirer.prompt(questionAutoInstalle).then((answersAuto: Answers) => {
+      if (answersAuto.autoInstall) {
+        inquirer.prompt(questionsInstallMethod).then((answersMethod: Answers) => {
+          this.installModules(answersMethod, moduleNamesArr, 'particular');
+          this.installModules(answersMethod, [], 'default');
+        })
+      } else {
+        console.log(chalk.cyan(`createing scaffold [${this.scaffoldType}] project has already succeed, and you can install these modules you needed manually!`));
       }
+    });
+  }
+
+  public installModules (answersMethod, moduleNamesArr, type) {
+    printInstructions(chalk.green(`install ${type} modules starting...`));
+    moduleNamesArr.map((item) =>{
+      console.log(chalk.magenta(item));
+    });
+    const child = spawn(
+      answersMethod.modulesManager,
+      [
+        InstallCommands[answersMethod.modulesManager][type],
+        ...moduleNamesArr
+      ],
+      {
+        stdio: 'inherit'
+      }
+    );
+    child.on('data', (data) => {
+      console.log(data);
+    });
+    child.on('close', (code) => {
+      if (code !== 0) {
+        console.log();
+        console.log(chalk.cyan('install npm modules' + type) + ' exited with code ' + code + '.');
+        console.log();
+        return;
+      }
+    });
+
+    child.on('error', (err) => {
+      console.log(err);
     });
   }
 
