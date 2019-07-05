@@ -8,7 +8,7 @@
     "priority": null
   },
   {
-    "url": "https://dev.local.com/art-demo-test/client/demo-three/bundle.css?1562057781534",
+    "url": "https://dev.local.com/art-demo-test/client/demo-two/bundle.css?1562319026644",
     "priority": null
   },
   {
@@ -20,7 +20,9 @@
     "priority": null
   },
   {
-    "url": "https://dev.local.com/art-demo-test/client/demo-three/bundle.js?1562057781534",
+    "url": "https://dev.local.com/art-demo-test/client/demo-two/bundle.js?1562319026644",
     "priority": null
   }
+]
+}
 ]

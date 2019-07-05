@@ -1,14 +1,21 @@
 import { Workbox } from 'workbox-window';
 import { sw } from '../art.config.js';
 
+interface SWEnableResponse {
+  code: number;
+  message: string;
+  data: {
+    enable: boolean
+  };
+}
+
 export default function setServiceWorker() {
   if ('serviceWorker' in navigator) {
     if (sw.enable) {
       fetch('/sw/enable')
         .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          if (true) {
+        .then((json: SWEnableResponse) => {
+          if (json.data.enable) {
             if (process.env.NODE_ENV === 'production') {
               registerServiceWorker();
             }
@@ -17,7 +24,7 @@ export default function setServiceWorker() {
           }
         })
         .catch((reason) => {
-          console.log(reason);
+          console.error(reason);
         });
     }
   } else {
