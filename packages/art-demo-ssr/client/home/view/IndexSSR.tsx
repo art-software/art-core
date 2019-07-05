@@ -1,8 +1,10 @@
 import React from 'react';
-import { StaticRouter, Route, Link } from 'react-router-dom';
-import Home from './Home';
-import About from './About';
-import Mine from './Mine';
+import { StaticRouter } from 'react-router-dom';
+// import Home from './Home';
+// import About from './About';
+// import Mine from './Mine';
+import { renderRoutes } from 'react-router-config';
+import routes from '../routes';
 
 export default class IndexSSR extends React.Component {
   constructor(props) {
@@ -14,7 +16,7 @@ export default class IndexSSR extends React.Component {
     const { url } = (this.props as any).data;
     return (
       <StaticRouter location={url} context={{}}>
-        <div>
+        {/* <div>
           <ul>
             <li>
               <Link to="/home">Home</Link>
@@ -32,7 +34,10 @@ export default class IndexSSR extends React.Component {
           <Route exact path="/home" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/mine" component={Mine} />
-        </div>
+        </div> */}
+        {
+          renderRoutes(routes)
+        }
       </StaticRouter>
     );
   }
