@@ -17,8 +17,9 @@ export declare const generateAsyncRouteComponent: (component: any) => {
         state: {
             Component: any;
         };
-        updateState(): void;
-        render(): JSX.Element | null;
+        componentWillMount(): void;
+        updateState: () => void;
+        render(): React.DetailedReactHTMLElement<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> | null;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
         forceUpdate(callBack?: (() => void) | undefined): void;
         readonly props: Readonly<{

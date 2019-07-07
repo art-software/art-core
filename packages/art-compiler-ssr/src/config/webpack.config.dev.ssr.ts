@@ -4,7 +4,7 @@ import { jsRule, tsRule } from './configRules';
 import { configPluginsSSR } from './configPluginsSSR';
 const nodeExternals = require('webpack-node-externals');
 
-export default class WebpackDevConfig extends WebpackBaseConfig implements Configuration {
+export default class WebpackDevSSRConfig extends WebpackBaseConfig implements Configuration {
   constructor(entry, output) {
     super(entry, output);
   }

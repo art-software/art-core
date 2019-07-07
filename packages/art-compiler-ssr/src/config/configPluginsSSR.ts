@@ -3,6 +3,15 @@ import chalk from 'chalk';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import paths from './paths';
 import HappyPack from 'happypack';
+import DynamicChunkNamePlugin from '../plugins/DynamicChunkNamePlugin';
+import { webpackEntries } from './configWebpackModules';
+
+const getRawModuleEntry = (entries) => {
+  for (const key in entries) {
+    entries[key] = entries[key].slice(1);
+  }
+  return entries;
+};
 
 export const configPluginsSSR = (() => {
   const plugins = [
@@ -46,7 +55,11 @@ export const configPluginsSSR = (() => {
     new ForkTsCheckerWebpackPlugin({
       tsconfig: paths.appTsConfig,
       tslint: paths.appTsLintConfig
-    })
+    }),
+
+    new DynamicChunkNamePlugin(
+      getRawModuleEntry(webpackEntries(false))
+    )
   ];
 
   return plugins;

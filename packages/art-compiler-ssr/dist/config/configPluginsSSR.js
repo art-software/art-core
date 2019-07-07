@@ -8,6 +8,14 @@ const chalk_1 = __importDefault(require("chalk"));
 const fork_ts_checker_webpack_plugin_1 = __importDefault(require("fork-ts-checker-webpack-plugin"));
 const paths_1 = __importDefault(require("./paths"));
 const happypack_1 = __importDefault(require("happypack"));
+const DynamicChunkNamePlugin_1 = __importDefault(require("../plugins/DynamicChunkNamePlugin"));
+const configWebpackModules_1 = require("./configWebpackModules");
+const getRawModuleEntry = (entries) => {
+    for (const key in entries) {
+        entries[key] = entries[key].slice(1);
+    }
+    return entries;
+};
 exports.configPluginsSSR = (() => {
     const plugins = [
         new progress_bar_webpack_plugin_1.default({
@@ -47,7 +55,8 @@ exports.configPluginsSSR = (() => {
         new fork_ts_checker_webpack_plugin_1.default({
             tsconfig: paths_1.default.appTsConfig,
             tslint: paths_1.default.appTsLintConfig
-        })
+        }),
+        new DynamicChunkNamePlugin_1.default(getRawModuleEntry(configWebpackModules_1.webpackEntries(false)))
     ];
     return plugins;
 })();

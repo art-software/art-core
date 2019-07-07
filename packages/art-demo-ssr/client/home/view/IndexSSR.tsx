@@ -5,6 +5,7 @@ import { StaticRouter } from 'react-router-dom';
 // import Mine from './Mine';
 import { renderRoutes } from 'react-router-config';
 import routes from '../routes';
+import { convertCustomRouteConfig } from 'art-ssr-react-router/dist/reactRouterHelper';
 
 export default class IndexSSR extends React.Component {
   constructor(props) {
@@ -14,29 +15,12 @@ export default class IndexSSR extends React.Component {
   public render() {
     console.log('this.props: ', this.props);
     const { url } = (this.props as any).data;
+    const routeConfig = convertCustomRouteConfig(routes);
+    console.log('routeConfig: ', routeConfig);
     return (
       <StaticRouter location={url} context={{}}>
-        {/* <div>
-          <ul>
-            <li>
-              <Link to="/home">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/mine">Mine</Link>
-            </li>
-          </ul>
-
-          <hr />
-
-          <Route exact path="/home" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/mine" component={Mine} />
-        </div> */}
         {
-          renderRoutes(routes)
+          renderRoutes(routeConfig)
         }
       </StaticRouter>
     );

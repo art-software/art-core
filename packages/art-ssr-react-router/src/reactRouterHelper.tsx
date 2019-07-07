@@ -41,7 +41,10 @@ export const generateAsyncRouteComponent = (component) => {
   return class AsyncRouteComponent extends React.Component {
     public static load() {
       return loader().then((ResolvedComponent) => {
+        console.log('ResolvedComponent: ', ResolvedComponent);
         Component = ResolvedComponent.default || ResolvedComponent;
+      }).catch((err) => {
+        console.log('load component error: ', err);
       });
     }
 
@@ -53,7 +56,11 @@ export const generateAsyncRouteComponent = (component) => {
       Component
     };
 
-    public updateState() {
+    public componentWillMount() {
+      AsyncRouteComponent.load().then(this.updateState);
+    }
+
+    public updateState = () => {
       if (this.state.Component !== Component) {
         this.setState({
           Component
@@ -64,14 +71,16 @@ export const generateAsyncRouteComponent = (component) => {
     public render() {
       const { Component: ComponentFromState } = this.state;
       if (ComponentFromState) {
-        return <ComponentFromState { ...this.props } />;
+        // return <ComponentFromState { ...this.props } />;
+        return React.createElement(ComponentFromState, this.props);
       }
 
       if (Placeholder) {
-        return <Placeholder />;
+        // return <Placeholder {...this.props} />;
+        return React.createElement(Placeholder, this.props);
       }
 
-      return  null;
+      return null;
     }
   };
 };
@@ -88,7 +97,15 @@ export const ensureReady = (routeConfig, providedLocation?) => {
   return Promise.all(matches.map((match) => {
     const { component } = match.route;
     if (component && (component as any).load) {
-      return (component as any).load();
+      try {
+        (component as any).load().then((loaded) => { console.log('loaded: ', loaded); })
+          .catch((err) => {
+            console.log('err: ', err);
+          });
+        return (component as any).load();
+      } catch (err) {
+        console.log('catched err: ', err);
+      }
     }
     return undefined;
   }));

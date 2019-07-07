@@ -159,10 +159,16 @@ export default class BatchManager {
           context.statusCode = 404;
           return Promise.reject(this.notFound(name));
         }
+        console.log('renderFn: ', renderFn);
 
         return renderFn(context.props);
       })
+      .then((renderToString) => {
+        console.log('renderToString(context.props): ', renderToString(context.props));
+        return Promise.resolve(renderToString(context.props));
+      })
       .then((html) => {
+        console.log('html: ', html);
         if (!html) {
           return Promise.reject(noHTMLError);
         }

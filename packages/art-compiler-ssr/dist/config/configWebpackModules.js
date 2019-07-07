@@ -128,13 +128,14 @@ exports.webpackOutputSSR = () => {
     const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
     const port = appConfig_1.default.get(`devPort:${envName}`);
     const output = appConfig_1.default.get(`art:webpack:output`) || {};
-    const publicPath = isProdEnv ? output[`${buildEnv}PublicPath`] : `${host}:${port}/public/`;
+    // const publicPath = isProdEnv ? output[`${buildEnv}PublicPath`] : `${host}:${port}/public/`;
+    // const publicPath = isProdEnv ? output[`${buildEnv}PublicPath`] : `/debug-ssr/`;
     const outRelativePath = buildEnv === BuildEnv_1.BuildEnv.prod ? './public-ssr/' : './debug-ssr/';
     return {
         filename: `[name]/${bundleFileNamePattern('.js')}`,
         chunkFilename: `[id].[chunkhash].js`,
         path: path.resolve(paths_1.default.appCwd, outRelativePath),
-        publicPath,
+        // publicPath: '//cdn.example.com/assets/',
         libraryTarget: 'commonjs'
     };
 };

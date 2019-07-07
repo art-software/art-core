@@ -4,7 +4,7 @@ const webpack_config_base_1 = require("./webpack.config.base");
 const configRules_1 = require("./configRules");
 const configPluginsSSR_1 = require("./configPluginsSSR");
 const nodeExternals = require('webpack-node-externals');
-class WebpackDevConfig extends webpack_config_base_1.WebpackBaseConfig {
+class WebpackDevSSRConfig extends webpack_config_base_1.WebpackBaseConfig {
     constructor(entry, output) {
         super(entry, output);
         this.target = 'node';
@@ -20,4 +20,4 @@ class WebpackDevConfig extends webpack_config_base_1.WebpackBaseConfig {
         this.externals = [nodeExternals()];
     }
 }
-exports.default = WebpackDevConfig;
+exports.default = WebpackDevSSRConfig;

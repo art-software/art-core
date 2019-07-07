@@ -34,26 +34,34 @@ exports.generateAsyncRouteComponent = (component) => {
             this.state = {
                 Component
             };
+            this.updateState = () => {
+                if (this.state.Component !== Component) {
+                    this.setState({
+                        Component
+                    });
+                }
+            };
         }
         static load() {
             return loader().then((ResolvedComponent) => {
+                console.log('ResolvedComponent: ', ResolvedComponent);
                 Component = ResolvedComponent.default || ResolvedComponent;
+            }).catch((err) => {
+                console.log('load component error: ', err);
             });
         }
-        updateState() {
-            if (this.state.Component !== Component) {
-                this.setState({
-                    Component
-                });
-            }
+        componentWillMount() {
+            AsyncRouteComponent.load().then(this.updateState);
         }
         render() {
             const { Component: ComponentFromState } = this.state;
             if (ComponentFromState) {
-                return <ComponentFromState {...this.props}/>;
+                // return <ComponentFromState { ...this.props } />;
+                return react_1.default.createElement(ComponentFromState, this.props);
             }
             if (Placeholder) {
-                return <Placeholder />;
+                // return <Placeholder {...this.props} />;
+                return react_1.default.createElement(Placeholder, this.props);
             }
             return null;
         }
@@ -71,7 +79,16 @@ exports.ensureReady = (routeConfig, providedLocation) => {
     return Promise.all(matches.map((match) => {
         const { component } = match.route;
         if (component && component.load) {
-            return component.load();
+            try {
+                component.load().then((loaded) => { console.log('loaded: ', loaded); })
+                    .catch((err) => {
+                    console.log('err: ', err);
+                });
+                return component.load();
+            }
+            catch (err) {
+                console.log('catched err: ', err);
+            }
         }
         return undefined;
     }));
