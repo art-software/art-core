@@ -9,23 +9,23 @@ export interface IHomeService {
     advertiseDetail(): Promise<AjaxResult<IAdvertiseDetail>>;
 }
 
-export interface IBanner {
+export interface IBanner2 {
     banner_img: string;
     QQ: string;
 }
 
-export interface IRoll {
+export interface IRoll2 {
     name: string;
     product: string;
     amount: number;
 }
 
-export enum Type {
+export enum Type2 {
     popularity = 1,
     hot = 2
 }
 
-export interface IProducts {
+export interface IProducts2 {
     product_name: string;
     product_tag: string;
     product_url: string;
@@ -34,15 +34,15 @@ export interface IProducts {
     product_day_rate: number;
 }
 
-export interface IModule {
-    type: Type;
+export interface IModule2 {
+    type: Type2;
     title: string;
     apply_total: number;
-    products: IProducts[];
+    products: IProducts2[];
 }
 
 export interface IAdvertiseDetail {
-    banner: IBanner;
-    roll: IRoll[];
-    module: IModule[];
+    banner: IBanner2;
+    roll: IRoll2[];
+    module: IModule2[];
 }

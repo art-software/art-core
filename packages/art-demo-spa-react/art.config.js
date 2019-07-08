@@ -19,7 +19,8 @@ const artConfig = {
   webpack: {
     entry: {
             [`${ projectVirtualPath }/home`]: ['./client/home/index.tsx'],
-            [`${ projectVirtualPath }/test/demo`]: ['./client/test/demo/index.tsx']
+            [`${ projectVirtualPath }/test/demo`]: ['./client/test/demo/index.tsx'],
+            [`${ projectVirtualPath }/mine`]: ['./client/mine/index.tsx']
         },
     output: {
       // Config CDN path for static files, images ....
