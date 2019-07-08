@@ -10,6 +10,7 @@ import * as webpack from 'webpack';
 
 const envName = appConfig.get('NODE_ENV');
 const isProdEnv = isProd();
+const projectVirtualPath = appConfig.get('art:projectVirtualPath') || '';
 
 const getHotDevServerScripts = () => {
   // WEBPACK DEV SERVER PORT
@@ -102,7 +103,7 @@ export const webpackOutput = (moduleEntry: string): webpack.Output => {
   return {
     filename: `${bundleFileNamePattern('.js')}`,
     chunkFilename: `[id].[chunkhash].js`,
-    path: path.resolve(paths.appCwd, outRelativePath, moduleEntry),
+    path: path.resolve(paths.appCwd, outRelativePath, projectVirtualPath, moduleEntry),
     publicPath
   };
 };
@@ -117,7 +118,7 @@ export const webpackOutputSSR = (moduleEntry: string): webpack.Output => {
   return {
     filename: `${bundleFileNamePattern('.js')}`,
     chunkFilename: `[id].[chunkhash].js`,
-    path: path.resolve(paths.appCwd, outRelativePath, moduleEntry),
+    path: path.resolve(paths.appCwd, outRelativePath, projectVirtualPath, moduleEntry),
     libraryTarget: 'commonjs'
   };
 };

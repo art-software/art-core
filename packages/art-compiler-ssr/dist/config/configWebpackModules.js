@@ -20,6 +20,7 @@ const env_1 = require("../utils/env");
 const BuildEnv_1 = require("../enums/BuildEnv");
 const envName = appConfig_1.default.get('NODE_ENV');
 const isProdEnv = env_1.isProd();
+const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
 const getHotDevServerScripts = () => {
     // WEBPACK DEV SERVER PORT
     const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
@@ -92,7 +93,7 @@ exports.webpackOutput = (moduleEntry) => {
     return {
         filename: `${bundleFileNamePattern('.js')}`,
         chunkFilename: `[id].[chunkhash].js`,
-        path: path.resolve(paths_1.default.appCwd, outRelativePath, moduleEntry),
+        path: path.resolve(paths_1.default.appCwd, outRelativePath, projectVirtualPath, moduleEntry),
         publicPath
     };
 };
@@ -105,7 +106,7 @@ exports.webpackOutputSSR = (moduleEntry) => {
     return {
         filename: `${bundleFileNamePattern('.js')}`,
         chunkFilename: `[id].[chunkhash].js`,
-        path: path.resolve(paths_1.default.appCwd, outRelativePath, moduleEntry),
+        path: path.resolve(paths_1.default.appCwd, outRelativePath, projectVirtualPath, moduleEntry),
         libraryTarget: 'commonjs'
     };
 };

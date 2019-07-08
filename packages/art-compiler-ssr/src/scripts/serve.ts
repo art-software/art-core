@@ -3,7 +3,6 @@ import appConfig from '../config/appConfig';
 import choosePort from 'art-dev-utils/lib/choosePort';
 import webpackDevServeConfig from '../config/webpackDevServer';
 import createServeCompiler from '../utils/createServeCompiler';
-import { getWebpackConfigWeb, getWebpackConfigSSR } from '../config';
 import prepareProxy from 'art-dev-utils/lib/prepareProxy';
 import prepareUrls from 'art-dev-utils/lib/prepareUrls';
 import WebpackDevServer from 'webpack-dev-server';
@@ -13,8 +12,8 @@ import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import * as path from 'path';
 import paths from '../config/paths';
 import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
-// import { run } from 'parallel-webpack';
-const webpackConfigSSR = require.resolve('../config/webpack.config.ssr');
+import webpackConfigWeb from '../config/webpack.config.web';
+import webpack from 'webpack';
 
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
@@ -41,21 +40,21 @@ const lunchNodeServer = (modules: string, port: number) => {
   nodeServerHasLunched = true;
 };
 
-// let compileMockServerHasLunched = false;
-// const compileMockServer = () => {
+let compileMockServerHasLunched = false;
+const compileMockServer = () => {
 
-//   if (compileMockServerHasLunched) { return; }
+  if (compileMockServerHasLunched) { return; }
 
-//   executeNodeScript(
-//     process.env.STAGE === 'dev' ?
-//     '../../node_modules/.bin/tsc' :
-//     path.join(process.cwd(), 'node_modules/.bin/tsc'),
-//     '-p', `${paths.appMockServerConfig}`,
-//     '-w'
-//   );
+  executeNodeScript(
+    process.env.STAGE === 'dev' ?
+      '../../node_modules/.bin/tsc' :
+      path.join(process.cwd(), 'node_modules/.bin/tsc'),
+    '-p', `${paths.appMockServerConfig}`,
+    '-w'
+  );
 
-//   compileMockServerHasLunched = true;
-// };
+  compileMockServerHasLunched = true;
+};
 
 const confirmModulesCb = (answer) => {
   if (answer.availableModulesOk === false) { return; }
@@ -65,115 +64,52 @@ const confirmModulesCb = (answer) => {
       // Save new availble webpack dev port.
       appConfig.set(`devPort:${envName}`, port);
 
-      let argvModules: string[] = JSON.parse(appConfig.get('ART_MODULES') || '[]');
-      if (typeof argvModules === 'string') {
-        argvModules = JSON.parse(argvModules);
-      }
-
-      // const webpackConfigWeb = argvModules.map((moduleEntry) => {
-      //   const webpackConfig = getWebpackConfigWeb(moduleEntry);
-      //   // console.log('webpackConfig: ', webpackConfig);
-
-      //   const webCompiler = createServeCompiler(webpackConfig, (success) => {
-      //     if (success) {
-      //       console.log('Web Compiler instance created successfully.');
-      //       const artModules = appConfig.get('ART_MODULES');
-      //       lunchNodeServer(artModules, port);
-      //       // compileMockServer();
-      //     }
-      //   });
-
-      //   if (webCompiler === null) { return; }
-
-      //   return webCompiler;
-      // }).filter((instance) => { return instance !== undefined; });
-
-      // console.log('webpackConfigWeb: ', webpackConfigWeb);
-
-      // ssrCompiler.watch({
-      //   ignored: /node_modules/,
-      //   aggregateTimeout: 2000
-      // }, (err, stats) => {
-      //   const messages = formatWebpackMessages(stats.toJson({}));
-      //   const noErrors = !messages.errors.length;
-
-      //   if (noErrors) {
-      //     console.log(greenText('SSR compiled successfully!'));
-      //   } else {
-      //     console.log(warningText('Debug server was interrupted, please fix lint error!\nFailed to compile.\n'));
-      //     console.log(messages.errors.join('\n\n'));
-      //     return;
-      //   }
-      // });
-
-      // const webpackConfigSSR = argvModules.map((moduleEntry) => {
-      //   const webpackConfig = getWebpackConfigSSR(moduleEntry);
-
-      //   const ssrCompiler = createServeCompiler(webpackConfig, (success) => {
-      //     if (success) {
-      //       console.log('SSR Compiler instance created successfully.');
-      //     }
-      //   });
-
-      //   if (ssrCompiler === null) { return; }
-      //   return ssrCompiler;
-      // }).filter((instance) => { return instance !== undefined; });
-
-      // console.log('webpackConfigSSR: ', webpackConfigSSR);
+      const argvModules: string = appConfig.get('ART_MODULES') || '[]';
 
       const parallelWebpack = path.join(require.resolve('parallel-webpack'), '../bin/run.js');
-      const configPath = path.join(__dirname, '../config/webpack.config.ssr.js');
+      const configPathSSR = path.join(__dirname, '../config/webpack.config.ssr.js');
       executeNodeScript(
         parallelWebpack,
-        '--config', configPath,
+        '--config', configPathSSR,
         '--watch',
         '--',
-        '--ART_MODULES', `${JSON.stringify(argvModules)}`
+        '--ART_MODULES', `${argvModules}`
       );
 
-      // try {
-      //   run(webpackConfigSSR, {
-      //     watch: true,
-      //     maxRetries: 1,
-      //   }, (err, stats) => {
-      //     const messages = formatWebpackMessages(stats.toJson({}));
-      //     const noErrors = !messages.errors.length;
+      // const configPathWeb = path.join(__dirname, '../config/webpack.config.web.js');
+      // executeNodeScript(
+      //   parallelWebpack,
+      //   '--config', configPathWeb,
+      //   '--watch',
+      //   '--',
+      //   '--ART_MODULES', `${argvModules}`
+      // );
 
-      //     if (noErrors) {
-      //       console.log(greenText('SSR compiled successfully!'));
-      //     } else {
-      //       console.log(warningText('Debug server was interrupted, please fix lint error!\nFailed to compile.\n'));
-      //       console.log(messages.errors.join('\n\n'));
-      //       return;
-      //     }
-      //   });
-      // } catch (err) {
-      //   console.log('errrrr: ', err);
-      // }
+      const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+      const urls = prepareUrls(protocol, HOST, port);
+      const proxySetting = appConfig.get('art:proxy');
+      const proxyConfig = prepareProxy(proxySetting);
+      const devServerConfig = webpackDevServeConfig(proxyConfig, urls.lanUrlForConfig);
+      const compiler = webpack(webpackConfigWeb);
+      const devServer = new WebpackDevServer(compiler, devServerConfig);
 
-      // const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
-      // const urls = prepareUrls(protocol, HOST, port);
-      // const proxySetting = appConfig.get('art:proxy');
-      // const proxyConfig = prepareProxy(proxySetting);
+      console.log('port: ', port);
+      devServer.listen(port, HOST, (error) => {
+        if (error) {
+          return console.log(error);
+        }
+        console.log(cyanText(`Starting compilers to compiling modules hold on...\n`));
+      });
 
-      // const devServerConfig = webpackDevServeConfig(proxyConfig, urls.lanUrlForConfig);
-      // console.log('devServerConfig: ', devServerConfig);
+      compileMockServer();
+      lunchNodeServer(argvModules, port);
 
-      // const devServer = new WebpackDevServer(webpackConfigWeb, devServerConfig);
-      // console.log('devServer: ', devServer);
-      // devServer.listen(port, HOST, (error) => {
-      //   if (error) {
-      //     return console.log(error);
-      //   }
-      //   console.log(cyanText(`Starting compilers to compiling modules hold on...\n`));
-      // });
-
-      // ['SIGINT', 'SIGTERM'].forEach((sig) => {
-      //   process.on(sig as NodeJS.Signals, () => {
-      //     devServer.close();
-      //     process.exit();
-      //   });
-      // });
+      ['SIGINT', 'SIGTERM'].forEach((sig) => {
+        process.on(sig as NodeJS.Signals, () => {
+          devServer.close();
+          process.exit();
+        });
+      });
 
     })
     .catch((error) => {

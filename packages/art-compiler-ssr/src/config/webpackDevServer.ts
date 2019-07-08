@@ -5,11 +5,14 @@ import { webpackOutput } from './configWebpackModules';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 import cors from 'cors';
 import errorOverlayMiddleware from 'art-dev-utils/lib/errorOverlayMiddleware';
+import path from 'path';
 
 const webpackDevServeConfig = (proxy, allowedHost): WebpackDevServer.Configuration => {
   const envName = process.env.NODE_ENV || 'development';
-  const { publicPath } = webpackOutput();
+  // const { publicPath } = webpackOutput();
   const host = ensureSlash(appConfig.get(`devHost:${envName}`), false) || '0.0.0.0';
+  const port = appConfig.get(`devPort:${envName}`);
+  const publicPath = `${host}:${port}/public/`;
 
   return {
     disableHostCheck: !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',

@@ -23,7 +23,7 @@ export default class HomeController {
       <body>
         ${html}
         <script type="text/javascript" src="http://me.dev.com:3005/static/art_framework.20180901.js"></script>
-        <script type="text/javascript" src="http://me.dev.com:3001/public/demo/ssr/react/home/bundle.js"></script>
+        <script type="text/javascript" src="http://me.dev.com:3001/public/bundle.js"></script>
       </body>
       </html>
     `;
