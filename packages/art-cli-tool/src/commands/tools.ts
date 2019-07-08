@@ -9,7 +9,7 @@ import { utilsTask } from '../helpers/utilsTask';
 // TODO add miniprogram support
 class UtilsCommand implements CommandModule {
 
-  public readonly command = 'utils';
+  public readonly command = 'tools';
 
   public describe = chalk.black.bold(`choose any art utils you want to use `);
 
@@ -33,10 +33,6 @@ class UtilsCommand implements CommandModule {
     const executeUtil = utilChooseAnswer.utilChioce;
     console.log(`Will execute ${executeUtil}`);
     utilsTask(executeUtil);
-    // this.inputWillChangeModules(executeUtil)
-    // .then((modules) => {
-    //   console.log(modules);
-    // });
   }
 }
 

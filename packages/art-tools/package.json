@@ -1,0 +1,24 @@
+{
+  "name": "art-tools",
+  "version": "0.0.1",
+  "description": "art framework tools",
+  "author": "YGM",
+  "license": "MIT",
+  "scripts": {
+    "build": "sudo tsc -w"
+  },
+  "dependencies": {
+    "art-dev-utils": "^0.0.12",
+    "babylon": "^6.18.0",
+    "blueimp-md5": "^2.10.0",
+    "marked": "0.6.0",
+    "recast": "0.17.3",
+    "ts-node": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/babylon": "6.16.5",
+    "@types/marked": "0.6.3",
+    "@types/node": "^10.5.6"
+  },
+  "gitHead": "5927f55381e65b75b024d1e240a3c09f33c38d7b"
+}
