@@ -42,7 +42,7 @@
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("./" + chunkId + "." + {"demo/ssr/react/home/chunks/lktz4yw18_1562431040931":"efe647bcb4c70a16f908","demo/ssr/react/home/chunks/xiwswfy8y_1562431040932":"1feee19e513d0d7405a8"}[chunkId] + ".js");
+/******/ 			var chunk = require("./" + chunkId + "." + {"0":"78c0b7c9d8d7ee44d3b7","1":"74d862a4faa3e008323d"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -32787,7 +32787,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     component: Object(art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_1__["generateAsyncRouteComponent"])({
       loader: function loader() {
-        return __webpack_require__.e(/*! import() */ "demo/ssr/react/home/chunks/lktz4yw18_1562431040931").then(__webpack_require__.bind(null, /*! ./view/Home */ "./client/home/view/Home.tsx"));
+        return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./view/Home */ "./client/home/view/Home.tsx"));
       }
     }) // component: Home
 
@@ -32797,7 +32797,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     component: Object(art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_1__["generateAsyncRouteComponent"])({
       loader: function loader() {
-        return __webpack_require__.e(/*! import() */ "demo/ssr/react/home/chunks/xiwswfy8y_1562431040932").then(__webpack_require__.bind(null, /*! ./view/About */ "./client/home/view/About.tsx"));
+        return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./view/About */ "./client/home/view/About.tsx"));
       }
     }) // component: About
 
@@ -32993,7 +32993,7 @@ function (_React$Component) {
   _createClass(IndexSSR, [{
     key: "render",
     value: function render() {
-      console.log('this.props: ', this.props);
+      console.log('this.propsss: ', this.props);
       var url = this.props.data.url;
       var routeConfig = Object(art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_4__["convertCustomRouteConfig"])(_routes__WEBPACK_IMPORTED_MODULE_3__["default"]);
       console.log('routeConfig: ', routeConfig);

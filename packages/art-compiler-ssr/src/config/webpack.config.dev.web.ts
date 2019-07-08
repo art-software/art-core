@@ -1,9 +1,8 @@
 import webpack from 'webpack';
-// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackBaseConfig } from './webpack.config.base';
 import { Configuration } from 'webpack';
 import { configBaseRules } from './configRules';
-import { configPluginsWeb } from './configPluginsWeb';
+import { getConfigPluginsWeb } from './configPluginsWeb';
 
 export default class WebpackDevConfig extends WebpackBaseConfig implements Configuration {
   constructor(entry, output) {
@@ -21,10 +20,7 @@ export default class WebpackDevConfig extends WebpackBaseConfig implements Confi
 
   public devtool = '#source-map' as '#source-map';
 
-  public plugins = configPluginsWeb.concat(
-    // new MiniCssExtractPlugin({
-    //   filename: `./[name]/bundle.css`
-    // }),
+  public plugins = getConfigPluginsWeb(this.entry).concat(
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   );

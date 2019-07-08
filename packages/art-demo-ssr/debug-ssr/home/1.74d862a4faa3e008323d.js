@@ -1,4 +1,4 @@
-exports.ids = ["demo/ssr/react/home/chunks/xiwswfy8y_1562431040932"];
+exports.ids = [1];
 exports.modules = {
 
 /***/ "./client/home/view/About.tsx":
@@ -59,4 +59,4 @@ function (_React$Component) {
 /***/ })
 
 };;
-//# sourceMappingURL=xiwswfy8y_1562431040932.1feee19e513d0d7405a8.js.map
+//# sourceMappingURL=1.74d862a4faa3e008323d.js.map

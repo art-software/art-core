@@ -1,10 +1,10 @@
-exports.ids = ["demo/ssr/react/home/chunks/gvin8voud_1562430851327"];
+exports.ids = [0];
 exports.modules = {
 
-/***/ "./client/home/view/Home.tsx":
-/*!***********************************!*\
-  !*** ./client/home/view/Home.tsx ***!
-  \***********************************/
+/***/ "./client/home2/view/Home.tsx":
+/*!************************************!*\
+  !*** ./client/home2/view/Home.tsx ***!
+  \************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -82,4 +82,4 @@ function (_React$Component) {
 /***/ })
 
 };;
-//# sourceMappingURL=bundle.js.map
+//# sourceMappingURL=0.524f276c3dd0643473c4.js.map

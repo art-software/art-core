@@ -1,16 +1,16 @@
-exports.ids = ["demo/ssr/react/home/chunks/g8gmjj09p_1562430851328"];
+exports.ids = [0];
 exports.modules = {
 
-/***/ "./client/home/view/About.tsx":
-/*!************************************!*\
-  !*** ./client/home/view/About.tsx ***!
-  \************************************/
+/***/ "./client/home/view/Home.tsx":
+/*!***********************************!*\
+  !*** ./client/home/view/Home.tsx ***!
+  \***********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return About; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Home; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -33,25 +33,48 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var About =
+var Home =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(About, _React$Component);
+  _inherits(Home, _React$Component);
 
-  function About() {
-    _classCallCheck(this, About);
+  function Home() {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(About).apply(this, arguments));
+    _classCallCheck(this, Home);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).apply(this, arguments));
+    _this.state = {
+      count: 0
+    };
+
+    _this.count = function () {
+      _this.setState({
+        count: ++_this.state.count
+      });
+    };
+
+    return _this;
   }
 
-  _createClass(About, [{
+  _createClass(Home, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "About Page");
+      var style = {
+        display: 'inline-block',
+        width: '100px',
+        height: '60px',
+        border: 'none',
+        marginRight: '20px'
+      };
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "It's React SSR"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        style: style,
+        onClick: this.count
+      }, "Click to Add: ", this.state.count));
     }
   }]);
 
-  return About;
+  return Home;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 
@@ -59,4 +82,4 @@ function (_React$Component) {
 /***/ })
 
 };;
-//# sourceMappingURL=bundle.js.map
+//# sourceMappingURL=0.78c0b7c9d8d7ee44d3b7.js.map

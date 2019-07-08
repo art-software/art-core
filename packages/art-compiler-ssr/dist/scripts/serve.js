@@ -13,18 +13,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const inquirer_1 = require("../utils/inquirer");
 const appConfig_1 = __importDefault(require("../config/appConfig"));
 const choosePort_1 = __importDefault(require("art-dev-utils/lib/choosePort"));
-const webpackDevServer_1 = __importDefault(require("../config/webpackDevServer"));
-const createServeCompiler_1 = __importDefault(require("../utils/createServeCompiler"));
-const config_1 = require("../config");
-const prepareProxy_1 = __importDefault(require("art-dev-utils/lib/prepareProxy"));
-const prepareUrls_1 = __importDefault(require("art-dev-utils/lib/prepareUrls"));
-const webpack_dev_server_1 = __importDefault(require("webpack-dev-server"));
-// import clearConsole from 'art-dev-utils/lib/clearConsole';
-const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const path = __importStar(require("path"));
 const paths_1 = __importDefault(require("../config/paths"));
-const formatWebpackMessages_1 = __importDefault(require("art-dev-utils/lib/formatWebpackMessages"));
+// import { run } from 'parallel-webpack';
+const webpackConfigSSR = require.resolve('../config/webpack.config.ssr');
 const envName = appConfig_1.default.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig_1.default.get(`devPort:${envName}`);
@@ -63,57 +56,91 @@ const confirmModulesCb = (answer) => {
         }
         // Save new availble webpack dev port.
         appConfig_1.default.set(`devPort:${envName}`, port);
-        const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
-        const urls = prepareUrls_1.default(protocol, HOST, port);
-        const webpackConfigWeb = config_1.getWebpackConfigWeb();
-        const webpackConfigSSR = config_1.getWebpackConfigSSR();
-        const webCompiler = createServeCompiler_1.default(webpackConfigWeb, (success) => {
-            if (success) {
-                console.log('Web Compiler instance created successfully.');
-                const artModules = appConfig_1.default.get('ART_MODULES');
-                lunchNodeServer(artModules, port);
-                // compileMockServer();
-            }
-        });
-        const ssrCompiler = createServeCompiler_1.default(webpackConfigSSR, (success) => {
-            if (success) {
-                console.log('SSR Compiler instance created successfully.');
-            }
-        });
-        if (webCompiler === null || ssrCompiler === null) {
-            return;
+        let argvModules = JSON.parse(appConfig_1.default.get('ART_MODULES') || '[]');
+        if (typeof argvModules === 'string') {
+            argvModules = JSON.parse(argvModules);
         }
-        ssrCompiler.watch({
-            ignored: /node_modules/,
-            aggregateTimeout: 2000
-        }, (err, stats) => {
-            const messages = formatWebpackMessages_1.default(stats.toJson({}));
-            const noErrors = !messages.errors.length;
-            if (noErrors) {
-                console.log(chalkColors_1.greenText('SSR compiled successfully!'));
-            }
-            else {
-                console.log(chalkColors_1.warningText('Debug server was interrupted, please fix lint error!\nFailed to compile.\n'));
-                console.log(messages.errors.join('\n\n'));
-                return;
-            }
-        });
-        const proxySetting = appConfig_1.default.get('art:proxy');
-        const proxyConfig = prepareProxy_1.default(proxySetting);
-        const devServerConfig = webpackDevServer_1.default(proxyConfig, urls.lanUrlForConfig);
-        const devServer = new webpack_dev_server_1.default(webCompiler, devServerConfig);
-        devServer.listen(port, HOST, (error) => {
-            if (error) {
-                return console.log(error);
-            }
-            console.log(chalkColors_1.cyanText(`Starting compilers to compiling modules hold on...\n`));
-        });
-        ['SIGINT', 'SIGTERM'].forEach((sig) => {
-            process.on(sig, () => {
-                devServer.close();
-                process.exit();
-            });
-        });
+        // const webpackConfigWeb = argvModules.map((moduleEntry) => {
+        //   const webpackConfig = getWebpackConfigWeb(moduleEntry);
+        //   // console.log('webpackConfig: ', webpackConfig);
+        //   const webCompiler = createServeCompiler(webpackConfig, (success) => {
+        //     if (success) {
+        //       console.log('Web Compiler instance created successfully.');
+        //       const artModules = appConfig.get('ART_MODULES');
+        //       lunchNodeServer(artModules, port);
+        //       // compileMockServer();
+        //     }
+        //   });
+        //   if (webCompiler === null) { return; }
+        //   return webCompiler;
+        // }).filter((instance) => { return instance !== undefined; });
+        // console.log('webpackConfigWeb: ', webpackConfigWeb);
+        // ssrCompiler.watch({
+        //   ignored: /node_modules/,
+        //   aggregateTimeout: 2000
+        // }, (err, stats) => {
+        //   const messages = formatWebpackMessages(stats.toJson({}));
+        //   const noErrors = !messages.errors.length;
+        //   if (noErrors) {
+        //     console.log(greenText('SSR compiled successfully!'));
+        //   } else {
+        //     console.log(warningText('Debug server was interrupted, please fix lint error!\nFailed to compile.\n'));
+        //     console.log(messages.errors.join('\n\n'));
+        //     return;
+        //   }
+        // });
+        // const webpackConfigSSR = argvModules.map((moduleEntry) => {
+        //   const webpackConfig = getWebpackConfigSSR(moduleEntry);
+        //   const ssrCompiler = createServeCompiler(webpackConfig, (success) => {
+        //     if (success) {
+        //       console.log('SSR Compiler instance created successfully.');
+        //     }
+        //   });
+        //   if (ssrCompiler === null) { return; }
+        //   return ssrCompiler;
+        // }).filter((instance) => { return instance !== undefined; });
+        // console.log('webpackConfigSSR: ', webpackConfigSSR);
+        const parallelWebpack = path.join(require.resolve('parallel-webpack'), '../bin/run.js');
+        const configPath = path.join(__dirname, '../config/webpack.config.ssr.js');
+        executeNodeScript_1.default(parallelWebpack, '--config', configPath, '--watch', '--', '--ART_MODULES', `${JSON.stringify(argvModules)}`);
+        // try {
+        //   run(webpackConfigSSR, {
+        //     watch: true,
+        //     maxRetries: 1,
+        //   }, (err, stats) => {
+        //     const messages = formatWebpackMessages(stats.toJson({}));
+        //     const noErrors = !messages.errors.length;
+        //     if (noErrors) {
+        //       console.log(greenText('SSR compiled successfully!'));
+        //     } else {
+        //       console.log(warningText('Debug server was interrupted, please fix lint error!\nFailed to compile.\n'));
+        //       console.log(messages.errors.join('\n\n'));
+        //       return;
+        //     }
+        //   });
+        // } catch (err) {
+        //   console.log('errrrr: ', err);
+        // }
+        // const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+        // const urls = prepareUrls(protocol, HOST, port);
+        // const proxySetting = appConfig.get('art:proxy');
+        // const proxyConfig = prepareProxy(proxySetting);
+        // const devServerConfig = webpackDevServeConfig(proxyConfig, urls.lanUrlForConfig);
+        // console.log('devServerConfig: ', devServerConfig);
+        // const devServer = new WebpackDevServer(webpackConfigWeb, devServerConfig);
+        // console.log('devServer: ', devServer);
+        // devServer.listen(port, HOST, (error) => {
+        //   if (error) {
+        //     return console.log(error);
+        //   }
+        //   console.log(cyanText(`Starting compilers to compiling modules hold on...\n`));
+        // });
+        // ['SIGINT', 'SIGTERM'].forEach((sig) => {
+        //   process.on(sig as NodeJS.Signals, () => {
+        //     devServer.close();
+        //     process.exit();
+        //   });
+        // });
     })
         .catch((error) => {
         if (error && error.message) {

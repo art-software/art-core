@@ -1,16 +1,16 @@
-exports.ids = ["demo/ssr/react/home/chunks/lktz4yw18_1562431040931"];
+exports.ids = [1];
 exports.modules = {
 
-/***/ "./client/home/view/Home.tsx":
-/*!***********************************!*\
-  !*** ./client/home/view/Home.tsx ***!
-  \***********************************/
+/***/ "./client/home2/view/About.tsx":
+/*!*************************************!*\
+  !*** ./client/home2/view/About.tsx ***!
+  \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Home; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return About; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -33,48 +33,25 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var Home =
+var About =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(Home, _React$Component);
+  _inherits(About, _React$Component);
 
-  function Home() {
-    var _this;
+  function About() {
+    _classCallCheck(this, About);
 
-    _classCallCheck(this, Home);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).apply(this, arguments));
-    _this.state = {
-      count: 0
-    };
-
-    _this.count = function () {
-      _this.setState({
-        count: ++_this.state.count
-      });
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(About).apply(this, arguments));
   }
 
-  _createClass(Home, [{
+  _createClass(About, [{
     key: "render",
     value: function render() {
-      var style = {
-        display: 'inline-block',
-        width: '100px',
-        height: '60px',
-        border: 'none',
-        marginRight: '20px'
-      };
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "It's React SSR"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        style: style,
-        onClick: this.count
-      }, "Click to Add: ", this.state.count));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "About Page");
     }
   }]);
 
-  return Home;
+  return About;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 
@@ -82,4 +59,4 @@ function (_React$Component) {
 /***/ })
 
 };;
-//# sourceMappingURL=lktz4yw18_1562431040931.efe647bcb4c70a16f908.js.map
+//# sourceMappingURL=1.b691ba84022f4c67bafa.js.map

@@ -10,6 +10,8 @@ export class WebpackBaseConfig implements Configuration {
 
   public entry: any;
 
+  public stats = 'errors-only' as 'errors-only';
+
   public output: any;
 
   public mode = isProd() ? 'production' as 'production' : 'development' as 'development';

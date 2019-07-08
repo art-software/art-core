@@ -1,7 +1,7 @@
 import { WebpackBaseConfig } from './webpack.config.base';
 import { Configuration } from 'webpack';
 import { jsRule, tsRule } from './configRules';
-import { configPluginsSSR } from './configPluginsSSR';
+import { getConfigPluginsSSR } from './configPluginsSSR';
 const nodeExternals = require('webpack-node-externals');
 
 export default class WebpackDevSSRConfig extends WebpackBaseConfig implements Configuration {
@@ -22,7 +22,7 @@ export default class WebpackDevSSRConfig extends WebpackBaseConfig implements Co
     rules: [ jsRule, tsRule ]
   };
 
-  public plugins = configPluginsSSR;
+  public plugins = getConfigPluginsSSR(this.entry);
 
   public externals = [ nodeExternals() ];
 }

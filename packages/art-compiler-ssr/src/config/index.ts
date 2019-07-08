@@ -5,10 +5,10 @@ import { isProd } from '../utils/env';
 import { Configuration } from 'webpack';
 import WebpackProdConfig from './webpack.config.prod';
 
-export const getWebpackConfigWeb = (): Configuration => {
-  const entry = webpackEntries(false);
+export const getWebpackConfigWeb = (moduleEntry: string): Configuration => {
+  const entry = webpackEntries(moduleEntry, false);
   const hotEntry = attachHotDevServerScripts(entry);
-  const output = webpackOutput();
+  const output = webpackOutput(moduleEntry);
 
   if (!isProd()) {
     return new WebpackDevConfigWeb(hotEntry, output);
@@ -18,12 +18,12 @@ export const getWebpackConfigWeb = (): Configuration => {
   }
 };
 
-export const getWebpackConfigSSR = (): Configuration => {
-  const entry = webpackEntriesSSR();
-  const output = webpackOutputSSR();
+export const getWebpackConfigSSR = (moduleEntry: string): Configuration => {
+  const entry = webpackEntriesSSR(moduleEntry, false);
+  const output = webpackOutputSSR(moduleEntry);
 
   if (!isProd()) {
-    return new WebpackDevConfigSSR(entry, output);
+  return new WebpackDevConfigSSR(entry, output);
   } else {
     // TODO check it
     return new WebpackProdConfig(entry, output);
