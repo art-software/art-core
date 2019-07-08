@@ -5,7 +5,7 @@ export const belowthefold = function (element, settings) {
     if (!offset) {
         return;
     }
-    return Math.abs(iScroll.y) + getElemHeight(iScroll.wrapper) <= offset.top - (settings.threshold || 0);
+    return getElemHeight(iScroll.wrapper) - iScroll.y <= offset.top - (settings.threshold || 0);
 };
 export const rightoffold = function (element, settings) {
     const iScroll = settings.container;
@@ -13,6 +13,7 @@ export const rightoffold = function (element, settings) {
     if (!offset) {
         return;
     }
+    // TODO Potential logic error here (Math.abs()), check it later
     return Math.abs(iScroll.x) + getElemWidth(iScroll.wrapper) <= offset.left - (settings.threshold || 0);
 };
 export const abovethetop = function (element, settings) {
@@ -21,6 +22,7 @@ export const abovethetop = function (element, settings) {
     if (!offset) {
         return;
     }
+    // TODO Potential logic error here (Math.abs()), check it later
     return Math.abs(iScroll.y) >= offset.top + (settings.threshold || 0) + getElemHeight(element);
 };
 export const leftofbegin = function (element, settings) {
@@ -29,6 +31,7 @@ export const leftofbegin = function (element, settings) {
     if (!offset) {
         return;
     }
+    // TODO Potential logic error here (Math.abs()), check it later
     return Math.abs(iScroll.x) >= offset.left + (settings.threshold || 0) + getElemWidth(element);
 };
 export const inviewport = function (element, settings) {
