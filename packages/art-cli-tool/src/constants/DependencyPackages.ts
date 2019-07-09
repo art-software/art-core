@@ -1,6 +1,6 @@
 import { Scaffolds } from "../enums/Scaffolds";
 
-export const NpmModules = {
+export const DependencyPackages = {
 	[Scaffolds.react]: ['art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack'],
 	[Scaffolds.miniprogram]: ['art-lib-common', 'art-lib-react', 'art-lib-utils']
 }

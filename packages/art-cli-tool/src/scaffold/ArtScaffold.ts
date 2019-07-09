@@ -6,10 +6,38 @@ import { series } from 'async';
 import inquirer = require('inquirer');
 import { Answers, Question } from 'inquirer';
 import spawn from 'cross-spawn';
-import { NpmModules } from '../constants/NpmModules';
+import { DependencyPackages } from '../constants/DependencyPackages';
 import { ModulesManagers } from '../enums/ModulesManagers';
 import { InstallCommands } from '../constants/InstallCommands';
 import { printInstructions } from './printLog';
+
+const questionAutoInstalle: Question[] = [
+  {
+    type: 'confirm', 
+    name: 'autoInstall', 
+    message: 'Install npm modules?', 
+    default: true 
+  }
+];
+
+const questionsInstallManager: Question[] = [
+  {
+    type: 'list',
+    name: 'modulesManager',
+    message: 'choose one dependency packages manager',
+    choices: [ ModulesManagers.YARN, ModulesManagers.NPM ],
+    default: 0
+  }
+];
+
+const questionAutoServer: Question[] = [
+  {
+    type: 'confirm', 
+    name: 'autoServer', 
+    message: 'start servering modules?', 
+    default: true 
+  }
+];
 
 export default class ArtScaffold {
   /**
@@ -33,6 +61,8 @@ export default class ArtScaffold {
     // Project information.
     this.moduleName = '';
   }
+
+  private installCount: number = 0;
 
   public projectName: string;
   public scaffoldType: string;
@@ -136,63 +166,82 @@ export default class ArtScaffold {
   }
 
   public async autoInstallAfterCreateProject () {
-    const moduleNamesArr = NpmModules[this.scaffoldType] || [];
+    const dependencyArr = DependencyPackages[this.scaffoldType] || [];
+    
     printInstructions(chalk.magenta(`creating scaffold [${this.scaffoldType}] project succeed, the next step is installing npm modules!`));
-    const questionAutoInstalle: Question[] = [
-      {
-        type: 'confirm', 
-        name: 'autoInstall', 
-        message: 'Install npm modules for your project?', 
-        default: true 
-      }
-    ];
-    const questionsInstallMethod: Question[] = [
-      {
-        type: 'list',
-        name: 'modulesManager',
-        message: 'please choose one manager to add modules',
-        choices: [ ModulesManagers.YARN, ModulesManagers.NPM ],
-        default: 0
-      },
-    ];
+    
     const inquirerAuto = await inquirer.prompt(questionAutoInstalle).then((answersAuto: Answers) => {
       return answersAuto;
     });
+
     if (inquirerAuto.autoInstall) {
-      const inquirerMethod = await inquirer.prompt(questionsInstallMethod).then((answersMethod: Answers) => {
+      const inquirerMethod = await inquirer.prompt(questionsInstallManager).then((answersMethod: Answers) => {
         return answersMethod;
       });
-      await this.installNpmModules(inquirerMethod, moduleNamesArr, 'particular');
-      await this.installNpmModules(inquirerMethod, [], 'default');
+
+      await this.installDependencyPackages(inquirerMethod, dependencyArr, 'particular');
+      await this.installDependencyPackages(inquirerMethod, [], 'default');
     } else {
-      printInstructions(chalk.blue(`please don't forget to install these modules: ${chalk.magenta(moduleNamesArr.join(' '))}`));
+      printInstructions(chalk.blue(`please don't forget to install these modules: ${chalk.magenta(dependencyArr.join(' '))}`));
     }
   }
 
-  public installNpmModules (answersMethod: Answers, moduleNamesArr: string[], type: string) {
-    printInstructions(chalk.green(`install ${type} modules starting...`));
-    moduleNamesArr.map((item) =>{
+  public installDependencyPackages (answersMethod: Answers, dependencyArr: string[], type: string) {
+    printInstructions(chalk.green(`start installing [${this.scaffoldType}] ${type} dependency packages...`));
+    
+    dependencyArr.map((item) =>{
       console.log(chalk.magenta(item));
     });
-    const child = spawn(
+
+    spawn(
       answersMethod.modulesManager,
       [
         InstallCommands[answersMethod.modulesManager][type],
-        ...moduleNamesArr
+        ...dependencyArr
       ],
       {
         stdio: 'inherit'
       }
-    );
-    child.on('close', (code) => {
-      if (code !== 0) {
-        console.log(chalk.cyan('install npm modules' + type) + ' exited with code ' + code + '.');
+    ).on('close', (code) => {
+      if (code === 0) {
+        this.installCount++;
+        if (this.installCount === 2) {
+          this.autoServerModule();
+        }
+      } else {
+        console.log(chalk.cyan('install dependency packages' + type) + ' exited with code ' + code + '.');
         return;
       }
-    });
-
-    child.on('error', (err) => {
+    }).on('error', (err) => {
       console.log(err);
+    });
+  }
+  public autoServerModule () {
+    printInstructions(chalk.magenta('install dependency packages succeed!'));
+    inquirer.prompt(questionAutoServer).then((answersAuto: Answers) => {
+      if (answersAuto.autoServer) {
+        spawn(
+          'art',
+          [
+            'serve',
+            '-m',
+            this.moduleName
+          ],
+          {
+            stdio: 'inherit'
+          }
+        ).
+        on('close', (code) => {
+          if (code === 0) {
+            console.log('serve modules succeed!');
+          } else {
+            console.log(chalk.cyan('serve modules') + ' exited with code ' + code + '.');
+            return;
+          }
+        }).on('error', (err) => {
+          console.log(err);
+        });
+      }
     });
   }
 
