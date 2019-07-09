@@ -64,14 +64,6 @@ const confirmModulesCb = (answer) => {
         const parallelWebpack = path.join(require.resolve('parallel-webpack'), '../bin/run.js');
         const configPathSSR = path.join(__dirname, '../config/webpack.config.ssr.js');
         executeNodeScript_1.default(parallelWebpack, '--config', configPathSSR, '--watch', '--', '--ART_MODULES', `${argvModules}`);
-        // const configPathWeb = path.join(__dirname, '../config/webpack.config.web.js');
-        // executeNodeScript(
-        //   parallelWebpack,
-        //   '--config', configPathWeb,
-        //   '--watch',
-        //   '--',
-        //   '--ART_MODULES', `${argvModules}`
-        // );
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
         const urls = prepareUrls_1.default(protocol, HOST, port);
         const proxySetting = appConfig_1.default.get('art:proxy');

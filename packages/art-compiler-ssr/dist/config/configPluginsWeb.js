@@ -66,12 +66,6 @@ const configHtmlWebpackPlugin = (entry) => {
     plugins.push(new HtmlWebpackCDNPlugin_1.default());
     return plugins;
 };
-const getRawModuleEntry = (entries) => {
-    for (const key in entries) {
-        entries[key] = entries[key].slice(1);
-    }
-    return entries;
-};
 exports.getConfigPluginsWeb = ((entry) => {
     let plugins = [
         new progress_bar_webpack_plugin_1.default({

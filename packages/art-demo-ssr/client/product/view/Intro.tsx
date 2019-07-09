@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Home extends React.Component {
+export default class Intro extends React.Component {
   public state = {
     count: 0
   };
@@ -21,7 +21,7 @@ export default class Home extends React.Component {
     };
     return (
       <div>
-        <div>It's React SSR</div>
+        <div>Product count</div>
         <button style={style} onClick={this.count}>Click to Add: {this.state.count}</button>
       </div>
     );

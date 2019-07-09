@@ -63,13 +63,6 @@ const configHtmlWebpackPlugin = (entry: any): any[] => {
   return plugins;
 };
 
-const getRawModuleEntry = (entries) => {
-  for (const key in entries) {
-    entries[key] = entries[key].slice(1);
-  }
-  return entries;
-};
-
 export const getConfigPluginsWeb = ((entry: any) => {
   let plugins = [
     new ProgressBarPlugin({

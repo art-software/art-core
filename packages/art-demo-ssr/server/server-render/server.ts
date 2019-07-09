@@ -7,7 +7,7 @@ const renderServer = new RenderServer({
 
   getComponent: createGetComponent({
     Home: path.join(__dirname, '../../debug-ssr/demo/ssr/react/home/bundle.js'),
-    // About: path.join(__dirname, '../../debug-ssr/demo/ssr/react/home/bundle.js')
+    Product: path.join(__dirname, '../../debug-ssr/demo/ssr/react/product/bundle.js')
   }),
 
   host: 'localhost',

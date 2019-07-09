@@ -1,16 +1,16 @@
 exports.ids = [0];
 exports.modules = {
 
-/***/ "./client/home2/view/Home.tsx":
-/*!************************************!*\
-  !*** ./client/home2/view/Home.tsx ***!
-  \************************************/
+/***/ "./client/product/view/Intro.tsx":
+/*!***************************************!*\
+  !*** ./client/product/view/Intro.tsx ***!
+  \***************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Home; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Intro; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "../../node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -33,17 +33,17 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var Home =
+var Intro =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(Home, _React$Component);
+  _inherits(Intro, _React$Component);
 
-  function Home() {
+  function Intro() {
     var _this;
 
-    _classCallCheck(this, Home);
+    _classCallCheck(this, Intro);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Intro).apply(this, arguments));
     _this.state = {
       count: 0
     };
@@ -57,7 +57,7 @@ function (_React$Component) {
     return _this;
   }
 
-  _createClass(Home, [{
+  _createClass(Intro, [{
     key: "render",
     value: function render() {
       var style = {
@@ -67,14 +67,14 @@ function (_React$Component) {
         border: 'none',
         marginRight: '20px'
       };
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "It's React SSR"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Product count"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         style: style,
         onClick: this.count
       }, "Click to Add: ", this.state.count));
     }
   }]);
 
-  return Home;
+  return Intro;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 
@@ -82,4 +82,4 @@ function (_React$Component) {
 /***/ })
 
 };;
-//# sourceMappingURL=0.524f276c3dd0643473c4.js.map
+//# sourceMappingURL=0.db2f18e75bec65c8bc1b.js.map

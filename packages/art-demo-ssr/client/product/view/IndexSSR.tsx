@@ -1,9 +1,8 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
-import routes from '../routes';
+import routes from 'art-demo-ssr/client/product/routes';
 import { convertCustomRouteConfig } from 'art-ssr-react-router/dist/reactRouterHelper';
-// import { convertCustomRouteConfig, ensureReady } from 'art-ssr-react-router/dist/reactRouterHelper';
 
 export default class IndexSSR extends React.Component {
   constructor(props) {
@@ -11,12 +10,16 @@ export default class IndexSSR extends React.Component {
   }
 
   public render() {
-    console.log('this.props: ', this.props);
+    const { url } = (this.props as any).data;
+    console.log('url: ', url);
     const routeConfig = convertCustomRouteConfig(routes);
+    console.log('routeConfig: ', routeConfig);
     return (
-      <BrowserRouter>
-        {renderRoutes(routeConfig)}
-      </BrowserRouter>
+      <StaticRouter location={url} context={{}}>
+        {
+          renderRoutes(routeConfig)
+        }
+      </StaticRouter>
     );
   }
 }

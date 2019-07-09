@@ -1,9 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
-// import Home from './Home';
-// import About from './About';
-// import Mine from './Mine';
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -12,17 +9,13 @@ export default class Index extends React.Component {
 
   public render() {
     return (
-      // <BrowserRouter>
       <div>
         <ul>
           <li>
-            <Link to="/home">Home</Link>
+            <Link to="/product/intro">Intro</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/mine">Mine</Link>
+            <Link to="/product/detail">Detail</Link>
           </li>
         </ul>
 
@@ -31,12 +24,7 @@ export default class Index extends React.Component {
         {
           renderRoutes((this.props as any).route.routes)
         }
-
-        {/* <Route exact path="/home" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/mine" component={Mine} /> */}
       </div>
-      // </BrowserRouter>
     );
   }
 }

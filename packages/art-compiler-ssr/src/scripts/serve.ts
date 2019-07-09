@@ -76,15 +76,6 @@ const confirmModulesCb = (answer) => {
         '--ART_MODULES', `${argvModules}`
       );
 
-      // const configPathWeb = path.join(__dirname, '../config/webpack.config.web.js');
-      // executeNodeScript(
-      //   parallelWebpack,
-      //   '--config', configPathWeb,
-      //   '--watch',
-      //   '--',
-      //   '--ART_MODULES', `${argvModules}`
-      // );
-
       const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
       const urls = prepareUrls(protocol, HOST, port);
       const proxySetting = appConfig.get('art:proxy');

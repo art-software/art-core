@@ -1,16 +1,14 @@
 import { Controller, Get, Req, Res } from 'routing-controllers';
-import { HomeService } from '../../services/home/HomeService';
+import { ProductService } from '../../services/product/ProductService';
 import { Request, Response } from 'express';
 
 @Controller()
-export default class HomeController {
+export default class ProductController {
 
-  @Get('/home')
-  @Get('/about')
-  @Get('/mine')
+  @Get('/product/*')
   public async home(@Req() req: Request, @Res() res: Response) {
-    const homeService = new HomeService();
-    const html = await homeService.requestRenderHome(req);
+    const productService = new ProductService();
+    const html = await productService.requestRenderProduct(req);
     const renderedHtml = `
       <!DOCTYPE html>
       <html lang="en">
@@ -23,7 +21,7 @@ export default class HomeController {
       <body>
         ${html}
         <script type="text/javascript" src="http://me.dev.com:3005/static/art_framework.20180901.js"></script>
-        <script type="text/javascript" src="http://me.dev.com:3001/public/demo/ssr/react/home/bundle.js"></script>
+        <script type="text/javascript" src="http://me.dev.com:3001/public/demo/ssr/react/product/bundle.js"></script>
       </body>
       </html>
     `;

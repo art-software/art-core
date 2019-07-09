@@ -10,6 +10,7 @@ const renderServer = new RenderServer_1.default({
     devMode: true,
     getComponent: createGetComponent_1.default({
         Home: path_1.default.join(__dirname, '../../debug-ssr/demo/ssr/react/home/bundle.js'),
+        Product: path_1.default.join(__dirname, '../../debug-ssr/demo/ssr/react/product/bundle.js')
     }),
     host: 'localhost',
     port: 8888
