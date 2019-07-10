@@ -8,10 +8,10 @@
   "private": true,
   "dependencies": {
     "art-compiler-ssr": "^0.0.1",
-    "art-lib-common": "^0.0.5",
+    "art-lib-common": "^0.0.6",
     "art-lib-react": "^0.0.35",
-    "art-lib-utils": "^0.0.5",
-    "art-server-mock": "^0.0.18",
+    "art-lib-utils": "^0.0.6",
+    "art-server-mock": "^0.0.19",
     "art-ssr": "^0.0.1",
     "art-ssr-aggregator-node": "^0.0.1",
     "art-ssr-react": "^0.0.1",
