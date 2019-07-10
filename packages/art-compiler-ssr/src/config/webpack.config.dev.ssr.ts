@@ -22,7 +22,7 @@ export default class WebpackDevSSRConfig extends WebpackBaseConfig implements Co
     rules: [ jsRule, tsRule ]
   };
 
-  public plugins = getConfigPluginsSSR(this.entry);
+  public plugins = getConfigPluginsSSR();
 
   public externals = [ nodeExternals() ];
 }

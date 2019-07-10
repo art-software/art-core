@@ -16,7 +16,7 @@ class WebpackDevSSRConfig extends webpack_config_base_1.WebpackBaseConfig {
         this.module = {
             rules: [configRules_1.jsRule, configRules_1.tsRule]
         };
-        this.plugins = configPluginsSSR_1.getConfigPluginsSSR(this.entry);
+        this.plugins = configPluginsSSR_1.getConfigPluginsSSR();
         this.externals = [nodeExternals()];
     }
 }
