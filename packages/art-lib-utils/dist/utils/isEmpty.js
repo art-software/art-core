@@ -1,9 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Checks whether a value is empty.
  * 'empty' including:
  * [], {}, non-iterable object, falsy values
  */
-export const isEmpty = (value) => {
+exports.isEmpty = (value) => {
     if (Array.isArray(value)) {
         return value.length === 0;
     }

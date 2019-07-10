@@ -1,7 +1,7 @@
 import { isFunction, isObject, isString } from 'art-lib-utils/dist/utils/lang';
 import merge from 'art-lib-utils/dist/utils/merge';
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse } from 'axios';
-import { HttpMethods } from 'art-lib-common/src/enums/HttpMethods';
+import { HttpMethods } from 'art-lib-common/dist/enums/HttpMethods';
 
 export default abstract class WebApi {
   protected constructor() {
