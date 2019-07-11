@@ -1,11 +1,22 @@
 import { RuleSetUse, RuleSetRule } from 'webpack';
+import { accessSync } from 'fs';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import appNconf from './appConfig';
 import * as path from 'path';
 import { isProd } from '../utils/env';
+import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 const projectVirtualPath = appNconf.get('art:projectVirtualPath');
 
 const prod = isProd();
+
+let postcssConfigFilePath;
+try {
+  const processCwd = process.cwd();
+  accessSync(ensureSlash(processCwd, true) + 'postcss.config.js');
+  postcssConfigFilePath = processCwd;
+} catch (error) {
+  postcssConfigFilePath = __dirname;
+}
 
 export const configBaseRules = (): RuleSetRule[] => {
   let config: RuleSetRule[] = [];
@@ -28,7 +39,7 @@ const cssRule = (isProdEnv: boolean): RuleSetRule => {
   const config: RuleSetUse = [
     MiniCssExtractPlugin.loader,
     { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
-    { loader: 'postcss-loader', options: { config: { path: __dirname } } }
+    { loader: 'postcss-loader', options: { config: { path: postcssConfigFilePath } } }
   ];
 
   if (!isProdEnv) {
@@ -46,7 +57,7 @@ const lessRule = (isProdEnv: boolean): RuleSetRule => {
   const config: RuleSetUse = [
     MiniCssExtractPlugin.loader,
     { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
-    { loader: 'postcss-loader', options: { config: { path: __dirname } } },
+    { loader: 'postcss-loader', options: { config: { path: postcssConfigFilePath } } },
     { loader: 'venus-px2rem-loader', options: { remUnit: 100, remPrecision: 8 } },
     { loader: 'less-loader', options: { sourceMap: !isProdEnv } }
   ];
@@ -65,7 +76,7 @@ const sassRule = (isProdEnv: boolean): RuleSetRule => {
   const config: RuleSetUse = [
     MiniCssExtractPlugin.loader,
     { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
-    { loader: 'postcss-loader', options: { config: { path: __dirname } } },
+    { loader: 'postcss-loader', options: { config: { path: postcssConfigFilePath } } },
     { loader: 'sass-loader', options: { sourceMap: !isProdEnv } }
   ];
 

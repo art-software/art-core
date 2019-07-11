@@ -1,9 +1,11 @@
-import { isObject, isArray } from './lang';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const lang_1 = require("./lang");
 function setValue(source = {}, [head, ...tail], value) {
     source = source[head] = tail.length ? source[head] || {} : value;
     if (tail.length) {
-        if (isObject) {
-            if (isObject(source) && !isArray(source)) {
+        if (lang_1.isObject) {
+            if (lang_1.isObject(source) && !lang_1.isArray(source)) {
                 setValue(source, tail, value);
             }
             else {
@@ -12,7 +14,7 @@ function setValue(source = {}, [head, ...tail], value) {
         }
     }
 }
-export const setObjectValue = (source = {}, path, value) => {
+exports.setObjectValue = (source = {}, path, value) => {
     setValue(source, path.split('.'), value);
     return source;
 };

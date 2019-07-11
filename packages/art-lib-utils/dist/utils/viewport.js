@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const defaultDesignWidth = 750;
 const defaultBaseFontSize = 100;
 function viewport(baseFontSize = defaultBaseFontSize, designWidth = defaultDesignWidth) {
@@ -65,7 +67,7 @@ const getCurrentRem = (baseFontSize = defaultBaseFontSize, designWidth = default
     currRem = newCurrRem;
     return newCurrRem;
 };
-export default {
+exports.default = {
     getCurrentRem,
     currScale,
     currDpr,

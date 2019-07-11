@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 /**
  * inlined Object.is polyfill to avoid requiring consumers ship their own
@@ -21,7 +23,7 @@ function is(x, y) {
  * when any key has values which are not strictly equal between the arguments.
  * Returns true when the values of all keys are strictly equal.
  */
-export const shallowEqual = function (objA, objB) {
+exports.shallowEqual = function (objA, objB) {
     if (is(objA, objB)) {
         return true;
     }
@@ -47,6 +49,6 @@ export const shallowEqual = function (objA, objB) {
  * See also https://facebook.github.io/react/docs/shallow-compare.html
  */
 function shallowCompare(instance, nextProps, nextState) {
-    return !shallowEqual(instance.props, nextProps) || !shallowEqual(instance.state, nextState);
+    return !exports.shallowEqual(instance.props, nextProps) || !exports.shallowEqual(instance.state, nextState);
 }
-export default shallowCompare;
+exports.default = shallowCompare;

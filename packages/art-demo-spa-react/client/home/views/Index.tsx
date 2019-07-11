@@ -1,12 +1,17 @@
 import React from 'react';
 import IndexService from '../services/IndexService';
 import CoreComponentAll from 'art-lib-react/src/core_all/CoreComponentAll';
+import { getQueryString } from 'art-lib-utils/dist/utils/url';
 
 export default class ViewIndex extends CoreComponentAll<any, any> {
 
   constructor(props, context) {
     super(props, context);
     this.indexService = new IndexService();
+  }
+
+  public componentDidMount() {
+    console.log('env: ', getQueryString('env'));
   }
 
   public indexService: IndexService;

@@ -1,5 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const hasOwn = {}.hasOwnProperty;
-export function classNames(...args) {
+function classNames(...args) {
     const classes = [];
     for (let i = 0; i < args.length; i++) {
         const arg = args[i];
@@ -26,3 +28,4 @@ export function classNames(...args) {
     }
     return classes.join(' ');
 }
+exports.classNames = classNames;
