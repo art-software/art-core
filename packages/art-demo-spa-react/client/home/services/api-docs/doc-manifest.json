@@ -1,0 +1,17 @@
+[
+  {
+    "entry": "client/home/services/api-docs/a.md",
+    "output": "client/home/services/interfaces/a.ts",
+    "md5": "e2aba922cb914e891c3de4105db4bc28"
+  },
+  {
+    "entry": "client/home/services/api-docs/b.md",
+    "output": "client/home/services/interfaces/b.ts",
+    "md5": "84e080051a5372ce33f85447f3968506"
+  },
+  {
+    "entry": "client/home/services/api-docs/x/o.md",
+    "output": "client/home/services/interfaces/x/o.ts",
+    "md5": "84e080051a5372ce33f85447f3968506"
+  }
+]
