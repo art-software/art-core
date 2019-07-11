@@ -62,12 +62,12 @@ var MdToJsTypeMap;
     MdToJsTypeMap["object"] = "object";
 })(MdToJsTypeMap = exports.MdToJsTypeMap || (exports.MdToJsTypeMap = {}));
 // md 规定的每个表格header的标题等级
-exports.TableHeaderDepth = 4;
+exports.TAbLE_HEADER_DEPTH = 4;
 // 定义了数据格式中的最高父级
-exports.HIGHESTPARENT = 'data';
+exports.HIGHEST_PARENT = 'data';
 // 返回的interfaceName后缀
-exports.RESPONSENAMESUFFIX = 'Service';
+exports.RESPONSE_NAME_SUFFIX = 'Service';
 // interface的标示前缀
-exports.INTERFACENAMEPREFIX = 'I';
+exports.INTERFACE_NAME_PREFIX = 'I';
 // md 规定定义参数多种选项固定值，以:为区分含义和内容  large: 1, small: 2
-exports.ENUMVALUEDECOLLATOR = ':';
+exports.ENUM_VALUE_DECOLLATOR = ':';

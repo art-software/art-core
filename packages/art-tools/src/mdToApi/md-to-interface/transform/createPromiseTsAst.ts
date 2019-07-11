@@ -1,3 +1,4 @@
+import path from 'path';
 import { firstWordUpperCase } from '../../utils/firstWordUpperCase';
 import { findAllIndex } from '../../utils/findAllIndex';
 import { objDeepCopy } from '../../utils/objDeepCopy';
@@ -6,17 +7,17 @@ import tplAst from '../../template/interfacePromiseTsAsTpl';
 import { TypeAnnotations, ISingleEnumAst, TsAstIdentifier } from '../../constant/TSAnnotationMap';
 import { createEnum } from './createEnumTsAst';
 import { createInterfaceName } from './createInterfaceName';
-import { ParamsTableHeader, RESPONSENAMESUFFIX, INTERFACENAMEPREFIX } from '../../constant/MarkDown';
+import { ParamsTableHeader, RESPONSE_NAME_SUFFIX, INTERFACE_NAME_PREFIX } from '../../constant/MarkDown';
 import { collateInterfaceAst } from './integrateTsAst';
-
-const MODULENAME = 'home';
 
 /** 
  * @description 生成一个promise的interface结构
  * @param {Array} interfaceChunkGather 抽取出每一个api的'detail', 'params'组成的数组
+ * @param {string} output 输出文件路径
  */
-export const createPromiseTsAst = (interfaceChunkGather) => {
-  const tplName = `${INTERFACENAMEPREFIX}${firstWordUpperCase(MODULENAME)}${RESPONSENAMESUFFIX}`;
+export const createPromiseTsAst = (interfaceChunkGather, output: string) => {
+  const outputFileName = firstWordUpperCase(path.basename(output.split('.')[0]));
+  const tplName = `${INTERFACE_NAME_PREFIX}${firstWordUpperCase(outputFileName)}${RESPONSE_NAME_SUFFIX}`;
   const tplBody = [];
   interfaceChunkGather.forEach((value) => {
     const singleBody = objDeepCopy(tplAst.declaration.body.body[0]) as any;
@@ -26,7 +27,6 @@ export const createPromiseTsAst = (interfaceChunkGather) => {
     singleBody.typeAnnotation.typeAnnotation.typeParameters.params[0].typeParameters.params[0].typeName.name = everyInterfaceName;
     tplBody.push(singleBody as never); // 相当于添加每一个接口的promise
   });
-  // appendInterfaceToFile(tplName, tplBody, tplAst);
   collateInterfaceAst(tplName, tplBody, tplAst);
 };
 

@@ -11,7 +11,7 @@ const MarkDown_1 = require("../../constant/MarkDown");
 exports.createInterfaceTsAst = (interfaceChunkGather) => {
     interfaceChunkGather.forEach((value) => {
         const interfaceName = createInterfaceName_1.createInterfaceName((value).detail);
-        const interfaceBody = createInterfaceBody_1.createInterfaceBody((value).explain, MarkDown_1.HIGHESTPARENT);
+        const interfaceBody = createInterfaceBody_1.createInterfaceBody((value).explain, MarkDown_1.HIGHEST_PARENT);
         integrateTsAst_1.collateInterfaceAst(interfaceName, interfaceBody);
     });
 };

@@ -8,6 +8,7 @@ const inquirer = require("inquirer");
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const getUtilsScriptPath_1 = require("./getUtilsScriptPath");
 const parseModules_1 = __importDefault(require("art-dev-utils/lib/parseModules"));
+const chalk_1 = __importDefault(require("chalk"));
 exports.utilsTask = (utilName) => {
     switch (utilName) {
         case UtilList_1.UtilList.MdToApi:
@@ -24,9 +25,7 @@ const inputWillChangeModules = () => {
     const modulesAnswer = {
         type: 'input',
         name: 'modulesList',
-        message: `Which modules do you want to modify？
-example: home mine
-input module name :`
+        message: `Which modules do you want to modify？\nexample: ${chalk_1.default.blue('home mine')} \ninput module name :`
     };
     return inquirer.prompt(modulesAnswer).then((answer) => answer);
 };

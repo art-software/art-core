@@ -5,11 +5,11 @@ import { firstWordUpperCase } from '../../utils/firstWordUpperCase';
 import ExportInterfaceAst from '../../template/interfaceTsAstTpl';
 import { createChildrenInterface } from './createInterfaceChild';
 import { createEnum } from './createEnumTsAst';
-import { ISingleEnumAst, TsAstIdentifier, TypeAnnotations } from '../../constant/TSAnnotationMap';
+import { ISingleEnumAst, TsAstIdentifier } from '../../constant/TSAnnotationMap';
 import { getTypeAnnotation } from './getTypeAnnotation';
 import { checkRepeatName } from './nameSpaceControl';
-import { ExplainTableHeader, ParamType, INTERFACENAMEPREFIX, MdToJsTypeMap } from '../../constant/MarkDown';
-import { toHump } from '../../utils/toHump';
+import { ExplainTableHeader, ParamType, INTERFACE_NAME_PREFIX, MdToJsTypeMap } from '../../constant/MarkDown';
+import { toCameCase } from '../../utils/toCameCase';
 
 /** 
  * @description 生成interface的body部分
@@ -45,7 +45,6 @@ export const createInterfaceBody = (explainTable: any, currentParent: string) =>
       value[nameIndex] = valueName.substr(0, valueName.length - 1);
       bodyTemplate.optional = true;
     }
-    // console.log(MdToJsTypeMap[value[typeIndex]]);
     const isSpecificArr = Boolean(value[typeIndex].replace(/\([^\)]*\)/g, ''));
     value[typeIndex] = isSpecificArr ? value[typeIndex].toLowerCase() : MdToJsTypeMap[value[typeIndex].toLowerCase()];
     if (value[parentsIndex] === currentParent) {
@@ -73,7 +72,7 @@ export const createInterfaceBody = (explainTable: any, currentParent: string) =>
     value[typeIndex] = isObjectArr ? ParamType.array : value[typeIndex];
     if (value[parentsIndex] === currentParent && ([ParamType.array, ParamType.object].includes(typeValue) || isObjectArr)) {
       const childrenChunk = {} as any;
-      const formatName = toHump((INTERFACENAMEPREFIX + firstWordUpperCase(value[nameIndex])), '_');
+      const formatName = toCameCase((INTERFACE_NAME_PREFIX + firstWordUpperCase(value[nameIndex])), '_');
       const childrenName = checkRepeatName(value[renameIndex]) || checkRepeatName(formatName);
       if (removeChilrenType === ParamType.array) {
         lastTypeAnnotation.elementType.typeName.name = childrenName;
@@ -99,12 +98,6 @@ export const createInterfaceBody = (explainTable: any, currentParent: string) =>
       });
       createChildrenInterface(childrenChunk, value[parentsIndex] + '.' +  value[nameIndex], childrenName);
     }
-    // if (value[parentsIndex] === currentParent
-    //   && typeValue.substring(typeValue.indexOf("(") + 1, typeValue.indexOf(")"))
-    //   && typeValue.replace(/\([^\)]*\)/g,"") === ParamType.array) {
-    //     // this
-    //     lastTypeAnnotation.type = childrenName;
-    //   }
   });
   return result;
 };

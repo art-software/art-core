@@ -1,7 +1,7 @@
 import { createInterfaceName } from './createInterfaceName';
 import { createInterfaceBody } from './createInterfaceBody';
 import { collateInterfaceAst } from './integrateTsAst';
-import { HIGHESTPARENT } from '../../constant/MarkDown';
+import { HIGHEST_PARENT } from '../../constant/MarkDown';
 
 /** 
  * @description 生成interface的方法
@@ -10,7 +10,7 @@ import { HIGHESTPARENT } from '../../constant/MarkDown';
 export const createInterfaceTsAst = (interfaceChunkGather: any) => {
   interfaceChunkGather.forEach((value) => {
     const interfaceName = createInterfaceName((value).detail);
-    const interfaceBody = createInterfaceBody((value).explain, HIGHESTPARENT);
+    const interfaceBody = createInterfaceBody((value).explain, HIGHEST_PARENT);
     collateInterfaceAst(interfaceName, interfaceBody);
   });
 };

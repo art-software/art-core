@@ -48,7 +48,7 @@ exports.extractChooseTable = (tableText, chunkData) => {
     chunkData.forEach((value, index) => {
         // confirm right table chunk
         if (value.type === MarkDown_1.MarkDownIdentifier.headerIdentifier &&
-            value.depth === MarkDown_1.TableHeaderDepth &&
+            value.depth === MarkDown_1.TAbLE_HEADER_DEPTH &&
             value.text === tableText) {
             result =
                 chunkData.find((tableValue, tableIndex) => {

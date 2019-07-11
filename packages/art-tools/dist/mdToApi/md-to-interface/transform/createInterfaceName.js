@@ -4,14 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const flattenArray_1 = require("../../utils/flattenArray");
-const toHump_1 = require("../../utils/toHump");
-const art_config_js_1 = __importDefault(require("../../art.config.js"));
+const toCameCase_1 = require("../../utils/toCameCase");
 const MarkDown_1 = require("../../constant/MarkDown");
+const paths_1 = __importDefault(require("../../../common/config/paths"));
+const artConfig = require(paths_1.default.appArtConfig);
 /**
  * @description 生成最终的一个interface名字
  * @param detailTable api的detail表格块
  */
 exports.createInterfaceName = (detailTable) => {
+    const isRemoveMDToApiBegin = artConfig.isRemoveMDToApiBegin || false;
     let resultStr = '';
     let urlStr = '';
     const tableCells = flattenArray_1.flattenArray(detailTable.cells);
@@ -20,7 +22,7 @@ exports.createInterfaceName = (detailTable) => {
             urlStr = tableCells[index + 1];
         }
     });
-    urlStr = art_config_js_1.default ? urlStr.replace(/\/\w+/, '') : urlStr;
-    resultStr = MarkDown_1.INTERFACENAMEPREFIX + toHump_1.toHump(toHump_1.toHump(urlStr, '/'), '-');
+    urlStr = isRemoveMDToApiBegin ? urlStr.replace(/\/\w+/, '') : urlStr;
+    resultStr = MarkDown_1.INTERFACE_NAME_PREFIX + toCameCase_1.toCameCase(toCameCase_1.toCameCase(urlStr, '/'), '-');
     return resultStr;
 };

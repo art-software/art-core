@@ -8,15 +8,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = __importStar(require("path"));
-// import { getProjectType } from './projectType';
-// import { ProjectTypes } from '../enums/ProjectTypes';
-// import { CompilerNames } from '../enums/CompilerNames';
 const Stage_1 = require("../enums/Stage");
 const isDevStage = process.env.STAGE === Stage_1.Stage.dev;
 function getUtilsScriptPath(utilName) {
     utilName = replaceSpaceToHump(utilName);
-    const scriptPath = path.resolve(process.cwd(), `./node_modules/art-tools/dist/scripts/${utilName}.js`);
-    const symlinkPath = path.resolve(process.cwd(), `../art-tools/dist/scripts/${utilName}.js`);
+    const scriptPath = path.resolve(process.cwd(), `./node_modules/art-tools/dist/${utilName}`);
+    const symlinkPath = path.resolve(process.cwd(), `../art-tools/dist/${utilName}`);
     return isDevStage ? symlinkPath : scriptPath;
 }
 exports.getUtilsScriptPath = getUtilsScriptPath;

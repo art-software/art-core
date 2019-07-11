@@ -11,27 +11,25 @@ class UtilsCommand implements CommandModule {
 
   public readonly command = 'tools';
 
-  public describe = chalk.black.bold(`choose any art utils you want to use `);
+  public describe = chalk.black.bold(`choose any art tools you want to use `);
 
   public builder(args: Argv) {
-    const moduleRequired = getProjectType() !== ProjectTypes.miniprogram;
     return args;
   }
 
   public handler = (args: any): void => {
-    // webpackTask('build', { modules: args.modules });
     this.chooseUtils();
   }
 
   private chooseUtils = async () => {
     const utilChooseAnswer = await inquirer.prompt({
       type: 'list',
-      name: 'utilChioce',
-      message: 'please chioce one util to execute',
+      name: 'toolChoice',
+      message: 'please chioce one tool to execute',
       choices: [UtilList.MdToApi, UtilList.Test]
     }) as any;
-    const executeUtil = utilChooseAnswer.utilChioce;
-    console.log(`Will execute ${executeUtil}`);
+    const executeUtil = utilChooseAnswer.toolChoice;
+    console.log(chalk.green(`Will execute ${executeUtil}`));
     utilsTask(executeUtil);
   }
 }

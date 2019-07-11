@@ -10,6 +10,6 @@ import { collateInterfaceAst } from './integrateTsAst';
  * @param {String} finalName 最终生成interface的name
  */
 export const createChildrenInterface = (childrenBody, parentName, finalName) => {
-  const ast = objDeepCopy(ExportInterfaceAst) as any;
+  const ast = objDeepCopy(ExportInterfaceAst);
   collateInterfaceAst(parentName, createInterfaceBody(childrenBody, parentName), ast, finalName);
 };

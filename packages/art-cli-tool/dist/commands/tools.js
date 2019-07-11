@@ -12,8 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
-const projectType_1 = require("../helpers/projectType");
-const ProjectTypes_1 = require("../enums/ProjectTypes");
 const inquirer = require("inquirer");
 const UtilList_1 = require("../constants/UtilList");
 const utilsTask_1 = require("../helpers/utilsTask");
@@ -21,25 +19,23 @@ const utilsTask_1 = require("../helpers/utilsTask");
 class UtilsCommand {
     constructor() {
         this.command = 'tools';
-        this.describe = chalk_1.default.black.bold(`choose any art utils you want to use `);
+        this.describe = chalk_1.default.black.bold(`choose any art tools you want to use `);
         this.handler = (args) => {
-            // webpackTask('build', { modules: args.modules });
             this.chooseUtils();
         };
         this.chooseUtils = () => __awaiter(this, void 0, void 0, function* () {
             const utilChooseAnswer = yield inquirer.prompt({
                 type: 'list',
-                name: 'utilChioce',
-                message: 'please chioce one util to execute',
+                name: 'toolChoice',
+                message: 'please chioce one tool to execute',
                 choices: [UtilList_1.UtilList.MdToApi, UtilList_1.UtilList.Test]
             });
-            const executeUtil = utilChooseAnswer.utilChioce;
-            console.log(`Will execute ${executeUtil}`);
+            const executeUtil = utilChooseAnswer.toolChoice;
+            console.log(chalk_1.default.green(`Will execute ${executeUtil}`));
             utilsTask_1.utilsTask(executeUtil);
         });
     }
     builder(args) {
-        const moduleRequired = projectType_1.getProjectType() !== ProjectTypes_1.ProjectTypes.miniprogram;
         return args;
     }
 }

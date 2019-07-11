@@ -13,7 +13,7 @@ const TSAnnotationMap_1 = require("../../constant/TSAnnotationMap");
 const getTypeAnnotation_1 = require("./getTypeAnnotation");
 const nameSpaceControl_1 = require("./nameSpaceControl");
 const MarkDown_1 = require("../../constant/MarkDown");
-const toHump_1 = require("../../utils/toHump");
+const toCameCase_1 = require("../../utils/toCameCase");
 /**
  * @description 生成interface的body部分
  * @param {Array} explainTable api的explain表格块
@@ -37,7 +37,6 @@ exports.createInterfaceBody = (explainTable, currentParent) => {
             value[nameIndex] = valueName.substr(0, valueName.length - 1);
             bodyTemplate.optional = true;
         }
-        // console.log(MdToJsTypeMap[value[typeIndex]]);
         const isSpecificArr = Boolean(value[typeIndex].replace(/\([^\)]*\)/g, ''));
         value[typeIndex] = isSpecificArr ? value[typeIndex].toLowerCase() : MarkDown_1.MdToJsTypeMap[value[typeIndex].toLowerCase()];
         if (value[parentsIndex] === currentParent) {
@@ -65,7 +64,7 @@ exports.createInterfaceBody = (explainTable, currentParent) => {
         value[typeIndex] = isObjectArr ? MarkDown_1.ParamType.array : value[typeIndex];
         if (value[parentsIndex] === currentParent && ([MarkDown_1.ParamType.array, MarkDown_1.ParamType.object].includes(typeValue) || isObjectArr)) {
             const childrenChunk = {};
-            const formatName = toHump_1.toHump((MarkDown_1.INTERFACENAMEPREFIX + firstWordUpperCase_1.firstWordUpperCase(value[nameIndex])), '_');
+            const formatName = toCameCase_1.toCameCase((MarkDown_1.INTERFACE_NAME_PREFIX + firstWordUpperCase_1.firstWordUpperCase(value[nameIndex])), '_');
             const childrenName = nameSpaceControl_1.checkRepeatName(value[renameIndex]) || nameSpaceControl_1.checkRepeatName(formatName);
             if (removeChilrenType === MarkDown_1.ParamType.array) {
                 lastTypeAnnotation.elementType.typeName.name = childrenName;
@@ -91,12 +90,6 @@ exports.createInterfaceBody = (explainTable, currentParent) => {
             });
             createInterfaceChild_1.createChildrenInterface(childrenChunk, value[parentsIndex] + '.' + value[nameIndex], childrenName);
         }
-        // if (value[parentsIndex] === currentParent
-        //   && typeValue.substring(typeValue.indexOf("(") + 1, typeValue.indexOf(")"))
-        //   && typeValue.replace(/\([^\)]*\)/g,"") === ParamType.array) {
-        //     // this
-        //     lastTypeAnnotation.type = childrenName;
-        //   }
     });
     return result;
 };

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const path_1 = __importDefault(require("path"));
 const firstWordUpperCase_1 = require("../../utils/firstWordUpperCase");
 const findAllIndex_1 = require("../../utils/findAllIndex");
 const objDeepCopy_1 = require("../../utils/objDeepCopy");
@@ -13,13 +14,14 @@ const createEnumTsAst_1 = require("./createEnumTsAst");
 const createInterfaceName_1 = require("./createInterfaceName");
 const MarkDown_1 = require("../../constant/MarkDown");
 const integrateTsAst_1 = require("./integrateTsAst");
-const MODULENAME = 'home';
 /**
  * @description 生成一个promise的interface结构
  * @param {Array} interfaceChunkGather 抽取出每一个api的'detail', 'params'组成的数组
+ * @param {string} output 输出文件路径
  */
-exports.createPromiseTsAst = (interfaceChunkGather) => {
-    const tplName = `${MarkDown_1.INTERFACENAMEPREFIX}${firstWordUpperCase_1.firstWordUpperCase(MODULENAME)}${MarkDown_1.RESPONSENAMESUFFIX}`;
+exports.createPromiseTsAst = (interfaceChunkGather, output) => {
+    const outputFileName = firstWordUpperCase_1.firstWordUpperCase(path_1.default.basename(output.split('.')[0]));
+    const tplName = `${MarkDown_1.INTERFACE_NAME_PREFIX}${firstWordUpperCase_1.firstWordUpperCase(outputFileName)}${MarkDown_1.RESPONSE_NAME_SUFFIX}`;
     const tplBody = [];
     interfaceChunkGather.forEach((value) => {
         const singleBody = objDeepCopy_1.objDeepCopy(interfacePromiseTsAsTpl_1.default.declaration.body.body[0]);
@@ -29,7 +31,6 @@ exports.createPromiseTsAst = (interfaceChunkGather) => {
         singleBody.typeAnnotation.typeAnnotation.typeParameters.params[0].typeParameters.params[0].typeName.name = everyInterfaceName;
         tplBody.push(singleBody); // 相当于添加每一个接口的promise
     });
-    // appendInterfaceToFile(tplName, tplBody, tplAst);
     integrateTsAst_1.collateInterfaceAst(tplName, tplBody, interfacePromiseTsAsTpl_1.default);
 };
 /**

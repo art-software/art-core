@@ -12,11 +12,12 @@ const createResponseTsAst_1 = require("./createResponseTsAst");
 /**
  * @description 生成最终需要的tsAST数据
  * @param {transformData} transformData 需要转换的已抽离好的mdAST
+ * @param {string} output 输出文件路径
  * @returns 最终tsAST数据
  */
-exports.createTsAst = (transformData) => {
+exports.createTsAst = (transformData, output) => {
     createResponseTsAst_1.createResponseTsAst();
-    createPromiseTsAst_1.createPromiseTsAst(transformData.mdAstPromisePart);
+    createPromiseTsAst_1.createPromiseTsAst(transformData.mdAstPromisePart, output);
     createInterfaceTsAst_1.createInterfaceTsAst(transformData.mdAstInterfacePart);
     const tsAst = objDeepCopy_1.objDeepCopy(tsFileAstTpl_1.default);
     tsAst.program.body = integrateTsAst_1.tsAstBody;
