@@ -1,6 +1,6 @@
 {
   "name": "art-demo-ssr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "art demo ssr",
   "main": "index.js",
   "author": "Bowen Zhong",
@@ -8,12 +8,12 @@
   "private": true,
   "dependencies": {
     "art-compiler-ssr": "^0.0.1",
-    "art-lib-common": "^0.0.6",
+    "art-lib-common": "^0.0.7",
     "art-lib-react": "^0.0.35",
     "art-lib-utils": "^0.0.6",
     "art-server-mock": "^0.0.19",
     "art-ssr": "^0.0.1",
-    "art-ssr-aggregator-node": "^0.0.1",
+    "art-ssr-aggregator-node": "^0.0.2",
     "art-ssr-react": "^0.0.1",
     "art-ssr-react-router": "^0.0.1",
     "compression": "^1.7.3",
