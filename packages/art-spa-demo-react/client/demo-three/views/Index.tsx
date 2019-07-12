@@ -2,6 +2,9 @@ import React from 'react';
 import IndexService from '../services/IndexService';
 import CoreComponentAll from 'art-lib-react/src/core_all/CoreComponentAll';
 
+// @ts-ignore
+// const icon = import('../../common/assets/icon-close.png');
+
 export default class ViewIndex extends CoreComponentAll<any, any> {
 
   constructor(props, context) {
@@ -27,6 +30,7 @@ export default class ViewIndex extends CoreComponentAll<any, any> {
       <div className="index-page">
         <div className="title">Hi there, it's react</div>
         <button className="btn-request" onClick={this.clickToRequest.bind(this)}>Click to Request</button>
+        {/* <img src={icon as any} /> */}
       </div>
     );
   }

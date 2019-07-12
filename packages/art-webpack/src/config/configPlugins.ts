@@ -1,9 +1,8 @@
 import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import chalk from 'chalk';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import paths from './paths';
-import { webpackEntries, webpackOutput } from './configWebpackModules';
+import { webpackEntries } from './configWebpackModules';
 import appConfig from './appConfig';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -14,13 +13,9 @@ import HtmlWebpackCDNPlugin from '../plugins/HtmlWebpackCDNPlugin';
 import HappyPack from 'happypack';
 import { isProd } from '../utils/env';
 import DynamicChunkNamePlugin from '../plugins/DynamicChunkNamePlugin';
-import ensureSlash from 'art-dev-utils/lib/ensureSlash';
-import WorkboxWebpackPlugin from 'workbox-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { HtmlWebpackChunksPlugin } from '../plugins/HtmlWebpackChunksPlugin';
+import configWorkboxWebpackPlugin from './configWorkboxPlugin';
 
-const enableSW = appConfig.get('art:sw:enable');
-const envName = appConfig.get('NODE_ENV');
 const isProdEnv = isProd();
 
 const configHtmlWebpackPlugin = (entries?: object): any[] => {
@@ -68,59 +63,6 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
   });
 
   plugins.push(new HtmlWebpackCDNPlugin());
-
-  return plugins;
-};
-
-const configWorkboxWebpackPlugin = (): any[] => {
-  const host = ensureSlash(appConfig.get(`devHost:${envName}`), false);
-  const port = appConfig.get(`devPort:${envName}`);
-  const output = appConfig.get(`art:webpack:output`) || {};
-  const publicPath = isProdEnv ? output[`${appConfig.get('BUILD_ENV')}PublicPath`] : `${host}:${port}/public/`;
-  const webpackOutputPath = webpackOutput().path;
-  const artConfigWorkboxOutputDirectory = appConfig.get('art:sw:workboxOutputDirectory') || '';
-  const artConfigWorkboxGenerateSWOptions = appConfig.get('art:sw:workboxGenerateSWOptions') || {};
-
-  const plugins: any[] = [];
-
-  const newEntries = webpackEntries(false);
-  foreach(newEntries, (value, entryKey) => {
-    const importScripts: string[] = [];
-    const importsDirectory = ensureSlash(`${entryKey}/${artConfigWorkboxOutputDirectory}`, false);
-    plugins.push(
-      new CopyWebpackPlugin([
-        {
-          from: path.resolve(process.cwd(), './service-worker/workbox-index.js'),
-          to: ensureSlash(webpackOutputPath, true) + `${importsDirectory}/[name].[hash].[ext]`,
-          transform(content: Buffer, originalPath: string) {
-            const fileContent = content.toString('utf8');
-            const moduleName = entryKey.slice(entryKey.lastIndexOf('/') + 1);
-            const replacedFileContent = fileContent.replace('<module>', moduleName);
-            const transformedContent = Buffer.from(replacedFileContent, 'utf8');
-            return Promise.resolve(transformedContent);
-          },
-          transformPath(targetPath: string, absolutePath: string) {
-            importScripts.push(publicPath + targetPath);
-            return Promise.resolve(targetPath);
-          }
-        }
-      ]),
-      // Generate a service worker script that will precache, and keep up to date,
-      // the HTML & assets that are part of the Webpack build.
-      new WorkboxWebpackPlugin.GenerateSW(
-        Object.assign({}, {
-          swDest: `${entryKey}/service-worker.js`, // 输入路径相对于output.path
-          exclude: [new RegExp(`^(?!.*${entryKey}).*$`)], // 多模块同时编译时，排除非当前模块需要缓存的文件
-          importsDirectory, // assets存放的路径，相对于output.path
-          importScripts,
-          importWorkboxFrom: 'disabled',
-          skipWaiting: true,
-          clientsClaim: true,
-          navigateFallback: ensureSlash(publicPath + entryKey, true) + 'index.html'
-        }, artConfigWorkboxGenerateSWOptions)
-      )
-    );
-  });
 
   return plugins;
 };
@@ -187,9 +129,7 @@ export const configBasePlugins = (() => {
   ];
   if (isProdEnv) {
     plugins = plugins.concat(configHtmlWebpackPlugin());
-    if (enableSW) {
-      plugins = plugins.concat(configWorkboxWebpackPlugin());
-    }
+    plugins = plugins.concat(configWorkboxWebpackPlugin());
   }
 
   return plugins;

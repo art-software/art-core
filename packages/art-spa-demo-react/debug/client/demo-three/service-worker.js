@@ -12,11 +12,15 @@
  */
 
 importScripts(
-  "https://dev.local.com/art-demo-test/client/demo-three/workbox/workbox-index.c057489f109914a8af32d21e95cc3a19.js",
-  "https://dev.local.com/art-demo-test/client/demo-three/workbox/precache-manifest.36ca405e207c3a450f6255c0be59cab9.js"
+  "https://dev.local.com/art-demo-test/client/demo-three/workbox/workbox-index.d0542a0e92e9fcb8ebccb172644c80d2.js",
+  "https://dev.local.com/art-demo-test/client/demo-three/workbox/precache-manifest.ce47a7ffb4d14839d5408c2134f55e65.js"
 );
 
-workbox.core.skipWaiting();
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
 
 workbox.core.clientsClaim();
 
@@ -30,4 +34,4 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("https://dev.local.com/art-demo-test/client/demo-three/index.html"));
 
-workbox.routing.registerRoute(/\/api3\//, new workbox.strategies.NetworkFirst({ "cacheName":"api-runtime-cache", plugins: [new workbox.expiration.Plugin({ maxEntries: 200, maxAgeSeconds: 604800, purgeOnQuotaError: false }), new workbox.cacheableResponse.Plugin({ statuses: [ 0, 200 ] })] }), 'GET');
+workbox.routing.registerRoute(/art_framework\.\w+\.js$/, new workbox.strategies.CacheFirst({ "cacheName":"vendors-runtime-cache", plugins: [new workbox.expiration.Plugin({ maxEntries: 2, maxAgeSeconds: 1296000, purgeOnQuotaError: false })] }), 'GET');

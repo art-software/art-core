@@ -18,10 +18,10 @@ const artConfig = {
 
   webpack: {
     entry: {
-            [`${ projectVirtualPath }/demo-one`]: ['./client/demo-one/index.tsx'],
-            [`${ projectVirtualPath }/demo-two`]: ['./client/demo-two/index.tsx'],
-            [`${ projectVirtualPath }/demo-three`]: ['./client/demo-three/index.tsx']
-        },
+      [`${projectVirtualPath}/demo-one`]: ['./client/demo-one/index.tsx'],
+      [`${projectVirtualPath}/demo-two`]: ['./client/demo-two/index.tsx'],
+      [`${projectVirtualPath}/demo-three`]: ['./client/demo-three/index.tsx']
+    },
     output: {
       // Config CDN path for static files, images ....
       // intePublicPath: 'http://10.10.10.132:9090/frontend/',
@@ -30,7 +30,7 @@ const artConfig = {
       prodPublicPath: 'https://cdn.qianshengqian.com/h5/'
     },
     dll: {
-      version: 'dll_version_02',
+      version: 'dll_version_04',
       vendors: [
         'polyfills',
         'react',
@@ -46,21 +46,19 @@ const artConfig = {
 
   sw: {
     enable: true,
-    workboxOutputDirectory: 'workbox',
+    includeModules: [], // 需要使用service worker的模块
+    workboxOutputDirectory: 'workbox', // 存放service worker相关文件的目录名
     workboxGenerateSWOptions: {
       // include: [/\.html$/],
       runtimeCaching: [
         {
-          urlPattern: new RegExp('/api3/'),
-          handler: 'NetworkFirst',
+          urlPattern: /art_framework\.\w+\.js$/,
+          handler: 'CacheFirst',
           options: {
-            cacheName: 'api-runtime-cache',
+            cacheName: 'vendors-runtime-cache',
             expiration: {
-              maxEntries: 200,
-              maxAgeSeconds: 7 * 24 * 60 * 60
-            },
-            cacheableResponse: {
-              statuses: [0, 200]
+              maxEntries: 2,
+              maxAgeSeconds: 15 * 24 * 60 * 60
             }
           }
         }

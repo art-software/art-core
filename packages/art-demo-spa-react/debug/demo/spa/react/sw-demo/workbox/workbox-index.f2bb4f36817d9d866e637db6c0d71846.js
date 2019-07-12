@@ -7,8 +7,8 @@ workbox.setConfig({ modulePathPrefix, debug: false });
 
 // 设置在install阶段需要缓存的precache资源的缓存仓库名称
 workbox.core.setCacheNameDetails({
-  prefix: 'demo-three',
-  suffix: '',
+  prefix: 'sw-demo',
+  suffix: 'v1', // 如果service worker逻辑发生breaking change，可以修改此处
   precache: 'install-time-precache',
   runtime: 'runtime-cache'
 });
