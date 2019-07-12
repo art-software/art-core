@@ -1,11 +1,12 @@
 import React from 'react';
+import 'art-lib-react/dist/styles/index';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import routes from '../routes';
 import { convertCustomRouteConfig } from 'art-ssr-react-router/dist/reactRouterHelper';
-// import { convertCustomRouteConfig, ensureReady } from 'art-ssr-react-router/dist/reactRouterHelper';
+import CoreComponent from 'art-lib-react/src/core/CoreComponent';
 
-export default class IndexSSR extends React.Component {
+export default class IndexCSR extends CoreComponent<any, any> {
   constructor(props) {
     super(props);
   }

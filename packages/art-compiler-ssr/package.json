@@ -43,6 +43,7 @@
     "minimatch": "^3.0.4",
     "nconf": "^0.10.0",
     "nodemon": "^1.18.7",
+    "null-loader": "^3.0.0",
     "object-assign": "^4.1.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "parallel-webpack": "^2.4.0",

@@ -14,7 +14,7 @@ class WebpackDevSSRConfig extends webpack_config_base_1.WebpackBaseConfig {
             extensions: ['.js', '.json', '.jsx', '.ts', '.tsx']
         };
         this.module = {
-            rules: [configRules_1.jsRule, configRules_1.tsRule]
+            rules: [configRules_1.jsRule, configRules_1.tsRule, configRules_1.nullRule]
         };
         this.plugins = configPluginsSSR_1.getConfigPluginsSSR();
         this.externals = [nodeExternals()];

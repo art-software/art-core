@@ -135,3 +135,8 @@ export const tsRule: RuleSetRule = {
   ],
   exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-utils-wx|art-lib-common)\/).*/
 };
+
+export const nullRule: RuleSetRule = {
+  test: /\.(png|jpg|jpeg|gif|svg|css|less|sass|ttf|eot|woff|woff2)$/,
+  use: 'null-loader'
+};

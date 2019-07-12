@@ -9,7 +9,7 @@ const getWebpackConfigSSR = (moduleEntry: string): Configuration => {
   const output = webpackOutputSSR(moduleEntry);
 
   if (!isProd()) {
-  return new WebpackDevConfigSSR(entry, output);
+    return new WebpackDevConfigSSR(entry, output);
   } else {
     // TODO check it
     return new WebpackProdConfig(entry, output);

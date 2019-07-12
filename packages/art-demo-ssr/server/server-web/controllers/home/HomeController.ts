@@ -19,11 +19,12 @@ export default class HomeController {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
+        <link rel="stylesheet" type="text/css" href="http://me.dev.com:3005/public/demo/ssr/react/home/bundle.css">
       </head>
       <body>
         ${html}
-        <script type="text/javascript" src="http://me.dev.com:3005/static/art_framework.20180901.js"></script>
-        <script type="text/javascript" src="http://me.dev.com:3001/public/demo/ssr/react/home/bundle.js"></script>
+        <script type="text/javascript" src="http://me.dev.com:3006/static/art_framework.20180901.js"></script>
+        <script type="text/javascript" src="http://me.dev.com:3005/public/demo/ssr/react/home/bundle.js"></script>
       </body>
       </html>
     `;
