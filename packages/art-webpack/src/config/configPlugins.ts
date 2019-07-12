@@ -1,7 +1,6 @@
 import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import chalk from 'chalk';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import paths from './paths';
 import { webpackEntries } from './configWebpackModules';
 import appConfig from './appConfig';
@@ -15,6 +14,7 @@ import HappyPack from 'happypack';
 import { isProd } from '../utils/env';
 import DynamicChunkNamePlugin from '../plugins/DynamicChunkNamePlugin';
 import { HtmlWebpackChunksPlugin } from '../plugins/HtmlWebpackChunksPlugin';
+import configWorkboxWebpackPlugin from './configWorkboxPlugin';
 
 const isProdEnv = isProd();
 
@@ -129,6 +129,7 @@ export const configBasePlugins = (() => {
   ];
   if (isProdEnv) {
     plugins = plugins.concat(configHtmlWebpackPlugin());
+    plugins = plugins.concat(configWorkboxWebpackPlugin());
   }
 
   return plugins;

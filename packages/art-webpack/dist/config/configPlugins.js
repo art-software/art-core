@@ -26,6 +26,7 @@ const happypack_1 = __importDefault(require("happypack"));
 const env_1 = require("../utils/env");
 const DynamicChunkNamePlugin_1 = __importDefault(require("../plugins/DynamicChunkNamePlugin"));
 const HtmlWebpackChunksPlugin_1 = require("../plugins/HtmlWebpackChunksPlugin");
+const configWorkboxPlugin_1 = __importDefault(require("./configWorkboxPlugin"));
 const isProdEnv = env_1.isProd();
 const configHtmlWebpackPlugin = (entries) => {
     const plugins = [];
@@ -122,6 +123,7 @@ exports.configBasePlugins = (() => {
     ];
     if (isProdEnv) {
         plugins = plugins.concat(configHtmlWebpackPlugin());
+        plugins = plugins.concat(configWorkboxPlugin_1.default());
     }
     return plugins;
 })();
