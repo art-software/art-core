@@ -13,11 +13,11 @@ export default abstract class WebApiH5 extends WebApi {
 
   private domainConfig: object;
 
-  private getEnvName(): string {
+  protected getEnvName(): string {
     return getQueryString('env') || EnvNames.prod;
   }
 
-  private getPort(): string {
+  protected getPort(): string {
     return getQueryString('port') || '';
   }
 

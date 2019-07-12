@@ -1,0 +1,67 @@
+{
+  "extends": [
+    "tslint:recommended"
+  ],
+  "linterOptions": {
+    "exclude": ["**/*.json"]
+  },
+  "rules": {
+    "forin": false,
+    "indent": false,
+    "interface-name": false,
+    "eofline": false,
+    "ban-types": true,
+    "max-classes-per-file": true,
+    "max-line-length": false,
+    "member-access": true,
+    "member-ordering": false,
+    "no-bitwise": false,
+    "no-console": false,
+    "curly": [
+      true,
+      "multi-line"
+    ],
+    "no-var-requires": false,
+    "no-conditional-assignment": false,
+    "no-debugger": false,
+    "no-empty": false,
+    "no-namespace": false,
+    "no-unused-expression": true,
+    "object-literal-sort-keys": false,
+    "one-line": [
+      true,
+      "check-catch",
+      "check-finally",
+      "check-else"
+    ],
+    "one-variable-per-declaration": false,
+    "only-arrow-functions": [
+      false
+    ],
+    "space-before-function-paren": [
+      true,
+      {
+        "anonymous": "always",
+        "named": "never"
+      }
+    ],
+    "ordered-imports": false,
+    "prefer-const": true,
+    "prefer-for-of": false,
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ],
+    "trailing-comma": false,
+    "no-trailing-whitespace": [
+      true,
+      "ignore-comments"
+    ],
+    "variable-name": false,
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ]
+  }
+}

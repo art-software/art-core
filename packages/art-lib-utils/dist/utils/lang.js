@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const TOSTRING = Object.prototype.toString;
 const TYPES = {
     boolean: 'boolean',
@@ -10,52 +12,52 @@ const TYPES = {
     '[object Date]': 'date',
     '[object Error]': 'error'
 };
-export const type = (o) => {
+exports.type = (o) => {
     return TYPES[typeof o] || TYPES[TOSTRING.call(o)] || (o ? 'object' : 'null');
 };
-export const isFunction = (o) => {
-    return type(o) === 'function';
+exports.isFunction = (o) => {
+    return exports.type(o) === 'function';
 };
-export const isNull = (o) => {
+exports.isNull = (o) => {
     return o === null;
 };
-export const isNumber = (o) => {
-    return type(o) === 'number' && isFinite(o);
+exports.isNumber = (o) => {
+    return exports.type(o) === 'number' && isFinite(o);
 };
-export const isBoolean = (o) => {
-    return type(o) === 'boolean';
+exports.isBoolean = (o) => {
+    return exports.type(o) === 'boolean';
 };
-export const isObject = (o, failfn = false) => {
+exports.isObject = (o, failfn = false) => {
     const t = typeof o;
     return (o && (t === 'object' ||
-        (!failfn && (t === 'function' || isFunction(o))))) || false;
+        (!failfn && (t === 'function' || exports.isFunction(o))))) || false;
 };
-export const isPlainObject = (o) => {
-    return isObject(o, true);
+exports.isPlainObject = (o) => {
+    return exports.isObject(o, true);
 };
-export const isString = (o) => {
-    return type(o) === 'string';
+exports.isString = (o) => {
+    return exports.type(o) === 'string';
 };
-export const isUndefined = (o) => {
-    return type(o) === 'undefined';
+exports.isUndefined = (o) => {
+    return exports.type(o) === 'undefined';
 };
-export const isArray = Array.isArray || ((o) => type(o) === 'array');
-export const now = Date.now || (() => new Date().getTime());
-export const fromJson = (json) => {
-    return isString(json) ? JSON.parse(json) : json;
+exports.isArray = Array.isArray || ((o) => exports.type(o) === 'array');
+exports.now = Date.now || (() => new Date().getTime());
+exports.fromJson = (json) => {
+    return exports.isString(json) ? JSON.parse(json) : json;
 };
-export const toJson = (obj, pretty) => {
-    if (isUndefined(obj)) {
+exports.toJson = (obj, pretty) => {
+    if (exports.isUndefined(obj)) {
         return undefined;
     }
-    if (!isNumber(pretty)) {
+    if (!exports.isNumber(pretty)) {
         pretty = pretty ? 2 : null;
     }
     return JSON.stringify(obj, (key, value) => value, pretty);
 };
-export const noop = () => {
+exports.noop = () => {
     console.log('noop');
 };
-export const isEmptyObject = (obj) => {
+exports.isEmptyObject = (obj) => {
     return Object.keys(obj).length <= 0;
 };

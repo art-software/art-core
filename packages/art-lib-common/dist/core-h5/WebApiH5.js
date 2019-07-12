@@ -1,7 +1,9 @@
-import WebApi from 'art-lib-common/src/core/WebApi';
-import { getQueryString } from 'art-lib-utils/dist/utils/url';
-import { EnvNames } from '../enums/EnvNames';
-export default class WebApiH5 extends WebApi {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const WebApi_1 = require("art-lib-common/src/core/WebApi");
+const url_1 = require("art-lib-utils/dist/utils/url");
+const EnvNames_1 = require("../enums/EnvNames");
+class WebApiH5 extends WebApi_1.default {
     constructor(domainConfig) {
         super();
         this.domainConfig = domainConfig;
@@ -10,10 +12,10 @@ export default class WebApiH5 extends WebApi {
         });
     }
     getEnvName() {
-        return getQueryString('env') || EnvNames.prod;
+        return url_1.getQueryString('env') || EnvNames_1.EnvNames.prod;
     }
     getPort() {
-        return getQueryString('port') || '';
+        return url_1.getQueryString('port') || '';
     }
     getDomain() {
         const envName = this.getEnvName();
@@ -25,3 +27,4 @@ export default class WebApiH5 extends WebApi {
         return domain || '';
     }
 }
+exports.default = WebApiH5;
