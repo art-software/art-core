@@ -28,7 +28,7 @@ class UtilsCommand {
                 type: 'list',
                 name: 'toolChoice',
                 message: 'please chioce one tool to execute',
-                choices: [UtilList_1.UtilList.MdToApi, UtilList_1.UtilList.Test]
+                choices: [UtilList_1.UtilList.MdToApi]
             });
             const executeUtil = utilChooseAnswer.toolChoice;
             console.log(chalk_1.default.green(`Will execute ${executeUtil}`));

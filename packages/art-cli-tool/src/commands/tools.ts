@@ -26,7 +26,7 @@ class UtilsCommand implements CommandModule {
       type: 'list',
       name: 'toolChoice',
       message: 'please chioce one tool to execute',
-      choices: [UtilList.MdToApi, UtilList.Test]
+      choices: [UtilList.MdToApi]
     }) as any;
     const executeUtil = utilChooseAnswer.toolChoice;
     console.log(chalk.green(`Will execute ${executeUtil}`));

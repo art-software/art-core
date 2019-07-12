@@ -60,7 +60,7 @@ export enum MdToJsTypeMap {
 }
 
 // md 规定的每个表格header的标题等级
-export const TAbLE_HEADER_DEPTH = 4;
+export const TABLE_HEADER_DEPTH = 4;
 
 // 定义了数据格式中的最高父级
 export const HIGHEST_PARENT = 'data';

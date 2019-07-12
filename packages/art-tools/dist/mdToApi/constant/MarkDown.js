@@ -62,7 +62,7 @@ var MdToJsTypeMap;
     MdToJsTypeMap["object"] = "object";
 })(MdToJsTypeMap = exports.MdToJsTypeMap || (exports.MdToJsTypeMap = {}));
 // md 规定的每个表格header的标题等级
-exports.TAbLE_HEADER_DEPTH = 4;
+exports.TABLE_HEADER_DEPTH = 4;
 // 定义了数据格式中的最高父级
 exports.HIGHEST_PARENT = 'data';
 // 返回的interfaceName后缀
