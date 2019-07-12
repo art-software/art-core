@@ -10,12 +10,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = require("fs");
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 const appConfig_1 = __importDefault(require("./appConfig"));
 const path = __importStar(require("path"));
 const env_1 = require("../utils/env");
+const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 const prod = env_1.isProd();
+let postcssConfigFilePath;
+try {
+    const processCwd = process.cwd();
+    fs_1.accessSync(ensureSlash_1.default(processCwd, true) + 'postcss.config.js');
+    postcssConfigFilePath = processCwd;
+}
+catch (error) {
+    postcssConfigFilePath = __dirname;
+}
 exports.configBaseRules = () => {
     let config = [];
     config = config.concat([
@@ -34,7 +45,7 @@ const cssRule = (isProdEnv) => {
     const config = [
         mini_css_extract_plugin_1.default.loader,
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
-        { loader: 'postcss-loader', options: { config: { path: __dirname } } }
+        { loader: 'postcss-loader', options: { config: { path: postcssConfigFilePath } } }
     ];
     if (!isProdEnv) {
         config.unshift('css-hot-loader');
@@ -48,7 +59,7 @@ const lessRule = (isProdEnv) => {
     const config = [
         mini_css_extract_plugin_1.default.loader,
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
-        { loader: 'postcss-loader', options: { config: { path: __dirname } } },
+        { loader: 'postcss-loader', options: { config: { path: postcssConfigFilePath } } },
         { loader: 'venus-px2rem-loader', options: { remUnit: 100, remPrecision: 8 } },
         { loader: 'less-loader', options: { sourceMap: !isProdEnv } }
     ];
@@ -64,7 +75,7 @@ const sassRule = (isProdEnv) => {
     const config = [
         mini_css_extract_plugin_1.default.loader,
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
-        { loader: 'postcss-loader', options: { config: { path: __dirname } } },
+        { loader: 'postcss-loader', options: { config: { path: postcssConfigFilePath } } },
         { loader: 'sass-loader', options: { sourceMap: !isProdEnv } }
     ];
     if (!isProdEnv) {

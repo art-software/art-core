@@ -1,7 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 检查、获取、设置 cookie
  */
-export default {
+exports.default = {
     /*
      * 获取 cookie 值
      * @param {String} name cookie 名称

@@ -1,10 +1,12 @@
-export const isWindow = (obj) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isWindow = (obj) => {
     return obj !== null && obj === obj.window;
 };
-export const getWindow = (elem) => {
-    return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
+exports.getWindow = (elem) => {
+    return exports.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
 };
-export const offset = (elem) => {
+exports.offset = (elem) => {
     const doc = elem && elem.ownerDocument;
     if (!doc) {
         return;
@@ -19,7 +21,7 @@ export const offset = (elem) => {
     if (typeof elem.getBoundingClientRect !== 'undefined') {
         box = elem.getBoundingClientRect();
     }
-    const win = getWindow(doc);
+    const win = exports.getWindow(doc);
     if (!win) {
         return;
     }
@@ -28,9 +30,9 @@ export const offset = (elem) => {
         left: box.left + win.pageXOffset - docElem.clientLeft
     };
 };
-export const offsetToParentElem = (elem, parentElem) => {
-    const childPos = offset(elem);
-    const parentPos = offset(parentElem);
+exports.offsetToParentElem = (elem, parentElem) => {
+    const childPos = exports.offset(elem);
+    const parentPos = exports.offset(parentElem);
     if (!childPos || !parentPos) {
         return;
     }
@@ -39,7 +41,7 @@ export const offsetToParentElem = (elem, parentElem) => {
         left: childPos.left - parentPos.left
     };
 };
-export const getStyles = (elem) => {
+exports.getStyles = (elem) => {
     // Support: IE<=11+, Firefox<=30+ (#15098, #14150)
     // IE throws on elements created in popups
     // FF meanwhile throws on frame elements through 'defaultView.getComputedStyle'
@@ -48,9 +50,9 @@ export const getStyles = (elem) => {
     }
     return window.getComputedStyle(elem, '');
 };
-export const accessProperty = (elem, propName) => {
+exports.accessProperty = (elem, propName) => {
     elem = elem || window;
-    if (isWindow(elem)) {
+    if (exports.isWindow(elem)) {
         // As of 5/8/2012 this will yield incorrect results for Mobile Safari, but there
         // isn't a whole lot we can do. See pull request at this URL for discussion:
         // https://github.com/jquery/jquery/pull/764
@@ -64,19 +66,19 @@ export const accessProperty = (elem, propName) => {
         return Math.max(elem.body['scroll' + propName], doc['scroll' + propName], elem.body['offset' + propName], doc['offset' + propName], doc['client' + propName]);
     }
     // Get width or height on the element, requesting but not forcing parseFloat
-    return parseInt(getStyles(elem)[propName.toLowerCase()], 10) || 0;
+    return parseInt(exports.getStyles(elem)[propName.toLowerCase()], 10) || 0;
 };
-export const getElemWidth = (elem) => {
-    return accessProperty(elem, 'Width');
+exports.getElemWidth = (elem) => {
+    return exports.accessProperty(elem, 'Width');
 };
-export const getElemHeight = (elem) => {
-    return accessProperty(elem, 'Height');
+exports.getElemHeight = (elem) => {
+    return exports.accessProperty(elem, 'Height');
 };
-export const canUseDOM = !!(typeof window !== 'undefined'
+exports.canUseDOM = !!(typeof window !== 'undefined'
     && window.document
     && window.document.createElement);
-export const has3d = 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix();
-export const hasClass = (element, className) => {
+exports.has3d = 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix();
+exports.hasClass = (element, className) => {
     if (element.classList) {
         return !!className && element.classList.contains(className);
     }
