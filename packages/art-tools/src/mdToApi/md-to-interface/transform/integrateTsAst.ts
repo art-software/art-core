@@ -27,7 +27,7 @@ export const collateEnumAst = (enumName: string, enumBody) => {
  * @param {String} finalName 最终生成的一个interfaceName
  */
 export const collateInterfaceAst = (interfaceName, interfaceBody, interfaceAst?: any, finalName?: string) => {
-  const singleInterfaceAst = interfaceAst || objDeepCopy(exportInterfaceAst) as any;
+  const singleInterfaceAst = objDeepCopy(interfaceAst || exportInterfaceAst) as any;
   singleInterfaceAst.declaration.id.name = finalName || interfaceName;
   singleInterfaceAst.declaration.body.body = interfaceBody;
   saveAstToMemory(singleInterfaceAst);
