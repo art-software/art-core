@@ -23,7 +23,8 @@ export default class WebpackDevConfig extends WebpackBaseConfig implements Confi
 
   public plugins = getConfigPluginsWeb(this.entry).concat(
     new MiniCssExtractPlugin({
-      filename: `./[name]/bundle.css`
+      filename: `./[name]/bundle.css`,
+      chunkFilename: `${Object.keys(this.entry)[0]}/[id].[chunkhash].css`,
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()

@@ -4,7 +4,7 @@ import { isProd } from '../utils/env';
 import WebpackDevConfigWeb from './webpack.config.dev.web';
 import WebpackProdConfig from './webpack.config.prod';
 
-const getWebpackConfigWeb = (moduleEntry: string): Configuration => {
+const webpackConfigWeb = (moduleEntry: string): Configuration => {
   const entry = webpackEntries(moduleEntry, false);
   const hotEntry = attachHotDevServerScripts(entry);
   const output = webpackOutput(moduleEntry);
@@ -22,9 +22,11 @@ const ART_MODULES = JSON.parse(
   argv[argv.indexOf('--ART_MODULES') + 1]
 );
 
-const webpackConfigWeb: Configuration[] = ART_MODULES.map((moduleEntry) => {
-  const webpackConfig = getWebpackConfigWeb(moduleEntry);
-  return webpackConfig;
-});
+const getWebpackConfigWeb = (): Configuration[] => {
+  return ART_MODULES.map((moduleEntry) => {
+    const webpackConfig = webpackConfigWeb(moduleEntry);
+    return webpackConfig;
+  });
+};
 
-export default webpackConfigWeb;
+export default getWebpackConfigWeb;

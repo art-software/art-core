@@ -63,15 +63,14 @@ const confirmModulesCb = (answer) => {
         const argvModules = appConfig_1.default.get('ART_MODULES') || '[]';
         const parallelWebpack = path.join(require.resolve('parallel-webpack'), '../bin/run.js');
         const configPathSSR = path.join(__dirname, '../config/webpack.config.ssr.js');
-        executeNodeScript_1.default(parallelWebpack, '--config', configPathSSR, '--watch', '--', '--ART_MODULES', `${argvModules}`);
+        executeNodeScript_1.default(parallelWebpack, '--config', configPathSSR, '--watch', '--', '--ART_MODULES', `${argvModules}`, '--NODE_ENV', `${envName}`, '--DEV_PORT', `${port}`);
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
         const urls = prepareUrls_1.default(protocol, HOST, port);
         const proxySetting = appConfig_1.default.get('art:proxy');
         const proxyConfig = prepareProxy_1.default(proxySetting);
         const devServerConfig = webpackDevServer_1.default(proxyConfig, urls.lanUrlForConfig);
-        const compiler = webpack_1.default(webpack_config_web_1.default);
+        const compiler = webpack_1.default(webpack_config_web_1.default());
         const devServer = new webpack_dev_server_1.default(compiler, devServerConfig);
-        console.log('port: ', port);
         devServer.listen(port, HOST, (error) => {
             if (error) {
                 return console.log(error);

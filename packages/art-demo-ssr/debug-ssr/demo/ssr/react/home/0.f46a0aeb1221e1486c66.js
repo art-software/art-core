@@ -1,6 +1,17 @@
 exports.ids = [0];
 exports.modules = {
 
+/***/ "./client/home/assets/icon-home.png":
+/*!******************************************!*\
+  !*** ./client/home/assets/icon-home.png ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6RwvCAAAAAXNSR0IArs4c6QAAA8xJREFUWAntlktIVFEYx50ZHxm+oNqMFTgKQxG18DUi9tJCkVypmyAQhNq16QFBi0BIWgUu27ToAVmClBRkKplKPsBoY1SMGalkTxhsdJyx3zfdM9zGO3fmjkEFHrjznfs9/ud/vu8790xKysb4gxlYXV21FRcXXy0pKemQ+Xqgkw5uampyeL3eaxBo0Qhcd7lcrZ2dncFkCCVFBBLpkLgJicaoRTt5Pz4xMRGI0sd9tUykoqIiMxAIdEGiNgZ6T3Z2duPAwIA/ht1QbYlIeXl5zsrKygOQqhSa3W5vg5Sd54LSIfsh0wAZn05nOnWYWnVGmnJrKBR6jMqj1Dab7dz4+Hjb7Oxsn9PpXEJfo9kKlpeXD7vd7nvT09MJZSYhIpWVlU4y0c8ie7WFQmTiFCQ6tPeUubm5Z/n5+Z95r+ORTG+nhLWFhYVdMzMzi8ovloxbmtLSUhdp7+UpEBCysII4AYnbRqD4t+Arp0ltcio9Pb1mZGTkg5G/0pkSoSd2kwkph1MCIOHnaR4bG7uvAIwkZJop4w1saWInxksGq0dHR71G/mGfWIaysrISwB6xsy2ajzReA0dTShR30FP1ELhL/CbNWTJSQ/yUUbDdSMmO9kPiiY7EVw0kIRKCyYI9ZKGeqTo5+cyfssF9Yo8ea4jwua6DgGQiR5zZ1TziAMDPo4PjvVOKPofDcRS/b5rvtmAwOEDJIydPYfxGhHQ2QaCbJ1NzeJeWllYFiZcqwKqEzAiZOUTcghabJ33Hhg/qsSLNimEPBF5gDJMjE694jtCY7/UByc49Hs8ujnMv8eHGRy5mZGQUDA8PfxTMSEZYVGqnSEzyfhJiHfTLGXFczxAMsnCZvmsFV52czejcCjeSEblD+BpeFAOf5ys+n+8WROTjJKOI8rz9NbX2C24RuK8lChIPyUKr3+8/T7nmKVs7ulWxpcqPDD44PxCR+4JS5YYN/KSmpuapuVVJFiI4xOYODQ3NIk8LDiREhEekNErxt2QkI1YIcLoKOZZZRjEcT18yZbScEUrWBoE3LDhp9IhN8zHiGVNnmQgNfCwmmmZIxCcaw3JpaDAHCymcGSYB7UUuuJ0yFx9Nl7CwnBE9Mtd7Nf0gR7tI5nqb1fm6iFhdzMz/nyGSUI/wKa7hyLq0HYVvZbPdYcuRC1R8iFVxpiEJEQGhXaHoGlWp1kh8dqC8s8ZgoohZGsC+mMSJKcQdov5nyDXwXXRmMWaYZhk5yzH0EZwVfRzRLXFpdfMX4ZNaeHBwcIFbtpW7pQH/DKUXiX9Qw7qk12/M/4sM/ATBJJ2M0qZVggAAAABJRU5ErkJggg=="
+
+/***/ }),
+
 /***/ "./client/home/styles/home.less":
 /*!**************************************!*\
   !*** ./client/home/styles/home.less ***!
@@ -47,6 +58,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+var iconPath = __webpack_require__(/*! ../assets/icon-home.png */ "./client/home/assets/icon-home.png");
+
 var Home =
 /*#__PURE__*/
 function (_React$Component) {
@@ -88,6 +101,9 @@ function (_React$Component) {
         onClick: this.count
       }, "Click to Add: ", this.state.count), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home-background"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: iconPath,
+        alt: "icon-home"
       }));
     }
   }]);
@@ -100,4 +116,4 @@ function (_React$Component) {
 /***/ })
 
 };;
-//# sourceMappingURL=0.699f9d650780ac0c2d91.js.map
+//# sourceMappingURL=0.f46a0aeb1221e1486c66.js.map

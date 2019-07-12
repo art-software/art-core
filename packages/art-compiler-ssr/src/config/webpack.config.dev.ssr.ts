@@ -1,6 +1,6 @@
 import { WebpackBaseConfig } from './webpack.config.base';
 import { Configuration } from 'webpack';
-import { jsRule, tsRule, nullRule } from './configRules';
+import { jsRule, tsRule, nullRule, htmlRule, assetsRuleSSR } from './configRules';
 import { getConfigPluginsSSR } from './configPluginsSSR';
 const nodeExternals = require('webpack-node-externals');
 
@@ -19,7 +19,7 @@ export default class WebpackDevSSRConfig extends WebpackBaseConfig implements Co
   };
 
   public module = {
-    rules: [ jsRule, tsRule, nullRule ]
+    rules: [ jsRule, tsRule, nullRule, htmlRule, assetsRuleSSR() ]
   };
 
   public plugins = getConfigPluginsSSR();

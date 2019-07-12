@@ -32507,7 +32507,6 @@ exports.generateAsyncRouteComponent = function (component) {
         key: "load",
         value: function load() {
           return loader().then(function (ResolvedComponent) {
-            console.log('ResolvedComponent: ', ResolvedComponent);
             Component = ResolvedComponent.default || ResolvedComponent;
           }).catch(function (err) {
             console.log('load component error: ', err);
@@ -32535,9 +32534,7 @@ exports.ensureReady = function (routeConfig, providedLocation) {
 
     if (component && component.load) {
       try {
-        component.load().then(function (loaded) {
-          console.log('loaded: ', loaded);
-        }).catch(function (err) {
+        component.load().catch(function (err) {
           console.log('err: ', err);
         });
         return component.load();

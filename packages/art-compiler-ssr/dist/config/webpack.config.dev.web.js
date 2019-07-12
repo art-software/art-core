@@ -20,7 +20,8 @@ class WebpackDevConfig extends webpack_config_base_1.WebpackBaseConfig {
         };
         this.devtool = '#source-map';
         this.plugins = configPluginsWeb_1.getConfigPluginsWeb(this.entry).concat(new mini_css_extract_plugin_1.default({
-            filename: `./[name]/bundle.css`
+            filename: `./[name]/bundle.css`,
+            chunkFilename: `${Object.keys(this.entry)[0]}/[id].[chunkhash].css`,
         }), new webpack_1.default.NamedModulesPlugin(), new webpack_1.default.HotModuleReplacementPlugin());
         this.optimization = {
             splitChunks: {
