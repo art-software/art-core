@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const webpack_config_base_1 = require("./webpack.config.base");
 const configRules_1 = require("./configRules");
 const configPluginsSSR_1 = require("./configPluginsSSR");
-const nodeExternals = require('webpack-node-externals');
 class WebpackDevSSRConfig extends webpack_config_base_1.WebpackBaseConfig {
     constructor(entry, output) {
         super(entry, output);
@@ -17,7 +16,6 @@ class WebpackDevSSRConfig extends webpack_config_base_1.WebpackBaseConfig {
             rules: [configRules_1.jsRule, configRules_1.tsRule, configRules_1.nullRule, configRules_1.htmlRule, configRules_1.assetsRuleSSR()]
         };
         this.plugins = configPluginsSSR_1.getConfigPluginsSSR();
-        this.externals = [nodeExternals()];
     }
 }
 exports.default = WebpackDevSSRConfig;
