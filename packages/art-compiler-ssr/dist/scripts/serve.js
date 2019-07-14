@@ -34,7 +34,7 @@ const lunchNodeServer = (modules, port) => {
         return;
     }
     // if (isInteractive) { clearConsole(); }
-    const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
+    const mockServerPath = path.join(__dirname, '../../../art-server-mock-miniprogram/dist/index.js');
     const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
     executeNodeScript_1.default(nodemonPath, '--watch', paths_1.default.appMockServer, '--ignore', paths_1.default.appMockServer, '-e', 'js, jsx, ts', mockServerPath, '--ART_MODULES', `${JSON.stringify(modules)}`, '--ART_WEBPACK_PORT', `${port}`);
     nodeServerHasLunched = true;
@@ -78,7 +78,8 @@ const confirmModulesCb = (answer) => {
             console.log(chalkColors_1.cyanText(`Starting compilers to compiling modules hold on...\n`));
         });
         compileMockServer();
-        lunchNodeServer(argvModules, port);
+        // TODO use pure api mock server
+        // lunchNodeServer(argvModules, port);
         ['SIGINT', 'SIGTERM'].forEach((sig) => {
             process.on(sig, () => {
                 devServer.close();

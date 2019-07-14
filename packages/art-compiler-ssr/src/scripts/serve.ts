@@ -23,7 +23,7 @@ const lunchNodeServer = (modules: string, port: number) => {
 
   if (nodeServerHasLunched) { return; }
   // if (isInteractive) { clearConsole(); }
-  const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
+  const mockServerPath = path.join(__dirname, '../../../art-server-mock-miniprogram/dist/index.js');
   const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
   executeNodeScript(
     nodemonPath,
@@ -92,7 +92,8 @@ const confirmModulesCb = (answer) => {
       });
 
       compileMockServer();
-      lunchNodeServer(argvModules, port);
+      // TODO use pure api mock server
+      // lunchNodeServer(argvModules, port);
 
       ['SIGINT', 'SIGTERM'].forEach((sig) => {
         process.on(sig as NodeJS.Signals, () => {
