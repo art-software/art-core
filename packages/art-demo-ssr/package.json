@@ -1,13 +1,13 @@
 {
   "name": "art-demo-ssr",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "art demo ssr",
   "main": "index.js",
   "author": "Bowen Zhong",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "art-compiler-ssr": "^0.0.3",
+    "art-compiler-ssr": "^0.0.4",
     "art-lib-common": "^0.0.7",
     "art-lib-react": "^0.0.35",
     "art-lib-utils": "^0.0.6",
