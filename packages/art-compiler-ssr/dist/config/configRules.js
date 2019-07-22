@@ -106,7 +106,10 @@ exports.assetsRuleSSR = () => {
     const envName = argv[argv.indexOf('--NODE_ENV') + 1];
     const port = argv[argv.indexOf('--DEV_PORT') + 1];
     const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
-    const publicPath = `${host}:${port}/public/`;
+    const output = appConfig_1.default.get(`art:webpack:output`) || {};
+    const buildEnv = appConfig_1.default.get('BUILD_ENV');
+    const publicPath = env_1.isProd() ? output[`${buildEnv}PublicPath`] : `${host}:${port}/public/`;
+    // const publicPath = `${host}:${port}/public/`;
     return {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         use: [
