@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param {String} symbol 转换的元素
  * @example toHump('/asd/asd', '/') return AsdAsd
  */
-exports.toCameCase = (str, symbol = '/') => {
+exports.toCamelCase = (str, symbol = '/') => {
     const reg = new RegExp(`\\${symbol}(\\w)`, 'g');
     return str.replace(reg, (all, letter) => {
         return letter.toUpperCase();

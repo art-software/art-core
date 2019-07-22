@@ -11,15 +11,18 @@ exports.extractMdAstChunk = (mdAst, findTableNames) => {
     const interfaceGather = [];
     let chunkStart = 0;
     mdAst.forEach((value, index) => {
+        // 如果一旦找到一个api的初始，说明是一个完整api，进行抽取
         if (value.type === MarkDown_1.MarkDownIdentifier.singleInterfaceStart && index) {
             const chunkData = mdAst.slice(chunkStart, index);
             interfaceGather.push(exports.extractUseTables(findTableNames, chunkData));
         }
+        // 记录每一个api的起始值
         if (value.type === MarkDown_1.MarkDownIdentifier.singleInterfaceStart) {
             chunkStart = index;
         }
+        // 最后一个api的抽取
         if (index === mdAst.length - 1) {
-            const chunkData = mdAst.slice(chunkStart, index);
+            const chunkData = mdAst.slice(chunkStart);
             interfaceGather.push(exports.extractUseTables(findTableNames, chunkData));
         }
     });
@@ -52,7 +55,8 @@ exports.extractChooseTable = (tableText, chunkData) => {
             value.text === tableText) {
             result =
                 chunkData.find((tableValue, tableIndex) => {
-                    if (tableIndex > index && tableValue.type === MarkDown_1.MarkDownIdentifier.tableIdentifier) {
+                    if (tableIndex > index && tableValue.type === MarkDown_1.MarkDownIdentifier.tableIdentifier
+                        || tableValue.type === 'code') {
                         return tableValue;
                     }
                 }) || {};

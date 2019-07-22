@@ -13,4 +13,5 @@ export interface IWillOperateList {
   deleteOutputList: string[];
   replaceOutputList: string[];
   moduleDocConfigList: IModuleDocConfig[];
+  firstCreateModuleList: string[];
 }

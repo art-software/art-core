@@ -1,15 +1,16 @@
 import md5 from 'blueimp-md5';
 import fs from 'fs';
 import { IWillOperateList, IModuleDocConfig, IDocManifest } from '../interface/interfaceGenerator';
-import { getModuleApiDocConfig, getDocManifestInfo } from './getDocConfig';
+import { getModuleDocToInterfaceConfig, getDocManifestInfo } from './getInterfaceDocConfig';
 
 export const getWillOperateList: (docFolderList: string[]) => IWillOperateList = (docFolderList) => {
   const deleteOutputList: string[] = [];
   const replaceOutputList: string[] = [];
   const moduleDocConfigList: IModuleDocConfig[] = [];
+  const firstCreateModuleList: string[] = [];
   docFolderList.forEach((docFolder) => {
     // moduleApiDocs => module md path list
-    const moduleApiDocConfig = getModuleApiDocConfig(docFolder);
+    const moduleApiDocConfig = getModuleDocToInterfaceConfig(docFolder);
     moduleDocConfigList.push(moduleApiDocConfig);
     const { docConfig, docManiFestPath } = moduleApiDocConfig;
     const maniFestInfo: IDocManifest[] = getDocManifestInfo(docManiFestPath);
@@ -31,7 +32,9 @@ export const getWillOperateList: (docFolderList: string[]) => IWillOperateList =
           }
         });
       });
+    } else {
+      firstCreateModuleList.push(docFolder);
     }
   });
-  return { deleteOutputList, replaceOutputList, moduleDocConfigList };
+  return { deleteOutputList, replaceOutputList, moduleDocConfigList, firstCreateModuleList };
 };

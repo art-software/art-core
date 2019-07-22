@@ -5,17 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const blueimp_md5_1 = __importDefault(require("blueimp-md5"));
 const fs_1 = __importDefault(require("fs"));
-const getDocConfig_1 = require("./getDocConfig");
+const getInterfaceDocConfig_1 = require("./getInterfaceDocConfig");
 exports.getWillOperateList = (docFolderList) => {
     const deleteOutputList = [];
     const replaceOutputList = [];
     const moduleDocConfigList = [];
+    const firstCreateModuleList = [];
     docFolderList.forEach((docFolder) => {
         // moduleApiDocs => module md path list
-        const moduleApiDocConfig = getDocConfig_1.getModuleApiDocConfig(docFolder);
+        const moduleApiDocConfig = getInterfaceDocConfig_1.getModuleDocToInterfaceConfig(docFolder);
         moduleDocConfigList.push(moduleApiDocConfig);
         const { docConfig, docManiFestPath } = moduleApiDocConfig;
-        const maniFestInfo = getDocConfig_1.getDocManifestInfo(docManiFestPath);
+        const maniFestInfo = getInterfaceDocConfig_1.getDocManifestInfo(docManiFestPath);
         // has record will check
         if (maniFestInfo.length) {
             // delete collect
@@ -35,6 +36,9 @@ exports.getWillOperateList = (docFolderList) => {
                 });
             });
         }
+        else {
+            firstCreateModuleList.push(docFolder);
+        }
     });
-    return { deleteOutputList, replaceOutputList, moduleDocConfigList };
+    return { deleteOutputList, replaceOutputList, moduleDocConfigList, firstCreateModuleList };
 };

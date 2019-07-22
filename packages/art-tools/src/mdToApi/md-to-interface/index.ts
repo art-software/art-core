@@ -11,7 +11,7 @@ import { appendToFile } from './generator';
  * 3- 转换为 TS-AST
  * 4- 写入内容
  */
-export const startMdToInterface = (entry: string, output: string) => {
+export const parseMdToInterface = (entry: string, output: string) => {
   const mdAST = readMdFile(entry);
   const transformData =  extractNeedTransformData(mdAST);
   const interfaceAST = createTsAst(transformData, output);

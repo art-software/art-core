@@ -9,7 +9,7 @@ exports.objDeepCopy = (source) => {
     const sourceCopy = source instanceof Array ? [] : {};
     for (const item in source) {
         sourceCopy[item] =
-            typeof source[item] === 'object'
+            typeof source[item] === 'object' && source[item] !== null
                 ? exports.objDeepCopy(source[item])
                 : source[item];
     }
