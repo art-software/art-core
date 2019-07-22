@@ -1,6 +1,6 @@
 {
   "name": "art-compiler-ssr",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Art compiler for server side rendering(SSR) project",
   "main": "index.js",
   "author": "Bowen Zhong",
