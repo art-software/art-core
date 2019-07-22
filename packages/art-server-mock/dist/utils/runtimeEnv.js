@@ -6,3 +6,4 @@ const ProjectTypes_1 = require("../enums/ProjectTypes");
 const configPath = path_1.join(process.cwd(), 'art.config.js');
 const artConfig = require(configPath);
 exports.isWxMiniprogramEnv = artConfig.projectType === ProjectTypes_1.ProjectTypes.miniprogram;
+exports.isSSRProject = artConfig.projectType === ProjectTypes_1.ProjectTypes.SSR;

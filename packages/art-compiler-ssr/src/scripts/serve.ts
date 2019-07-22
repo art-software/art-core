@@ -2,17 +2,15 @@ import { confirmModules } from '../utils/inquirer';
 import appConfig from '../config/appConfig';
 import choosePort from 'art-dev-utils/lib/choosePort';
 import webpackDevServeConfig from '../config/webpackDevServer';
-import createServeCompiler from '../utils/createServeCompiler';
 import prepareProxy from 'art-dev-utils/lib/prepareProxy';
 import prepareUrls from 'art-dev-utils/lib/prepareUrls';
 import WebpackDevServer from 'webpack-dev-server';
 // import clearConsole from 'art-dev-utils/lib/clearConsole';
-import { cyanText, greenText, warningText } from 'art-dev-utils/lib/chalkColors';
+import { cyanText } from 'art-dev-utils/lib/chalkColors';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import * as path from 'path';
 import paths from '../config/paths';
-import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
-import webpackConfigWeb from '../config/webpack.config.web';
+import getWebpackConfigWeb from '../config/webpack.config.web';
 import webpack from 'webpack';
 
 const envName = appConfig.get('NODE_ENV');
@@ -25,7 +23,7 @@ const lunchNodeServer = (modules: string, port: number) => {
 
   if (nodeServerHasLunched) { return; }
   // if (isInteractive) { clearConsole(); }
-  const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
+  const mockServerPath = path.join(__dirname, '../../../art-server-mock-miniprogram/dist/index.js');
   const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
   executeNodeScript(
     nodemonPath,
@@ -73,7 +71,9 @@ const confirmModulesCb = (answer) => {
         '--config', configPathSSR,
         '--watch',
         '--',
-        '--ART_MODULES', `${argvModules}`
+        '--ART_MODULES', `${argvModules}`,
+        '--NODE_ENV', `${envName}`,
+        '--DEV_PORT', `${port}`
       );
 
       const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
@@ -81,10 +81,9 @@ const confirmModulesCb = (answer) => {
       const proxySetting = appConfig.get('art:proxy');
       const proxyConfig = prepareProxy(proxySetting);
       const devServerConfig = webpackDevServeConfig(proxyConfig, urls.lanUrlForConfig);
-      const compiler = webpack(webpackConfigWeb);
+      const compiler = webpack(getWebpackConfigWeb());
       const devServer = new WebpackDevServer(compiler, devServerConfig);
 
-      console.log('port: ', port);
       devServer.listen(port, HOST, (error) => {
         if (error) {
           return console.log(error);
@@ -93,7 +92,8 @@ const confirmModulesCb = (answer) => {
       });
 
       compileMockServer();
-      lunchNodeServer(argvModules, port);
+      // TODO use pure api mock server
+      // lunchNodeServer(argvModules, port);
 
       ['SIGINT', 'SIGTERM'].forEach((sig) => {
         process.on(sig as NodeJS.Signals, () => {

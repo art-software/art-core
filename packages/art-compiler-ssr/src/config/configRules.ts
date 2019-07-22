@@ -1,9 +1,10 @@
 import { RuleSetUse, RuleSetRule } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import appNconf from './appConfig';
 import * as path from 'path';
 import { isProd } from '../utils/env';
-const projectVirtualPath = appNconf.get('art:projectVirtualPath');
+import ensureSlash from 'art-dev-utils/lib/ensureSlash';
+import appConfig from './appConfig';
+const projectVirtualPath = appConfig.get('art:projectVirtualPath');
 
 const prod = isProd();
 
@@ -106,6 +107,32 @@ export const assetsRule: RuleSetRule = {
   ]
 };
 
+export const assetsRuleSSR = (): RuleSetRule => {
+  const argv = process.argv;
+  const envName = argv[argv.indexOf('--NODE_ENV') + 1];
+  const port = argv[argv.indexOf('--DEV_PORT') + 1];
+  const host = ensureSlash(appConfig.get(`devHost:${envName}`), false);
+  const output = appConfig.get(`art:webpack:output`) || {};
+  const buildEnv = appConfig.get('BUILD_ENV');
+  const publicPath = isProd() ? output[`${buildEnv}PublicPath`] : `${host}:${port}/public/`;
+  // const publicPath = `${host}:${port}/public/`;
+  return {
+    test: /\.(png|jpg|jpeg|gif|svg)$/,
+    use: [
+      {
+        loader: 'url-loader',
+        options: {
+          limit: 5000,
+          context: path.resolve(process.cwd(), './client'),
+          name: `${projectVirtualPath}/[path][name]-[hash:8].[ext]`,
+          publicPath,
+          emitFile: false
+        }
+      }
+    ]
+  };
+};
+
 export const fontRule: RuleSetRule = {
   test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
   use: [
@@ -134,4 +161,10 @@ export const tsRule: RuleSetRule = {
     { loader: 'happypack/loader?id=ts' }
   ],
   exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-utils-wx|art-lib-common)\/).*/
+};
+
+export const nullRule: RuleSetRule = {
+  // test: /\.(png|jpg|jpeg|gif|svg|css|less|sass|ttf|eot|woff|woff2)$/,
+  test: /\.(css|less|sass|ttf|eot|woff|woff2)$/,
+  use: 'null-loader'
 };

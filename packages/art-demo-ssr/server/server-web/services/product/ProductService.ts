@@ -12,7 +12,6 @@ export class ProductService {
       }
     };
     return aggregator.render(jobs).then((result) => {
-      console.log('result: ', result);
       return result;
     });
   }

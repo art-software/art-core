@@ -11,11 +11,11 @@ import urlJoin from 'url-join';
 import chalk from 'chalk';
 import * as fs from 'fs';
 import glob from 'glob';
-import { isWxMiniprogramEnv } from '../utils/runtimeEnv';
+import { isSSRProject } from '../utils/runtimeEnv';
 
 // import { webpackEntries } from '../../../art-webpack/dist/config/configWebpackModules.js';
 // TODO optimize it later
-const webpackEntries = require(`../../../${ isWxMiniprogramEnv ? 'art-webpack-miniprogram' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
+const webpackEntries = require(`../../../${ isSSRProject ? 'art-compiler-ssr' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
 const virtualProjectName = appConfig.get('art:projectVirtualPath');
 const entries = webpackEntries(true);
 const publicPath = path.join(process.cwd(), './public');

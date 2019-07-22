@@ -9,7 +9,11 @@ export default class Aggregator {
     private url;
     private plugins;
     private config;
-    private aggregatorWebApiServer;
+    protected aggregatorWebApiServer: {
+        requestPost: (url: string, options: {
+            data: any;
+        }) => Promise<any>;
+    };
     addPlugin(plugin: any): void;
     private pluginReduce;
     createJobs(jobs: any): any;

@@ -3,7 +3,7 @@ import createGetComponent from 'art-ssr/dist/createGetComponent';
 import path from 'path';
 
 const renderServer = new RenderServer({
-  devMode: true,
+  devMode: false,
 
   getComponent: createGetComponent({
     Home: path.join(__dirname, '../../debug-ssr/demo/ssr/react/home/bundle.js'),

@@ -44,7 +44,6 @@ exports.generateAsyncRouteComponent = (component) => {
         }
         static load() {
             return loader().then((ResolvedComponent) => {
-                console.log('ResolvedComponent: ', ResolvedComponent);
                 Component = ResolvedComponent.default || ResolvedComponent;
             }).catch((err) => {
                 console.log('load component error: ', err);
@@ -80,7 +79,7 @@ exports.ensureReady = (routeConfig, providedLocation) => {
         const { component } = match.route;
         if (component && component.load) {
             try {
-                component.load().then((loaded) => { console.log('loaded: ', loaded); })
+                component.load()
                     .catch((err) => {
                     console.log('err: ', err);
                 });

@@ -1,4 +1,4 @@
-import Logger from './Logger';
+import Logger from './logger';
 import { ServerConfig } from '../RenderServer';
 import BatchManager from '../controllers/render/BatchManager';
 

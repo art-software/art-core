@@ -11,9 +11,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
-const appConfig_1 = __importDefault(require("./appConfig"));
 const path = __importStar(require("path"));
 const env_1 = require("../utils/env");
+const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
+const appConfig_1 = __importDefault(require("./appConfig"));
 const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath');
 const prod = env_1.isProd();
 exports.configBaseRules = () => {
@@ -100,6 +101,31 @@ exports.assetsRule = {
         }
     ]
 };
+exports.assetsRuleSSR = () => {
+    const argv = process.argv;
+    const envName = argv[argv.indexOf('--NODE_ENV') + 1];
+    const port = argv[argv.indexOf('--DEV_PORT') + 1];
+    const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
+    const output = appConfig_1.default.get(`art:webpack:output`) || {};
+    const buildEnv = appConfig_1.default.get('BUILD_ENV');
+    const publicPath = env_1.isProd() ? output[`${buildEnv}PublicPath`] : `${host}:${port}/public/`;
+    // const publicPath = `${host}:${port}/public/`;
+    return {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        use: [
+            {
+                loader: 'url-loader',
+                options: {
+                    limit: 5000,
+                    context: path.resolve(process.cwd(), './client'),
+                    name: `${projectVirtualPath}/[path][name]-[hash:8].[ext]`,
+                    publicPath,
+                    emitFile: false
+                }
+            }
+        ]
+    };
+};
 exports.fontRule = {
     test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
     use: [
@@ -126,4 +152,9 @@ exports.tsRule = {
         { loader: 'happypack/loader?id=ts' }
     ],
     exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-utils-wx|art-lib-common)\/).*/
+};
+exports.nullRule = {
+    // test: /\.(png|jpg|jpeg|gif|svg|css|less|sass|ttf|eot|woff|woff2)$/,
+    test: /\.(css|less|sass|ttf|eot|woff|woff2)$/,
+    use: 'null-loader'
 };

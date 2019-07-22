@@ -13,7 +13,6 @@ export default class IndexSSR extends React.Component {
   }
 
   public render() {
-    console.log('this.propsss: ', this.props);
     const { url } = (this.props as any).data;
     const routeConfig = convertCustomRouteConfig(routes);
     console.log('routeConfig: ', routeConfig);

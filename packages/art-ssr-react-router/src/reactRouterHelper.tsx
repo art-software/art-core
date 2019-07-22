@@ -41,7 +41,6 @@ export const generateAsyncRouteComponent = (component) => {
   return class AsyncRouteComponent extends React.Component {
     public static load() {
       return loader().then((ResolvedComponent) => {
-        console.log('ResolvedComponent: ', ResolvedComponent);
         Component = ResolvedComponent.default || ResolvedComponent;
       }).catch((err) => {
         console.log('load component error: ', err);
@@ -98,7 +97,7 @@ export const ensureReady = (routeConfig, providedLocation?) => {
     const { component } = match.route;
     if (component && (component as any).load) {
       try {
-        (component as any).load().then((loaded) => { console.log('loaded: ', loaded); })
+        (component as any).load()
           .catch((err) => {
             console.log('err: ', err);
           });
