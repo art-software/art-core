@@ -2,7 +2,7 @@
 import { objDeepCopy } from '../../utils/objDeepCopy';
 import { findAllIndex } from '../../utils/findAllIndex';
 import { firstWordUpperCase } from '../../utils/firstWordUpperCase';
-import ExportInterfaceAst from '../../template/interfaceTsAstTpl';
+import { exportInterfaceAstTpl } from '../../template/interfaceTsAstTpl';
 import { createChildrenInterface } from './createInterfaceChild';
 import { createEnum } from './createEnumTsAst';
 import { ISingleEnumAst, TsAstIdentifier } from '../../constant/TSAnnotationMap';
@@ -26,11 +26,11 @@ export const createInterfaceBody = (explainTable: any, currentParent: string) =>
     renameIndex
   ] = findAllIndex(
     [
-     ExplainTableHeader.paramsName,
-     ExplainTableHeader.type,
-     ExplainTableHeader.parents,
-     ExplainTableHeader.valueOptions,
-     ExplainTableHeader.rename
+      ExplainTableHeader.paramsName,
+      ExplainTableHeader.type,
+      ExplainTableHeader.parents,
+      ExplainTableHeader.valueOptions,
+      ExplainTableHeader.rename
     ],
     explainTable.header
   );
@@ -38,8 +38,8 @@ export const createInterfaceBody = (explainTable: any, currentParent: string) =>
   let lastTypeAnnotation: any;
   explainTable.cells.forEach((value) => {
     const bodyTemplate = objDeepCopy(
-      ExportInterfaceAst.declaration.body.body[0]
-      ) as any;
+      exportInterfaceAstTpl.declaration.body.body[0]
+    );
     const valueName = value[nameIndex];
     if (valueName[valueName.length - 1] === '?' || valueName[valueName.length - 1] === '？') {
       value[nameIndex] = valueName.substr(0, valueName.length - 1);
@@ -51,7 +51,7 @@ export const createInterfaceBody = (explainTable: any, currentParent: string) =>
       bodyTemplate.key.name = value[nameIndex];
       bodyTemplate.typeAnnotation = getTypeAnnotation(value[typeIndex], value[nameIndex]);
       result.push(bodyTemplate);
-      lastTypeAnnotation = (result[result.length - 1] as any).typeAnnotation.typeAnnotation;
+      lastTypeAnnotation = (result[result.length - 1]).typeAnnotation.typeAnnotation;
     }
     if (value[parentsIndex] === currentParent && value[enumIndex]) {
       const enumValue: ISingleEnumAst = {
@@ -86,17 +86,17 @@ export const createInterfaceBody = (explainTable: any, currentParent: string) =>
       childrenChunk.cells = explainTable.cells.filter((cell) => {
         // 这里先找到符合该项的每一个子集，如果子集是对象，再把该对象子集找到
         if ([ParamType.array, ParamType.object].includes(cell[typeIndex])) {
-          const cellName =  cell[nameIndex];
+          const cellName = cell[nameIndex];
           const cellNameLastIndex = cellName.length - 1;
           const parentNodeName = cellName[cellNameLastIndex] === '?' || cellName[cellNameLastIndex] === '？' ?
-          cellName.substr(0, cellNameLastIndex) : cellName;
+            cellName.substr(0, cellNameLastIndex) : cellName;
           childrenNameGather.push(cell[parentsIndex] + '.' + parentNodeName);
         }
         if (childrenNameGather.includes(cell[parentsIndex])) {
           return cell;
         }
       });
-      createChildrenInterface(childrenChunk, value[parentsIndex] + '.' +  value[nameIndex], childrenName);
+      createChildrenInterface(childrenChunk, value[parentsIndex] + '.' + value[nameIndex], childrenName);
     }
   });
   return result;

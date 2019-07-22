@@ -1,4 +1,4 @@
-const interfacePromiseAst = {
+export const interfacePromiseAstTpl = {
   type: 'ExportNamedDeclaration',
   declaration: {
     type: 'TSInterfaceDeclaration',
@@ -71,5 +71,3 @@ const interfacePromiseAst = {
     }
   }
 };
-
-export default interfacePromiseAst;

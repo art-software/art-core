@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const enumAst = {
+exports.enumAstTpl = {
     type: 'ExportNamedDeclaration',
     declaration: {
         type: 'TSEnumDeclaration',
@@ -23,4 +23,3 @@ const enumAst = {
         ]
     }
 };
-exports.default = enumAst;

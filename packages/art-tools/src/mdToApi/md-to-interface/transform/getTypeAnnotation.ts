@@ -1,6 +1,6 @@
 import { objDeepCopy } from '../../utils/objDeepCopy';
 import { TypeAnnotations } from '../../constant/TSAnnotationMap';
-import ExportInterfaceAst from '../../template/interfaceTsAstTpl';
+import { exportInterfaceAstTpl } from '../../template/interfaceTsAstTpl';
 import { ParamType, MdToJsTypeMap } from '../../constant/MarkDown';
 
 /** 
@@ -10,7 +10,7 @@ import { ParamType, MdToJsTypeMap } from '../../constant/MarkDown';
  * @returns 每次key对应的typeAnnotation节点
  */
 export const getTypeAnnotation = (type: string, childrenInterfaceName: string) => {
-  const anntationTpl = objDeepCopy(ExportInterfaceAst.declaration.body.body[0].typeAnnotation) as any;
+  const anntationTpl = objDeepCopy(exportInterfaceAstTpl.declaration.body.body[0].typeAnnotation) as any;
   anntationTpl.typeAnnotation.type = TypeAnnotations[type.toLowerCase()];
   const arrChildrenType = (type.substring(type.indexOf('(') + 1, type.indexOf(')'))).toLowerCase();
   const removeChilrenType = type.replace(/\([^\)]*\)/g, '');
@@ -22,10 +22,10 @@ export const getTypeAnnotation = (type: string, childrenInterfaceName: string) =
     anntationTpl.typeAnnotation.typeName.name = childrenInterfaceName;
   }
   // 括号中有值，并且本身是个array
-  if (arrChildrenType && removeChilrenType === ParamType.array ) {
-      const childrenType = MdToJsTypeMap[arrChildrenType];
-      anntationTpl.typeAnnotation.elementType.type = TypeAnnotations[childrenType];
-      anntationTpl.typeAnnotation.type = TypeAnnotations[ParamType.array];
+  if (arrChildrenType && removeChilrenType === ParamType.array) {
+    const childrenType = MdToJsTypeMap[arrChildrenType];
+    anntationTpl.typeAnnotation.elementType.type = TypeAnnotations[childrenType];
+    anntationTpl.typeAnnotation.type = TypeAnnotations[ParamType.array];
   }
   return anntationTpl;
 };

@@ -1,12 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const createPromiseTsAst_1 = require("./createPromiseTsAst");
 const createInterfaceTsAst_1 = require("./createInterfaceTsAst");
 const integrateTsAst_1 = require("./integrateTsAst");
-const tsFileAstTpl_1 = __importDefault(require("../../template/tsFileAstTpl"));
+const tsFileAstTpl_1 = require("../../template/tsFileAstTpl");
 const objDeepCopy_1 = require("../../utils/objDeepCopy");
 const createResponseTsAst_1 = require("./createResponseTsAst");
 /**
@@ -19,7 +16,7 @@ exports.createTsAst = (transformData, output) => {
     createResponseTsAst_1.createResponseTsAst();
     createPromiseTsAst_1.createPromiseTsAst(transformData.mdAstPromisePart, output);
     createInterfaceTsAst_1.createInterfaceTsAst(transformData.mdAstInterfacePart);
-    const tsAst = objDeepCopy_1.objDeepCopy(tsFileAstTpl_1.default);
+    const tsAst = objDeepCopy_1.objDeepCopy(tsFileAstTpl_1.tsFileAstTpl);
     tsAst.program.body = integrateTsAst_1.tsAstBody;
     return tsAst;
 };

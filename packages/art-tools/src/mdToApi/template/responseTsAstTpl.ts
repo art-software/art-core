@@ -1,4 +1,4 @@
-const responseTsAstTpl = {
+export const responseTsAstTpl = {
   type: 'ExportNamedDeclaration',
   declaration: {
     type: 'TSInterfaceDeclaration',
@@ -65,5 +65,3 @@ const responseTsAstTpl = {
     }
   }
 };
-
-export default responseTsAstTpl;

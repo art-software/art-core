@@ -1,12 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const objDeepCopy_1 = require("../../utils/objDeepCopy");
 const findAllIndex_1 = require("../../utils/findAllIndex");
 const firstWordUpperCase_1 = require("../../utils/firstWordUpperCase");
-const interfaceTsAstTpl_1 = __importDefault(require("../../template/interfaceTsAstTpl"));
+const interfaceTsAstTpl_1 = require("../../template/interfaceTsAstTpl");
 const createInterfaceChild_1 = require("./createInterfaceChild");
 const createEnumTsAst_1 = require("./createEnumTsAst");
 const TSAnnotationMap_1 = require("../../constant/TSAnnotationMap");
@@ -31,7 +28,7 @@ exports.createInterfaceBody = (explainTable, currentParent) => {
     const result = [];
     let lastTypeAnnotation;
     explainTable.cells.forEach((value) => {
-        const bodyTemplate = objDeepCopy_1.objDeepCopy(interfaceTsAstTpl_1.default.declaration.body.body[0]);
+        const bodyTemplate = objDeepCopy_1.objDeepCopy(interfaceTsAstTpl_1.exportInterfaceAstTpl.declaration.body.body[0]);
         const valueName = value[nameIndex];
         if (valueName[valueName.length - 1] === '?' || valueName[valueName.length - 1] === '？') {
             value[nameIndex] = valueName.substr(0, valueName.length - 1);
@@ -43,7 +40,7 @@ exports.createInterfaceBody = (explainTable, currentParent) => {
             bodyTemplate.key.name = value[nameIndex];
             bodyTemplate.typeAnnotation = getTypeAnnotation_1.getTypeAnnotation(value[typeIndex], value[nameIndex]);
             result.push(bodyTemplate);
-            lastTypeAnnotation = result[result.length - 1].typeAnnotation.typeAnnotation;
+            lastTypeAnnotation = (result[result.length - 1]).typeAnnotation.typeAnnotation;
         }
         if (value[parentsIndex] === currentParent && value[enumIndex]) {
             const enumValue = {

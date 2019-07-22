@@ -5,9 +5,9 @@ import { MarkDownIdentifier, TABLE_HEADER_DEPTH } from '../../constant/MarkDown'
  * @param {Array} mdAst 一个解析后的md语法树
  * @returns {Array} 返回一个由每个api的解析结果组成的数组
  */
-export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
+export const extractMdAstChunk = (mdAst, findTableNames: string[]): any[] => {
   // extract every interface detail and explain add to an Object and push an Array
-  const interfaceGather = [];
+  const interfaceGather: any[] = [];
   let chunkStart = 0;
   mdAst.forEach((value, index) => {
     // 如果一旦找到一个api的初始，说明是一个完整api，进行抽取
@@ -16,7 +16,7 @@ export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
       interfaceGather.push(extractUseTables(
         findTableNames,
         chunkData
-      ) as never);
+      ));
     }
     // 记录每一个api的起始值
     if (value.type === MarkDownIdentifier.singleInterfaceStart) {
@@ -28,7 +28,7 @@ export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
       interfaceGather.push(extractUseTables(
         findTableNames,
         chunkData
-      ) as never);
+      ));
     }
   });
   return interfaceGather;

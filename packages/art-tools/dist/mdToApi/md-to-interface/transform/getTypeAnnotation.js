@@ -1,11 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const objDeepCopy_1 = require("../../utils/objDeepCopy");
 const TSAnnotationMap_1 = require("../../constant/TSAnnotationMap");
-const interfaceTsAstTpl_1 = __importDefault(require("../../template/interfaceTsAstTpl"));
+const interfaceTsAstTpl_1 = require("../../template/interfaceTsAstTpl");
 const MarkDown_1 = require("../../constant/MarkDown");
 /**
  * @description 映射参数的类型和ts的类型
@@ -14,7 +11,7 @@ const MarkDown_1 = require("../../constant/MarkDown");
  * @returns 每次key对应的typeAnnotation节点
  */
 exports.getTypeAnnotation = (type, childrenInterfaceName) => {
-    const anntationTpl = objDeepCopy_1.objDeepCopy(interfaceTsAstTpl_1.default.declaration.body.body[0].typeAnnotation);
+    const anntationTpl = objDeepCopy_1.objDeepCopy(interfaceTsAstTpl_1.exportInterfaceAstTpl.declaration.body.body[0].typeAnnotation);
     anntationTpl.typeAnnotation.type = TSAnnotationMap_1.TypeAnnotations[type.toLowerCase()];
     const arrChildrenType = (type.substring(type.indexOf('(') + 1, type.indexOf(')'))).toLowerCase();
     const removeChilrenType = type.replace(/\([^\)]*\)/g, '');

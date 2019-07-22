@@ -1,4 +1,4 @@
-import enumAst from '../../template/enumTsAstTpl';
+import { enumAstTpl } from '../../template/enumTsAstTpl';
 import { ISingleEnumAst, EnumTypeAnnotations } from '../../constant/TSAnnotationMap';
 import { objDeepCopy } from '../../utils/objDeepCopy';
 import { toCamelCase } from '../../utils/toCamelCase';
@@ -18,7 +18,7 @@ export const createEnum = (singleCell: ISingleEnumAst, enumCreated?: (enumName: 
   let enumName = singleCell.rename || firstWordUpperCase(toCamelCase(singleCell.currentName, '_'));
   enumName = checkRepeatName(enumName);
   enumValues.forEach((value) => {
-    const singleMember = objDeepCopy(enumAst.declaration.members[0]) as any;
+    const singleMember = objDeepCopy(enumAstTpl.declaration.members[0]);
     singleMember.id.name = toCamelCase(value.split(ENUM_VALUE_DECOLLATOR)[0], '_');
     singleMember.initializer.type = EnumTypeAnnotations[MdToJsTypeMap[singleCell.type]];
     singleMember.initializer.value = value.split(ENUM_VALUE_DECOLLATOR)[1];

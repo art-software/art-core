@@ -1,13 +1,13 @@
-import { MarkDownIdentifier, TABLE_HEADER_DEPTH, MarkDownHeaders } from "../../constant/MarkDown";
+import { MarkDownIdentifier, TABLE_HEADER_DEPTH, MarkDownHeaders } from '../../constant/MarkDown';
 
 /** 
  * @description 按照一个api取抽取每一个数据
  * @param {Array} mdAst 一个解析后的md语法树
  * @returns {Array} 返回一个由每个api的解析结果组成的数组
-*/
-export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
+ */
+export const extractMdAstChunk = (mdAst, findTableNames: string[]): any[] => {
   // extract every interface detail and explain add to an Object and push an Array
-  const interfaceGather = [];
+  const interfaceGather: any[] = [];
   let chunkStart = 0;
   mdAst.forEach((value, index) => {
     // 如果一旦找到一个api的初始，说明是一个完整api，进行抽取
@@ -16,7 +16,7 @@ export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
       interfaceGather.push(extractUseTables(
         findTableNames,
         chunkData
-      ) as never);
+      ));
     }
     // 记录每一个api的起始值
     if (value.type === MarkDownIdentifier.singleInterfaceStart) {
@@ -28,7 +28,7 @@ export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
       interfaceGather.push(extractUseTables(
         findTableNames,
         chunkData
-      ) as never);
+      ));
     }
   });
   return interfaceGather;
@@ -39,10 +39,10 @@ export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
  * @param {Array} findTableNames 需要查找的table的header名称集合
  * @param {array} chunkData 一个api的数据
  * @returns {Object} 对应获取的table数据
-*/
+ */
 export const extractUseTables = (findTableNames: string[], chunkData: any[]) => {
   const userTables = {};
-  findTableNames.forEach(value => {
+  findTableNames.forEach((value) => {
     userTables[value] = extractChooseTable(value, chunkData);
   });
   return userTables;
@@ -52,7 +52,7 @@ export const extractUseTables = (findTableNames: string[], chunkData: any[]) => 
  * @description 抽取一个api数据中 单个 table的详细过程
  * @param {Array} tableText 需要查找的table的header名称
  * @param {array} chunkData 一个api的数据
-*/
+ */
 export const extractChooseTable = (tableText: string, chunkData: any[]) => {
   let result = {};
   chunkData.forEach((value, index) => {

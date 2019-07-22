@@ -1,6 +1,6 @@
 import { objDeepCopy } from '../../utils/objDeepCopy';
 import { createInterfaceBody } from './createInterfaceBody';
-import ExportInterfaceAst from '../../template/interfaceTsAstTpl';
+import { exportInterfaceAstTpl } from '../../template/interfaceTsAstTpl';
 import { collateInterfaceAst } from './integrateTsAst';
 
 /** 
@@ -10,6 +10,6 @@ import { collateInterfaceAst } from './integrateTsAst';
  * @param {String} finalName 最终生成interface的name
  */
 export const createChildrenInterface = (childrenBody, parentName, finalName) => {
-  const ast = objDeepCopy(ExportInterfaceAst);
+  const ast = objDeepCopy(exportInterfaceAstTpl);
   collateInterfaceAst(parentName, createInterfaceBody(childrenBody, parentName), ast, finalName);
 };

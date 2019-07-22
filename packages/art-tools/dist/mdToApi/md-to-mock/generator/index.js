@@ -12,7 +12,6 @@ const recast_1 = __importDefault(require("recast"));
 exports.appendToFile = (ast, output) => {
     try {
         fs_1.writeFileSync(output, `${recast_1.default.print(ast, { tabWidth: 2 }).code.replace(/\"/g, `\'`)}`, 'utf8');
-        // writeFileSync('./src/result/mock.ts', `${recast.print(ast, {tabWidth: 2}).code}`,'utf8');
     }
     catch (err) {
         console.log('err:', err);

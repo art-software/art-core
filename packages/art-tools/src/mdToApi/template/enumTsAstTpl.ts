@@ -1,4 +1,4 @@
-const enumAst = {
+export const enumAstTpl = {
   type: 'ExportNamedDeclaration',
   declaration: {
     type: 'TSEnumDeclaration',
@@ -21,5 +21,3 @@ const enumAst = {
     ]
   }
 };
-
-export default enumAst;

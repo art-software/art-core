@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const interfacePromiseAst = {
+exports.interfacePromiseAstTpl = {
     type: 'ExportNamedDeclaration',
     declaration: {
         type: 'TSInterfaceDeclaration',
@@ -73,4 +73,3 @@ const interfacePromiseAst = {
         }
     }
 };
-exports.default = interfacePromiseAst;

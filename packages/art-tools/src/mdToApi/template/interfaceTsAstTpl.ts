@@ -1,4 +1,4 @@
-const exportInterfaceAst = {
+export const exportInterfaceAstTpl = {
   type: 'ExportNamedDeclaration',
   declaration: {
     type: 'TSInterfaceDeclaration',
@@ -38,4 +38,3 @@ const exportInterfaceAst = {
     }
   }
 };
-export default exportInterfaceAst;

@@ -1,5 +1,4 @@
-export const importTsAstTpl =
-{
+export const importTsAstTpl = {
   type: 'ImportDeclaration',
   specifiers: [
     {

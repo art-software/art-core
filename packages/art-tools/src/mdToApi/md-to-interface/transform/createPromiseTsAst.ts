@@ -3,7 +3,7 @@ import { firstWordUpperCase } from '../../utils/firstWordUpperCase';
 import { findAllIndex } from '../../utils/findAllIndex';
 import { objDeepCopy } from '../../utils/objDeepCopy';
 import { firstWordLowerCase } from '../../utils/firstWordLowerCase';
-import tplAst from '../../template/interfacePromiseTsAsTpl';
+import { interfacePromiseAstTpl } from '../../template/interfacePromiseTsAsTpl';
 import { TypeAnnotations, ISingleEnumAst, TsAstIdentifier } from '../../constant/TSAnnotationMap';
 import { createEnum } from './createEnumTsAst';
 import { createInterfaceName } from './createInterfaceName';
@@ -18,16 +18,16 @@ import { collateInterfaceAst } from './integrateTsAst';
 export const createPromiseTsAst = (interfaceChunkGather, output: string) => {
   const outputFileName = firstWordUpperCase(path.basename(output.split('.')[0]));
   const tplName = `${INTERFACE_NAME_PREFIX}${firstWordUpperCase(outputFileName)}${RESPONSE_NAME_SUFFIX}`;
-  const tplBody = [];
+  const tplBody: any[] = [];
   interfaceChunkGather.forEach((value) => {
-    const singleBody = objDeepCopy(tplAst.declaration.body.body[0]) as any;
+    const singleBody = objDeepCopy(interfacePromiseAstTpl.declaration.body.body[0]) as any;
     const everyInterfaceName = createInterfaceName((value).detail);
     singleBody.key.name = firstWordLowerCase(everyInterfaceName.slice(1)); // every key name
     singleBody.parameters = createPromiseParameters(value.params); // every key params
     singleBody.typeAnnotation.typeAnnotation.typeParameters.params[0].typeParameters.params[0].typeName.name = everyInterfaceName;
-    tplBody.push(singleBody as never); // 相当于添加每一个接口的promise
+    tplBody.push(singleBody); // 相当于添加每一个接口的promise
   });
-  collateInterfaceAst(tplName, tplBody, tplAst);
+  collateInterfaceAst(tplName, tplBody, interfacePromiseAstTpl);
 };
 
 /** 
@@ -36,11 +36,11 @@ export const createPromiseTsAst = (interfaceChunkGather, output: string) => {
  * @returns {Array} key部分的参数数组ast
  */
 export const createPromiseParameters = (paramsTable) => {
-  const parameters = [];
+  const parameters: any[] = [];
   const [nameIndex, typeIndex, enumIndex, renameIndex] =
   findAllIndex([ParamsTableHeader.paramsName, ParamsTableHeader.type, ParamsTableHeader.valueOptions, ParamsTableHeader.rename], paramsTable.header);
   paramsTable.cells.forEach((value) => {
-    const singleParam = objDeepCopy(tplAst.declaration.body.body[0].parameters[0]) as any;
+    const singleParam = objDeepCopy(interfacePromiseAstTpl.declaration.body.body[0].parameters[0]);
     singleParam.name = value[nameIndex];
     singleParam.typeAnnotation.typeAnnotation.type = TypeAnnotations[value[typeIndex].toLowerCase()];
     if (value[enumIndex]) {
@@ -55,7 +55,7 @@ export const createPromiseParameters = (paramsTable) => {
         singleParam.typeAnnotation.typeAnnotation.typeName.name = enumName;
       });
     }
-    parameters.push(singleParam as never);
+    parameters.push(singleParam);
   });
   return parameters;
 };

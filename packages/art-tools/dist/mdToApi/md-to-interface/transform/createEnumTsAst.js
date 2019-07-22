@@ -1,9 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const enumTsAstTpl_1 = __importDefault(require("../../template/enumTsAstTpl"));
+const enumTsAstTpl_1 = require("../../template/enumTsAstTpl");
 const TSAnnotationMap_1 = require("../../constant/TSAnnotationMap");
 const objDeepCopy_1 = require("../../utils/objDeepCopy");
 const toCamelCase_1 = require("../../utils/toCamelCase");
@@ -22,7 +19,7 @@ exports.createEnum = (singleCell, enumCreated) => {
     let enumName = singleCell.rename || firstWordUpperCase_1.firstWordUpperCase(toCamelCase_1.toCamelCase(singleCell.currentName, '_'));
     enumName = nameSpaceControl_1.checkRepeatName(enumName);
     enumValues.forEach((value) => {
-        const singleMember = objDeepCopy_1.objDeepCopy(enumTsAstTpl_1.default.declaration.members[0]);
+        const singleMember = objDeepCopy_1.objDeepCopy(enumTsAstTpl_1.enumAstTpl.declaration.members[0]);
         singleMember.id.name = toCamelCase_1.toCamelCase(value.split(MarkDown_1.ENUM_VALUE_DECOLLATOR)[0], '_');
         singleMember.initializer.type = TSAnnotationMap_1.EnumTypeAnnotations[MarkDown_1.MdToJsTypeMap[singleCell.type]];
         singleMember.initializer.value = value.split(MarkDown_1.ENUM_VALUE_DECOLLATOR)[1];

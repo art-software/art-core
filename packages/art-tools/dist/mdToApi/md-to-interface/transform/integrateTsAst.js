@@ -1,11 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const enumTsAstTpl_1 = __importDefault(require("../../template/enumTsAstTpl"));
+const enumTsAstTpl_1 = require("../../template/enumTsAstTpl");
 const objDeepCopy_1 = require("../../utils/objDeepCopy");
-const interfaceTsAstTpl_1 = __importDefault(require("../../template/interfaceTsAstTpl"));
+const interfaceTsAstTpl_1 = require("../../template/interfaceTsAstTpl");
 /**
  * 内存中保存着所有要生成的tsAst的body部分
  */
@@ -16,7 +13,7 @@ exports.tsAstBody = [];
  * @param {Array} enum中的body部分
  */
 exports.collateEnumAst = (enumName, enumBody) => {
-    const singleEnumAst = objDeepCopy_1.objDeepCopy(enumTsAstTpl_1.default);
+    const singleEnumAst = objDeepCopy_1.objDeepCopy(enumTsAstTpl_1.enumAstTpl);
     singleEnumAst.declaration.id.name = enumName;
     singleEnumAst.declaration.members = enumBody;
     exports.saveAstToMemory(singleEnumAst);
@@ -29,7 +26,7 @@ exports.collateEnumAst = (enumName, enumBody) => {
  * @param {String} finalName 最终生成的一个interfaceName
  */
 exports.collateInterfaceAst = (interfaceName, interfaceBody, interfaceAst, finalName) => {
-    const singleInterfaceAst = objDeepCopy_1.objDeepCopy(interfaceAst || interfaceTsAstTpl_1.default);
+    const singleInterfaceAst = objDeepCopy_1.objDeepCopy(interfaceAst || interfaceTsAstTpl_1.exportInterfaceAstTpl);
     singleInterfaceAst.declaration.id.name = finalName || interfaceName;
     singleInterfaceAst.declaration.body.body = interfaceBody;
     exports.saveAstToMemory(singleInterfaceAst);

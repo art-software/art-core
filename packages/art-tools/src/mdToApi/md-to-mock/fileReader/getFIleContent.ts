@@ -7,7 +7,6 @@ import marked from 'marked';
  */
 export const getFIleContent = (entry: string) => {
   const md = readFileSync(entry, 'UTF8');
-
   const mdAST = marked.lexer(md);
 
   return mdAST;

@@ -1,5 +1,5 @@
 import { saveAstToMemory } from './integrateTsAst';
-import responseTsAstTpl from '../../template/responseTsAstTpl';
+import { responseTsAstTpl } from '../../template/responseTsAstTpl';
 
 /** 
  * @description 生成返回数据结构的基本interface
