@@ -9,7 +9,7 @@ import { ISingleEnumAst, TsAstIdentifier } from '../../constant/TSAnnotationMap'
 import { getTypeAnnotation } from './getTypeAnnotation';
 import { checkRepeatName } from './nameSpaceControl';
 import { ExplainTableHeader, ParamType, INTERFACE_NAME_PREFIX, MdToJsTypeMap } from '../../constant/MarkDown';
-import { toCameCase } from '../../utils/toCameCase';
+import { toCamelCase } from '../../utils/toCamelCase';
 
 /** 
  * @description 生成interface的body部分
@@ -72,7 +72,7 @@ export const createInterfaceBody = (explainTable: any, currentParent: string) =>
     value[typeIndex] = isObjectArr ? ParamType.array : value[typeIndex];
     if (value[parentsIndex] === currentParent && ([ParamType.array, ParamType.object].includes(typeValue) || isObjectArr)) {
       const childrenChunk = {} as any;
-      const formatName = toCameCase((INTERFACE_NAME_PREFIX + firstWordUpperCase(value[nameIndex])), '_');
+      const formatName = toCamelCase((INTERFACE_NAME_PREFIX + firstWordUpperCase(value[nameIndex])), '_');
       const childrenName = checkRepeatName(value[renameIndex]) || checkRepeatName(formatName);
       if (removeChilrenType === ParamType.array) {
         lastTypeAnnotation.elementType.typeName.name = childrenName;

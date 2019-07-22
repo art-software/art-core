@@ -7,7 +7,7 @@ const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const fileHelper_1 = require("art-dev-utils/lib/fileHelper");
 const blueimp_md5_1 = __importDefault(require("blueimp-md5"));
-exports.getModuleApiDocConfig = (folderPath) => {
+exports.getModuleDocToInterfaceConfig = (folderPath) => {
     const docConfig = [];
     fileHelper_1.walk(folderPath).forEach((file) => {
         if (path_1.default.extname(file) === '.md') {
@@ -34,7 +34,7 @@ exports.getDocManifestInfo = (filePath) => {
     return docManifestInfo;
 };
 exports.getOutputPath = (entryPath) => {
-    entryPath = entryPath.replace('api-docs', 'interfaces');
-    entryPath = entryPath.replace('.md', '.ts');
-    return entryPath;
+    let outputPath = entryPath.replace('api-docs', 'interfaces');
+    outputPath = outputPath.replace('.md', '.ts');
+    return outputPath;
 };

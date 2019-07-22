@@ -13,7 +13,7 @@ const TSAnnotationMap_1 = require("../../constant/TSAnnotationMap");
 const getTypeAnnotation_1 = require("./getTypeAnnotation");
 const nameSpaceControl_1 = require("./nameSpaceControl");
 const MarkDown_1 = require("../../constant/MarkDown");
-const toCameCase_1 = require("../../utils/toCameCase");
+const toCamelCase_1 = require("../../utils/toCamelCase");
 /**
  * @description 生成interface的body部分
  * @param {Array} explainTable api的explain表格块
@@ -64,7 +64,7 @@ exports.createInterfaceBody = (explainTable, currentParent) => {
         value[typeIndex] = isObjectArr ? MarkDown_1.ParamType.array : value[typeIndex];
         if (value[parentsIndex] === currentParent && ([MarkDown_1.ParamType.array, MarkDown_1.ParamType.object].includes(typeValue) || isObjectArr)) {
             const childrenChunk = {};
-            const formatName = toCameCase_1.toCameCase((MarkDown_1.INTERFACE_NAME_PREFIX + firstWordUpperCase_1.firstWordUpperCase(value[nameIndex])), '_');
+            const formatName = toCamelCase_1.toCamelCase((MarkDown_1.INTERFACE_NAME_PREFIX + firstWordUpperCase_1.firstWordUpperCase(value[nameIndex])), '_');
             const childrenName = nameSpaceControl_1.checkRepeatName(value[renameIndex]) || nameSpaceControl_1.checkRepeatName(formatName);
             if (removeChilrenType === MarkDown_1.ParamType.array) {
                 lastTypeAnnotation.elementType.typeName.name = childrenName;

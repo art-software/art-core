@@ -4,7 +4,7 @@ import { walk } from 'art-dev-utils/lib/fileHelper';
 import md5 from 'blueimp-md5';
 import { IDocManifest, IModuleDocConfig } from '../interface/interfaceGenerator';
 
-export const getModuleApiDocConfig: (folderPath: string) => IModuleDocConfig = (folderPath) => {
+export const getModuleDocToInterfaceConfig: (folderPath: string) => IModuleDocConfig = (folderPath) => {
   const docConfig: IDocManifest[] = [];
   walk(folderPath).forEach((file) => {
     if (path.extname(file) === '.md') {
@@ -33,7 +33,7 @@ export const getDocManifestInfo: (filePath: string) => IDocManifest[] = (filePat
 };
 
 export const getOutputPath: (entryPath: string) => string = (entryPath) => {
-  entryPath = entryPath.replace('api-docs', 'interfaces');
-  entryPath = entryPath.replace('.md', '.ts');
-  return entryPath;
+  let outputPath = entryPath.replace('api-docs', 'interfaces');
+  outputPath = outputPath.replace('.md', '.ts');
+  return outputPath;
 };

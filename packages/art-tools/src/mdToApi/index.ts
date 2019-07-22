@@ -5,9 +5,12 @@ import chalk from 'chalk';
 import checkFileExist from 'art-dev-utils/lib/checkFileExist';
 import { confirmChooseModules } from './helper/interfaceGenerator/confirmChooseModules';
 import { warningText } from 'art-dev-utils/lib/chalkColors';
-import { startMdToInterface } from './md-to-interface';
-import { deleteOutputFiles } from './helper/interfaceGenerator/deleteOutput';
+import { parseMdToInterface } from './md-to-interface';
+import { deleteOutputFiles } from './helper/interfaceGenerator/deleteOutputInterface';
 import { getWillOperateList } from './helper/interfaceGenerator/getWillOperateList';
+import { inquireParseToMock } from './helper/mockGenerator/inquireParseToMock';
+import { getParseMockConfig } from './helper/mockGenerator/getParseMockConfig';
+import { parseMdToMock } from './md-to-mock';
 
 confirmChooseModules(async (answer) => {
   if (!answer.availableModulesOk) { return; }
@@ -25,8 +28,8 @@ confirmChooseModules(async (answer) => {
 });
 
 const transfromModuleMDFiles = async (docFolderList: string[]) => {
-  const { replaceOutputList, deleteOutputList, moduleDocConfigList } = getWillOperateList(docFolderList);
-  const completeTransformFiles: string[] = [];
+  const { replaceOutputList, deleteOutputList, moduleDocConfigList, firstCreateModuleList } = getWillOperateList(docFolderList);
+  const completeToInterfaceFiles: string[] = [];
   // hint replace message
   if (replaceOutputList.length) {
     console.log(chalk.redBright('These files are replaced at compile time!!!'));
@@ -40,18 +43,42 @@ const transfromModuleMDFiles = async (docFolderList: string[]) => {
     } catch (err) { console.log(err); }
   }
   // start transform
-  console.log(chalk.blue('Start markdown file compilation, please wait.'));
+  console.log(chalk.blue('Start markdown file to interface file compilation, please wait...'));
   moduleDocConfigList.forEach((fileConfig) => {
     const { docConfig, docManiFestPath } = fileConfig;
     docConfig.forEach((config) => {
       try {
-        startMdToInterface(config.entry, config.output);
-        completeTransformFiles.push(config.entry);
+        parseMdToInterface(config.entry, config.output);
+        completeToInterfaceFiles.push(config.entry);
       } catch (err) { console.log(chalk.red(`markdown file parse fail! \n path: ${config.entry} \n error:`), err); }
     });
-    fs.writeFileSync(docManiFestPath, JSON.stringify(docConfig, null, 2), 'utf8');
+    if (docConfig.length) {
+      fs.writeFileSync(docManiFestPath, JSON.stringify(docConfig, null, 2), 'utf8');
+    }
   });
   // success
-  jclrz(JSON.stringify(completeTransformFiles, null, 2));
-  console.log(chalk.green('You have successfully compiled the above files~~~'));
+  jclrz(JSON.stringify(completeToInterfaceFiles, null, 2));
+  console.log(chalk.green('You have successfully compiled the above md files to interface file~~~'));
+  // inquire create mock
+  if (firstCreateModuleList.length) {
+    const completeToMockFiles: string[] = [];
+    await inquireParseToMock(firstCreateModuleList)
+      .then((answer) => {
+        if (answer.isCreateMock) {
+          console.log(chalk.blue('Start markdown file to mock file compilation, please wait...'));
+          const parseMockConfig = getParseMockConfig(firstCreateModuleList);
+          parseMockConfig.forEach((moduleConfig) => {
+            moduleConfig.forEach((docConfig) => {
+              try {
+                parseMdToMock(docConfig.entry, docConfig.output);
+                completeToMockFiles.push(docConfig.entry);
+              } catch (err) { console.log(chalk.red(`markdown file parse fail! \n path: ${docConfig.entry} \n error:`), err); }
+            });
+          });
+        }
+      });
+    // success parse mock
+    jclrz(JSON.stringify(completeToMockFiles, null, 2));
+    console.log(chalk.green('You have successfully compiled the above md files to mock file~~~'));
+  }
 };

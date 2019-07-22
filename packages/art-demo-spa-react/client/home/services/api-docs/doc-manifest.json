@@ -2,7 +2,7 @@
   {
     "entry": "client/home/services/api-docs/IBankList.md",
     "output": "client/home/services/interfaces/IBankList.ts",
-    "md5": "dab702a8dd565fa05913cd3d43e650a4"
+    "md5": "fe30b4a86dfef394cc0802530829c295"
   },
   {
     "entry": "client/home/services/api-docs/IBindCard.md",

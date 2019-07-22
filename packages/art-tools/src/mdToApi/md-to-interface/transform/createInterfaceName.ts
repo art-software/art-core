@@ -1,5 +1,5 @@
 import { flattenArray } from '../../utils/flattenArray';
-import { toCameCase } from '../../utils/toCameCase';
+import { toCamelCase } from '../../utils/toCamelCase';
 import { DetailTableMembers, INTERFACE_NAME_PREFIX } from '../../constant/MarkDown';
 import paths from '../../../common/config/paths';
 const artConfig = require(paths.appArtConfig);
@@ -19,6 +19,6 @@ export const createInterfaceName = (detailTable: any) => {
     }
   });
   urlStr = isRemoveMDToApiBegin ? urlStr.replace(/\/\w+/, '') : urlStr;
-  resultStr = INTERFACE_NAME_PREFIX + toCameCase(toCameCase(urlStr, '/'), '-');
+  resultStr = INTERFACE_NAME_PREFIX + toCamelCase(toCamelCase(urlStr, '/'), '-');
   return resultStr;
 };

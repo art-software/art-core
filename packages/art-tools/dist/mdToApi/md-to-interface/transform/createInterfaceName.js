@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const flattenArray_1 = require("../../utils/flattenArray");
-const toCameCase_1 = require("../../utils/toCameCase");
+const toCamelCase_1 = require("../../utils/toCamelCase");
 const MarkDown_1 = require("../../constant/MarkDown");
 const paths_1 = __importDefault(require("../../../common/config/paths"));
 const artConfig = require(paths_1.default.appArtConfig);
@@ -23,6 +23,6 @@ exports.createInterfaceName = (detailTable) => {
         }
     });
     urlStr = isRemoveMDToApiBegin ? urlStr.replace(/\/\w+/, '') : urlStr;
-    resultStr = MarkDown_1.INTERFACE_NAME_PREFIX + toCameCase_1.toCameCase(toCameCase_1.toCameCase(urlStr, '/'), '-');
+    resultStr = MarkDown_1.INTERFACE_NAME_PREFIX + toCamelCase_1.toCamelCase(toCamelCase_1.toCamelCase(urlStr, '/'), '-');
     return resultStr;
 };

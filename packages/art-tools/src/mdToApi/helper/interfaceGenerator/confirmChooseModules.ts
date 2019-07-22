@@ -23,7 +23,7 @@ export const confirmChooseModules = (callback: (answer: CbParamsProps) => any): 
    type: 'confirm',
    name: 'availableModulesOk',
    message: 'Please confirm above modules you could like?'
- }).then((answer: any) => {
+ }).then((answer: { availableModulesOk: boolean }) => {
   const availableModulesOk = answer.availableModulesOk;
 
   callback({

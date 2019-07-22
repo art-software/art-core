@@ -10,6 +10,7 @@ export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
   const interfaceGather = [];
   let chunkStart = 0;
   mdAst.forEach((value, index) => {
+    // 如果一旦找到一个api的初始，说明是一个完整api，进行抽取
     if (value.type === MarkDownIdentifier.singleInterfaceStart && index) {
       const chunkData = mdAst.slice(chunkStart, index);
       interfaceGather.push(extractUseTables(
@@ -17,11 +18,13 @@ export const extractMdAstChunk = (mdAst, findTableNames: string[]): never[] => {
         chunkData
       ) as never);
     }
+    // 记录每一个api的起始值
     if (value.type === MarkDownIdentifier.singleInterfaceStart) {
       chunkStart = index;
     }
+    // 最后一个api的抽取
     if (index === mdAst.length - 1) {
-      const chunkData = mdAst.slice(chunkStart, index);
+      const chunkData = mdAst.slice(chunkStart);
       interfaceGather.push(extractUseTables(
         findTableNames,
         chunkData
@@ -61,7 +64,8 @@ export const extractChooseTable = (tableText: string, chunkData: any[]) => {
     ) {
       result =
         chunkData.find((tableValue, tableIndex) => {
-          if (tableIndex > index && tableValue.type === MarkDownIdentifier.tableIdentifier) {
+          if (tableIndex > index && tableValue.type === MarkDownIdentifier.tableIdentifier
+            || tableValue.type === 'code' ) {
             return tableValue;
           }
         }) || {};

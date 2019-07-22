@@ -4,7 +4,7 @@
  * @param {String} symbol 转换的元素
  * @example toHump('/asd/asd', '/') return AsdAsd
  */
-export const toCameCase = (str: string, symbol: string = '/'): string => {
+export const toCamelCase = (str: string, symbol: string = '/'): string => {
   const reg = new RegExp(`\\${symbol}(\\w)`, 'g');
   return str.replace(reg, (all, letter) => {
       return letter.toUpperCase();
