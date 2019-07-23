@@ -1,5 +1,7 @@
-export var EnvNames;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var EnvNames;
 (function (EnvNames) {
     EnvNames["local"] = "local";
     EnvNames["prod"] = "prod";
-})(EnvNames || (EnvNames = {}));
+})(EnvNames = exports.EnvNames || (exports.EnvNames = {}));

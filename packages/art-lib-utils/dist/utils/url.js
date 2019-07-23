@@ -1,4 +1,6 @@
-export const getQueryString = (name, search) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getQueryString = (name, search) => {
     const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
     if (search && search[0] === '?') {
         search = search.substr(1);
@@ -14,7 +16,7 @@ export const getQueryString = (name, search) => {
  * @param  {object} obj {name:'ssss', password:''}
  * @returns {String} the string converted from query Object.
  */
-export const toQueryString = (obj) => {
+exports.toQueryString = (obj) => {
     const parts = [];
     for (const i in obj) {
         if (obj.hasOwnProperty(i)) {
@@ -34,7 +36,7 @@ export const toQueryString = (obj) => {
  * @param  {string} str query string
  * @returns {Object} the object mapping to all query string.
  */
-export const parseParamToObj = (str) => {
+exports.parseParamToObj = (str) => {
     if (!str) {
         return {};
     }
@@ -62,13 +64,13 @@ export const parseParamToObj = (str) => {
  * @param url the url you want to modified.
  * @return {String}   new url
  */
-export const appendUrlParameter = (key, value, url) => {
+exports.appendUrlParameter = (key, value, url) => {
     url = url || window.location.href || '';
     const urlFragmentHash = url.split(/#/)[1] || '';
     const urlFragments = url.replace('#' + urlFragmentHash, '').split('?');
     const urlRoot = urlFragments[0] || '';
     const urlParams = urlFragments[1] || '';
-    const params = parseParamToObj(urlParams);
+    const params = exports.parseParamToObj(urlParams);
     if (value === null || value === undefined) {
         delete params[key];
     }
@@ -76,7 +78,7 @@ export const appendUrlParameter = (key, value, url) => {
         params[key] = value;
     }
     const finalUrlFragments = [urlRoot];
-    const newUrlParamStr = toQueryString(params);
+    const newUrlParamStr = exports.toQueryString(params);
     if (newUrlParamStr) {
         finalUrlFragments.push('?' + newUrlParamStr);
     }

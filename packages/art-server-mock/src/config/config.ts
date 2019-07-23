@@ -1,9 +1,9 @@
-import { isWxMiniprogramEnv } from '../utils/runtimeEnv';
+import { isSSRProject } from '../utils/runtimeEnv';
 
 // TODO optimize it later
 let appConfig;
-if (isWxMiniprogramEnv) {
-  appConfig = require('../../../art-webpack-miniprogram/dist/config/appConfig.js');
+if (isSSRProject) {
+  appConfig = require('../../../art-compiler-ssr/dist/config/appConfig.js');
 } else {
   appConfig = require('../../../art-webpack/dist/config/appConfig.js');
 }

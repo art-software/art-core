@@ -1,4 +1,5 @@
 export enum ProjectTypes {
   'SPA' = 'SPA',
-  'miniprogram' = 'miniprogram'
+  'miniprogram' = 'miniprogram',
+  'SSR' = 'SSR'
 }

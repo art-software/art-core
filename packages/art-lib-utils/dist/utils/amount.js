@@ -1,8 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Note: precision不是保留的小数点后面的位数, 而是计算的精度
  * 如果需要获取计算值的保留小数位数请使用numberFormat()
  */
-export const doDecimalSafeMath = (a, operation, b, precision) => {
+exports.doDecimalSafeMath = (a, operation, b, precision) => {
     a = isNaN(a) ? 0 : Number(a || 0);
     b = isNaN(b) ? 0 : Number(b || 0);
     function decimalLength(numStr) {
@@ -50,8 +52,8 @@ export const doDecimalSafeMath = (a, operation, b, precision) => {
  * @param {Number} precision
  * @return {Number}
  */
-export const numAdd = (num1, num2, precision) => {
-    return doDecimalSafeMath(num1, '+', num2, precision);
+exports.numAdd = (num1, num2, precision) => {
+    return exports.doDecimalSafeMath(num1, '+', num2, precision);
 };
 /**
  * subtraction
@@ -60,8 +62,8 @@ export const numAdd = (num1, num2, precision) => {
  * @param {Number} precision
  * @return {Number}
  */
-export const numSub = (num1, num2 = 0, precision) => {
-    return doDecimalSafeMath(num1, '-', num2, precision);
+exports.numSub = (num1, num2 = 0, precision) => {
+    return exports.doDecimalSafeMath(num1, '-', num2, precision);
 };
 /**
  * multiplication
@@ -71,8 +73,8 @@ export const numSub = (num1, num2 = 0, precision) => {
  * @return {Number}
  *
  */
-export const numMulti = (num1, num2 = 0, precision) => {
-    return doDecimalSafeMath(num1, '*', num2, precision);
+exports.numMulti = (num1, num2 = 0, precision) => {
+    return exports.doDecimalSafeMath(num1, '*', num2, precision);
 };
 /**
  * division
@@ -81,10 +83,10 @@ export const numMulti = (num1, num2 = 0, precision) => {
  * @param {Number} precision
  * @return {Number}
  */
-export const numDiv = (num1, num2 = 0, precision) => {
-    return doDecimalSafeMath(num1, '/', num2, precision);
+exports.numDiv = (num1, num2 = 0, precision) => {
+    return exports.doDecimalSafeMath(num1, '/', num2, precision);
 };
-export const amtToArr = (number, formatBit) => {
+exports.amtToArr = (number, formatBit) => {
     formatBit = formatBit || 2;
     let amtArr = [];
     if (number && !isNaN(number)) {
@@ -105,14 +107,14 @@ export const amtToArr = (number, formatBit) => {
  * @param {String} dec_point
  * @param {String} thousands_sep
  */
-export const numberFormat = (number, decimals = 0, dec_point = '.', thousands_sep = ',', useRound = false) => {
+exports.numberFormat = (number, decimals = 0, dec_point = '.', thousands_sep = ',', useRound = false) => {
     const n = !isFinite(+number) ? 0 : +number;
     const prec = !isFinite(+decimals) ? 0 : Math.abs(decimals);
     const approximateFn = Math[`${useRound ? 'round' : 'floor'}`];
     let s = '';
     const toFixedFix = function (n1, prec1) {
         const k = Math.pow(10, prec1);
-        return '' + numDiv(approximateFn(numMulti(n1, k)), k);
+        return '' + exports.numDiv(approximateFn(exports.numMulti(n1, k)), k);
     };
     // Fix for IE parseFloat(0.55).toFixed(0) = 0;
     s = (prec ? toFixedFix(n, prec) : '' + approximateFn(n)).split('.');

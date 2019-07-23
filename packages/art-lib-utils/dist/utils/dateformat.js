@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function dateNormalize(date) {
     if (!date) {
         date = new Date();
@@ -41,7 +43,7 @@ function Appendzero(obj) {
  * @param  {String}      format Date format string. YYYY-MM-DD
  * @return {String}             Formatted string.
  */
-export const formatDate = function (date, format) {
+exports.formatDate = function (date, format) {
     if (!date) {
         return date;
     }
@@ -93,7 +95,7 @@ export const formatDate = function (date, format) {
  * @param {Date} date 时间对象.
  * @return {Date} 新的时间对象.
  */
-export const dateAdd = (interval, number, date) => {
+exports.dateAdd = (interval, number, date) => {
     interval = (interval || '').replace(/\s+/ig, '');
     date = dateNormalize(date);
     switch (interval) {
@@ -133,15 +135,15 @@ export const dateAdd = (interval, number, date) => {
  * @param {String} prefix 剩余
  * @returns {String} 剩余23时58分
  */
-export const formatTimestamp = (seconds, format, prefix) => {
+exports.formatTimestamp = (seconds, format, prefix) => {
     prefix = prefix || '';
     seconds = parseInt(seconds, 10);
     format = format || 'YYYY年MM月DD日 hh时mm分ss秒';
     const orginalDate = new Date('2000/01/01');
     const originalDataTick = orginalDate.getTime();
-    const originalFormatedDate = formatDate(orginalDate, format);
+    const originalFormatedDate = exports.formatDate(orginalDate, format);
     const newDate = originalDataTick + seconds;
-    const newFormatedDate = formatDate(new Date(newDate), format);
+    const newFormatedDate = exports.formatDate(new Date(newDate), format);
     const newChars = newFormatedDate.split('');
     const oldChars = originalFormatedDate.split('');
     let diff;

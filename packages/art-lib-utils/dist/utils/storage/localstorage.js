@@ -1,8 +1,10 @@
+"use strict";
 /**
  * @module utils/local 封装操作 localStorage 的方法
  * @author bigfact
  */
-export default {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
     /**
      * window.localStorage 设置
      * @param {String} [key = ''] 键

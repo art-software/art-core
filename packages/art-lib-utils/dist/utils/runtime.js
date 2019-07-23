@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const getRuntime = () => {
     const ua = navigator.userAgent;
     return {
@@ -7,4 +9,4 @@ const getRuntime = () => {
         weixin: ua.indexOf('MicroMessenger') > -1
     };
 };
-export default getRuntime();
+exports.default = getRuntime();
