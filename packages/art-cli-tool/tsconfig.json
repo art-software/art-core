@@ -64,6 +64,7 @@
   "exclude": [
     "./dist",
     "./test",
-    "./templates"
+    "./templates",
+    "./equipments"
   ]
 }

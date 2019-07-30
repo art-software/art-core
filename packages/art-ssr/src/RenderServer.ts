@@ -1,6 +1,6 @@
 import { Options } from 'body-parser';
 import express, { Application } from 'express';
-import Logger from './utils/Logger';
+import Logger from './utils/logger';
 import winston from 'winston';
 import cluster from 'cluster';
 import { Coordinator } from './Coordinator';

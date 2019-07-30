@@ -37,7 +37,7 @@ const glob_1 = __importDefault(require("glob"));
 const runtimeEnv_1 = require("../utils/runtimeEnv");
 // import { webpackEntries } from '../../../art-webpack/dist/config/configWebpackModules.js';
 // TODO optimize it later
-const webpackEntries = require(`../../../${runtimeEnv_1.isWxMiniprogramEnv ? 'art-webpack-miniprogram' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
+const webpackEntries = require(`../../../${runtimeEnv_1.isSSRProject ? 'art-compiler-ssr' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
 const virtualProjectName = appConfig.get('art:projectVirtualPath');
 const entries = webpackEntries(true);
 const publicPath = path.join(process.cwd(), './public');

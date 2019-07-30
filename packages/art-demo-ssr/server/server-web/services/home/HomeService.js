@@ -12,7 +12,6 @@ class HomeService {
             }
         };
         return BaseRenderWebApi_1.aggregator.render(jobs).then((result) => {
-            console.log('result: ', result);
             return result;
         });
     }

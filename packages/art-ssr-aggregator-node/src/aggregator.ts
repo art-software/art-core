@@ -44,7 +44,9 @@ export default class Aggregator {
   private url: string;
   private plugins: any[];
   private config: any;
-  private aggregatorWebApiServer: AggregatorWebApiServer;
+  protected aggregatorWebApiServer: {
+    requestPost: (url: string, options: { data: any }) => Promise<any>;
+  };
 
   public addPlugin(plugin: any) {
     this.plugins.push(plugin);

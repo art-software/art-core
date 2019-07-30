@@ -4,7 +4,7 @@
     "production": "http://me.dev.com"
   },
   "devPort": {
-    "development": 3005,
+    "development": 3001,
     "production": 3001
   }
 }

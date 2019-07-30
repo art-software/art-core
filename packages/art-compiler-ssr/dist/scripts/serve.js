@@ -34,7 +34,7 @@ const lunchNodeServer = (modules, port) => {
         return;
     }
     // if (isInteractive) { clearConsole(); }
-    const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
+    const mockServerPath = path.join(__dirname, '../../../art-server-mock-miniprogram/dist/index.js');
     const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
     executeNodeScript_1.default(nodemonPath, '--watch', paths_1.default.appMockServer, '--ignore', paths_1.default.appMockServer, '-e', 'js, jsx, ts', mockServerPath, '--ART_MODULES', `${JSON.stringify(modules)}`, '--ART_WEBPACK_PORT', `${port}`);
     nodeServerHasLunched = true;
@@ -63,15 +63,14 @@ const confirmModulesCb = (answer) => {
         const argvModules = appConfig_1.default.get('ART_MODULES') || '[]';
         const parallelWebpack = path.join(require.resolve('parallel-webpack'), '../bin/run.js');
         const configPathSSR = path.join(__dirname, '../config/webpack.config.ssr.js');
-        executeNodeScript_1.default(parallelWebpack, '--config', configPathSSR, '--watch', '--', '--ART_MODULES', `${argvModules}`);
+        executeNodeScript_1.default(parallelWebpack, '--config', configPathSSR, '--watch', '--', '--ART_MODULES', `${argvModules}`, '--NODE_ENV', `${envName}`, '--DEV_PORT', `${port}`);
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
         const urls = prepareUrls_1.default(protocol, HOST, port);
         const proxySetting = appConfig_1.default.get('art:proxy');
         const proxyConfig = prepareProxy_1.default(proxySetting);
         const devServerConfig = webpackDevServer_1.default(proxyConfig, urls.lanUrlForConfig);
-        const compiler = webpack_1.default(webpack_config_web_1.default);
+        const compiler = webpack_1.default(webpack_config_web_1.default());
         const devServer = new webpack_dev_server_1.default(compiler, devServerConfig);
-        console.log('port: ', port);
         devServer.listen(port, HOST, (error) => {
             if (error) {
                 return console.log(error);
@@ -79,7 +78,8 @@ const confirmModulesCb = (answer) => {
             console.log(chalkColors_1.cyanText(`Starting compilers to compiling modules hold on...\n`));
         });
         compileMockServer();
-        lunchNodeServer(argvModules, port);
+        // TODO use pure api mock server
+        // lunchNodeServer(argvModules, port);
         ['SIGINT', 'SIGTERM'].forEach((sig) => {
             process.on(sig, () => {
                 devServer.close();

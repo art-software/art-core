@@ -1,11 +1,9 @@
 import paths from './paths';
 import appConfig from './appConfig';
 import WebpackDevServer from 'webpack-dev-server';
-import { webpackOutput } from './configWebpackModules';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 import cors from 'cors';
 import errorOverlayMiddleware from 'art-dev-utils/lib/errorOverlayMiddleware';
-import path from 'path';
 
 const webpackDevServeConfig = (proxy, allowedHost): WebpackDevServer.Configuration => {
   const envName = process.env.NODE_ENV || 'development';

@@ -92,7 +92,7 @@ exports.webpackOutput = (moduleEntry) => {
     const outRelativePath = buildEnv === BuildEnv_1.BuildEnv.prod ? './public/' : './debug/';
     return {
         filename: `[name]/${bundleFileNamePattern('.js')}`,
-        chunkFilename: `[id].[chunkhash].js`,
+        chunkFilename: `${projectVirtualPath}/${moduleEntry}/[id].[chunkhash].js`,
         path: path.resolve(paths_1.default.appCwd, outRelativePath),
         publicPath
     };

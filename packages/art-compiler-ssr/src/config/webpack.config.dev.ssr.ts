@@ -1,28 +1,13 @@
-import { WebpackBaseConfig } from './webpack.config.base';
+import { WebpackBaseConfigSSR } from './webpack.config.base.ssr';
 import { Configuration } from 'webpack';
-import { jsRule, tsRule, nullRule } from './configRules';
-import { getConfigPluginsSSR } from './configPluginsSSR';
-const nodeExternals = require('webpack-node-externals');
+// import { getConfigPluginsSSR } from './configPluginsSSR';
 
-export default class WebpackDevSSRConfig extends WebpackBaseConfig implements Configuration {
+export default class WebpackDevSSRConfig extends WebpackBaseConfigSSR implements Configuration {
   constructor(entry, output) {
     super(entry, output);
   }
 
-  public target = 'node' as 'node';
-
   public devtool = '#source-map' as '#source-map';
 
-  public resolve = {
-    modules: ['node_modules', '.'],
-    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx']
-  };
-
-  public module = {
-    rules: [ jsRule, tsRule, nullRule ]
-  };
-
-  public plugins = getConfigPluginsSSR();
-
-  public externals = [ nodeExternals() ];
+  // public plugins = getConfigPluginsSSR();
 }
