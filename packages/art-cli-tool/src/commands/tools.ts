@@ -1,37 +1,34 @@
 import { CommandModule, Argv } from 'yargs';
 import chalk from 'chalk';
-import { getProjectType } from '../helpers/projectType';
-import { ProjectTypes } from '../enums/ProjectTypes';
 import inquirer = require('inquirer');
-import { UtilList } from '../constants/UtilList';
-import { utilsTask } from '../helpers/utilsTask';
+import { ToolList } from '../constants/ToolList';
+import { toolsTask } from '../helpers/toolsTask';
 
-// TODO add miniprogram support
-class UtilsCommand implements CommandModule {
+class ToolsCommand implements CommandModule {
 
   public readonly command = 'tools';
 
-  public describe = chalk.black.bold(`choose any art tools you want to use `);
+  public describe = chalk.black.bold(`choose any art tool you would like to use `);
 
   public builder(args: Argv) {
     return args;
   }
 
   public handler = (args: any): void => {
-    this.chooseUtils();
+    this.chooseTools();
   }
 
-  private chooseUtils = async () => {
-    const utilChooseAnswer = await inquirer.prompt({
+  private chooseTools = async () => {
+    const toolChooseAnswer = await inquirer.prompt({
       type: 'list',
       name: 'toolChoice',
-      message: 'please chioce one tool to execute',
-      choices: [UtilList.MdToApi]
+      message: 'please choose one tool to execute',
+      choices: [ToolList.MdToApi]
     }) as any;
-    const executeUtil = utilChooseAnswer.toolChoice;
-    console.log(chalk.green(`Will execute ${executeUtil}`));
-    utilsTask(executeUtil);
+    const executeTool = toolChooseAnswer.toolChoice;
+    console.log(chalk.green(`Will execute ${executeTool}`));
+    toolsTask(executeTool);
   }
 }
 
-module.exports = new UtilsCommand();
+module.exports = new ToolsCommand();

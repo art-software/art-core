@@ -1,3 +1,3 @@
-export enum UtilList {
+export enum ToolList {
   MdToApi = 'md to api'
 }

@@ -1,6 +1,6 @@
 {
   "name": "art-lib-react",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "description": "art framework react library",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && ../../node_modules/.bin/tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
-    "art-lib-utils": "^0.0.6",
+    "art-lib-utils": "^0.0.7",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "cpx": "^1.5.0",

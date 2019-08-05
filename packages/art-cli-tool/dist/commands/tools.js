@@ -13,30 +13,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const inquirer = require("inquirer");
-const UtilList_1 = require("../constants/UtilList");
-const utilsTask_1 = require("../helpers/utilsTask");
-// TODO add miniprogram support
-class UtilsCommand {
+const ToolList_1 = require("../constants/ToolList");
+const toolsTask_1 = require("../helpers/toolsTask");
+class ToolsCommand {
     constructor() {
         this.command = 'tools';
-        this.describe = chalk_1.default.black.bold(`choose any art tools you want to use `);
+        this.describe = chalk_1.default.black.bold(`choose any art tool you would like to use `);
         this.handler = (args) => {
-            this.chooseUtils();
+            this.chooseTools();
         };
-        this.chooseUtils = () => __awaiter(this, void 0, void 0, function* () {
-            const utilChooseAnswer = yield inquirer.prompt({
+        this.chooseTools = () => __awaiter(this, void 0, void 0, function* () {
+            const toolChooseAnswer = yield inquirer.prompt({
                 type: 'list',
                 name: 'toolChoice',
-                message: 'please chioce one tool to execute',
-                choices: [UtilList_1.UtilList.MdToApi]
+                message: 'please choose one tool to execute',
+                choices: [ToolList_1.ToolList.MdToApi]
             });
-            const executeUtil = utilChooseAnswer.toolChoice;
-            console.log(chalk_1.default.green(`Will execute ${executeUtil}`));
-            utilsTask_1.utilsTask(executeUtil);
+            const executeTool = toolChooseAnswer.toolChoice;
+            console.log(chalk_1.default.green(`Will execute ${executeTool}`));
+            toolsTask_1.toolsTask(executeTool);
         });
     }
     builder(args) {
         return args;
     }
 }
-module.exports = new UtilsCommand();
+module.exports = new ToolsCommand();
