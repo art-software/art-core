@@ -4,6 +4,7 @@
   "description": "Art SSR Render Server",
   "author": "Bowen Zhong",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "clean": "sudo rimraf -g dist",
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
