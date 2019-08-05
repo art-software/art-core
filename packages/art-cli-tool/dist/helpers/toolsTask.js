@@ -3,15 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const UtilList_1 = require("../constants/UtilList");
+const ToolList_1 = require("../constants/ToolList");
 const inquirer = require("inquirer");
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const getUtilsScriptPath_1 = require("./getUtilsScriptPath");
 const parseModules_1 = __importDefault(require("art-dev-utils/lib/parseModules"));
 const chalk_1 = __importDefault(require("chalk"));
-exports.utilsTask = (utilName) => {
+exports.toolsTask = (utilName) => {
     switch (utilName) {
-        case UtilList_1.UtilList.MdToApi:
+        case ToolList_1.ToolList.MdToApi:
             inputWillChangeModules()
                 .then((answer) => {
                 const filePath = getUtilsScriptPath_1.getUtilsScriptPath(utilName);
@@ -25,7 +25,7 @@ const inputWillChangeModules = () => {
     const modulesAnswer = {
         type: 'input',
         name: 'modulesList',
-        message: `Which modules do you want to modify？\nexample: ${chalk_1.default.blue('home mine')} \ninput module name :`
+        message: `Which module would you like to modify？\nexample: ${chalk_1.default.blue('home mine')} \ninput module name :`
     };
     return inquirer.prompt(modulesAnswer).then((answer) => answer);
 };
