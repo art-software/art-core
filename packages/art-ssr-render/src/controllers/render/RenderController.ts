@@ -7,6 +7,7 @@ export class RenderController {
 
   @Post(ServerConfig.get().endpoint)
   public render(@Req() req: Request, @Res() res: Response) {
+    console.log('req.body: ', req.body);
     return res.json({
       name: 'bw'
     });

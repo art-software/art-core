@@ -16,6 +16,7 @@ const routing_controllers_1 = require("routing-controllers");
 const ServerConfig_1 = require("../../config/ServerConfig");
 let RenderController = class RenderController {
     render(req, res) {
+        console.log('req.body: ', req.body);
         return res.json({
             name: 'bw'
         });

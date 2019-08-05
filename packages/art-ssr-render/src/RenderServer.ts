@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 import { Options } from 'body-parser';
 import winston from 'winston';
-import { Application } from 'express';
+import express, { Application } from 'express';
 import { Container } from 'typedi';
-import { createExpressServer, useContainer } from 'routing-controllers';
+import { useContainer, useExpressServer } from 'routing-controllers';
 import path from 'path';
 import { ServerConfig as Config } from './config/ServerConfig';
+import bodyParser from 'body-parser';
 
 export interface ServerConfig {
   bodyParser: Options;
@@ -47,19 +48,25 @@ export default class RenderServer {
     useContainer(Container);
 
     Config.set(this.config);
+
+    this.app = express();
   }
+
+  private app: Application;
 
   public config: ServerConfig;
 
   private initApplication() {
-    const app = createExpressServer({
+    this.app.use(bodyParser.json(this.config.bodyParser));
+    useExpressServer(this.app, {
       controllers: [ path.join(__dirname, './controllers/render/RenderController.js') ]
     });
-    return app;
   }
 
   public start() {
-    const app = this.initApplication();
-    app.listen(this.config.port);
+    this.initApplication();
+    this.app.listen(this.config.port, () => {
+      console.log('Server is listening on port: ', this.config.port);
+    });
   }
 }

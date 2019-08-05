@@ -19,6 +19,7 @@ export interface ServerConfig {
 }
 export default class RenderServer {
     constructor(config: Partial<ServerConfig>);
+    private app;
     config: ServerConfig;
     private initApplication;
     start(): void;
