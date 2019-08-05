@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "art-dev-utils": "^0.0.12",
-    "babylon": "^6.18.0",
     "blueimp-md5": "^2.10.0",
     "marked": "0.6.0",
     "recast": "0.17.3",
