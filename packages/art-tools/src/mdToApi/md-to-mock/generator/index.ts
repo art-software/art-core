@@ -1,5 +1,7 @@
 import { writeFileSync } from 'fs';
+import * as path from 'path';
 import recast from 'recast';
+import { mkdirsSync } from '../../utils/mkdirsSync';
 
 /** 
  * @description 将最终生成 TsAst 写入进文件
@@ -7,6 +9,8 @@ import recast from 'recast';
  */
 export const appendToFile = (ast, output) => {
   try {
-    writeFileSync(output, `${recast.print(ast, {tabWidth: 2}).code.replace(/\"/g, `\'`)}`, 'utf8');
+    if (mkdirsSync(path.dirname(output))) {
+      writeFileSync(output, `${recast.print(ast, {tabWidth: 2}).code.replace(/\"/g, `\'`)}`, 'utf8');
+    }
   } catch (err) { console.log('err:', err); }
 };

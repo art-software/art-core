@@ -24,7 +24,8 @@ exports.getConfigEntries = () => {
     if (typeof argvModules === 'string') {
         argvModules = JSON.parse(argvModules);
     }
-    const allModules = appConfig_1.default.get('art:webpack:entry');
+    // const allModules = appConfig.get('art:webpack:entry');
+    const allModules = appConfig_1.default.stores.file.file.webpack.entry;
     const newEntries = {};
     argvModules.forEach((moduleEntry) => {
         let modulePattern = path.join(moduleEntry.replace(/(\*)+$/ig, '').replace(/^client/, ''), '**/*.{js,jsx,ts,tsx}');

@@ -13,7 +13,8 @@ export const getConfigEntries = (): object => {
   if (typeof argvModules === 'string') {
     argvModules = JSON.parse(argvModules);
   }
-  const allModules = appConfig.get('art:webpack:entry');
+  // const allModules = appConfig.get('art:webpack:entry');
+  const allModules = appConfig.stores.file.file.webpack.entry;
 
   const newEntries = {};
 
