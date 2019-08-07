@@ -7,7 +7,7 @@ var __rest = (this && this.__rest) || function (s, e) {
             t[p[i]] = s[p[i]];
     return t;
 };
-import './styles/popup.less';
+import './style/popup.less';
 import CoreComponent from 'art-lib-react/src/core/CoreComponent';
 import React from 'react';
 import Modal from 'art-lib-react/src/components/modal';
