@@ -17,7 +17,7 @@ function getWebpackScriptPath(command) {
     const projectType = projectType_1.getProjectType() || ProjectTypes_1.ProjectTypes.SPA;
     const compilerName = CompilerNames_1.CompilerNames[projectType];
     const scriptPath = path.resolve(process.cwd(), `./node_modules/${compilerName}/dist/scripts/${command}.js`);
-    const symlinkPath = path.resolve(process.cwd(), `../../node_modules/${compilerName}/dist/scripts/${command}.js`);
+    const symlinkPath = path.resolve(__dirname, `../../../${compilerName}/dist/scripts/${command}.js`);
     return isDevStage ? symlinkPath : scriptPath;
 }
 exports.getWebpackScriptPath = getWebpackScriptPath;
