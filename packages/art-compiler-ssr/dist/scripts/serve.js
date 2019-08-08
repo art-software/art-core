@@ -24,6 +24,7 @@ const path = __importStar(require("path"));
 const paths_1 = __importDefault(require("../config/paths"));
 const webpack_config_web_1 = __importDefault(require("../config/webpack.config.web"));
 const webpack_1 = __importDefault(require("webpack"));
+const resolve_bin_1 = __importDefault(require("resolve-bin"));
 const envName = appConfig_1.default.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig_1.default.get(`devPort:${envName}`);
@@ -44,9 +45,8 @@ const compileMockServer = () => {
     if (compileMockServerHasLunched) {
         return;
     }
-    executeNodeScript_1.default(process.env.STAGE === 'dev' ?
-        '../../node_modules/.bin/tsc' :
-        path.join(process.cwd(), 'node_modules/.bin/tsc'), '-p', `${paths_1.default.appMockServerConfig}`, '-w');
+    const tsc = resolve_bin_1.default.sync('typescript', { executable: 'tsc' });
+    executeNodeScript_1.default(tsc, '-p', `${paths_1.default.appMockServerConfig}`, '-w');
     compileMockServerHasLunched = true;
 };
 const confirmModulesCb = (answer) => {
