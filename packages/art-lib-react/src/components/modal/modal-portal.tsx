@@ -151,7 +151,7 @@ export default class ModalPortal extends CoreComponent<IModalPortalProps, any> {
   }
 
   private shouldBeClosed = () => {
-    return !this.state.isOpen && !this.state.beforeClose;
+    return !this.state.isOpen && !this.state.beforeClose && !this.props.cacheModal;
   }
 
   private setOverlayRef = (overlay) => {
@@ -194,7 +194,7 @@ export default class ModalPortal extends CoreComponent<IModalPortalProps, any> {
   private buildClassName = (which, additional?) => {
     return this.classNames(CLASS_NAMES[which], additional, {
       [`${CLASS_NAMES[which]}-after-open`]: this.state.afterOpen,
-      [`${CLASS_NAMES[which]}-before-close`]: this.state.beforeClose
+      [`${CLASS_NAMES[which]}-before-close`]: this.state.beforeClose || (!this.state.isOpen && this.props.cacheModal)
     });
   }
 

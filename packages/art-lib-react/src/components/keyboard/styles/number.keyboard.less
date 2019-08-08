@@ -1,0 +1,53 @@
+@import '../../../../../node_modules/art-lib-react/src/styles/mixins/hairline';
+
+@active-color: #f2f3f5;
+@number-keyboard-key-height: 108px;
+
+.v-number-keyboard {
+
+  &-body {
+    box-sizing: border-box;
+  }
+
+  &-sidebar {
+    right: 0;
+    bottom: 0;
+    width: 25%;
+    position: absolute;
+    height: @number-keyboard-key-height * 4;
+  }
+
+  &-twoRightBtn {
+    .v-number-keyboard-body {
+      padding-right: 25%;
+    }
+  }
+}
+
+.v-board-key {
+  width: 100% / 3;
+  font-size: 48px;
+  font-style: normal;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  height: @number-keyboard-key-height;
+  line-height: @number-keyboard-key-height;
+  .retina-1px-border-top(#e5e5e5);
+  .retina-1px-border-right(#e5e5e5);
+
+  &.bg-glary {
+    background-color: #ebedf0;
+    &.v-board-key-active {
+      background-color: @active-color;
+    }
+  }
+
+  &.delete-key {
+    font-size: 32px;
+  }
+
+  &-active {
+    background-color: @active-color;
+  }
+}

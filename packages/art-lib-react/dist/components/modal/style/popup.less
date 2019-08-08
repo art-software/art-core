@@ -1,0 +1,38 @@
+[v-modal-portal][v-modal-portal~="popup"] {
+  .modal-portal-wrap {
+    top: auto;
+    bottom: 0;
+    left: auto;
+    -webkit-transform: translate(0);
+    transform: translate(0);
+    width: 100%;
+  }
+  .modal-portal-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0;
+    background-color: transparent;
+    transition: all .6s linear;
+    transform: translateY(100vh);
+    -webkit-transform: translateY(100vh);
+    -webkit-transition: all .6s linear;
+
+    &.modal-portal-content-after-open {
+      transform: translateY(0);
+      -webkit-transform: translateY(0);
+      animation: none;
+      -webkit-animation: none;
+    }
+    &.modal-portal-content-before-close {
+      transform: translateY(100vh);
+      -webkit-transform: translateY(100vh);
+      animation: none;
+      -webkit-animation: none;
+    }
+  }
+  .modal-popup-content {
+    width: 100%;
+    background-color: #fff;
+  }
+};

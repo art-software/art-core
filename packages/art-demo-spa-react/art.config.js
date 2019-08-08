@@ -18,8 +18,9 @@ const artConfig = {
 
   webpack: {
     entry: {
-      [`${projectVirtualPath}/home`]: ["./client/home/index.tsx"]
-    },
+            [`${ projectVirtualPath }/home`]: ['./client/home/index.tsx'],
+            [`${ projectVirtualPath }/mine`]: ['./client/mine/index.tsx']
+        },
     output: {
       // Config CDN path for static files, images ....
       intePublicPath: 'replace_it',
@@ -29,7 +30,8 @@ const artConfig = {
       version: 'dll_version_01',
       vendors: [] // modify this option cautiously
     }
-  }
+  },
+  isRemoveMDToApiBegin: false
 }
 
 module.exports = artConfig;
