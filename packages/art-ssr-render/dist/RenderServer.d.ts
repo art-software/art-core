@@ -6,6 +6,7 @@ import { Application } from 'express';
 export interface ServerConfig {
     bodyParser: Options;
     devMode: boolean;
+    getComponent: any;
     getCPUs?: any;
     endpoint: string;
     files: any[];
@@ -18,7 +19,9 @@ export interface ServerConfig {
     onServer?: (app: Application, process: NodeJS.Process) => any;
 }
 export default class RenderServer {
-    constructor(config: Partial<ServerConfig>);
+    constructor(config: Partial<ServerConfig> & {
+        getComponent: any;
+    });
     private app;
     config: ServerConfig;
     private initApplication;

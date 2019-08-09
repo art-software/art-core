@@ -31,6 +31,7 @@ class IndexSSR extends React.Component {
 export default {
   Main: (props: any) => {
     const url = (props.data || {}).url;
+    console.log('props: ', props);
     return ensureReady(routeConfig, url).then(() => {
       return renderReact('Main', IndexSSR);
     });

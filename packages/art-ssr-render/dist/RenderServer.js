@@ -7,7 +7,7 @@ require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const typedi_1 = require("typedi");
 const routing_controllers_1 = require("routing-controllers");
-const path_1 = __importDefault(require("path"));
+const path_1 = require("path");
 const ServerConfig_1 = require("./config/ServerConfig");
 const body_parser_1 = __importDefault(require("body-parser"));
 const defaultConfig = {
@@ -24,7 +24,6 @@ const defaultConfig = {
     processJobsConcurrent: true,
 };
 class RenderServer {
-    // constructor(config: Partial<ServerConfig> & { getComponent: any }) {
     constructor(config) {
         this.config = { ...defaultConfig, ...config };
         routing_controllers_1.useContainer(typedi_1.Container);
@@ -34,7 +33,7 @@ class RenderServer {
     initApplication() {
         this.app.use(body_parser_1.default.json(this.config.bodyParser));
         routing_controllers_1.useExpressServer(this.app, {
-            controllers: [path_1.default.join(__dirname, './controllers/render/RenderController.js')]
+            controllers: [path_1.join(__dirname, './controllers/render/RenderController.js')]
         });
     }
     start() {

@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { ServerConfig } from '../RenderServer';
 import { errorToSerializable } from '../utils/errorToSerializable';
-import { Service } from 'typedi';
 
 function now() {
   return process.hrtime();
@@ -17,7 +16,6 @@ const noHTMLError = new TypeError(
 );
 noHTMLError.stack = undefined;
 
-@Service()
 export default class BatchRenderService {
   constructor(request: Request, response: Response, config: ServerConfig) {
     // request.body example:
@@ -151,10 +149,9 @@ export default class BatchRenderService {
   public render(token: string) {
     const start = now();
     const jobContext = this.jobContexts[token];
+    console.log('jobContext: ', jobContext);
     const { name } = jobContext;
 
-    // TODO remove ts ignore
-    // @ts-ignore
     const { getComponent } = this.config;
     const component = getComponent(name, jobContext).default;
     const result = typeof component === 'function' ? component : component[name];

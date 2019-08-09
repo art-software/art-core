@@ -4,14 +4,14 @@ import winston from 'winston';
 import express, { Application } from 'express';
 import { Container } from 'typedi';
 import { useContainer, useExpressServer } from 'routing-controllers';
-import path from 'path';
+import { join } from 'path';
 import { ServerConfig as Config } from './config/ServerConfig';
 import bodyParser from 'body-parser';
 
 export interface ServerConfig {
   bodyParser: Options;
   devMode: boolean;
-  // getComponent: any;
+  getComponent: any;
   getCPUs?: any;
   endpoint: string;
   files: any[];
@@ -41,8 +41,7 @@ const defaultConfig = {
 };
 
 export default class RenderServer {
-  // constructor(config: Partial<ServerConfig> & { getComponent: any }) {
-  constructor(config: Partial<ServerConfig>) {
+  constructor(config: Partial<ServerConfig> & { getComponent: any }) {
     this.config = { ...defaultConfig, ...config };
 
     useContainer(Container);
@@ -59,7 +58,7 @@ export default class RenderServer {
   private initApplication() {
     this.app.use(bodyParser.json(this.config.bodyParser));
     useExpressServer(this.app, {
-      controllers: [ path.join(__dirname, './controllers/render/RenderController.js') ]
+      controllers: [ join(__dirname, './controllers/render/RenderController.js') ]
     });
   }
 

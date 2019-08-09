@@ -1,9 +1,9 @@
 import BatchRenderService from '../../services/BatchRenderService';
 import { runLifecycle, runLifecycleSync, errorSync } from '../../utils/lifecycle';
 import { Lifecycle } from '../../enums/Lifecycle';
-import { ServerConfig } from '../../RenderServer';
-import { Request, Response } from 'express';
-import Logger from '../../utils/Logger';
+// import { ServerConfig } from '../../RenderServer';
+// import { Request, Response } from 'express';
+// import Logger from '../../utils/Logger';
 
 /**
  * Runs through the job-level lifecycle events of the job based on the provided job token. This includes
@@ -56,7 +56,7 @@ const processJobsConcurrently = (jobs: any, plugins: any[], batchRenderService: 
  *
  * Returns a promise resolving when all jobs in the batch complete.
  */
-const processBatch = (jobs: any, plugins: any[], batchRenderService: BatchRenderService, concurrent: boolean) => {
+export const processBatch = (jobs: any, plugins: any[], batchRenderService: BatchRenderService, concurrent: boolean) => {
   return (
     runLifecycle(Lifecycle.batchStart, plugins, batchRenderService)
       // process each job
@@ -75,21 +75,4 @@ const processBatch = (jobs: any, plugins: any[], batchRenderService: BatchRender
         errorSync(err, plugins, batchRenderService);
       })
   );
-};
-
-export const renderBatch = (config: ServerConfig, batchRenderService: BatchRenderService, isClosing: () => boolean) => {
-
-  return (req: Request, res: Response) => {
-    if (isClosing()) {
-      Logger.info('Starting request when closing!');
-    }
-
-    return processBatch(req.body, config.plugins, batchRenderService, config.processJobsConcurrent)
-      .then(() => {
-
-      })
-      .catch(() => {
-        return res.status(batchRenderService.statusCode).end();
-      });
-  };
 };

@@ -31352,7 +31352,7 @@ exports.default = ssrRender;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "http://me.dev.com:3003/public/demo/ssr/main/assets/home/img-top-banner-49b3c972.jpg";
+module.exports = "http://me.dev.com:3004/public/demo/ssr/main/assets/home/img-top-banner-49b3c972.jpg";
 
 /***/ }),
 
@@ -31454,6 +31454,7 @@ function (_React$Component) {
 /* harmony default export */ __webpack_exports__["default"] = ({
   Main: function Main(props) {
     var url = (props.data || {}).url;
+    console.log('props: ', props);
     return Object(_packages_art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_3__["ensureReady"])(routeConfig, url).then(function () {
       return Object(_packages_art_ssr_react__WEBPACK_IMPORTED_MODULE_1__["renderReact"])('Main', IndexSSR);
     });
