@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { ServerConfig } from '../RenderServer';
 import { errorToSerializable } from '../utils/errorToSerializable';
+import { IServerConfig } from '../interfaces/IServerConfig';
 
 function now() {
   return process.hrtime();
@@ -17,7 +17,7 @@ const noHTMLError = new TypeError(
 noHTMLError.stack = undefined;
 
 export default class BatchRenderService {
-  constructor(request: Request, response: Response, config: ServerConfig) {
+  constructor(request: Request, response: Response, config: IServerConfig) {
     // request.body example:
     // { Home: { name: 'home', data: { url: '/home' }, metadata: { desc: 'it is desc' } }, Detail: { name: 'detail', data: { url: '/detail' },
     // metadata: { title: 'it is title' } } }
@@ -66,7 +66,7 @@ export default class BatchRenderService {
     });
   }
 
-  private config: ServerConfig;
+  private config: IServerConfig;
   private plugins: any[];
   private error: any;
   public statusCode: number;

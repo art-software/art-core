@@ -2,9 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const lifecycle_1 = require("../../utils/lifecycle");
 const Lifecycle_1 = require("../../enums/Lifecycle");
-// import { ServerConfig } from '../../RenderServer';
-// import { Request, Response } from 'express';
-// import Logger from '../../utils/Logger';
 /**
  * Runs through the job-level lifecycle events of the job based on the provided job token. This includes
  * the actual rendering of the job.

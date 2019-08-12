@@ -1,9 +1,6 @@
 import BatchRenderService from '../../services/BatchRenderService';
 import { runLifecycle, runLifecycleSync, errorSync } from '../../utils/lifecycle';
 import { Lifecycle } from '../../enums/Lifecycle';
-// import { ServerConfig } from '../../RenderServer';
-// import { Request, Response } from 'express';
-// import Logger from '../../utils/Logger';
 
 /**
  * Runs through the job-level lifecycle events of the job based on the provided job token. This includes

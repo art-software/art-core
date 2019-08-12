@@ -10,6 +10,10 @@ const routing_controllers_1 = require("routing-controllers");
 const path_1 = require("path");
 const ServerConfig_1 = require("./config/ServerConfig");
 const body_parser_1 = __importDefault(require("body-parser"));
+const compression_1 = __importDefault(require("compression"));
+const Worker_1 = require("./Worker");
+const cluster_1 = __importDefault(require("cluster"));
+const Coordinator_1 = __importDefault(require("./Coordinator"));
 const defaultConfig = {
     bodyParser: {
         limit: 1024 * 1000,
@@ -22,7 +26,11 @@ const defaultConfig = {
     port: 8080,
     host: '0.0.0.0',
     processJobsConcurrent: true,
+    createApplication
 };
+function createApplication() {
+    return express_1.default();
+}
 class RenderServer {
     constructor(config) {
         this.config = { ...defaultConfig, ...config };
@@ -32,15 +40,25 @@ class RenderServer {
     }
     initApplication() {
         this.app.use(body_parser_1.default.json(this.config.bodyParser));
+        this.app.use(compression_1.default());
         routing_controllers_1.useExpressServer(this.app, {
             controllers: [path_1.join(__dirname, './controllers/render/RenderController.js')]
         });
     }
     start() {
         this.initApplication();
-        this.app.listen(this.config.port, () => {
-            console.log('Server is listening on port: ', this.config.port);
-        });
+        if (this.config.devMode) {
+            const worker = new Worker_1.Worker(this.app, this.config);
+            worker.start();
+        }
+        else if (cluster_1.default.isMaster) {
+            const coordinator = new Coordinator_1.default();
+            coordinator.start();
+        }
+        else {
+            const worker = new Worker_1.Worker(this.app, this.config, cluster_1.default.worker.id);
+            worker.start();
+        }
     }
 }
 exports.default = RenderServer;

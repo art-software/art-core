@@ -1,29 +1,15 @@
 import 'reflect-metadata';
-import { Options } from 'body-parser';
-import winston from 'winston';
 import express, { Application } from 'express';
 import { Container } from 'typedi';
 import { useContainer, useExpressServer } from 'routing-controllers';
 import { join } from 'path';
 import { ServerConfig as Config } from './config/ServerConfig';
+import { IServerConfig } from './interfaces/IServerConfig';
 import bodyParser from 'body-parser';
-
-export interface ServerConfig {
-  bodyParser: Options;
-  devMode: boolean;
-  getComponent: any;
-  getCPUs?: any;
-  endpoint: string;
-  files: any[];
-  logger: winston.LoggerOptions;
-  plugins: any[];
-  port: number;
-  host: string;
-  processJobsConcurrent: boolean;
-  // createApplication: () => Application;
-  loggerInstance?: winston.Logger;
-  onServer?: (app: Application, process: NodeJS.Process) => any;
-}
+import compression from 'compression';
+import { Worker } from './Worker';
+import cluster from 'cluster';
+import Coordinator from './Coordinator';
 
 const defaultConfig = {
   bodyParser: {
@@ -37,11 +23,15 @@ const defaultConfig = {
   port: 8080,
   host: '0.0.0.0',
   processJobsConcurrent: true,
-  // createApplication
+  createApplication
 };
 
+function createApplication() {
+  return express();
+}
+
 export default class RenderServer {
-  constructor(config: Partial<ServerConfig> & { getComponent: any }) {
+  constructor(config: Partial<IServerConfig> & { getComponent: any }) {
     this.config = { ...defaultConfig, ...config };
 
     useContainer(Container);
@@ -53,19 +43,27 @@ export default class RenderServer {
 
   private app: Application;
 
-  public config: ServerConfig;
+  public config: IServerConfig;
 
   private initApplication() {
     this.app.use(bodyParser.json(this.config.bodyParser));
+    this.app.use(compression());
     useExpressServer(this.app, {
-      controllers: [ join(__dirname, './controllers/render/RenderController.js') ]
+      controllers: [join(__dirname, './controllers/render/RenderController.js')]
     });
   }
 
   public start() {
     this.initApplication();
-    this.app.listen(this.config.port, () => {
-      console.log('Server is listening on port: ', this.config.port);
-    });
+    if (this.config.devMode) {
+      const worker = new Worker(this.app, this.config);
+      worker.start();
+    } else if (cluster.isMaster) {
+      const coordinator = new Coordinator();
+      coordinator.start();
+    } else {
+      const worker = new Worker(this.app, this.config, cluster.worker.id);
+      worker.start();
+    }
   }
 }
