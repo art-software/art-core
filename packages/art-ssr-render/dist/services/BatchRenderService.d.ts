@@ -36,6 +36,6 @@ export default class BatchRenderService {
     getResults(): {
         success: boolean;
         error: any;
-        result: {};
+        results: {};
     };
 }

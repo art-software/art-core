@@ -31352,7 +31352,7 @@ exports.default = ssrRender;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "http://me.dev.com:3004/public/demo/ssr/main/assets/home/img-top-banner-49b3c972.jpg";
+module.exports = "http://me.dev.com:3003/public/demo/ssr/main/assets/home/img-top-banner-49b3c972.jpg";
 
 /***/ }),
 

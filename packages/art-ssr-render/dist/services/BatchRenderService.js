@@ -134,7 +134,7 @@ class BatchRenderService {
         return {
             success: this.error === null,
             error: this.error,
-            result: Object.keys(this.jobContexts).reduce((result, jobToken) => {
+            results: Object.keys(this.jobContexts).reduce((result, jobToken) => {
                 const context = this.jobContexts[jobToken];
                 result[jobToken] = {
                     name: context.name,
