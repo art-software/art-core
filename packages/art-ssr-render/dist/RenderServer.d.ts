@@ -1,26 +1,11 @@
-/// <reference types="node" />
 import 'reflect-metadata';
-import { Options } from 'body-parser';
-import winston from 'winston';
-import { Application } from 'express';
-export interface ServerConfig {
-    bodyParser: Options;
-    devMode: boolean;
-    getCPUs?: any;
-    endpoint: string;
-    files: any[];
-    logger: winston.LoggerOptions;
-    plugins: any[];
-    port: number;
-    host: string;
-    processJobsConcurrent: boolean;
-    loggerInstance?: winston.Logger;
-    onServer?: (app: Application, process: NodeJS.Process) => any;
-}
+import { IServerConfig } from './interfaces/IServerConfig';
 export default class RenderServer {
-    constructor(config: Partial<ServerConfig>);
+    constructor(config: Partial<IServerConfig> & {
+        getComponent: any;
+    });
     private app;
-    config: ServerConfig;
+    config: IServerConfig;
     private initApplication;
     start(): void;
 }

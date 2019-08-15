@@ -12,6 +12,7 @@ import * as path from 'path';
 import paths from '../config/paths';
 import getWebpackConfigWeb from '../config/webpack.config.web';
 import webpack from 'webpack';
+import resolveBin from 'resolve-bin';
 
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
@@ -43,10 +44,9 @@ const compileMockServer = () => {
 
   if (compileMockServerHasLunched) { return; }
 
+  const tsc = resolveBin.sync('typescript', { executable: 'tsc' });
   executeNodeScript(
-    process.env.STAGE === 'dev' ?
-      '../../node_modules/.bin/tsc' :
-      path.join(process.cwd(), 'node_modules/.bin/tsc'),
+    tsc,
     '-p', `${paths.appMockServerConfig}`,
     '-w'
   );

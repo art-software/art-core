@@ -1,7 +1,7 @@
-import { ServerConfig } from '../RenderServer';
 import BatchRenderService from '../services/BatchRenderService';
+import { IServerConfig } from '../interfaces/IServerConfig';
 export declare const raceTo: (promise: Promise<any>, ms: number, msg: string) => Promise<any>;
-export declare const runAppLifecycle: (lifecycle: string, config: ServerConfig, error?: any, ...args: any[]) => Promise<any>;
+export declare const runAppLifecycle: (lifecycle: string, config: IServerConfig, error?: any, ...args: any[]) => Promise<any>;
 /**
  * Iterates through the plugins and calls the specified asynchronous lifecycle event,
  * returning a promise that resolves when they are all completed, or rejects if one of them

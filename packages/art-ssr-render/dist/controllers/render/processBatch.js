@@ -1,11 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const lifecycle_1 = require("../../utils/lifecycle");
 const Lifecycle_1 = require("../../enums/Lifecycle");
-const Logger_1 = __importDefault(require("../../utils/Logger"));
 /**
  * Runs through the job-level lifecycle events of the job based on the provided job token. This includes
  * the actual rendering of the job.
@@ -45,7 +41,7 @@ const processJobsConcurrently = (jobs, plugins, batchRenderService) => {
  *
  * Returns a promise resolving when all jobs in the batch complete.
  */
-const processBatch = (jobs, plugins, batchRenderService, concurrent) => {
+exports.processBatch = (jobs, plugins, batchRenderService, concurrent) => {
     return (lifecycle_1.runLifecycle(Lifecycle_1.Lifecycle.batchStart, plugins, batchRenderService)
         // process each job
         .then(() => {
@@ -61,17 +57,4 @@ const processBatch = (jobs, plugins, batchRenderService, concurrent) => {
         batchRenderService.recordError(err);
         lifecycle_1.errorSync(err, plugins, batchRenderService);
     }));
-};
-exports.renderBatch = (config, batchRenderService, isClosing) => {
-    return (req, res) => {
-        if (isClosing()) {
-            Logger_1.default.info('Starting request when closing!');
-        }
-        return processBatch(req.body, config.plugins, batchRenderService, config.processJobsConcurrent)
-            .then(() => {
-        })
-            .catch(() => {
-            return res.status(batchRenderService.statusCode).end();
-        });
-    };
 };

@@ -1,6 +1,6 @@
 import Logger from './Logger';
-import { ServerConfig } from '../RenderServer';
 import BatchRenderService from '../services/BatchRenderService';
+import { IServerConfig } from '../interfaces/IServerConfig';
 
 const PROMISE_TIMEOUT = {};
 export const raceTo = (promise: Promise<any>, ms: number, msg: string) => {
@@ -40,7 +40,7 @@ const hasMethod = (name: string) => {
 };
 
 const MAX_LIFECYCLE_EXECUTION_TIME_IN_MS = 300;
-export const runAppLifecycle = (lifecycle: string, config: ServerConfig, error?: any, ...args: any[]): Promise<any> => {
+export const runAppLifecycle = (lifecycle: string, config: IServerConfig, error?: any, ...args: any[]): Promise<any> => {
   try {
     const promise = Promise.all(
       config.plugins

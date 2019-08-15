@@ -31454,6 +31454,7 @@ function (_React$Component) {
 /* harmony default export */ __webpack_exports__["default"] = ({
   Main: function Main(props) {
     var url = (props.data || {}).url;
+    console.log('props: ', props);
     return Object(_packages_art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_3__["ensureReady"])(routeConfig, url).then(function () {
       return Object(_packages_art_ssr_react__WEBPACK_IMPORTED_MODULE_1__["renderReact"])('Main', IndexSSR);
     });
