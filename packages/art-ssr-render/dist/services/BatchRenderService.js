@@ -117,11 +117,13 @@ class BatchRenderService {
             .then((renderToString) => {
             return Promise.resolve(renderToString(jobContext.props));
         })
-            .then((html) => {
+            .then(({ html, css }) => {
             if (!html) {
                 return Promise.reject(noHTMLError);
             }
+            console.log('rendered style: ', css);
             jobContext.html = html;
+            jobContext.css = css;
             jobContext.duration = msSince(start);
             return Promise.resolve(jobContext);
         })
@@ -139,6 +141,7 @@ class BatchRenderService {
                 result[jobToken] = {
                     name: context.name,
                     html: context.html,
+                    css: context.css,
                     meta: context.returnMeta,
                     duration: context.duration,
                     statusCode: context.statusCode,

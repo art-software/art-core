@@ -8,7 +8,7 @@ class WebpackBaseConfigWeb {
         this.stats = 'errors-only';
         this.resolve = {
             modules: ['node_modules', '.'],
-            extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
+            extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html', '.less', '.css']
         };
         this.module = {
             rules: configRules_1.configBaseRules()

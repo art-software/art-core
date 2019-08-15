@@ -1,8 +1,10 @@
 import React from 'react';
-import '../styles/home.less';
+// @ts-ignore
+import style from '../styles/home.less';
+import withStyles from 'isomorphic-style-loader/withStyles';
 const topBanner = require('../assets/home/img-top-banner.jpg');
 
-export default class Home extends React.Component<any, any> {
+class Home extends React.Component<any, any> {
 
   public render() {
     return (
@@ -38,3 +40,5 @@ export default class Home extends React.Component<any, any> {
     );
   }
 }
+
+export default withStyles(style)(Home);

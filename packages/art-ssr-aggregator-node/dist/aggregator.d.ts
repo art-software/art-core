@@ -24,6 +24,7 @@ export default class Aggregator {
     private renderHTML;
     private fallback;
     private toHTML;
+    private toCss;
     render(data: any): Promise<any>;
 }
 export {};

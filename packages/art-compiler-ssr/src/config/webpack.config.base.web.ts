@@ -18,7 +18,7 @@ export class WebpackBaseConfigWeb implements Configuration {
 
   public resolve = {
     modules: ['node_modules', '.'],
-    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
+    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html', '.less', '.css']
   };
 
   public module = {

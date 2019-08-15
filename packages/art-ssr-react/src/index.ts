@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import ssrRender, { serialize, load } from 'art-ssr';
 
-export const renderReact = (name: string, component) => {
+export const renderReact = (name: string, component: any, css?: Set<string> | string[]) => {
   return ssrRender({
     server() {
       return (props) => {
         const contents = ReactDOMServer.renderToString(React.createElement(component, props));
-        return serialize(name, contents, props);
+        return {
+          html: serialize(name, contents, props),
+          css: css && [...css].join('')
+        };
       };
     },
 

@@ -14,12 +14,15 @@ const react_1 = __importDefault(require("react"));
 const react_dom_1 = __importDefault(require("react-dom"));
 const server_1 = __importDefault(require("react-dom/server"));
 const art_ssr_1 = __importStar(require("art-ssr"));
-exports.renderReact = (name, component) => {
+exports.renderReact = (name, component, css) => {
     return art_ssr_1.default({
         server() {
             return (props) => {
                 const contents = server_1.default.renderToString(react_1.default.createElement(component, props));
-                return art_ssr_1.serialize(name, contents, props);
+                return {
+                    html: art_ssr_1.serialize(name, contents, props),
+                    css: css && [...css].join('')
+                };
             };
         },
         client() {

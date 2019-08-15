@@ -28959,9 +28959,78 @@ var withRouter = function withRouter(Component) {
   !*** /Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/react-router/node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js ***!
   \***********************************************************************************************************************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/react-router/node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js'");
+"use strict";
+
+
+/**
+ * Copyright 2015, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+var REACT_STATICS = {
+    childContextTypes: true,
+    contextTypes: true,
+    defaultProps: true,
+    displayName: true,
+    getDefaultProps: true,
+    getDerivedStateFromProps: true,
+    mixins: true,
+    propTypes: true,
+    type: true
+};
+
+var KNOWN_STATICS = {
+    name: true,
+    length: true,
+    prototype: true,
+    caller: true,
+    callee: true,
+    arguments: true,
+    arity: true
+};
+
+var defineProperty = Object.defineProperty;
+var getOwnPropertyNames = Object.getOwnPropertyNames;
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+var getPrototypeOf = Object.getPrototypeOf;
+var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
+
+function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
+    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+
+        if (objectPrototype) {
+            var inheritedComponent = getPrototypeOf(sourceComponent);
+            if (inheritedComponent && inheritedComponent !== objectPrototype) {
+                hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
+            }
+        }
+
+        var keys = getOwnPropertyNames(sourceComponent);
+
+        if (getOwnPropertySymbols) {
+            keys = keys.concat(getOwnPropertySymbols(sourceComponent));
+        }
+
+        for (var i = 0; i < keys.length; ++i) {
+            var key = keys[i];
+            if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
+                var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
+                try { // Avoid failures from read-only properties
+                    defineProperty(targetComponent, key, descriptor);
+                } catch (e) {}
+            }
+        }
+
+        return targetComponent;
+    }
+
+    return targetComponent;
+}
+
+module.exports = hoistNonReactStatics;
+
 
 /***/ }),
 
@@ -32734,6 +32803,14 @@ exports.ensureReady = function (routeConfig, providedLocation) {
 "use strict";
 
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -32762,12 +32839,15 @@ var server_1 = __importDefault(__webpack_require__(/*! react-dom/server */ "../.
 
 var art_ssr_1 = __importStar(__webpack_require__(/*! art-ssr */ "../art-ssr/dist/index.js"));
 
-exports.renderReact = function (name, component) {
+exports.renderReact = function (name, component, css) {
   return art_ssr_1.default({
     server: function server() {
       return function (props) {
         var contents = server_1.default.renderToString(react_1.default.createElement(component, props));
-        return art_ssr_1.serialize(name, contents, props);
+        return {
+          html: art_ssr_1.serialize(name, contents, props),
+          css: css && _toConsumableArray(css).join('')
+        };
       };
     },
     client: function client() {
