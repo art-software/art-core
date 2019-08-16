@@ -1,6 +1,6 @@
 {
   "name": "art-lib-common",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "art common framework agnostic lib",
   "main": "index.js",
   "author": "Bowen Zhong",
@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "art-lib-utils": "^0.0.7",
+    "art-lib-utils": "^0.0.8",
     "axios": "^0.18.0",
     "cpx": "^1.5.0",
     "typescript": "^3.0.1"

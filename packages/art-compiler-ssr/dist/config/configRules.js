@@ -1,7 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -9,8 +6,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const path = __importStar(require("path"));
 const env_1 = require("../utils/env");
 const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
@@ -33,7 +33,8 @@ exports.configBaseRules = () => {
 };
 exports.cssRule = (isProdEnv) => {
     const config = [
-        mini_css_extract_plugin_1.default.loader,
+        // MiniCssExtractPlugin.loader,
+        'isomorphic-style-loader',
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
         { loader: 'postcss-loader', options: { config: { path: __dirname } } }
     ];
@@ -47,7 +48,8 @@ exports.cssRule = (isProdEnv) => {
 };
 exports.lessRule = (isProdEnv) => {
     const config = [
-        mini_css_extract_plugin_1.default.loader,
+        // MiniCssExtractPlugin.loader,
+        'isomorphic-style-loader',
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
         { loader: 'postcss-loader', options: { config: { path: __dirname } } },
         { loader: 'venus-px2rem-loader', options: { remUnit: 100, remPrecision: 8 } },
@@ -63,7 +65,8 @@ exports.lessRule = (isProdEnv) => {
 };
 exports.sassRule = (isProdEnv) => {
     const config = [
-        mini_css_extract_plugin_1.default.loader,
+        // MiniCssExtractPlugin.loader,
+        'isomorphic-style-loader',
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
         { loader: 'postcss-loader', options: { config: { path: __dirname } } },
         { loader: 'sass-loader', options: { sourceMap: !isProdEnv } }
@@ -155,6 +158,6 @@ exports.tsRule = {
 };
 exports.nullRule = {
     // test: /\.(png|jpg|jpeg|gif|svg|css|less|sass|ttf|eot|woff|woff2)$/,
-    test: /\.(css|less|sass|ttf|eot|woff|woff2)$/,
+    test: /\.(ttf|eot|woff|woff2)$/,
     use: 'null-loader'
 };

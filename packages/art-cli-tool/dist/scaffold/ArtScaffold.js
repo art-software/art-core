@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -8,6 +16,52 @@ const chalk_1 = __importDefault(require("chalk"));
 const path_1 = require("path");
 const fs_1 = require("fs");
 const async_1 = require("async");
+const inquirer_1 = __importDefault(require("inquirer"));
+const cross_spawn_1 = __importDefault(require("cross-spawn"));
+const ModulesManagers_1 = require("../enums/ModulesManagers");
+const printLog_1 = require("./printLog");
+const Scaffolds_1 = require("../enums/Scaffolds");
+const DependencyPackages = {
+    [Scaffolds_1.Scaffolds.react]: ['art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack'],
+    [Scaffolds_1.Scaffolds.miniprogram]: ['art-lib-common-miniprogram', 'art-lib-utils', 'art-lib-utils-wx', 'art-server-mock-miniprogram', 'art-webpack-miniprogram']
+};
+exports.InstallCommands = {
+    [ModulesManagers_1.ModulesManagers.YARN]: {
+        default: 'install',
+        particular: 'add',
+        options: []
+    },
+    [ModulesManagers_1.ModulesManagers.NPM]: {
+        default: 'install',
+        particular: 'install',
+        options: []
+    },
+};
+const autoInstallQuestion = [
+    {
+        type: 'confirm',
+        name: 'autoInstall',
+        message: 'Install dependencies now?',
+        default: true
+    }
+];
+const installManagerQuestion = [
+    {
+        type: 'list',
+        name: 'modulesManager',
+        message: 'Please choose one package manager',
+        choices: [ModulesManagers_1.ModulesManagers.YARN, ModulesManagers_1.ModulesManagers.NPM],
+        default: 0
+    }
+];
+const autoServeQuestion = [
+    {
+        type: 'confirm',
+        name: 'autoServe',
+        message: 'Start serveing modules?',
+        default: true
+    }
+];
 class ArtScaffold {
     /**
      * constructor
@@ -15,6 +69,8 @@ class ArtScaffold {
      * @param {String} scaffoldType react | vue
      */
     constructor(projectName, scaffoldType) {
+        this.defaultDepInstallDone = false;
+        this.particularDepInstallDone = false;
         this.projectName = projectName;
         this.scaffoldType = scaffoldType;
         this.projectDescription = '';
@@ -92,9 +148,98 @@ class ArtScaffold {
                     reject(err);
                 }
                 else {
-                    resolve(result);
+                    this.autoInstallAfterCreateProject();
+                    // resolve(result);
                 }
             });
+        });
+    }
+    autoInstallAfterCreateProject() {
+        return __awaiter(this, void 0, void 0, function* () {
+            printLog_1.printInstructions(chalk_1.default.magenta(`Creating scaffold [${this.scaffoldType}] project succeed, the next step is installing dependencies!`));
+            const inquirerAutoInstall = yield inquirer_1.default.prompt(autoInstallQuestion).then((answer) => {
+                return answer;
+            });
+            if (inquirerAutoInstall.autoInstall) {
+                const inquirerPM = yield inquirer_1.default.prompt(installManagerQuestion).then((answer) => {
+                    return answer;
+                });
+                yield this.installDependencyPackages(inquirerPM, 'default');
+                yield this.installDependencyPackages(inquirerPM, 'particular');
+            }
+            else {
+                chalk_1.default.blue(`You can manually install following modules:
+          ${chalk_1.default.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
+        before starting project.`);
+                process.exit(0);
+            }
+        });
+    }
+    installDependencyPackages(answer, type) {
+        printLog_1.printInstructions(`Start installing [${this.scaffoldType}] ${type} dependency packages...`);
+        let dependencyArr = [];
+        if (type === 'particular') {
+            dependencyArr = DependencyPackages[this.scaffoldType] || [];
+            dependencyArr.forEach((item) => {
+                console.log(chalk_1.default.magenta(item));
+            });
+        }
+        return new Promise((resolve, reject) => {
+            cross_spawn_1.default(answer.modulesManager, [
+                exports.InstallCommands[answer.modulesManager][type],
+                ...dependencyArr
+            ], {
+                stdio: 'inherit'
+            }).on('close', (code) => {
+                if (code === 0) {
+                    console.log(chalk_1.default.green(`Install ${type} dependenies successfully`));
+                    if (type === 'default') {
+                        this.defaultDepInstallDone = true;
+                    }
+                    else if (type === 'particular') {
+                        this.particularDepInstallDone = true;
+                    }
+                    if (this.defaultDepInstallDone && this.particularDepInstallDone) {
+                        this.autoServeModule();
+                    }
+                    resolve();
+                }
+                else {
+                    console.log(chalk_1.default.cyan('Install dependency packages' + type) + ' exited with code ' + code + '.');
+                    reject();
+                }
+            }).on('error', (err) => {
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+    autoServeModule() {
+        inquirer_1.default.prompt(autoServeQuestion).then((answer) => {
+            if (answer.autoServe) {
+                cross_spawn_1.default('art', this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram ?
+                    [
+                        'serve'
+                    ] :
+                    [
+                        'serve',
+                        '-m',
+                        this.moduleName
+                    ], {
+                    stdio: 'inherit'
+                }).
+                    on('close', (code) => {
+                    if (code !== 0) {
+                        console.log(chalk_1.default.cyan('serve modules') + ' exited with code ' + code + '.');
+                        return;
+                    }
+                }).on('error', (err) => {
+                    console.log(err);
+                });
+            }
+            else {
+                process.exit(0);
+            }
         });
     }
     createScaffoldModule() {

@@ -1,11 +1,18 @@
 import React from 'react';
 import { renderReact } from '../../../../../packages/art-ssr-react';
-import routes from './routes';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { convertCustomRouteConfig, ensureReady } from '../../../../../packages/art-ssr-react-router/dist/reactRouterHelper';
-// import CoreComponentAll from '../../../../../packages/art-lib-react/dist/core_all/CoreComponentAll';
+import StyleContext from 'isomorphic-style-loader/StyleContext';
+import routes from './routes';
 const routeConfig = convertCustomRouteConfig(routes as any);
+
+const insertCss = (...styles) => {
+  const removeCss = styles.map((style) => {
+    return style._insertCss();
+  });
+  return () => removeCss.forEach((dispose) => dispose());
+};
 
 class IndexCSR extends React.Component<any, any> {
   constructor(props, context) {
@@ -15,9 +22,11 @@ class IndexCSR extends React.Component<any, any> {
   public render() {
     console.log('this.props: ', this.props);
     return (
-      <BrowserRouter>
-        {renderRoutes(routeConfig)}
-      </BrowserRouter>
+      <StyleContext.Provider value={{ insertCss }}>
+        <BrowserRouter>
+          {renderRoutes(routeConfig)}
+        </BrowserRouter>
+      </StyleContext.Provider>
     );
   }
 }

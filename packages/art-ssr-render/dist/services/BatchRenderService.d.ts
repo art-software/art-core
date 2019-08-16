@@ -30,6 +30,7 @@ export default class BatchRenderService {
         statusCode: number;
         duration: number | null;
         html: string | null;
+        css: string | null;
         returnMeta: any;
         error: any;
     }>;

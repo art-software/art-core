@@ -1,6 +1,6 @@
 {
   "name": "art-lib-common-miniprogram",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "art common framework for wx miniprogram",
   "main": "index.js",
   "author": "Bowen Zhong",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "art-dev-utils": "^0.0.12",
-    "art-lib-utils": "^0.0.7",
+    "art-lib-utils": "^0.0.8",
     "art-lib-utils-wx": "^0.0.4"
   }
 }

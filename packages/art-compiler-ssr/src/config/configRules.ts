@@ -1,5 +1,5 @@
 import { RuleSetUse, RuleSetRule } from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as path from 'path';
 import { isProd } from '../utils/env';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
@@ -27,7 +27,8 @@ export const configBaseRules = (): RuleSetRule[] => {
 
 export const cssRule = (isProdEnv: boolean): RuleSetRule => {
   const config: RuleSetUse = [
-    MiniCssExtractPlugin.loader,
+    // MiniCssExtractPlugin.loader,
+    'isomorphic-style-loader',
     { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
     { loader: 'postcss-loader', options: { config: { path: __dirname } } }
   ];
@@ -45,7 +46,8 @@ export const cssRule = (isProdEnv: boolean): RuleSetRule => {
 export const lessRule = (isProdEnv: boolean): RuleSetRule => {
 
   const config: RuleSetUse = [
-    MiniCssExtractPlugin.loader,
+    // MiniCssExtractPlugin.loader,
+    'isomorphic-style-loader',
     { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
     { loader: 'postcss-loader', options: { config: { path: __dirname } } },
     { loader: 'venus-px2rem-loader', options: { remUnit: 100, remPrecision: 8 } },
@@ -64,7 +66,8 @@ export const lessRule = (isProdEnv: boolean): RuleSetRule => {
 
 export const sassRule = (isProdEnv: boolean): RuleSetRule => {
   const config: RuleSetUse = [
-    MiniCssExtractPlugin.loader,
+    // MiniCssExtractPlugin.loader,
+    'isomorphic-style-loader',
     { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
     { loader: 'postcss-loader', options: { config: { path: __dirname } } },
     { loader: 'sass-loader', options: { sourceMap: !isProdEnv } }
@@ -165,6 +168,6 @@ export const tsRule: RuleSetRule = {
 
 export const nullRule: RuleSetRule = {
   // test: /\.(png|jpg|jpeg|gif|svg|css|less|sass|ttf|eot|woff|woff2)$/,
-  test: /\.(css|less|sass|ttf|eot|woff|woff2)$/,
+  test: /\.(ttf|eot|woff|woff2)$/,
   use: 'null-loader'
 };

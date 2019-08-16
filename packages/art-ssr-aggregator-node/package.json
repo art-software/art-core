@@ -1,6 +1,6 @@
 {
   "name": "art-ssr-aggregator-node",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "art ssr aggregator service in Node.js",
   "main": "index.js",
   "author": "Bowen Zhong",
@@ -10,7 +10,7 @@
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
-    "art-lib-common": "^0.0.8",
+    "art-lib-common": "^0.0.9",
     "cpx": "^1.5.0",
     "uuid": "^3.3.2"
   },

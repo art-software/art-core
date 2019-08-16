@@ -29,7 +29,7 @@ let HomeController = class HomeController {
     main(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const mainService = new MainService_1.default();
-            const html = yield mainService.requestRender(req);
+            const { html, css } = yield mainService.requestRender(req);
             const renderedHtml = `
       <!DOCTYPE html>
       <html lang="en">
@@ -40,6 +40,7 @@ let HomeController = class HomeController {
         <meta name="keywords" content="put your keyword here" />
         <meta name="description" content="put your content here" />
         <title>it is title</title>
+        <style>${css}</style>
         <link rel="stylesheet" type="text/css" href="http://me.dev.com:3003/public/demo/ssr/main/bundle.css">
       </head>
       <body>
