@@ -1,6 +1,6 @@
 {
   "name": "art-ssr-render",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Art SSR Render Server",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@types/compression": "^1.0.0",
     "art-dev-utils": "^0.0.12",
-    "art-lib-utils": "^0.0.7",
+    "art-lib-utils": "^0.0.8",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "compression": "^1.7.4",

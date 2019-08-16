@@ -1,6 +1,6 @@
 {
   "name": "art-ssr",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "art ssr",
   "main": "dist/index.js",
   "author": "Bowen Zhong",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "art-dev-utils": "^0.0.12",
-    "art-lib-utils": "^0.0.7",
+    "art-lib-utils": "^0.0.8",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "cpx": "^1.5.0",
