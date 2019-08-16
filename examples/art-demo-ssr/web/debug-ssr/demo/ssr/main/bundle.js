@@ -31473,6 +31473,26 @@ module.exports = "http://me.dev.com:3003/public/demo/ssr/main/assets/home/img-to
 
 /***/ }),
 
+/***/ "./client/main/routes.tsx":
+/*!********************************!*\
+  !*** ./client/main/routes.tsx ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _views_Home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./views/Home */ "./client/main/views/Home.tsx");
+
+/* harmony default export */ __webpack_exports__["default"] = ([{
+  component: _views_Home__WEBPACK_IMPORTED_MODULE_0__["default"],
+  path: function path(parentRoute) {
+    return "".concat(parentRoute, "/");
+  }
+}]);
+
+/***/ }),
+
 /***/ "./client/main/ssr.tsx":
 /*!*****************************!*\
   !*** ./client/main/ssr.tsx ***!
@@ -31492,7 +31512,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-config */ "./node_modules/react-router-config/esm/react-router-config.js");
 /* harmony import */ var isomorphic_style_loader_StyleContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! isomorphic-style-loader/StyleContext */ "./node_modules/isomorphic-style-loader/StyleContext.js");
 /* harmony import */ var isomorphic_style_loader_StyleContext__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(isomorphic_style_loader_StyleContext__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _views_Home__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/Home */ "./client/main/views/Home.tsx");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./routes */ "./client/main/routes.tsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31517,7 +31537,9 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+ // TODO figure out tslint error reason
 
+var routeConfig = Object(_packages_art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_2__["convertCustomRouteConfig"])(_routes__WEBPACK_IMPORTED_MODULE_6__["default"]);
 var css = new Set(); // CSS for all rendered React components
 
 var insertCss = function insertCss() {
@@ -31531,23 +31553,6 @@ var insertCss = function insertCss() {
     return css.add(getCss);
   });
 };
-
-function HomeRoute() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(isomorphic_style_loader_StyleContext__WEBPACK_IMPORTED_MODULE_5___default.a.Provider, {
-    value: {
-      insertCss: insertCss
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_views_Home__WEBPACK_IMPORTED_MODULE_6__["default"], null));
-}
-
-var routes = [{
-  component: HomeRoute,
-  path: function path(parentRoute) {
-    return "".concat(parentRoute, "/");
-  }
-}]; // TODO figure out tslint error reason
-
-var routeConfig = Object(_packages_art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_2__["convertCustomRouteConfig"])(routes);
 
 var IndexSSR =
 /*#__PURE__*/
@@ -31569,10 +31574,14 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var url = this.props.data.url;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["StaticRouter"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(isomorphic_style_loader_StyleContext__WEBPACK_IMPORTED_MODULE_5___default.a.Provider, {
+        value: {
+          insertCss: insertCss
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["StaticRouter"], {
         location: url,
         context: {}
-      }, Object(react_router_config__WEBPACK_IMPORTED_MODULE_4__["renderRoutes"])(routeConfig));
+      }, Object(react_router_config__WEBPACK_IMPORTED_MODULE_4__["renderRoutes"])(routeConfig)));
     }
   }]);
 

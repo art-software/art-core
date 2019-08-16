@@ -4,27 +4,15 @@ import { convertCustomRouteConfig, ensureReady } from '../../../../../packages/a
 import { StaticRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
-import Home from './views/Home';
+import routes from './routes';
+// TODO figure out tslint error reason
+const routeConfig = convertCustomRouteConfig(routes as any);
 
 const css = new Set(); // CSS for all rendered React components
 const insertCss = (...styles) => styles.forEach((style) => {
   const getCss = style._getCss();
   return css.add(getCss);
 });
-function HomeRoute() {
-  return (
-    <StyleContext.Provider value={{ insertCss }}><Home /></StyleContext.Provider>
-  );
-}
-const routes = [
-  {
-    component: HomeRoute,
-    path: (parentRoute) => `${parentRoute}/`
-  }
-];
-
-// TODO figure out tslint error reason
-const routeConfig = convertCustomRouteConfig(routes as any);
 
 class IndexSSR extends React.Component {
   constructor(props) {
@@ -38,11 +26,13 @@ class IndexSSR extends React.Component {
   public render() {
     const { url } = (this.props as any).data;
     return (
-      <StaticRouter location={url} context={{}}>
-        {
-          renderRoutes(routeConfig)
-        }
-      </StaticRouter>
+      <StyleContext.Provider value={{ insertCss }}>
+        <StaticRouter location={url} context={{}}>
+          {
+            renderRoutes(routeConfig)
+          }
+        </StaticRouter>
+      </StyleContext.Provider>
     );
   }
 }

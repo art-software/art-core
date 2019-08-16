@@ -4,7 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { convertCustomRouteConfig, ensureReady } from '../../../../../packages/art-ssr-react-router/dist/reactRouterHelper';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
-import Home from './views/Home';
+import routes from './routes';
+const routeConfig = convertCustomRouteConfig(routes as any);
 
 const insertCss = (...styles) => {
   const removeCss = styles.map((style) => {
@@ -12,19 +13,6 @@ const insertCss = (...styles) => {
   });
   return () => removeCss.forEach((dispose) => dispose());
 };
-
-function HomeRoute() {
-  return (
-    <StyleContext.Provider value={{ insertCss }}><Home /></StyleContext.Provider>
-  );
-}
-const routes = [
-  {
-    component: HomeRoute,
-    path: (parentRoute) => `${parentRoute}/`
-  }
-];
-const routeConfig = convertCustomRouteConfig(routes as any);
 
 class IndexCSR extends React.Component<any, any> {
   constructor(props, context) {
@@ -34,9 +22,11 @@ class IndexCSR extends React.Component<any, any> {
   public render() {
     console.log('this.props: ', this.props);
     return (
-      <BrowserRouter>
-        {renderRoutes(routeConfig)}
-      </BrowserRouter>
+      <StyleContext.Provider value={{ insertCss }}>
+        <BrowserRouter>
+          {renderRoutes(routeConfig)}
+        </BrowserRouter>
+      </StyleContext.Provider>
     );
   }
 }
