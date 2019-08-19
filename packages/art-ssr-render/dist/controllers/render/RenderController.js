@@ -11,14 +11,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
 const ServerConfig_1 = require("../../config/ServerConfig");
+const BatchRenderService_1 = __importDefault(require("../../services/BatchRenderService"));
+const processBatch_1 = require("./processBatch");
 let RenderController = class RenderController {
     render(req, res) {
         console.log('req.body: ', req.body);
-        return res.json({
-            name: 'bw'
+        // TODO
+        // if (isClosing()) {
+        //   Logger.info('Starting request when closing!');
+        // }
+        const serverConfig = ServerConfig_1.ServerConfig.get();
+        const batchRenderService = new BatchRenderService_1.default(req, res, serverConfig);
+        return processBatch_1.processBatch(req.body, serverConfig.plugins, batchRenderService, serverConfig.processJobsConcurrent)
+            .then(() => {
+            // TODO
+            // if (isClosing()) {
+            //   Logger.info('Ending request when closing!');
+            // }
+            return res.status(batchRenderService.statusCode)
+                .json(batchRenderService.getResults());
+        })
+            .catch(() => {
+            res.status(batchRenderService.statusCode).end();
         });
     }
 };

@@ -129,6 +129,10 @@ export default class Aggregator {
     return reduce(views, '', (res, name) => res + views[name].html);
   }
 
+  private toCss(views) {
+    return reduce(views, '', (res, name) => res + views[name].css);
+  }
+
   public render(data) {
     const jobs = this.createJobs(data);
 
@@ -184,10 +188,16 @@ export default class Aggregator {
 
               return this.plugins.length ?
                 this.pluginReduce('afterResponse', (plugin, next) => plugin(next, results), results) :
-                this.toHTML(results);
+                {
+                  html: this.toHTML(results),
+                  css: this.toCss(results)
+                };
             } catch (err) {
               this.pluginReduce('onError', (plugin) => plugin(err, results));
-              return this.toHTML(results);
+              return {
+                html: this.toHTML(results),
+                css: this.toCss(results)
+              };
             }
           });
       });

@@ -1,0 +1,66 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "baseUrl": ".",
+    "declaration": false,
+    "jsx": "preserve",
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "sourceMap": false,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "target": "es2016",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "react",
+      "node"
+    ],
+    "paths": {
+      "core/*": [
+        "node_modules/art-lib-react/dist/core/*"
+      ],
+      "core_all/*": [
+        "node_modules/art-lib-react/dist/core_all/*"
+      ],
+      "utils/*": [
+        "node_modules/art-lib-react/dist/utils/*"
+      ],
+      "components/*": [
+        "node_modules/art-lib-react/dist/components/*"
+      ]
+    },
+    "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+  },
+  "exclude": [
+    "**/node_modules/*",
+    "**/tests/*",
+    "**/dist/*"
+  ],
+  "include": [
+    "./client/**/*",
+    "./mock/**/*"
+  ],
+  "typeAcquisition": {
+    "include": [
+      "jest"
+    ]
+  },
+  "version": "2.8.3"
+}

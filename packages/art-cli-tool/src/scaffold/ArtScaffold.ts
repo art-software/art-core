@@ -3,6 +3,57 @@ import chalk from 'chalk';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { series } from 'async';
+import inquirer, { Answers, Question } from 'inquirer';
+import spawn from 'cross-spawn';
+import { ModulesManagers } from '../enums/ModulesManagers';
+import { printInstructions } from './printLog';
+import { Scaffolds } from '../enums/Scaffolds';
+
+const DependencyPackages = {
+  [Scaffolds.react]: ['art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack'],
+  [Scaffolds.miniprogram]: ['art-lib-common-miniprogram', 'art-lib-utils', 'art-lib-utils-wx', 'art-server-mock-miniprogram', 'art-webpack-miniprogram']
+};
+
+export const InstallCommands = {
+  [ModulesManagers.YARN]: {
+    default: 'install',
+    particular: 'add',
+    options: []
+  },
+  [ModulesManagers.NPM]: {
+    default: 'install',
+    particular: 'install',
+    options: []
+  },
+};
+
+const autoInstallQuestion: Question[] = [
+  {
+    type: 'confirm',
+    name: 'autoInstall',
+    message: 'Install dependencies now?',
+    default: true
+  }
+];
+
+const installManagerQuestion: Question[] = [
+  {
+    type: 'list',
+    name: 'modulesManager',
+    message: 'Please choose one package manager',
+    choices: [ModulesManagers.YARN, ModulesManagers.NPM],
+    default: 0
+  }
+];
+
+const autoServeQuestion: Question[] = [
+  {
+    type: 'confirm',
+    name: 'autoServe',
+    message: 'Start serveing modules?',
+    default: true
+  }
+];
 
 export default class ArtScaffold {
   /**
@@ -120,8 +171,118 @@ export default class ArtScaffold {
       series(asyncQueue, (err, result) => {
         if (err) {
           reject(err);
-        } else { resolve(result); }
+        } else {
+          this.autoInstallAfterCreateProject();
+          // resolve(result);
+        }
       });
+    });
+  }
+
+  public async autoInstallAfterCreateProject() {
+
+    printInstructions(chalk.magenta(`Creating scaffold [${this.scaffoldType}] project succeed, the next step is installing dependencies!`));
+
+    const inquirerAutoInstall = await inquirer.prompt(autoInstallQuestion).then((answer: Answers) => {
+      return answer;
+    });
+
+    if (inquirerAutoInstall.autoInstall) {
+      const inquirerPM = await inquirer.prompt(installManagerQuestion).then((answer: Answers) => {
+        return answer;
+      });
+
+      await this.installDependencyPackages(inquirerPM, 'default');
+      await this.installDependencyPackages(inquirerPM, 'particular');
+    } else {
+      chalk.blue(
+        `You can manually install following modules:
+          ${chalk.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
+        before starting project.`
+      );
+
+      process.exit(0);
+    }
+  }
+
+  private defaultDepInstallDone = false;
+  private particularDepInstallDone = false;
+
+  public installDependencyPackages(answer: Answers, type: string) {
+    printInstructions(`Start installing [${this.scaffoldType}] ${type} dependency packages...`);
+
+    let dependencyArr = [];
+    if (type === 'particular') {
+      dependencyArr = DependencyPackages[this.scaffoldType] || [];
+
+      dependencyArr.forEach((item) => {
+        console.log(chalk.magenta(item));
+      });
+    }
+
+    return new Promise((resolve, reject) => {
+      spawn(
+        answer.modulesManager,
+        [
+          InstallCommands[answer.modulesManager][type],
+          ...dependencyArr
+        ],
+        {
+          stdio: 'inherit'
+        }
+      ).on('close', (code) => {
+        if (code === 0) {
+          console.log(chalk.green(`Install ${type} dependenies successfully`));
+          if (type === 'default') {
+            this.defaultDepInstallDone = true;
+          } else if (type === 'particular') {
+            this.particularDepInstallDone = true;
+          }
+
+          if (this.defaultDepInstallDone && this.particularDepInstallDone) {
+            this.autoServeModule();
+          }
+          resolve();
+        } else {
+          console.log(chalk.cyan('Install dependency packages' + type) + ' exited with code ' + code + '.');
+          reject();
+        }
+      }).on('error', (err) => {
+        console.log(err);
+        reject(err);
+      });
+    });
+  }
+
+  public autoServeModule() {
+    inquirer.prompt(autoServeQuestion).then((answer: Answers) => {
+      if (answer.autoServe) {
+        spawn(
+          'art',
+          this.scaffoldType === Scaffolds.miniprogram ?
+          [
+            'serve'
+          ] :
+          [
+            'serve',
+            '-m',
+            this.moduleName
+          ],
+          {
+            stdio: 'inherit'
+          }
+        ).
+          on('close', (code) => {
+            if (code !== 0) {
+              console.log(chalk.cyan('serve modules') + ' exited with code ' + code + '.');
+              return;
+            }
+          }).on('error', (err) => {
+            console.log(err);
+          });
+      } else {
+        process.exit(0);
+      }
     });
   }
 
