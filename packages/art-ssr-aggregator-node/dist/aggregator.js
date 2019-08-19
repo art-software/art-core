@@ -97,6 +97,9 @@ class Aggregator {
     toCss(views) {
         return reduce(views, '', (res, name) => res + views[name].css);
     }
+    toState(views) {
+        return reduce(views, '', (res, name) => res + views[name].state);
+    }
     render(data) {
         const jobs = this.createJobs(data);
         return this.prepareRequest(jobs)
@@ -143,14 +146,16 @@ class Aggregator {
                         this.pluginReduce('afterResponse', (plugin, next) => plugin(next, results), results) :
                         {
                             html: this.toHTML(results),
-                            css: this.toCss(results)
+                            css: this.toCss(results),
+                            state: this.toState(results)
                         };
                 }
                 catch (err) {
                     this.pluginReduce('onError', (plugin) => plugin(err, results));
                     return {
                         html: this.toHTML(results),
-                        css: this.toCss(results)
+                        css: this.toCss(results),
+                        state: this.toState(results)
                     };
                 }
             });

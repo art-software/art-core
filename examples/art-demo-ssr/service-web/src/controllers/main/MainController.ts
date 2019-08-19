@@ -8,7 +8,7 @@ export default class HomeController {
   @Get('/')
   public async main(@Req() req: Request, @Res() res: Response) {
     const mainService = new MainService();
-    const { html, css } = await mainService.requestRender(req);
+    const { html, css, state } = await mainService.requestRender(req);
     const renderedHtml = `
       <!DOCTYPE html>
       <html lang="en">
@@ -23,6 +23,9 @@ export default class HomeController {
         <link rel="stylesheet" type="text/css" href="http://me.dev.com:3003/public/demo/ssr/main/bundle.css">
       </head>
       <body>
+        <script>
+          window.REDUX_DATA = ${ state }
+        </script>
         ${html}
         <script type="text/javascript" src="http://me.dev.com:3003/public/demo/ssr/main/bundle.js"></script>
       </body>

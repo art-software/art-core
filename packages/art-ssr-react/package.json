@@ -13,7 +13,8 @@
     "art-ssr": "^0.0.5",
     "cpx": "^1.5.0",
     "react": "16.4.2",
-    "react-dom": "16.4.2"
+    "react-dom": "16.4.2",
+    "redux": "^4.0.4"
   },
   "devDependencies": {
     "@types/node": "^10.5.6",

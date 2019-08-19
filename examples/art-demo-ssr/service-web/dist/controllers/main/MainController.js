@@ -29,7 +29,7 @@ let HomeController = class HomeController {
     main(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const mainService = new MainService_1.default();
-            const { html, css } = yield mainService.requestRender(req);
+            const { html, css, state } = yield mainService.requestRender(req);
             const renderedHtml = `
       <!DOCTYPE html>
       <html lang="en">
@@ -44,6 +44,9 @@ let HomeController = class HomeController {
         <link rel="stylesheet" type="text/css" href="http://me.dev.com:3003/public/demo/ssr/main/bundle.css">
       </head>
       <body>
+        <script>
+          window.REDUX_DATA = ${state}
+        </script>
         ${html}
         <script type="text/javascript" src="http://me.dev.com:3003/public/demo/ssr/main/bundle.js"></script>
       </body>

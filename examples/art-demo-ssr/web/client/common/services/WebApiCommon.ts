@@ -4,11 +4,9 @@ import { AxiosResponse } from 'axios';
 declare global {
   interface Window { GLOBAL: any; }
 }
-// const GLOBAL = window.GLOBAL || {};
 
 const domains = {
-  // me: GLOBAL.routeUrl,
-  me: 'http://localhost:3001',
+  me: 'http://me.dev.com:8001',
   inte: 'http://inte.example.com',
   prod: 'https://prod.example.com'
 };

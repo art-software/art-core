@@ -45,6 +45,8 @@ class BatchRenderService {
                 statusCode: 200,
                 duration: null,
                 html: null,
+                css: null,
+                state: null,
                 returnMeta: {},
             };
             return obj;
@@ -117,13 +119,15 @@ class BatchRenderService {
             .then((renderToString) => {
             return Promise.resolve(renderToString(jobContext.props));
         })
-            .then(({ html, css }) => {
+            .then(({ html, css, state }) => {
             if (!html) {
                 return Promise.reject(noHTMLError);
             }
             console.log('rendered style: ', css);
+            console.log('state: ', state);
             jobContext.html = html;
             jobContext.css = css;
+            jobContext.state = state;
             jobContext.duration = msSince(start);
             return Promise.resolve(jobContext);
         })
@@ -142,6 +146,7 @@ class BatchRenderService {
                     name: context.name,
                     html: context.html,
                     css: context.css,
+                    state: context.state,
                     meta: context.returnMeta,
                     duration: context.duration,
                     statusCode: context.statusCode,

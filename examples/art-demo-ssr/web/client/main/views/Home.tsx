@@ -2,16 +2,28 @@ import React from 'react';
 // @ts-ignore
 import style from '../styles/home.less';
 import withStyles from 'isomorphic-style-loader/withStyles';
+import { fetchDataMain } from '../store/store';
+import { connect } from 'react-redux';
 const topBanner = require('../assets/home/img-top-banner.jpg');
 
 class Home extends React.Component<any, any> {
 
+  public static serverFetch = fetchDataMain;
+
+  public componentDidMount() {
+    if (this.props.initialData && this.props.initialData.length <= 0) {
+      this.props.fetchDataMain();
+    }
+  }
+
   public render() {
+    const { initialData } = this.props;
+    console.log('initialData: ', initialData);
     return (
       <div className="home">
         <img src={topBanner} alt="top banner"></img>
 
-        <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit</h1>
+        <h1>{ initialData.title }</h1>
 
         <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
@@ -41,4 +53,12 @@ class Home extends React.Component<any, any> {
   }
 }
 
-export default withStyles(style)(Home);
+const mapStateToProps = (state) => ({
+  initialData: state.data
+});
+
+const mapDispatchToProps = {
+  fetchDataMain
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(Home));

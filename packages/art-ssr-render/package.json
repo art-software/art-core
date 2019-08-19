@@ -10,7 +10,6 @@
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
-    "@types/compression": "^1.0.0",
     "art-dev-utils": "^0.0.12",
     "art-lib-utils": "^0.0.8",
     "body-parser": "^1.18.3",
@@ -29,6 +28,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/compression": "^1.0.0",
     "@types/body-parser": "^1.17.0",
     "@types/express": "^4.16.0",
     "@types/glob": "^5.0.35",

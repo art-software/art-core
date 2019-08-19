@@ -14,14 +14,16 @@ const react_1 = __importDefault(require("react"));
 const react_dom_1 = __importDefault(require("react-dom"));
 const server_1 = __importDefault(require("react-dom/server"));
 const art_ssr_1 = __importStar(require("art-ssr"));
-exports.renderReact = (name, component, css) => {
+exports.renderReact = (name, component, css, store) => {
     return art_ssr_1.default({
         server() {
             return (props) => {
                 const contents = server_1.default.renderToString(react_1.default.createElement(component, props));
+                console.log('store.getState(): ', store && store.getState());
                 return {
                     html: art_ssr_1.serialize(name, contents, props),
-                    css: css && [...css].join('')
+                    css: css && [...css].join(''),
+                    state: store && JSON.stringify(store.getState())
                 };
             };
         },
