@@ -2043,10 +2043,10 @@ module.exports = {"name":"axios","version":"0.18.0","description":"Promise based
 
 /***/ }),
 
-/***/ "../../../node_modules/css-loader/index.js?!../../../node_modules/postcss-loader/src/index.js?!../../../node_modules/venus-px2rem-loader/index.js?!../../../node_modules/less-loader/dist/cjs.js?!./client/main/styles/home.less":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** /Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/css-loader??ref--7-2!/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/postcss-loader/src??ref--7-3!/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/venus-px2rem-loader??ref--7-4!/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/less-loader/dist/cjs.js??ref--7-5!./client/main/styles/home.less ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "../../../node_modules/css-hot-loader/index.js!../../../node_modules/css-loader/index.js?!../../../node_modules/postcss-loader/src/index.js?!../../../node_modules/venus-px2rem-loader/index.js?!../../../node_modules/less-loader/dist/cjs.js?!./client/main/styles/home.less":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** /Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/css-hot-loader!/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/css-loader??ref--7-2!/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/postcss-loader/src??ref--7-3!/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/venus-px2rem-loader??ref--7-4!/Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/node_modules/less-loader/dist/cjs.js??ref--7-5!./client/main/styles/home.less ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2059,6 +2059,8 @@ exports.push([module.i, ".home img{width:100%;height:100%}.index-page .title{mar
 
 // exports
 
+    if(false) { var cssReload; }
+  
 
 /***/ }),
 
@@ -35465,7 +35467,7 @@ var fetchDataMain = function fetchDataMain() {
 
 
     var refs = 0;
-    var css = __webpack_require__(/*! !../../../../../../node_modules/css-loader??ref--7-2!../../../../../../node_modules/postcss-loader/src??ref--7-3!../../../../../../node_modules/venus-px2rem-loader??ref--7-4!../../../../../../node_modules/less-loader/dist/cjs.js??ref--7-5!./home.less */ "../../../node_modules/css-loader/index.js?!../../../node_modules/postcss-loader/src/index.js?!../../../node_modules/venus-px2rem-loader/index.js?!../../../node_modules/less-loader/dist/cjs.js?!./client/main/styles/home.less");
+    var css = __webpack_require__(/*! !../../../../../../node_modules/css-hot-loader!../../../../../../node_modules/css-loader??ref--7-2!../../../../../../node_modules/postcss-loader/src??ref--7-3!../../../../../../node_modules/venus-px2rem-loader??ref--7-4!../../../../../../node_modules/less-loader/dist/cjs.js??ref--7-5!./home.less */ "../../../node_modules/css-hot-loader/index.js!../../../node_modules/css-loader/index.js?!../../../node_modules/postcss-loader/src/index.js?!../../../node_modules/venus-px2rem-loader/index.js?!../../../node_modules/less-loader/dist/cjs.js?!./client/main/styles/home.less");
     var insertCss = __webpack_require__(/*! ../../../node_modules/isomorphic-style-loader/insertCss.js */ "./node_modules/isomorphic-style-loader/insertCss.js");
     var content = typeof css === 'string' ? [[module.i, css, '']] : css;
 
@@ -35478,8 +35480,6 @@ var fetchDataMain = function fetchDataMain() {
     // https://webpack.github.io/docs/hot-module-replacement
     // Only activated in browser context
     if (false) { var removeCss; }
-  
-    if(false) { var cssReload; }
   
 
 /***/ }),
