@@ -252,7 +252,10 @@ class ArtScaffold {
         }
         this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
         const asyncQueue = [
-            this.syncClientFiles.bind(this),
+            this.syncClientFiles.bind(this, () => {
+                const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
+                updateIndexTemplate.bind(this)(this.scaffoldTo);
+            }),
             this.syncServerFiles.bind(this)
         ];
         const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
