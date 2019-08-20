@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import ssrRender, { serialize, load } from 'art-ssr';
+import { ssrRender, serialize, load } from 'art-ssr-render';
 import { Store } from 'redux';
 
 export const renderReact = (name: string, component: any, css?: Set<string> | string[], store?: Store<any, any>) => {

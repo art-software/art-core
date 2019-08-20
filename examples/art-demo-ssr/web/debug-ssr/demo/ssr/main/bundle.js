@@ -34971,16 +34971,6 @@ var __importDefault = this && this.__importDefault || function (mod) {
   };
 };
 
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -34991,23 +34981,23 @@ var react_dom_1 = __importDefault(__webpack_require__(/*! react-dom */ "../../..
 
 var server_1 = __importDefault(__webpack_require__(/*! react-dom/server */ "../../../node_modules/react-dom/server.js"));
 
-var art_ssr_1 = __importStar(__webpack_require__(/*! art-ssr */ "../../../packages/art-ssr/dist/index.js"));
+var art_ssr_render_1 = __webpack_require__(/*! art-ssr-render */ "../../../packages/art-ssr-render/dist/index.js");
 
 exports.renderReact = function (name, component, css, store) {
-  return art_ssr_1.default({
+  return art_ssr_render_1.ssrRender({
     server: function server() {
       return function (props) {
         var contents = server_1.default.renderToString(react_1.default.createElement(component, props));
         console.log('store.getState(): ', store && store.getState());
         return {
-          html: art_ssr_1.serialize(name, contents, props),
+          html: art_ssr_render_1.serialize(name, contents, props),
           css: css && _toConsumableArray(css).join(''),
           state: store && JSON.stringify(store.getState())
         };
       };
     },
     client: function client() {
-      var payloads = art_ssr_1.load(name);
+      var payloads = art_ssr_render_1.load(name);
 
       if (payloads) {
         payloads.forEach(function (payload) {
@@ -35029,7 +35019,7 @@ exports.renderReact = function (name, component, css, store) {
 };
 
 exports.renderReactStatic = function (name, component) {
-  return art_ssr_1.default({
+  return art_ssr_render_1.ssrRender({
     server: function server() {
       return function (props) {
         return server_1.default.renderToStaticMarkup(react_1.default.createElement(component, props));
@@ -35041,10 +35031,10 @@ exports.renderReactStatic = function (name, component) {
 
 /***/ }),
 
-/***/ "../../../packages/art-ssr/dist/index.js":
-/*!***************************************************************************************************************!*\
-  !*** /Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/packages/art-ssr/dist/index.js ***!
-  \***************************************************************************************************************/
+/***/ "../../../packages/art-ssr-render/dist/index.js":
+/*!**********************************************************************************************************************!*\
+  !*** /Users/bowenzhong/Documents/workspace_frontend_framework/art-core-public/packages/art-ssr-render/dist/index.js ***!
+  \**********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35162,7 +35152,7 @@ function ssrRender(runner) {
   return typeof window === 'undefined' ? runner.server() : runner.client();
 }
 
-exports.default = ssrRender;
+exports.ssrRender = ssrRender;
 
 /***/ }),
 
@@ -35173,7 +35163,7 @@ exports.default = ssrRender;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "http://me.dev.com:3003/public/demo/ssr/main/assets/home/img-top-banner-49b3c972.jpg";
+module.exports = "http://me.dev.com:3001/public/demo/ssr/main/assets/home/img-top-banner-49b3c972.jpg";
 
 /***/ }),
 
@@ -35263,7 +35253,7 @@ function (_WebApiServer) {
     _classCallCheck(this, MainService);
 
     return _possibleConstructorReturn(this, _getPrototypeOf(MainService).call(this, {
-      baseURL: 'http://me.dev.com:8001'
+      baseURL: 'http://me.dev.com:8000'
     }));
   }
 

@@ -41,14 +41,14 @@ let HomeController = class HomeController {
         <meta name="description" content="put your content here" />
         <title>it is title</title>
         <style>${css}</style>
-        <link rel="stylesheet" type="text/css" href="http://me.dev.com:3003/public/demo/ssr/main/bundle.css">
+        <link rel="stylesheet" type="text/css" href="http://me.dev.com:3001/public/demo/ssr/main/bundle.css">
       </head>
       <body>
         <script>
           window.REDUX_DATA = ${state}
         </script>
         ${html}
-        <script type="text/javascript" src="http://me.dev.com:3003/public/demo/ssr/main/bundle.js"></script>
+        <script type="text/javascript" src="http://me.dev.com:3001/public/demo/ssr/main/bundle.js"></script>
       </body>
       </html>
     `;

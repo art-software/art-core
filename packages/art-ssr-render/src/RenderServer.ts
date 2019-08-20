@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import express, { Application } from 'express';
-import { Container } from 'typedi';
-import { useContainer, useExpressServer } from 'routing-controllers';
+import { useExpressServer } from 'routing-controllers';
 import { join } from 'path';
 import { ServerConfig as Config } from './config/ServerConfig';
 import { IServerConfig } from './interfaces/IServerConfig';
@@ -33,8 +32,6 @@ function createApplication() {
 export default class RenderServer {
   constructor(config: Partial<IServerConfig> & { getComponent: any }) {
     this.config = { ...defaultConfig, ...config };
-
-    useContainer(Container);
 
     Config.set(this.config);
 
