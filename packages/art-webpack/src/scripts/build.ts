@@ -4,7 +4,7 @@ import { measureFileSizesBeforeBuild, FileSizeProps, printFileSizesAfterBuild } 
 import paths from '../config/paths';
 import { forEach } from 'lodash';
 import chalk from 'chalk';
-import { emptyDirSync, outputJsonSync } from 'fs-extra';
+import { emptyDirSync, outputJsonSync, pathExistsSync } from 'fs-extra';
 import gitRev from 'git-rev-sync';
 import { getWebpackConfig } from '../config';
 import webpack from 'webpack';
@@ -12,8 +12,12 @@ import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
 import imageMinifier from 'art-dev-utils/lib/imageMinifier';
 import appConfig from '../config/appConfig';
 import { BuildEnv } from '../enums/BuildEnv';
+import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
+import { Stage } from '../enums/Stage';
+import * as path from 'path';
 const BUILD_ENV = appConfig.get('BUILD_ENV');
 const BUILD_PATH = BUILD_ENV === BuildEnv.prod ? paths.appPublic : paths.appDebug;
+const isDevStage = process.env.STAGE === Stage.dev;
 
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
@@ -79,8 +83,31 @@ confirmModules(async (answer) => {
     });
 });
 
+function checkVendorsExists() {
+  // TODO 检测vendors文件夹在不在(只判断文件夹还是判断文件夹里面的文件???) 不在则执行art dll(要询问吗???)
+  const checkPath = join(BUILD_PATH, appConfig.get('art:projectVirtualPath'), 'vendors', appConfig.get('art:webpack:dll:version'));
+  const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/dll.js`);
+  const symlinkPath = path.resolve(__dirname, `../../../art-webpack/dist/scripts/dll.js`);
+  return new Promise((resolve, reject) => {
+    if (!pathExistsSync(checkPath)) {
+      executeNodeScript('node', isDevStage ? symlinkPath : scriptPath).on('close', (code) => {
+        if (code === 0) {
+          resolve(true);
+        }
+      }).on('error', (err) => {
+        // TODO 需要提示自己去执行art dll吗???
+        reject(err);
+      });
+    } else {
+      resolve(true);
+    }
+  });
+}
+
 // Create the production build and print the deployment instructions.
-function build(previousFileSizes: FileSizeProps) {
+async function build(previousFileSizes: FileSizeProps) {
+  const exist = await checkVendorsExists();
+  if (!exist) { return; }
   console.log('Creating an optimized production build...');
 
   const webpackConfig = getWebpackConfig();

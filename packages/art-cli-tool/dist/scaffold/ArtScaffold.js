@@ -143,15 +143,23 @@ class ArtScaffold {
             this.syncClientFiles.bind(this)
         ];
         return new Promise((resolve, reject) => {
-            async_1.series(asyncQueue, (err, result) => {
+            async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     reject(err);
                 }
                 else {
-                    this.autoInstallAfterCreateProject();
+                    yield this.updateIndexTemplate();
+                    yield this.autoInstallAfterCreateProject();
                     // resolve(result);
                 }
-            });
+            }));
+        });
+    }
+    updateIndexTemplate() {
+        return new Promise((resolve, reject) => {
+            const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
+            updateIndexTemplate.bind(this)(this.scaffoldTo);
+            resolve();
         });
     }
     autoInstallAfterCreateProject() {
@@ -252,23 +260,21 @@ class ArtScaffold {
         }
         this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
         const asyncQueue = [
-            this.syncClientFiles.bind(this, () => {
-                const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
-                updateIndexTemplate.bind(this)(this.scaffoldTo);
-            }),
+            this.syncClientFiles.bind(this),
             this.syncServerFiles.bind(this)
         ];
         const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
         updateArtConfig.bind(this)(this.scaffoldTo);
         return new Promise((resolve, reject) => {
-            async_1.series(asyncQueue, (err, result) => {
+            async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     reject(err);
                 }
                 else {
+                    yield this.updateIndexTemplate();
                     resolve(result);
                 }
-            });
+            }));
         });
     }
     inArtWorkspace() {

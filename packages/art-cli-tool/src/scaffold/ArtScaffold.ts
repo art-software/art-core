@@ -168,14 +168,23 @@ export default class ArtScaffold {
     ];
 
     return new Promise((resolve, reject) => {
-      series(asyncQueue, (err, result) => {
+      series(asyncQueue, async (err, result) => {
         if (err) {
           reject(err);
         } else {
-          this.autoInstallAfterCreateProject();
+          await this.updateIndexTemplate();
+          await this.autoInstallAfterCreateProject();
           // resolve(result);
         }
       });
+    });
+  }
+
+  public updateIndexTemplate () {
+    return new Promise((resolve, reject) => {
+      const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
+      updateIndexTemplate.bind(this)(this.scaffoldTo);
+      resolve();
     });
   }
 
@@ -303,20 +312,20 @@ export default class ArtScaffold {
     this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
 
     const asyncQueue = [
-      this.syncClientFiles.bind(this, () => {
-        const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
-        updateIndexTemplate.bind(this)(this.scaffoldTo);
-      }),
+      this.syncClientFiles.bind(this),
       this.syncServerFiles.bind(this)
     ];
 
     const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
     updateArtConfig.bind(this)(this.scaffoldTo);
     return new Promise((resolve, reject) => {
-      series(asyncQueue, (err, result) => {
+      series(asyncQueue, async (err, result) => {
         if (err) {
           reject(err);
-        } else { resolve(result); }
+        } else {
+          await this.updateIndexTemplate();
+          resolve(result);
+         }
       });
     });
   }
