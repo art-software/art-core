@@ -1,0 +1,30 @@
+.art-button {
+  overflow: hidden;
+  position: relative;
+  font-size: 28px;
+  color: #333333;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  -webkit-touch-callout: none;
+  cursor: pointer;
+  &.feedback {
+    opacity: 0.77;
+  }
+  &.disabled {
+    color: #ffffff !important;
+    background-color: #dddddd !important;
+    cursor: not-allowed !important;
+  }
+  .trigger-touch-event-layer {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
