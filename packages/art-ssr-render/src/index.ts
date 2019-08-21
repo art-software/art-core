@@ -39,7 +39,7 @@ function makeValidDataAttribute(attr: string, value: string): string {
   return `data-${encodedAttr}="${encodedValue}"`;
 }
 
-export function toScript(attrs, data) {
+export function toScript(attrs: any, data: any) {
   const dataAttributes = Object.keys(attrs).map((name) => {
     return makeValidDataAttribute(name, attrs[name]);
   });
@@ -61,7 +61,7 @@ export function fromScript(attrs) {
   return decode(jsonPayload.slice(LEFT.length, jsonPayload.length - RIGHT.length));
 }
 
-export function serialize(name, html, data) {
+export function serialize(name: string, html: string, data: string) {
   const key = name.replace(/\W/g, '');
   const id = uuid();
   const markup = `<div data-${DATA_KEY}="${key}" data-${DATA_ID}="${id}">${html}</div>`;
@@ -72,7 +72,7 @@ export function serialize(name, html, data) {
   return `${markup}\n${script}`;
 }
 
-export function load(name) {
+export function load(name: string) {
   const key = name.replace(/\W/g, '');
   const nodes = document.querySelectorAll(`div[data-${DATA_KEY}="${key}"]`);
 
