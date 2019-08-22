@@ -2,13 +2,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const inquirer_1 = __importDefault(require("inquirer"));
@@ -18,10 +11,9 @@ const paths_1 = __importDefault(require("../config/paths"));
 const path_1 = require("path");
 const fs_1 = require("fs");
 const fs_extra_1 = require("fs-extra");
-const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
+const executeNodeScript_1 = __importDefault(require("../../../../packages/art-dev-utils/lib/executeNodeScript"));
 const devServer_1 = require("../compiler/devServer");
 const jsonFormat = require('json-format');
-const fs = __importStar(require("fs"));
 const PROJECTJSON = 'project.config.json';
 const PORT = appConfig_1.default.get('PORT');
 const clearCacheInquire = () => {
@@ -61,11 +53,10 @@ const compileMockServer = () => {
         path_1.join(process.cwd(), 'node_modules/.bin/tsc'), '-p', `${paths_1.default.appMockServerConfig}`, '-w');
     compileMockServerHasLunched = true;
 };
-const clearCacheAction = (clearCacheStatus, debugOutputDir) => {
-    if (clearCacheStatus) {
-        // const virtualPath = require(paths.appArtConfig).projectVirtualPath || '';
-        // const debugOutputDir = join(paths.appDebug, virtualPath);
-        fs_1.existsSync(debugOutputDir);
+clearCacheInquire().then((answer) => {
+    if (answer.clearCache) {
+        const virtualPath = require(paths_1.default.appArtConfig).projectVirtualPath || '';
+        const debugOutputDir = path_1.join(paths_1.default.appDebug, virtualPath);
         if (fs_1.existsSync(debugOutputDir)) {
             const debugProjectJSONPath = path_1.join(debugOutputDir, PROJECTJSON);
             let debugProjectConfigJSON;
@@ -83,7 +74,7 @@ const clearCacheAction = (clearCacheStatus, debugOutputDir) => {
             }
         }
     }
-    const miniprogramDevServer = devServer_1.devServer(!clearCacheStatus, () => {
+    const miniprogramDevServer = devServer_1.devServer(!answer.clearCache, () => {
         compileMockServer();
         lunchNodeServer();
         console.log('Initial compilation complete, watching for changes........');
@@ -94,19 +85,4 @@ const clearCacheAction = (clearCacheStatus, debugOutputDir) => {
             process.exit();
         });
     });
-};
-const startProjectServe = () => {
-    // judge is first serve
-    const virtualPath = require(paths_1.default.appArtConfig).projectVirtualPath || '';
-    const debugOutputDir = path_1.join(paths_1.default.appDebug, virtualPath);
-    const isFirstServe = !fs.existsSync(debugOutputDir);
-    if (isFirstServe) {
-        console.log(chalk_1.default.green(`\nThis is your first start serve, it will compile your files\n`));
-        clearCacheAction(true, debugOutputDir);
-        return;
-    }
-    clearCacheInquire().then((answer) => {
-        clearCacheAction(answer.clearCache, debugOutputDir);
-    });
-};
-startProjectServe();
+});

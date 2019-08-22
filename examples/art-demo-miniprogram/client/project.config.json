@@ -1,0 +1,15 @@
+{
+  "description": "Project configuration file",
+  "setting": {
+    "es6": false,
+    "postcss": false,
+    "minified": false,
+    "urlCheck": false,
+    "newFeature": false,
+    "uglifyFileName": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.5.0",
+  "appid": "",
+  "projectname": ""
+}

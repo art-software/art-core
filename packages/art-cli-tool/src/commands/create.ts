@@ -54,10 +54,10 @@ class CreateCommand implements CommandModule {
 
   public handler = (argv) => {
     // TODO add miniprogram support
-    if (argv.scaffold === Scaffolds.miniprogram) {
-      console.log(`${chalk.green.bold('art create')} command is not currently support create ${chalk.green.bold(Scaffolds.miniprogram)} project`);
-      return;
-    }
+    // if (argv.scaffold === Scaffolds.miniprogram) {
+    //   console.log(`${chalk.green.bold('art create')} command is not currently support create ${chalk.green.bold(Scaffolds.miniprogram)} project`);
+    //   return;
+    // }
 
     const commandType = argv._[1];
     const fileFilter = (file: string) => {
