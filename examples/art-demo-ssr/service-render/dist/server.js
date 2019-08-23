@@ -3,13 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const index_1 = require("../../../../packages/art-ssr-render/dist/index");
+const RenderServer_1 = __importDefault(require("../../../../packages/art-ssr-render/dist/RenderServer"));
+const createGetComponent_1 = __importDefault(require("../../../../packages/art-ssr-render/dist/createGetComponent"));
 const path_1 = __importDefault(require("path"));
-const renderServe = new index_1.RenderServer({
+const renderServer = new RenderServer_1.default({
     host: 'me.dev.com',
     port: 8899,
-    getComponent: index_1.createGetComponent({
+    getComponent: createGetComponent_1.default({
         Main: path_1.default.join(__dirname, '../../web/debug-ssr/demo/ssr/main/bundle.js')
     })
 });
-renderServe.start();
+renderServer.start();

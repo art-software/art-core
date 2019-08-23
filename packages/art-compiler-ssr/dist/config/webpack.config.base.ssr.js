@@ -12,8 +12,8 @@ class WebpackBaseConfigSSR {
             extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.less', '.css']
         };
         this.module = {
-            // rules: [ jsRule, tsRule, nullRule, htmlRule, assetsRuleSSR() ]
-            rules: [configRules_1.jsRule, configRules_1.tsRule, configRules_1.cssRule(env_1.isProd()), configRules_1.lessRule(env_1.isProd()), configRules_1.nullRule, configRules_1.htmlRule, configRules_1.assetsRuleSSR()]
+            rules: [configRules_1.jsRule, configRules_1.tsRule, configRules_1.cssRule(env_1.isProd(), true), configRules_1.lessRule(env_1.isProd(), true), configRules_1.sassRule(env_1.isProd(), true),
+                configRules_1.nullRule, configRules_1.htmlRule, configRules_1.assetsRuleSSR()]
         };
         this.mode = env_1.isProd() ? 'production' : 'development';
         this.plugins = configPluginsSSR_1.getConfigPluginsSSR();
