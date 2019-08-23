@@ -16,7 +16,7 @@ let IndexController = class IndexController {
             code: '200',
             message: 'suceess',
             data: {
-                title: 'Title from Mock Server'
+                title: 'fk.awbfjsbfbakbfe.kjna,.jbf.kbawkejbfjlabwfk'
             }
         };
     }

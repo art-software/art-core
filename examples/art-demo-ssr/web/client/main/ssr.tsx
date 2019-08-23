@@ -9,6 +9,7 @@ import createStore from './store/store';
 import { Provider as ReduxProvider } from 'react-redux';
 // TODO figure out tslint error reason
 const routeConfig = convertCustomRouteConfig(routes as any);
+console.log('routeConfig: ', routeConfig);
 
 const store = createStore();
 

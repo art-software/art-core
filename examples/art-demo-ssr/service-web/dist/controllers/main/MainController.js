@@ -25,9 +25,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
 const MainService_1 = __importDefault(require("../../services/Main/MainService"));
+const redis_1 = require("../../database/redis");
+const redis_2 = __importDefault(require("redis"));
 let HomeController = class HomeController {
     main(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const redisResult = yield new Promise((resolve) => {
+                redis_1.redisClient.get('art-demo-ssr:/', (error, result) => {
+                    console.log('get result from redis');
+                    resolve(result);
+                });
+            });
+            console.log('redisResult: ', redisResult);
+            if (redisResult !== null) {
+                console.log('response redis result');
+                return res.send(redisResult);
+            }
+            console.log('handle request');
             const mainService = new MainService_1.default();
             const { html, css, state } = yield mainService.requestRender(req);
             const renderedHtml = `
@@ -52,12 +66,14 @@ let HomeController = class HomeController {
       </body>
       </html>
     `;
+            redis_1.redisClient.set('art-demo-ssr:/', renderedHtml, redis_2.default.print);
             return res.send(renderedHtml);
         });
     }
 };
 __decorate([
-    routing_controllers_1.Get('/'),
+    routing_controllers_1.Get('/home'),
+    routing_controllers_1.Get('/product'),
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),

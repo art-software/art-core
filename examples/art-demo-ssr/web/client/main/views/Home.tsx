@@ -4,6 +4,7 @@ import style from '../styles/home.less';
 import withStyles from 'isomorphic-style-loader/withStyles';
 import { fetchDataMain } from '../store/store';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 const topBanner = require('../assets/home/img-top-banner.jpg');
 
 class Home extends React.Component<any, any> {
@@ -24,6 +25,9 @@ class Home extends React.Component<any, any> {
         <img src={topBanner} alt="top banner"></img>
 
         <h1>{ initialData.title }</h1>
+
+        <Link to="/product">Product Page</Link>
+        {/* <Route exact path="/product">Product Page</Route> */}
 
         <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 

@@ -2,6 +2,12 @@
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
+/******/ 	// object to store loaded chunks
+/******/ 	// "0" means "already loaded"
+/******/ 	var installedChunks = {
+/******/ 		"demo/ssr/main": 0
+/******/ 	};
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/
@@ -26,6 +32,26 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// require() chunk loading for javascript
+/******/
+/******/ 		// "0" is the signal for "already loaded"
+/******/ 		if(installedChunks[chunkId] !== 0) {
+/******/ 			var chunk = require("./" + chunkId + "." + {"0":"d222ee8c9cd7b95e3174"}[chunkId] + ".js");
+/******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
+/******/ 			for(var moduleId in moreModules) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 			for(var i = 0; i < chunkIds.length; i++)
+/******/ 				installedChunks[chunkIds[i]] = 0;
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -78,6 +104,13 @@
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// uncaught error handler for webpack runtime
+/******/ 	__webpack_require__.oe = function(err) {
+/******/ 		process.nextTick(function() {
+/******/ 			throw err; // catch this error by using import().catch()
+/******/ 		});
+/******/ 	};
 /******/
 /******/
 /******/ 	// Load entry module and return exports
@@ -35202,12 +35235,36 @@ var dataReducer = function dataReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Home__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./views/Home */ "./client/main/views/Home.tsx");
+/* harmony import */ var art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! art-ssr-react-router/dist/reactRouterHelper */ "../../../packages/art-ssr-react-router/dist/reactRouterHelper.jsx");
+/* harmony import */ var art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_1__);
+
 
 /* harmony default export */ __webpack_exports__["default"] = ([{
   component: _views_Home__WEBPACK_IMPORTED_MODULE_0__["default"],
   path: function path(parentRoute) {
-    return "".concat(parentRoute, "/");
-  }
+    return "".concat(parentRoute, "/home");
+  },
+  routes: [{
+    path: function path(parentRoute) {
+      return "".concat(parentRoute, "/home");
+    },
+    exact: true,
+    component: Object(art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_1__["generateAsyncRouteComponent"])({
+      loader: function loader() {
+        return Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./views/Home */ "./client/main/views/Home.tsx"));
+      }
+    })
+  }, {
+    path: function path(parentRoute) {
+      return "".concat(parentRoute, "/product");
+    },
+    exact: true,
+    component: Object(art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_1__["generateAsyncRouteComponent"])({
+      loader: function loader() {
+        return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./views/Product */ "./client/main/views/Product.tsx"));
+      }
+    })
+  }]
 }]);
 
 /***/ }),
@@ -35329,6 +35386,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
  // TODO figure out tslint error reason
 
 var routeConfig = Object(_packages_art_ssr_react_router_dist_reactRouterHelper__WEBPACK_IMPORTED_MODULE_2__["convertCustomRouteConfig"])(_routes__WEBPACK_IMPORTED_MODULE_6__["default"]);
+console.log('routeConfig: ', routeConfig);
 var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_7__["default"])();
 var css = new Set(); // CSS for all rendered React components
 
@@ -35491,6 +35549,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var isomorphic_style_loader_withStyles__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(isomorphic_style_loader_withStyles__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/store */ "./client/main/store/store.ts");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35510,6 +35569,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
  // @ts-ignore
+
 
 
 
@@ -35546,7 +35606,9 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: topBanner,
         alt: "top banner"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, initialData.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet, consectetur, adipiscin] velit, sed quia non numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Vero eos et accusamus et iusto odio dignissimos ducimus"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Qua temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae pondere ad lineam. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Quibus ego assentior, dum modo de iisdem rebus ne Graecos quidem legendos putent. Res vero bonaa verbis electis graviter omateque dictas quis i legat? Nisi qui se plane Graeciun dici velit, ut a 9 Scaeiola est praetore salutatus Athenis Albucius. Quem quidem locum cum multa venustate et omm sale idem Lucilius, apud quem praeclare Scaevola."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Qui autem alia matunt scribi a nobis, aequi esse debent, quod et seripta multa sunt, sic ut plura nemini e nostris, et scribentur fortasse plura si vita suppetet; et tamen qui diligenter haec quae de philosophia Htteris mandamus legere assueverit, iudicabit nulla ad legendum his esse potiora."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Tempore intellegi convenire"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Epicurus autem, in quibus sequitur Democritum, noil fere labitur, Quam- quam utriusque cum mutta non prolx). turn illiid in priniis, quoJ, cum in rerum nalura duo quaerenda sint, ununi quae materia sit ex qua quaeque res cfficiatur, alterum quae vis sit quae quidque efficiat, de materia disserucrunt, vim et causam efficiendi reliquerunt. Sed lioc commune vitiuni; illae Epicur propriae ruinae: censet enim eadem ilia indlvidua e solida corpora ferri deorsum suo pondere ad lineam i hunc naturalem esse omnium corporum motuni."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Deinde ibidem homo acutus, cam illud occorreret, j omnia deorsum e regione ferrentur et, ut dixi, ad lineam, numquam fore ut atomus altera alteram posset attingere, itaque attulit rem commenticiam."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Declinare dixit atomum perpaulum, quo nihil posset fieri minus; ita eifici complexiones et copulationes et adhaesiones atomorum inter se, ex quo eificeretur mundus omnesque partes mundi quaeque in eo essent. Quae cum res tota fieta sit piieriliter, turn ne efficit quidem^ quod vult. Nam et ipsa declinatio ad libidinem fiiigitur - ait enim deelinare atomum sine causa, quo nibil turpius physico quam fieri."));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, initialData.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        to: "/product"
+      }, "Product Page"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet, consectetur, adipiscin] velit, sed quia non numquam do eius modi tempora incididunt, ut labore et dolore magnam aliquam quaerat voluptatem."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Vero eos et accusamus et iusto odio dignissimos ducimus"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Qua temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae pondere ad lineam. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Quibus ego assentior, dum modo de iisdem rebus ne Graecos quidem legendos putent. Res vero bonaa verbis electis graviter omateque dictas quis i legat? Nisi qui se plane Graeciun dici velit, ut a 9 Scaeiola est praetore salutatus Athenis Albucius. Quem quidem locum cum multa venustate et omm sale idem Lucilius, apud quem praeclare Scaevola."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Qui autem alia matunt scribi a nobis, aequi esse debent, quod et seripta multa sunt, sic ut plura nemini e nostris, et scribentur fortasse plura si vita suppetet; et tamen qui diligenter haec quae de philosophia Htteris mandamus legere assueverit, iudicabit nulla ad legendum his esse potiora."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Tempore intellegi convenire"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Epicurus autem, in quibus sequitur Democritum, noil fere labitur, Quam- quam utriusque cum mutta non prolx). turn illiid in priniis, quoJ, cum in rerum nalura duo quaerenda sint, ununi quae materia sit ex qua quaeque res cfficiatur, alterum quae vis sit quae quidque efficiat, de materia disserucrunt, vim et causam efficiendi reliquerunt. Sed lioc commune vitiuni; illae Epicur propriae ruinae: censet enim eadem ilia indlvidua e solida corpora ferri deorsum suo pondere ad lineam i hunc naturalem esse omnium corporum motuni."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Deinde ibidem homo acutus, cam illud occorreret, j omnia deorsum e regione ferrentur et, ut dixi, ad lineam, numquam fore ut atomus altera alteram posset attingere, itaque attulit rem commenticiam."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Declinare dixit atomum perpaulum, quo nihil posset fieri minus; ita eifici complexiones et copulationes et adhaesiones atomorum inter se, ex quo eificeretur mundus omnesque partes mundi quaeque in eo essent. Quae cum res tota fieta sit piieriliter, turn ne efficit quidem^ quod vult. Nam et ipsa declinatio ad libidinem fiiigitur - ait enim deelinare atomum sine causa, quo nibil turpius physico quam fieri."));
     }
   }]);
 
