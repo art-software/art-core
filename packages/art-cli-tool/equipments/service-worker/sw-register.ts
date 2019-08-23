@@ -1,5 +1,5 @@
 import { Workbox } from 'workbox-window';
-import { sw } from '../art.config.js';
+import { sw } from '../../../../art.config.js';
 
 interface SWEnableResponse {
   code: number;
@@ -43,7 +43,7 @@ function registerServiceWorker() {
   workbox.addEventListener('installed', (event) => {
     console.log('installed', Date.now(), event);
     if (event.isUpdate) {
-      window.dispatchEvent(new CustomEvent('showRefresh'));
+      window.dispatchEvent(new CustomEvent('showSwRefresh'));
     }
   });
 

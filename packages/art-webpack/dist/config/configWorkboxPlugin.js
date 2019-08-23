@@ -52,7 +52,7 @@ const configWorkboxWebpackPlugin = () => {
         const importsDirectory = ensureSlash_1.default(`${entryKey}/${artConfigWorkboxOutputDirectory}`, false);
         plugins.push(new copy_webpack_plugin_1.default([
             {
-                from: path_1.default.resolve(process.cwd(), './service-worker/workbox-index.js'),
+                from: path_1.default.resolve(process.cwd(), 'client/common/equipments/service-worker/workbox-index.js'),
                 to: ensureSlash_1.default(webpackOutputPath, true) + `${importsDirectory}/[name].[hash].[ext]`,
                 transform(content, originalPath) {
                     const fileContent = content.toString('utf8');

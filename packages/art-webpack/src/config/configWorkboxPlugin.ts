@@ -51,7 +51,7 @@ const configWorkboxWebpackPlugin = (): any[] => {
     plugins.push(
       new CopyWebpackPlugin([
         {
-          from: path.resolve(process.cwd(), './service-worker/workbox-index.js'),
+          from: path.resolve(process.cwd(), 'client/common/equipments/service-worker/workbox-index.js'),
           to: ensureSlash(webpackOutputPath, true) + `${importsDirectory}/[name].[hash].[ext]`,
           transform(content: Buffer, originalPath: string) {
             const fileContent = content.toString('utf8');

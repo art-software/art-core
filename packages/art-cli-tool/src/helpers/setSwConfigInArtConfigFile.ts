@@ -1,16 +1,16 @@
 import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
-import { Identifier, Property, Node, ExpressionStatement, VariableDeclarator } from 'ast-types/gen/nodes';
 import escodegen from 'escodegen';
-const esprima = require('esprima');
+import * as esprima from 'esprima';
+import { Identifier, Property, ExpressionStatement, VariableDeclarator } from 'ast-types/gen/nodes';
 
 enum supportTypes {
   VariableDeclarator = 'VariableDeclarator',
   Property = 'Property'
 }
 
-const getAstNodesByName = (astRootNode: Node, nodeType: supportTypes, nodeName: string) => {
+const getAstNodesByName = (astRootNode: any, nodeType: supportTypes, nodeName: string) => {
   const types = [supportTypes.VariableDeclarator, supportTypes.Property];
   if (types.indexOf(nodeType) === -1) {
     console.log(chalk.red('  Not support this type yet, expand by yourself please.'));
@@ -61,6 +61,51 @@ const setSwConfigInArtConfigFile = () => {
       const sourceCode = contents.toString();
       let ast = esprima.parseModule(sourceCode, { range: true, tokens: true, comment: true });
 
+      let isExistServiceWorkerConfig = false;
+
+      // 添加 service worker config
+      const artConfigVariableDeclarators: VariableDeclarator[] = getAstNodesByName(ast, supportTypes.VariableDeclarator, 'artConfig');
+      artConfigVariableDeclarators.forEach((variableDeclarator) => {
+        const init = variableDeclarator.init;
+        if (init && init.type === 'ObjectExpression') {
+          const swProperties = getAstNodesByName(init, supportTypes.Property, 'sw');
+          if (swProperties.length > 0) {
+            isExistServiceWorkerConfig = true;
+            return;
+          }
+          const swConfig = `{
+            sw: {
+              enable: true,
+              includeModules: [], // 需要使用service worker的模块
+              workboxOutputDirectory: 'workbox', // 存放service worker相关文件的目录名
+              workboxGenerateSWOptions: {
+                runtimeCaching: [
+                  {
+                    urlPattern: /art_framework\\.\\w+\\.js$/,
+                    handler: 'CacheFirst',
+                    options: {
+                      cacheName: 'vendors-runtime-cache',
+                      expiration: {
+                        maxEntries: 2,
+                        maxAgeSeconds: 15 * 24 * 60 * 60
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }`;
+          const swConfigAst: any = esprima.parseScript(`const swConfig = ${swConfig}`, { range: true });
+          const swConfigProperty = swConfigAst.body[0].declarations[0].init.properties[0];
+          init.properties.push(swConfigProperty);
+        }
+      });
+
+      if (isExistServiceWorkerConfig) {
+        console.log(chalk.gray(`  Service worker config has existed in art.config.js, not set again.`));
+        return;
+      }
+
       // 修改 dll.vendors
       const dllProperties: Property[] = getAstNodesByName(ast, supportTypes.Property, 'dll');
       dllProperties.forEach((property: Property) => {
@@ -87,48 +132,13 @@ const setSwConfigInArtConfigFile = () => {
         }
       });
 
-      // 添加 service worker config
-      const artConfigVariableDeclarators: VariableDeclarator[] = getAstNodesByName(ast, supportTypes.VariableDeclarator, 'artConfig');
-      artConfigVariableDeclarators.forEach((variableDeclarator) => {
-        const init = variableDeclarator.init;
-        if (init && init.type === 'ObjectExpression') {
-          const swProperties = getAstNodesByName(init, supportTypes.Property, 'sw');
-          if (swProperties.length > 0) { return; }
-          const swConfig = `{
-            sw: {
-              enable: true,
-              includeModules: [], // 需要使用service worker的模块
-              workboxOutputDirectory: 'workbox', // 存放service worker相关文件的目录名
-              workboxGenerateSWOptions: {
-                runtimeCaching: [
-                  {
-                    urlPattern: /art_framework\\.\\w+\\.js$/,
-                    handler: 'CacheFirst',
-                    options: {
-                      cacheName: 'vendors-runtime-cache',
-                      expiration: {
-                        maxEntries: 2,
-                        maxAgeSeconds: 15 * 24 * 60 * 60
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }`;
-          const swConfigAst = esprima.parseScript(`const swConfig = ${swConfig}`, { range: true });
-          const swConfigProperty = swConfigAst.body[0].declarations[0].init.properties[0];
-          init.properties.push(swConfigProperty);
-        }
-      });
-
       ast = escodegen.attachComments(ast, ast.comments, ast.tokens); // 添加的代码解析成AST时需要将range设置为true，否则此处会报错
       const targetCode = escodegen.generate(ast, { comment: true, format: { indent: { style: '  ' } } });
 
       fs.writeFile(artConfigFilePath, targetCode).then(() => {
-        console.log(chalk.green('  Modify art.config.js file finished!'));
+        console.log(chalk.green(`  Set service worker config in ${chalk.cyanBright('art.config.js')} file finished!`));
       });
     });
 };
 
-export default setSwConfigInArtConfigFile;
+setSwConfigInArtConfigFile();

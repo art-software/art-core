@@ -1,4 +1,4 @@
-const modulePathPrefix = 'https://static.qianshengqian.com/workbox-v4.2.0';
+const modulePathPrefix = 'https://static.qianniuniu.com/workbox-v4.2.0';
 
 importScripts(modulePathPrefix + '/workbox-sw.js');
 
