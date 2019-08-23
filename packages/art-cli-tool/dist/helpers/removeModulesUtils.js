@@ -16,12 +16,13 @@ const updateArtConfigRemove = require('../scaffold/react/updateArtConfigRemove')
  */
 exports.removeFolders = (moduleEntry, removeDebug, removePublic) => {
     const modulesArr = Object.keys(moduleEntry);
+    const allModules = appConfig_1.default.stores.file.file.webpack.entry;
     for (const item of modulesArr) {
         const projectVirtualPath = appConfig_1.default.stores.file.file.projectVirtualPath;
         const splitModuleName = item.split(`${projectVirtualPath}/`)[1];
         this.doRemovePath('client', splitModuleName);
         this.doRemovePath('mock', splitModuleName);
-        if (modulesArr.length < 2) {
+        if (allModules.length < 2) {
             this.doRemovePath('client', 'common');
         }
         if (removeDebug) {

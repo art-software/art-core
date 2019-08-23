@@ -12,12 +12,13 @@
    */
   export const removeFolders = (moduleEntry, removeDebug: boolean, removePublic: boolean) => {
     const modulesArr = Object.keys(moduleEntry);
+    const allModules = appConfig.stores.file.file.webpack.entry;
     for (const item of modulesArr) {
       const projectVirtualPath = appConfig.stores.file.file.projectVirtualPath;
       const splitModuleName = item.split(`${projectVirtualPath}/`)[1];
       this.doRemovePath('client', splitModuleName);
       this.doRemovePath('mock', splitModuleName);
-      if (modulesArr.length < 2) {
+      if (allModules.length < 2) {
         this.doRemovePath('client', 'common');
       }
       if (removeDebug) {

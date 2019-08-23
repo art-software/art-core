@@ -1,4 +1,3 @@
-import path from 'path';
 import { CommandModule, Argv } from 'yargs';
 import chalk from 'chalk';
 import { getProjectType } from '../helpers/projectType';
