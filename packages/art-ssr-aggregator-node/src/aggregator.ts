@@ -1,8 +1,9 @@
 import uuidV4 from 'uuid/v4';
 import WebApiServer from 'art-lib-common/dist/core-server/WebApiServer';
 import { AxiosRequestConfig } from 'axios';
+import { Lifecycle } from './enums/Lifecycle';
 
-function reduce(obj: any, init: any, func: any) {
+function reduce(obj: any, func: any, init: any) {
   return Object.keys(obj)
     .reduce((a, b) => {
       return func(a, b);
@@ -62,37 +63,37 @@ export default class Aggregator {
   }
 
   public createJobs(jobs: any) {
-    return reduce(jobs, {}, (obj, name) => {
+    return reduce(jobs, (obj, name) => {
       let data = jobs[name];
 
       try {
         data = this.pluginReduce(
-          'getViewData',
+          Lifecycle.getViewData,
           (plugin, newData) => {
             return plugin(name, newData);
           },
           jobs[name]
         );
       } catch (err) {
-        this.pluginReduce('onError', (plugin) => {
+        this.pluginReduce(Lifecycle.onError, (plugin) => {
           return plugin(err);
         });
       }
 
       obj[name] = { name, data };
       return obj;
-    });
+    }, {});
   }
 
   public prepareRequest(jobs) {
     return Promise.resolve().then(() => {
       const jobsHash = this.pluginReduce(
-        'prepareRequest',
+        Lifecycle.prepareRequest,
         (plugin, next) => plugin(next, jobs),
         jobs
       );
 
-      const shouldSendRequest = this.pluginReduce('shouldSendRequest', (plugin, next) => {
+      const shouldSendRequest = this.pluginReduce(Lifecycle.shouldSendRequest, (plugin, next) => {
         return next && plugin(jobsHash);
       }, true);
 
@@ -115,18 +116,26 @@ export default class Aggregator {
   private fallback(error, jobs) {
     return {
       error,
-      results: reduce(jobs, {}, (obj, key) => {
+      results: reduce(jobs, (obj, key) => {
         obj[key] = {
           error: null,
           html: this.renderHTML(key, jobs[key].data),
           job: jobs[key]
         };
-      })
+      }, {})
     };
   }
 
   private toHTML(views) {
-    return reduce(views, '', (res, name) => res + views[name].html);
+    return reduce(views, (res, name) => res + views[name].html, '');
+  }
+
+  private toCss(views) {
+    return reduce(views, (res, name) => res + views[name].css, '');
+  }
+
+  private toState(views) {
+    return reduce(views, (res, name) => res + views[name].state, '');
   }
 
   public render(data) {
@@ -138,7 +147,7 @@ export default class Aggregator {
           return this.fallback(null, item.jobsHash);
         }
 
-        this.pluginReduce('willSendRequest', (plugin) => plugin(item.jobsHash));
+        this.pluginReduce(Lifecycle.willSendRequest, (plugin) => plugin(item.jobsHash));
 
         return this.aggregatorWebApiServer.requestPost(this.url, {
           data: item.jobsHash
@@ -163,31 +172,39 @@ export default class Aggregator {
 
             try {
               if (res.error) {
-                return this.pluginReduce('onError', (plugin) => {
+                return this.pluginReduce(Lifecycle.onError, (plugin) => {
                   return plugin(res.error, results);
                 });
               }
 
               Object.values(results).forEach((job: any) => {
                 if (job.error) {
-                  this.pluginReduce('onError', (plugin) => plugin(job.error, job));
+                  this.pluginReduce(Lifecycle.onError, (plugin) => plugin(job.error, job));
                 }
               });
 
-              const successfulJobs = reduce(res.results, {}, (success, key) => {
+              const successfulJobs = reduce(res.results, (success, key) => {
                 return Object.assign(success, {
                   [key]: res.results[key].job,
                 });
-              });
+              }, {});
 
-              this.pluginReduce('onSuccess', (plugin) => plugin(successfulJobs));
+              this.pluginReduce(Lifecycle.onSuccess, (plugin) => plugin(successfulJobs));
 
               return this.plugins.length ?
-                this.pluginReduce('afterResponse', (plugin, next) => plugin(next, results), results) :
-                this.toHTML(results);
+                this.pluginReduce(Lifecycle.afterResponse, (plugin, next) => plugin(next, results), results) :
+                {
+                  html: this.toHTML(results),
+                  css: this.toCss(results),
+                  state: this.toState(results)
+                };
             } catch (err) {
-              this.pluginReduce('onError', (plugin) => plugin(err, results));
-              return this.toHTML(results);
+              this.pluginReduce(Lifecycle.onError, (plugin) => plugin(err, results));
+              return {
+                html: this.toHTML(results),
+                css: this.toCss(results),
+                state: this.toState(results)
+              };
             }
           });
       });

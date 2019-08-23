@@ -1,6 +1,6 @@
 import { Configuration } from 'webpack';
 import { isProd } from '../utils/env';
-import { jsRule, tsRule, nullRule, htmlRule, assetsRuleSSR } from './configRules';
+import { jsRule, tsRule, nullRule, htmlRule, assetsRuleSSR, cssRule, lessRule, sassRule } from './configRules';
 import { getConfigPluginsSSR } from './configPluginsSSR';
 
 export class WebpackBaseConfigSSR implements Configuration {
@@ -18,11 +18,12 @@ export class WebpackBaseConfigSSR implements Configuration {
 
   public resolve = {
     modules: ['node_modules', '.'],
-    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx']
+    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.less', '.css']
   };
 
   public module = {
-    rules: [ jsRule, tsRule, nullRule, htmlRule, assetsRuleSSR() ]
+    rules: [jsRule, tsRule, cssRule(isProd(), true), lessRule(isProd(), true), sassRule(isProd(), true),
+      nullRule, htmlRule, assetsRuleSSR()]
   };
 
   public output: any;

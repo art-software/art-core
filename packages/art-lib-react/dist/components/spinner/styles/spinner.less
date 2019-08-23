@@ -1,0 +1,72 @@
+.v-spinner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, .9);
+
+  &-block {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 80px;
+    height: 80px;
+    z-index: 0;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+  }
+
+  &-rotate {
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: v-rotate 1.5s linear infinite;
+  }
+
+  &-circular {
+    width: 100%;
+    height: 100%;
+
+    circle {
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
+      animation: v-circular 1.5s ease-in-out infinite;
+    }
+  }
+
+  @keyframes v-circular {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+  
+    50% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -40;
+    }
+  
+    100% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -120;
+    }
+  }
+  @keyframes v-rotate {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+

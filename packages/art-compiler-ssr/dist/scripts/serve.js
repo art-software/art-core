@@ -24,6 +24,7 @@ const path = __importStar(require("path"));
 const paths_1 = __importDefault(require("../config/paths"));
 const webpack_config_web_1 = __importDefault(require("../config/webpack.config.web"));
 const webpack_1 = __importDefault(require("webpack"));
+const resolve_bin_1 = __importDefault(require("resolve-bin"));
 const envName = appConfig_1.default.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig_1.default.get(`devPort:${envName}`);
@@ -33,10 +34,9 @@ const lunchNodeServer = (modules, port) => {
     if (nodeServerHasLunched) {
         return;
     }
-    // if (isInteractive) { clearConsole(); }
-    const mockServerPath = path.join(__dirname, '../../../art-server-mock-miniprogram/dist/index.js');
     const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
-    executeNodeScript_1.default(nodemonPath, '--watch', paths_1.default.appMockServer, '--ignore', paths_1.default.appMockServer, '-e', 'js, jsx, ts', mockServerPath, '--ART_MODULES', `${JSON.stringify(modules)}`, '--ART_WEBPACK_PORT', `${port}`);
+    const mockServerPath = path.join(__dirname, './startMockServer.js');
+    executeNodeScript_1.default(nodemonPath, '--watch', paths_1.default.appMockServer, '--ignore', paths_1.default.appMockServer, '-e', 'js, jsx, ts', mockServerPath);
     nodeServerHasLunched = true;
 };
 let compileMockServerHasLunched = false;
@@ -44,9 +44,8 @@ const compileMockServer = () => {
     if (compileMockServerHasLunched) {
         return;
     }
-    executeNodeScript_1.default(process.env.STAGE === 'dev' ?
-        '../../node_modules/.bin/tsc' :
-        path.join(process.cwd(), 'node_modules/.bin/tsc'), '-p', `${paths_1.default.appMockServerConfig}`, '-w');
+    const tsc = resolve_bin_1.default.sync('typescript', { executable: 'tsc' });
+    executeNodeScript_1.default(tsc, '-p', `${paths_1.default.appMockServerConfig}`, '-w');
     compileMockServerHasLunched = true;
 };
 const confirmModulesCb = (answer) => {
@@ -79,7 +78,7 @@ const confirmModulesCb = (answer) => {
         });
         compileMockServer();
         // TODO use pure api mock server
-        // lunchNodeServer(argvModules, port);
+        lunchNodeServer(argvModules, port);
         ['SIGINT', 'SIGTERM'].forEach((sig) => {
             process.on(sig, () => {
                 devServer.close();

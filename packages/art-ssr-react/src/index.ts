@@ -1,14 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import ssrRender, { serialize, load } from 'art-ssr';
+import { ssrRender, serialize, load } from 'art-ssr-render';
+import { Store } from 'redux';
 
-export const renderReact = (name: string, component) => {
+export const renderReact = (name: string, component: any, css?: Set<string> | string[], store?: Store<any, any>) => {
   return ssrRender({
     server() {
       return (props) => {
         const contents = ReactDOMServer.renderToString(React.createElement(component, props));
-        return serialize(name, contents, props);
+        console.log('store.getState(): ', store && store.getState());
+        return {
+          html: serialize(name, contents, props),
+          css: css && [...css].join(''),
+          state: store && JSON.stringify(store.getState())
+        };
       };
     },
 

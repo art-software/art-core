@@ -31,23 +31,25 @@ exports.configBaseRules = () => {
     ]);
     return config;
 };
-exports.cssRule = (isProdEnv) => {
+exports.cssRule = (isProdEnv, isSSR) => {
     const config = [
-        mini_css_extract_plugin_1.default.loader,
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
         { loader: 'postcss-loader', options: { config: { path: __dirname } } }
     ];
     if (!isProdEnv) {
         config.unshift('css-hot-loader');
     }
+    if (!isSSR) {
+        config.unshift(mini_css_extract_plugin_1.default.loader);
+    }
+    config.unshift('isomorphic-style-loader');
     return {
         test: /\.css$/i,
         use: config
     };
 };
-exports.lessRule = (isProdEnv) => {
+exports.lessRule = (isProdEnv, isSSR) => {
     const config = [
-        mini_css_extract_plugin_1.default.loader,
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
         { loader: 'postcss-loader', options: { config: { path: __dirname } } },
         { loader: 'venus-px2rem-loader', options: { remUnit: 100, remPrecision: 8 } },
@@ -56,14 +58,17 @@ exports.lessRule = (isProdEnv) => {
     if (!isProdEnv) {
         config.unshift('css-hot-loader');
     }
+    if (!isSSR) {
+        config.unshift(mini_css_extract_plugin_1.default.loader);
+    }
+    config.unshift('isomorphic-style-loader');
     return {
         test: /\.less$/i,
         use: config
     };
 };
-exports.sassRule = (isProdEnv) => {
+exports.sassRule = (isProdEnv, isSSR) => {
     const config = [
-        mini_css_extract_plugin_1.default.loader,
         { loader: 'css-loader', options: { sourceMap: !isProdEnv } },
         { loader: 'postcss-loader', options: { config: { path: __dirname } } },
         { loader: 'sass-loader', options: { sourceMap: !isProdEnv } }
@@ -71,6 +76,10 @@ exports.sassRule = (isProdEnv) => {
     if (!isProdEnv) {
         config.unshift('css-hot-loader');
     }
+    if (!isSSR) {
+        config.unshift(mini_css_extract_plugin_1.default.loader);
+    }
+    config.unshift('isomorphic-style-loader');
     return {
         test: /\.scss$/i,
         use: config
@@ -154,7 +163,6 @@ exports.tsRule = {
     exclude: /node_modules\/(?!(art-lib-react|art-lib-utils|art-lib-utils-wx|art-lib-common)\/).*/
 };
 exports.nullRule = {
-    // test: /\.(png|jpg|jpeg|gif|svg|css|less|sass|ttf|eot|woff|woff2)$/,
-    test: /\.(css|less|sass|ttf|eot|woff|woff2)$/,
+    test: /\.(ttf|eot|woff|woff2)$/,
     use: 'null-loader'
 };

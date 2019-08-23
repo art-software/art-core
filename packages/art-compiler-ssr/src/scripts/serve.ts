@@ -12,6 +12,7 @@ import * as path from 'path';
 import paths from '../config/paths';
 import getWebpackConfigWeb from '../config/webpack.config.web';
 import webpack from 'webpack';
+import resolveBin from 'resolve-bin';
 
 const envName = appConfig.get('NODE_ENV');
 const HOST = process.env.HOST || '0.0.0.0';
@@ -22,17 +23,15 @@ let nodeServerHasLunched = false;
 const lunchNodeServer = (modules: string, port: number) => {
 
   if (nodeServerHasLunched) { return; }
-  // if (isInteractive) { clearConsole(); }
-  const mockServerPath = path.join(__dirname, '../../../art-server-mock-miniprogram/dist/index.js');
+
   const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
+  const mockServerPath = path.join(__dirname, './startMockServer.js');
   executeNodeScript(
     nodemonPath,
     '--watch', paths.appMockServer,
     '--ignore', paths.appMockServer,
     '-e', 'js, jsx, ts',
-    mockServerPath,
-    '--ART_MODULES', `${JSON.stringify(modules)}`,
-    '--ART_WEBPACK_PORT', `${port}`
+    mockServerPath
   );
 
   nodeServerHasLunched = true;
@@ -43,10 +42,9 @@ const compileMockServer = () => {
 
   if (compileMockServerHasLunched) { return; }
 
+  const tsc = resolveBin.sync('typescript', { executable: 'tsc' });
   executeNodeScript(
-    process.env.STAGE === 'dev' ?
-      '../../node_modules/.bin/tsc' :
-      path.join(process.cwd(), 'node_modules/.bin/tsc'),
+    tsc,
     '-p', `${paths.appMockServerConfig}`,
     '-w'
   );
@@ -93,7 +91,7 @@ const confirmModulesCb = (answer) => {
 
       compileMockServer();
       // TODO use pure api mock server
-      // lunchNodeServer(argvModules, port);
+      lunchNodeServer(argvModules, port);
 
       ['SIGINT', 'SIGTERM'].forEach((sig) => {
         process.on(sig as NodeJS.Signals, () => {

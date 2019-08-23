@@ -1,6 +1,6 @@
 {
   "name": "art-lib-utils",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "utils lib which is framework agnostic",
   "main": "index.js",
   "author": "Bowen Zhong",

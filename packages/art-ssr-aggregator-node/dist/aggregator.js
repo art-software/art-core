@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const v4_1 = __importDefault(require("uuid/v4"));
 const WebApiServer_1 = __importDefault(require("art-lib-common/dist/core-server/WebApiServer"));
-function reduce(obj, init, func) {
+const Lifecycle_1 = require("./enums/Lifecycle");
+function reduce(obj, func, init) {
     return Object.keys(obj)
         .reduce((a, b) => {
         return func(a, b);
@@ -44,26 +45,26 @@ class Aggregator {
         }, initial);
     }
     createJobs(jobs) {
-        return reduce(jobs, {}, (obj, name) => {
+        return reduce(jobs, (obj, name) => {
             let data = jobs[name];
             try {
-                data = this.pluginReduce('getViewData', (plugin, newData) => {
+                data = this.pluginReduce(Lifecycle_1.Lifecycle.getViewData, (plugin, newData) => {
                     return plugin(name, newData);
                 }, jobs[name]);
             }
             catch (err) {
-                this.pluginReduce('onError', (plugin) => {
+                this.pluginReduce(Lifecycle_1.Lifecycle.onError, (plugin) => {
                     return plugin(err);
                 });
             }
             obj[name] = { name, data };
             return obj;
-        });
+        }, {});
     }
     prepareRequest(jobs) {
         return Promise.resolve().then(() => {
-            const jobsHash = this.pluginReduce('prepareRequest', (plugin, next) => plugin(next, jobs), jobs);
-            const shouldSendRequest = this.pluginReduce('shouldSendRequest', (plugin, next) => {
+            const jobsHash = this.pluginReduce(Lifecycle_1.Lifecycle.prepareRequest, (plugin, next) => plugin(next, jobs), jobs);
+            const shouldSendRequest = this.pluginReduce(Lifecycle_1.Lifecycle.shouldSendRequest, (plugin, next) => {
                 return next && plugin(jobsHash);
             }, true);
             return {
@@ -82,17 +83,23 @@ class Aggregator {
     fallback(error, jobs) {
         return {
             error,
-            results: reduce(jobs, {}, (obj, key) => {
+            results: reduce(jobs, (obj, key) => {
                 obj[key] = {
                     error: null,
                     html: this.renderHTML(key, jobs[key].data),
                     job: jobs[key]
                 };
-            })
+            }, {})
         };
     }
     toHTML(views) {
-        return reduce(views, '', (res, name) => res + views[name].html);
+        return reduce(views, (res, name) => res + views[name].html, '');
+    }
+    toCss(views) {
+        return reduce(views, (res, name) => res + views[name].css, '');
+    }
+    toState(views) {
+        return reduce(views, (res, name) => res + views[name].state, '');
     }
     render(data) {
         const jobs = this.createJobs(data);
@@ -101,7 +108,7 @@ class Aggregator {
             if (!item.shouldSendRequest) {
                 return this.fallback(null, item.jobsHash);
             }
-            this.pluginReduce('willSendRequest', (plugin) => plugin(item.jobsHash));
+            this.pluginReduce(Lifecycle_1.Lifecycle.willSendRequest, (plugin) => plugin(item.jobsHash));
             return this.aggregatorWebApiServer.requestPost(this.url, {
                 data: item.jobsHash
             }).then((res) => {
@@ -121,28 +128,36 @@ class Aggregator {
                 const { results } = res;
                 try {
                     if (res.error) {
-                        return this.pluginReduce('onError', (plugin) => {
+                        return this.pluginReduce(Lifecycle_1.Lifecycle.onError, (plugin) => {
                             return plugin(res.error, results);
                         });
                     }
                     Object.values(results).forEach((job) => {
                         if (job.error) {
-                            this.pluginReduce('onError', (plugin) => plugin(job.error, job));
+                            this.pluginReduce(Lifecycle_1.Lifecycle.onError, (plugin) => plugin(job.error, job));
                         }
                     });
-                    const successfulJobs = reduce(res.results, {}, (success, key) => {
+                    const successfulJobs = reduce(res.results, (success, key) => {
                         return Object.assign(success, {
                             [key]: res.results[key].job,
                         });
-                    });
-                    this.pluginReduce('onSuccess', (plugin) => plugin(successfulJobs));
+                    }, {});
+                    this.pluginReduce(Lifecycle_1.Lifecycle.onSuccess, (plugin) => plugin(successfulJobs));
                     return this.plugins.length ?
-                        this.pluginReduce('afterResponse', (plugin, next) => plugin(next, results), results) :
-                        this.toHTML(results);
+                        this.pluginReduce(Lifecycle_1.Lifecycle.afterResponse, (plugin, next) => plugin(next, results), results) :
+                        {
+                            html: this.toHTML(results),
+                            css: this.toCss(results),
+                            state: this.toState(results)
+                        };
                 }
                 catch (err) {
-                    this.pluginReduce('onError', (plugin) => plugin(err, results));
-                    return this.toHTML(results);
+                    this.pluginReduce(Lifecycle_1.Lifecycle.onError, (plugin) => plugin(err, results));
+                    return {
+                        html: this.toHTML(results),
+                        css: this.toCss(results),
+                        state: this.toState(results)
+                    };
                 }
             });
         });

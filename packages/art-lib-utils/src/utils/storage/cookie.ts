@@ -7,14 +7,10 @@ export default {
    * @param {String} name cookie 名称
    * @returns {String} value cookie 值
    */
-  get(name): string {
+  get(name: string): string {
     const reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
     const arr = document.cookie.match(reg);
-    if (arr) {
-      return unescape(arr[2]);
-    } else {
-      return '';
-    }
+    return arr ? decodeURIComponent(arr[2]) : '';
   },
   /*
    * 设置 cookie

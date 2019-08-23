@@ -1,0 +1,26 @@
+{
+  "name": "art-tools",
+  "version": "0.0.2",
+  "description": "art framework tools command lib",
+  "author": "YGM",
+  "license": "MIT",
+  "scripts": {
+    "clean": "sudo rimraf dist",
+    "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
+  },
+  "dependencies": {
+    "art-dev-utils": "^0.0.12",
+    "blueimp-md5": "^2.10.0",
+    "marked": "0.6.0",
+    "minimatch": "^3.0.4",
+    "nconf": "^0.10.0",
+    "recast": "0.17.3"
+  },
+  "devDependencies": {
+    "@types/marked": "0.6.3",
+    "@types/minimatch": "^3.0.3",
+    "@types/nconf": "^0.0.37",
+    "@types/node": "^10.5.6"
+  },
+  "gitHead": "5927f55381e65b75b024d1e240a3c09f33c38d7b"
+}
