@@ -1,7 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -9,17 +6,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const appConfig_1 = __importDefault(require("./appConfig"));
 const path = __importStar(require("path"));
 const minimatch_1 = __importDefault(require("minimatch"));
+const resolveAppPath_1 = __importDefault(require("art-dev-utils/lib/resolveAppPath"));
 /**
  * Filtered all entries defined within art.config.js via command `art serve --modules, -m `
  *
  * @param {Boolean} keepQuery the flag indicates if we need to remove query string of entry item
  */
 exports.getConfigEntries = (argvModules) => {
-    const allModules = appConfig_1.default.stores.file.file.webpack.entry;
+    const appConfig = require(resolveAppPath_1.default('art.config.js'));
+    const allModules = appConfig.webpack.entry;
     const newEntries = {};
     argvModules.forEach((moduleEntry) => {
         let modulePattern = path.join(moduleEntry.replace(/(\*)+$/ig, '').replace(/^client/, ''), '**/*.{js,jsx,ts,tsx}');

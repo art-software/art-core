@@ -25,16 +25,17 @@ module.exports = function (moduleEntry) {
         const ast = esprima.parseScript(fileBuffer.toString(), {}, (node) => {
             if (node.type === 'Property' && node.key.type === 'Identifier' && node.key.name === 'entry'
                 && node.value.type === 'ObjectExpression') {
-                const properties = node.value.properties;
-                const list = [...properties];
-                for (const pIndex in properties) {
-                    const item = properties[pIndex];
-                    const modulePre = item.value.elements[0].value.split('/index.tsx')[0];
-                    if (moduleList.indexOf(modulePre) > -1) {
-                        list.splice(Number(pIndex), 1);
+                const propertyValueList = [];
+                for (const item of node.value.properties) {
+                    propertyValueList.push(item.value.elements[0].value.split('/index.tsx')[0]);
+                }
+                for (const list of moduleList) {
+                    const index = propertyValueList.indexOf(list);
+                    if (index > -1) {
+                        node.value.properties.splice(index, 1);
+                        propertyValueList.splice(index, 1);
                     }
                 }
-                node.value.properties = [...list];
             }
         });
         const sourceCode = escodegen_1.default.generate(ast);

@@ -1,7 +1,7 @@
-  import appConfig from '../config/appConfig';
   import { join } from 'path';
   import { removeSync } from 'fs-extra';
   import chalk from 'chalk';
+  import resolveAppPath from 'art-dev-utils/lib/resolveAppPath';
   const updateArtConfigRemove = require('../scaffold/react/updateArtConfigRemove');
 
   /**
@@ -12,23 +12,24 @@
    */
   export const removeFolders = (moduleEntry, removeDebug: boolean, removePublic: boolean) => {
     const modulesArr = Object.keys(moduleEntry);
-    const allModules = appConfig.stores.file.file.webpack.entry;
+    const appConfig = require(resolveAppPath('art.config.js'));
+    const allModules = appConfig.webpack.entry;
+    if (Object.keys(allModules).length - modulesArr.length < 2) {
+      this.doRemovePath('client', 'common');
+    }
     for (const item of modulesArr) {
-      const projectVirtualPath = appConfig.stores.file.file.projectVirtualPath;
+      const projectVirtualPath = appConfig.projectVirtualPath;
       const splitModuleName = item.split(`${projectVirtualPath}/`)[1];
       this.doRemovePath('client', splitModuleName);
       this.doRemovePath('mock', splitModuleName);
-      if (allModules.length < 2) {
-        this.doRemovePath('client', 'common');
-      }
       if (removeDebug) {
         this.doRemovePath('debug', item);
       }
       if (removePublic) {
         this.doRemovePath('public', item);
       }
-      updateArtConfigRemove(moduleEntry);
     }
+    updateArtConfigRemove(moduleEntry);
   };
 
   export const doRemovePath = (pathPre: string, pathNext: string) => {

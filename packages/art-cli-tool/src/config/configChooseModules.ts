@@ -1,6 +1,6 @@
-import appConfig from './appConfig';
 import * as path from 'path';
 import minimatch from 'minimatch';
+import resolveAppPath from 'art-dev-utils/lib/resolveAppPath';
 
 /**
  * Filtered all entries defined within art.config.js via command `art serve --modules, -m `
@@ -8,7 +8,8 @@ import minimatch from 'minimatch';
  * @param {Boolean} keepQuery the flag indicates if we need to remove query string of entry item
  */
 export const getConfigEntries = (argvModules: string[]): object => {
-  const allModules = appConfig.stores.file.file.webpack.entry;
+  const appConfig = require(resolveAppPath('art.config.js'));
+  const allModules = appConfig.webpack.entry;
 
   const newEntries = {};
 
