@@ -3,7 +3,6 @@ import ArtScaffold from '../ArtScaffold';
 import fs from 'fs-extra';
 import { join } from 'path';
 
-// TODO not working now
 export const configMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   return [
     {

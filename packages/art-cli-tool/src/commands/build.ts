@@ -4,7 +4,6 @@ import { webpackTask } from '../helpers/webpackTask';
 import { getProjectType } from '../helpers/projectType';
 import { ProjectTypes } from '../enums/ProjectTypes';
 
-// TODO add miniprogram support
 class BuildCommand implements CommandModule {
 
   public readonly command = 'build';
