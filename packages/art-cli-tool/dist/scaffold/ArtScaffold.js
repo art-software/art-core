@@ -142,6 +142,9 @@ class ArtScaffold {
             this.syncServerFiles.bind(this),
             this.syncClientFiles.bind(this)
         ];
+        if (this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram) {
+            asyncQueue.push(this.syncUpdateAppJson.bind(this));
+        }
         return new Promise((resolve, reject) => {
             async_1.series(asyncQueue, (err, result) => {
                 if (err) {
@@ -255,8 +258,13 @@ class ArtScaffold {
             this.syncClientFiles.bind(this),
             this.syncServerFiles.bind(this)
         ];
-        const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
-        updateArtConfig.bind(this)(this.scaffoldTo);
+        if (this.scaffoldType !== Scaffolds_1.Scaffolds.miniprogram) {
+            const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
+            updateArtConfig.bind(this)(this.scaffoldTo);
+        }
+        else {
+            this.syncUpdateAppJson.bind(this)(this.scaffoldTo);
+        }
         return new Promise((resolve, reject) => {
             async_1.series(asyncQueue, (err, result) => {
                 if (err) {
@@ -285,6 +293,9 @@ class ArtScaffold {
     }
     syncClientFiles(callback) {
         require(`./${this.scaffoldType}/syncClientFiles.js`).call(this, this.scaffoldFrom, this.scaffoldTo, callback);
+    }
+    syncUpdateAppJson(callback = () => { }) {
+        require(`./miniprogram/updateAppJson.js`).call(this, this.scaffoldTo, callback);
     }
 }
 exports.default = ArtScaffold;

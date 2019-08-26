@@ -10,7 +10,6 @@ const fs_1 = require("fs");
 const escodegen_1 = __importDefault(require("escodegen"));
 const esprima = require('esprima');
 const replace_1 = __importDefault(require("replace"));
-// TODO not working now
 module.exports = function (scaffoldTo) {
     const scaffoldInstance = this;
     printLog_1.printInstructions(`Update all scaffold(${scaffoldInstance.scaffoldType}) [art config] files...`);

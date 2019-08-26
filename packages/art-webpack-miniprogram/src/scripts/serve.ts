@@ -9,6 +9,7 @@ import { readJSONSync, emptyDirSync } from 'fs-extra';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import { devServer } from '../compiler/devServer';
 const jsonFormat = require('json-format');
+import * as fs from 'fs';
 
 const PROJECTJSON = 'project.config.json';
 const PORT = appConfig.get('PORT');
@@ -72,17 +73,17 @@ const compileMockServer = () => {
   compileMockServerHasLunched = true;
 };
 
-clearCacheInquire().then((answer) => {
-  if (answer.clearCache) {
-    const virtualPath = require(paths.appArtConfig).projectVirtualPath || '';
-    const debugOutputDir = join(paths.appDebug, virtualPath);
+const clearCacheAction = (clearCacheStatus: boolean, debugOutputDir: string) => {
+  if (clearCacheStatus) {
+    // const virtualPath = require(paths.appArtConfig).projectVirtualPath || '';
+    // const debugOutputDir = join(paths.appDebug, virtualPath);
+    existsSync(debugOutputDir);
     if (existsSync(debugOutputDir)) {
       const debugProjectJSONPath = join(debugOutputDir, PROJECTJSON);
       let debugProjectConfigJSON;
       if (existsSync(debugProjectJSONPath)) {
         debugProjectConfigJSON = readJSONSync(debugProjectJSONPath);
       }
-
       // clear debug files
       emptyDirSync(debugOutputDir);
       console.log('cache cleared');
@@ -95,18 +96,33 @@ clearCacheInquire().then((answer) => {
       }
     }
   }
-
-  const miniprogramDevServer = devServer(!answer.clearCache, () => {
+  const miniprogramDevServer = devServer(!clearCacheStatus, () => {
     compileMockServer();
     lunchNodeServer();
     console.log('Initial compilation complete, watching for changes........');
   });
-
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig as NodeJS.Signals, () => {
       miniprogramDevServer.close();
       process.exit();
     });
   });
+};
 
-});
+const startProjectServe = () => {
+  // judge is first serve
+  const virtualPath = require(paths.appArtConfig).projectVirtualPath || '';
+  const debugOutputDir = join(paths.appDebug, virtualPath);
+  const isFirstServe = !fs.existsSync(debugOutputDir);
+  if (isFirstServe) {
+    console.log(chalk.green(`\nThis is your first start serve, it will compile your files\n`));
+    clearCacheAction(true, debugOutputDir);
+    return;
+  }
+
+  clearCacheInquire().then((answer) => {
+    clearCacheAction(answer.clearCache, debugOutputDir);
+  });
+};
+
+startProjectServe();
