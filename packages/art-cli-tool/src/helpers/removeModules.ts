@@ -13,27 +13,23 @@
   export const removeFolders = (moduleEntry, removeDebug: boolean, removePublic: boolean) => {
     const modulesArr = Object.keys(moduleEntry);
     const appConfig = require(resolveAppPath('art.config.js'));
-    const allModules = appConfig.webpack.entry;
-    if (Object.keys(allModules).length - modulesArr.length < 2) {
-      this.doRemovePath('client', 'common');
-    }
     for (const item of modulesArr) {
       const projectVirtualPath = appConfig.projectVirtualPath;
       const splitModuleName = item.split(`${projectVirtualPath}/`)[1];
-      this.doRemovePath('client', splitModuleName);
-      this.doRemovePath('mock', splitModuleName);
+      remove('client', splitModuleName);
+      remove('mock', splitModuleName);
       if (removeDebug) {
-        this.doRemovePath('debug', item);
+        remove('debug', item);
       }
       if (removePublic) {
-        this.doRemovePath('public', item);
+        remove('public', item);
       }
     }
     updateArtConfigRemove(moduleEntry);
   };
 
-  export const doRemovePath = (pathPre: string, pathNext: string) => {
-    const commonPath = join(process.cwd(), pathPre, pathNext);
+  export const remove = (...paths: string[]) => {
+    const commonPath = join(process.cwd(), ...paths);
     removeSync(commonPath);
     console.log(`clear ${chalk.green(commonPath)} folder...`);
   };

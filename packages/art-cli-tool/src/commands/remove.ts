@@ -4,7 +4,7 @@ import { getProjectType } from '../helpers/projectType';
 import { ProjectTypes } from '../enums/ProjectTypes';
 import parseModules from 'art-dev-utils/lib/parseModules';
 import { confirmChooseModules } from '../helpers/confirmChooseModules';
-import { removeFolders } from '../helpers/removeModulesUtils';
+import { removeFolders } from '../helpers/removeModules';
 import inquirer = require('inquirer');
 
 class RemoveCommand implements CommandModule {
@@ -20,7 +20,7 @@ class RemoveCommand implements CommandModule {
       .option('m', {
         alias: 'modules',
         demandOption: moduleRequired,
-        describe: chalk.black.bold('modules you have created')
+        describe: chalk.black.bold('modules you have created and would like to removed')
       })
       .updateStrings({
         'Examples:': chalk.cyan.bold('Examples:')
@@ -34,14 +34,14 @@ class RemoveCommand implements CommandModule {
       if (!answer.availableModulesOk) { return; }
       inquirer.prompt([{
         type: 'confirm',
-        name: 'removeDebugOk',
-        message: 'delete debug folders for you?'
+        name: 'removeDebug',
+        message: 'delete debug folder?'
       }, {
         type: 'confirm',
-        name: 'removePublicOk',
-        message: 'delete public folders for you?'
-      }]).then((answers: { removePublicOk: boolean, removeDebugOk: boolean }) => {
-        removeFolders(answer.moduleEntry, answers.removeDebugOk, answers.removePublicOk);
+        name: 'removePublic',
+        message: 'delete public folder?'
+      }]).then((answers: { removePublic: boolean, removeDebug: boolean }) => {
+        removeFolders(answer.moduleEntry, answers.removeDebug, answers.removePublic);
       });
     });
   }

@@ -10,7 +10,7 @@ const escodegen_1 = __importDefault(require("escodegen"));
 const esprima = require('esprima');
 const replace_1 = __importDefault(require("replace"));
 const path_2 = __importDefault(require("path"));
-module.exports = function (moduleEntry) {
+module.exports = (moduleEntry) => {
     printLog_1.printInstructions(`Update [art config] files...`);
     const artConfigPath = path_1.join(process.cwd(), './art.config.js');
     const readableStream = fs_1.createReadStream(artConfigPath);

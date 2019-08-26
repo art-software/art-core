@@ -16,7 +16,7 @@ const projectType_1 = require("../helpers/projectType");
 const ProjectTypes_1 = require("../enums/ProjectTypes");
 const parseModules_1 = __importDefault(require("art-dev-utils/lib/parseModules"));
 const confirmChooseModules_1 = require("../helpers/confirmChooseModules");
-const removeModulesUtils_1 = require("../helpers/removeModulesUtils");
+const removeModules_1 = require("../helpers/removeModules");
 const inquirer = require("inquirer");
 class RemoveCommand {
     constructor() {
@@ -30,7 +30,7 @@ class RemoveCommand {
             .option('m', {
             alias: 'modules',
             demandOption: moduleRequired,
-            describe: chalk_1.default.black.bold('modules you have created')
+            describe: chalk_1.default.black.bold('modules you have created and would like to removed')
         })
             .updateStrings({
             'Examples:': chalk_1.default.cyan.bold('Examples:')
@@ -45,14 +45,14 @@ class RemoveCommand {
             }
             inquirer.prompt([{
                     type: 'confirm',
-                    name: 'removeDebugOk',
-                    message: 'delete debug folders for you?'
+                    name: 'removeDebug',
+                    message: 'delete debug folder?'
                 }, {
                     type: 'confirm',
-                    name: 'removePublicOk',
-                    message: 'delete public folders for you?'
+                    name: 'removePublic',
+                    message: 'delete public folder?'
                 }]).then((answers) => {
-                removeModulesUtils_1.removeFolders(answer.moduleEntry, answers.removeDebugOk, answers.removePublicOk);
+                removeModules_1.removeFolders(answer.moduleEntry, answers.removeDebug, answers.removePublic);
             });
         }));
     }

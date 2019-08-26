@@ -7,7 +7,7 @@ const esprima = require('esprima');
 import replace from 'replace';
 import path from 'path';
 
-module.exports = function (moduleEntry: object) {
+module.exports = (moduleEntry: object) => {
   printInstructions(`Update [art config] files...`);
   const artConfigPath = join(process.cwd(), './art.config.js');
   const readableStream: Readable = createReadStream(artConfigPath);

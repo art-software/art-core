@@ -17,26 +17,22 @@ const updateArtConfigRemove = require('../scaffold/react/updateArtConfigRemove')
 exports.removeFolders = (moduleEntry, removeDebug, removePublic) => {
     const modulesArr = Object.keys(moduleEntry);
     const appConfig = require(resolveAppPath_1.default('art.config.js'));
-    const allModules = appConfig.webpack.entry;
-    if (Object.keys(allModules).length - modulesArr.length < 2) {
-        this.doRemovePath('client', 'common');
-    }
     for (const item of modulesArr) {
         const projectVirtualPath = appConfig.projectVirtualPath;
         const splitModuleName = item.split(`${projectVirtualPath}/`)[1];
-        this.doRemovePath('client', splitModuleName);
-        this.doRemovePath('mock', splitModuleName);
+        exports.remove('client', splitModuleName);
+        exports.remove('mock', splitModuleName);
         if (removeDebug) {
-            this.doRemovePath('debug', item);
+            exports.remove('debug', item);
         }
         if (removePublic) {
-            this.doRemovePath('public', item);
+            exports.remove('public', item);
         }
     }
     updateArtConfigRemove(moduleEntry);
 };
-exports.doRemovePath = (pathPre, pathNext) => {
-    const commonPath = path_1.join(process.cwd(), pathPre, pathNext);
+exports.remove = (...paths) => {
+    const commonPath = path_1.join(process.cwd(), ...paths);
     fs_extra_1.removeSync(commonPath);
     console.log(`clear ${chalk_1.default.green(commonPath)} folder...`);
 };
