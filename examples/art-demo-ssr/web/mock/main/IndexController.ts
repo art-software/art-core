@@ -9,7 +9,7 @@ export default class IndexController {
       code: '200',
       message: 'suceess',
       data: {
-        mockData: 'biz mock data!'
+        title: 'fk.awbfjsbfbakbfe.kjna,.jbf.kbawkejbfjlabwfk'
       }
     };
   }
