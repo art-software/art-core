@@ -11,17 +11,11 @@ const index_1 = require("../scaffold/index");
 const Scaffolds_1 = require("../enums/Scaffolds");
 const CreateCmdTypes_1 = require("../enums/CreateCmdTypes");
 const scaffolds = [Scaffolds_1.Scaffolds.react, Scaffolds_1.Scaffolds.miniprogram];
-// TODO add miniprogram support
 class CreateCommand {
     constructor() {
         this.command = 'create';
         this.describe = chalk_1.default.black.bold(`create art scaffold ${scaffolds.join(',')} `);
         this.handler = (argv) => {
-            // TODO add miniprogram support
-            // if (argv.scaffold === Scaffolds.miniprogram) {
-            //   console.log(`${chalk.green.bold('art create')} command is not currently support create ${chalk.green.bold(Scaffolds.miniprogram)} project`);
-            //   return;
-            // }
             const commandType = argv._[1];
             const fileFilter = (file) => {
                 const fileBaseName = path_1.basename(file);

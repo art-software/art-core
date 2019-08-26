@@ -1,46 +1,15 @@
 {
-	"description": "Project configuration file",
-	"setting": {
-		"es6": false,
-		"postcss": false,
-		"minified": false,
-		"urlCheck": false,
-		"newFeature": false,
-		"uglifyFileName": false
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.5.0",
-	"appid": "wxabdeecb65d42255a",
-	"projectname": "test-demo-mini",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"miniprogram": {
-			"current": 0,
-			"list": [
-				{
-					"id": -1,
-					"name": "test",
-					"pathName": "home/pages/index",
-					"query": "env=local",
-					"scene": null
-				}
-			]
-		}
-	}
+  "description": "Project configuration file",
+  "setting": {
+    "es6": false,
+    "postcss": false,
+    "minified": false,
+    "urlCheck": false,
+    "newFeature": false,
+    "uglifyFileName": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.5.0",
+  "appid": "",
+  "projectname": ""
 }

@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ArtScaffold_1 = __importDefault(require("../ArtScaffold"));
-// TODO not working now
 class MiniprogramScaffold extends ArtScaffold_1.default {
     constructor(scaffoldData, scaffoldType) {
         super(scaffoldData.projectName || '', scaffoldType);

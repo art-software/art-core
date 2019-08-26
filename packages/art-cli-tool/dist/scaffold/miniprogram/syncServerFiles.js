@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const printLog_1 = require("../printLog");
 const scaffoldHelper_1 = require("../scaffoldHelper");
 const fileSyncMapping_1 = require("./fileSyncMapping");
-// TODO not working now
 module.exports = function (scaffoldFrom, scaffoldTo, callback) {
     const scaffoldInstance = this;
     printLog_1.printInstructions(`Sync all scaffold(${scaffoldInstance.scaffoldType}) [mock server] files...`);
