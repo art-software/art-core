@@ -263,7 +263,7 @@ class ArtScaffold {
             updateArtConfig.bind(this)(this.scaffoldTo);
         }
         else {
-            this.syncUpdateAppJson.bind(this)(this.scaffoldTo);
+            this.syncUpdateAppJson.bind(this)();
         }
         return new Promise((resolve, reject) => {
             async_1.series(asyncQueue, (err, result) => {

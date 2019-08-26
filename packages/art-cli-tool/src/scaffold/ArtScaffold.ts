@@ -315,7 +315,7 @@ export default class ArtScaffold {
       const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
       updateArtConfig.bind(this)(this.scaffoldTo);
     } else {
-      this.syncUpdateAppJson.bind(this)(this.scaffoldTo);
+      this.syncUpdateAppJson.bind(this)();
     }
 
     return new Promise((resolve, reject) => {
