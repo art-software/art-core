@@ -2,7 +2,6 @@ import { printInstructions } from '../printLog';
 import { tplMappingAssembler, execCopyFilesTo } from '../scaffoldHelper';
 import { clientMapping } from './fileSyncMapping';
 
-// TODO not working now
 module.exports = function (scaffoldFrom, scaffoldTo, callback) {
   const scaffoldInstance = this;
   printInstructions(`Sync all scaffold(${scaffoldInstance.scaffoldType}) [client] files...`);
