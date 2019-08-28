@@ -11,9 +11,9 @@ import { appendToFile } from './generator';
  * 3- 转换为 TS-AST
  * 4- 写入内容
  */
-export const parseMdToMock = (entry: string, output: string) => {
+export const parseMdToMock = (entry: string, output: string, moduleName: string) => {
   const mdAST = readMdFile(entry);
   const transformData =  extractNeedTransformData(mdAST);
-  const interfaceAST = createMockTsAst(transformData, output);
+  const interfaceAST = createMockTsAst(transformData, output, moduleName);
   appendToFile(interfaceAST, output);
 };

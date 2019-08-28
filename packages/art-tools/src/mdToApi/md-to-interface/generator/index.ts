@@ -11,7 +11,7 @@ import { clearAstMemory } from '../transform/integrateTsAst';
 export const appendToFile = (ast, output: string) => {
   try {
     if (mkdirsSync(path.dirname(output))) {
-      writeFileSync(output, `\n${recast.print(ast).code}`, 'utf8');
+      writeFileSync(output, `\n${recast.prettyPrint(ast).code}`, 'utf8');
       clearAstMemory();
     }
   } catch (err) {
