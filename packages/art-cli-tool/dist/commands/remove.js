@@ -46,10 +46,12 @@ class RemoveCommand {
             inquirer.prompt([{
                     type: 'confirm',
                     name: 'removeDebug',
+                    default: false,
                     message: 'delete debug folder?'
                 }, {
                     type: 'confirm',
                     name: 'removePublic',
+                    default: false,
                     message: 'delete public folder?'
                 }]).then((answers) => {
                 removeModules_1.removeFolders(answer.moduleEntry, answers.removeDebug, answers.removePublic);
