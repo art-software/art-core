@@ -156,10 +156,9 @@ class ArtScaffold {
         });
     }
     updateIndexTemplate() {
-        return new Promise((resolve, reject) => {
+        return __awaiter(this, void 0, void 0, function* () {
             const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
-            updateIndexTemplate.bind(this)(this.scaffoldTo);
-            resolve();
+            return yield updateIndexTemplate.bind(this)(this.scaffoldTo);
         });
     }
     autoInstallAfterCreateProject() {

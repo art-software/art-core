@@ -19,15 +19,19 @@ module.exports = function (scaffoldTo) {
 
   const replaceWithString = getReplaceWithString(scaffoldTo);
 
-  readableStream.on('end', () => {
-    replace({
-      regex: 'art_framework.js',
-      replacement: replaceWithString,
-      paths: [indexTemplatePath],
-      recursive: false,
-      silent: true
+  return new Promise((resolve, reject) => {
+    readableStream.on('end', () => {
+      replace({
+        regex: 'art_framework.js',
+        replacement: replaceWithString,
+        paths: [indexTemplatePath],
+        recursive: false,
+        silent: true
+      });
+      resolve();
     });
   });
+
 };
 
 const getIndexTemplatePath = (scaffoldTo: string, name: string) => {
@@ -45,7 +49,6 @@ const getReplaceWithString = (scaffoldTo: string) => {
   const appArtConfig = require(artConfigPath);
   const { projectVirtualPath, webpack } = appArtConfig;
   const virtualPath = projectVirtualPath;
-  // TODO需要校验dll一定存在吗 如果不存在，这个路径怎么生成？要不要提示去检查art.config.js的dll设置
   const version = webpack.dll && webpack.dll.version || 'dll_version_01';
   result = `${virtualPath}/vendors/${version}/art_framework.${version}.js`;
   return result;

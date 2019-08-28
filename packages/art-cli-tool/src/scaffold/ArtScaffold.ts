@@ -180,12 +180,9 @@ export default class ArtScaffold {
     });
   }
 
-  public updateIndexTemplate () {
-    return new Promise((resolve, reject) => {
-      const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
-      updateIndexTemplate.bind(this)(this.scaffoldTo);
-      resolve();
-    });
+  public async updateIndexTemplate () {
+    const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
+    return await updateIndexTemplate.bind(this)(this.scaffoldTo);
   }
 
   public async autoInstallAfterCreateProject() {
