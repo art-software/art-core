@@ -1,11 +1,12 @@
 import { CommandModule, Argv } from 'yargs';
 import chalk from 'chalk';
 import emptyDir from 'empty-dir';
-import { basename } from 'path';
+import { basename, join } from 'path';
 import inquirer, { Question, Answers } from 'inquirer';
 import { create, ProjectScaffold, ModuleScaffold } from '../scaffold/index';
 import { Scaffolds } from '../enums/Scaffolds';
 import { CreateCmdTypes } from '../enums/CreateCmdTypes';
+import resolveAppPath from 'art-dev-utils/lib/resolveAppPath';
 const scaffolds = [Scaffolds.react, Scaffolds.miniprogram];
 
 class CreateCommand implements CommandModule {
@@ -68,7 +69,22 @@ class CreateCommand implements CommandModule {
 
     (this.commandEntry(commandType) as Promise<ProjectScaffold | ModuleScaffold>)
       .then((answers) => {
-        create(argv.scaffold, commandType, answers);
+        const appConfig = require(resolveAppPath('art.config.js'));
+
+        const { moduleName } = answers;
+        const modulesKey = Object.keys(appConfig.webpack.entry);
+        const projectVirtualPath = appConfig.projectVirtualPath;
+
+        let modulePath = join(projectVirtualPath, moduleName);
+        if (modulePath.endsWith('/')) {
+          modulePath = modulePath.slice(0, modulePath.length - 1);
+        }
+
+        if (modulesKey.indexOf(modulePath) < 0) {
+          create(argv.scaffold, commandType, answers);
+        } else {
+          console.log(chalk.yellow(`module ${chalk.green(moduleName)} has existed!`));
+        }
       })
       .catch((err) => {
         return console.log(chalk.red(err));
