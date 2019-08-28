@@ -176,7 +176,9 @@ export default class ArtScaffold {
         if (err) {
           reject(err);
         } else {
-          await this.updateIndexTemplate();
+          if (this.scaffoldType === Scaffolds.react) {
+            await this.syncTemplateFile();
+          }
           await this.autoInstallAfterCreateProject();
           // resolve(result);
         }
@@ -184,9 +186,9 @@ export default class ArtScaffold {
     });
   }
 
-  public async updateIndexTemplate () {
-    const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
-    return await updateIndexTemplate.bind(this)(this.scaffoldTo);
+  public async syncTemplateFile () {
+    const syncTemplateFile = require(`./${this.scaffoldType}/syncTemplateFile.js`);
+    return await syncTemplateFile.bind(this)(this.scaffoldTo);
   }
 
   public async autoInstallAfterCreateProject() {
@@ -329,7 +331,9 @@ export default class ArtScaffold {
         if (err) {
           reject(err);
         } else {
-          await this.updateIndexTemplate();
+          if (this.scaffoldType === Scaffolds.react) {
+            await this.syncTemplateFile();
+          }
           resolve(result);
          }
       });

@@ -151,17 +151,19 @@ class ArtScaffold {
                     reject(err);
                 }
                 else {
-                    yield this.updateIndexTemplate();
+                    if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
+                        yield this.syncTemplateFile();
+                    }
                     yield this.autoInstallAfterCreateProject();
                     // resolve(result);
                 }
             }));
         });
     }
-    updateIndexTemplate() {
+    syncTemplateFile() {
         return __awaiter(this, void 0, void 0, function* () {
-            const updateIndexTemplate = require(`./${this.scaffoldType}/updateIndexTemplate.js`);
-            return yield updateIndexTemplate.bind(this)(this.scaffoldTo);
+            const syncTemplateFile = require(`./${this.scaffoldType}/syncTemplateFile.js`);
+            return yield syncTemplateFile.bind(this)(this.scaffoldTo);
         });
     }
     autoInstallAfterCreateProject() {
@@ -278,7 +280,9 @@ class ArtScaffold {
                     reject(err);
                 }
                 else {
-                    yield this.updateIndexTemplate();
+                    if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
+                        yield this.syncTemplateFile();
+                    }
                     resolve(result);
                 }
             }));

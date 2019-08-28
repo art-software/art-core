@@ -17,7 +17,7 @@ module.exports = function (scaffoldTo) {
     printInstructions(`Update all scaffold(${scaffoldInstance.scaffoldType}) [art_framework.js]... `);
   });
 
-  const replaceWithString = getReplaceWithString(scaffoldTo);
+  const replaceWithString = getReplacementString(scaffoldTo);
 
   return new Promise((resolve, reject) => {
     readableStream.on('end', () => {
@@ -35,21 +35,20 @@ module.exports = function (scaffoldTo) {
 };
 
 const getIndexTemplatePath = (scaffoldTo: string, name: string) => {
-  let result: string = '';
+  let templatePath: string = '';
   let moduleName: string = name || '';
   moduleName = moduleName.startsWith('/') ? moduleName : '/' + moduleName;
   moduleName = ensureSlash(moduleName, false);
-  result = join(scaffoldTo, `./client${moduleName}/index.template.ejs`);
-  return result;
+  templatePath = join(scaffoldTo, `./client${moduleName}/index.template.ejs`);
+  return templatePath;
 };
 
-const getReplaceWithString = (scaffoldTo: string) => {
-  let result: string = '';
+const getReplacementString = (scaffoldTo: string) => {
+  let replacement: string = '';
   const artConfigPath = join(scaffoldTo, './art.config.js');
   const appArtConfig = require(artConfigPath);
-  const { projectVirtualPath, webpack } = appArtConfig;
-  const virtualPath = projectVirtualPath;
-  const version = webpack.dll && webpack.dll.version || 'dll_version_01';
-  result = `${virtualPath}/vendors/${version}/art_framework.${version}.js`;
-  return result;
+  const { projectVirtualPath = '', webpack = {} } = appArtConfig;
+  const version = (webpack.dll || {}).version || 'dll_version_01';
+  replacement = `${projectVirtualPath}/vendors/${version}/art_framework.${version}.js`;
+  return replacement;
 };
