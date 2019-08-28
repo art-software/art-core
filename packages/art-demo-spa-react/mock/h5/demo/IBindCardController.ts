@@ -1,6 +1,6 @@
 import { Controller, Post } from 'routing-controllers';
 
-@Controller('/home')
+@Controller('/h5/demo')
 export default class IBindCardController {
   @Post('/pb/card/bind')
   public pbCardBind() {

@@ -9,8 +9,8 @@ const tsFileAstTpl_1 = require("../../template/tsFileAstTpl");
  * @param {transformData} transformData 需要转换的已抽离好的mdAST
  * @returns 最终tsAST数据
  */
-exports.createMockTsAst = (transformData, output) => {
+exports.createMockTsAst = (transformData, output, moduleName) => {
     const tsAst = objDeepCopy_1.objDeepCopy(tsFileAstTpl_1.tsFileAstTpl);
-    tsAst.program.body.push(createImportTsAst_1.createImportControllerTsAst(transformData.mdAstMockPart), createClassTsAst_1.createClassTsAst(transformData.mdAstMockPart, output));
+    tsAst.program.body.push(createImportTsAst_1.createImportControllerTsAst(transformData.mdAstMockPart), createClassTsAst_1.createClassTsAst(transformData.mdAstMockPart, output, moduleName));
     return tsAst;
 };

@@ -1,6 +1,6 @@
 import { Controller, Post } from 'routing-controllers';
 
-@Controller('/home')
+@Controller('/h5/demo')
 export default class ISupportBankController {
   @Post('/pb/bank/withdraw-support-bank-list')
   public pbBankWithdrawSupportBankList() {

@@ -1,6 +1,6 @@
 import { Controller, Get } from 'routing-controllers';
 
-@Controller('/home')
+@Controller('/h5/demo')
 export default class IBankListController {
   @Get('/pb/card/list')
   public pbCardList() {
