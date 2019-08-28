@@ -76,14 +76,14 @@ class CreateCommand implements CommandModule {
         const projectVirtualPath = appConfig.projectVirtualPath;
 
         let modulePath = join(projectVirtualPath, moduleName);
-        if (modulePath.slice(modulePath.length - 1) === '/') {
+        if (modulePath.endsWith('/')) {
           modulePath = modulePath.slice(0, modulePath.length - 1);
         }
 
         if (modulesKey.indexOf(modulePath) < 0) {
           create(argv.scaffold, commandType, answers);
         } else {
-          console.log(chalk.yellow(`module ${chalk.green(modulePath)} has existed!`));
+          console.log(chalk.yellow(`module ${chalk.green(moduleName)} has existed!`));
         }
       })
       .catch((err) => {

@@ -33,14 +33,14 @@ class CreateCommand {
                 const modulesKey = Object.keys(appConfig.webpack.entry);
                 const projectVirtualPath = appConfig.projectVirtualPath;
                 let modulePath = path_1.join(projectVirtualPath, moduleName);
-                if (modulePath.slice(modulePath.length - 1) === '/') {
+                if (modulePath.endsWith('/')) {
                     modulePath = modulePath.slice(0, modulePath.length - 1);
                 }
                 if (modulesKey.indexOf(modulePath) < 0) {
                     index_1.create(argv.scaffold, commandType, answers);
                 }
                 else {
-                    console.log(chalk_1.default.yellow(`module ${chalk_1.default.green(modulePath)} has existed!`));
+                    console.log(chalk_1.default.yellow(`module ${chalk_1.default.green(moduleName)} has existed!`));
                 }
             })
                 .catch((err) => {
