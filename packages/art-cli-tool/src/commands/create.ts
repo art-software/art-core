@@ -8,7 +8,6 @@ import { Scaffolds } from '../enums/Scaffolds';
 import { CreateCmdTypes } from '../enums/CreateCmdTypes';
 const scaffolds = [Scaffolds.react, Scaffolds.miniprogram];
 
-// TODO add miniprogram support
 class CreateCommand implements CommandModule {
 
   public readonly command = 'create';
@@ -53,11 +52,6 @@ class CreateCommand implements CommandModule {
   }
 
   public handler = (argv) => {
-    // TODO add miniprogram support
-    if (argv.scaffold === Scaffolds.miniprogram) {
-      console.log(`${chalk.green.bold('art create')} command is not currently support create ${chalk.green.bold(Scaffolds.miniprogram)} project`);
-      return;
-    }
 
     const commandType = argv._[1];
     const fileFilter = (file: string) => {

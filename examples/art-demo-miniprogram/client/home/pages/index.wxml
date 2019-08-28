@@ -1,0 +1,4 @@
+<view class="default-page">
+  <view class="title">Hello World~</view>
+  <view class="btn-request" bindtap="onClickBtn">Click to Request</view>
+</view>

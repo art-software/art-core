@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "es2016",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "alwaysStrict": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "removeComments": true,
+    "pretty": true,
+    "strictPropertyInitialization": true,
+    "esModuleInterop": true,
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
+    "rootDir": "./client",
+    "typeRoots": [
+      "node_modules/@types",
+      "./typings"
+    ]
+  },
+  "include": [
+    "./client/**/*",
+    "./mock/**/*"
+  ],
+  "exclude": [
+    "**/node_modules/*",
+    "**/tests/*",
+    "**/dist/*",
+    "**/*.spec.ts"
+  ]
+}

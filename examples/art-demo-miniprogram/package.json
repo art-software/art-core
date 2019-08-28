@@ -1,0 +1,22 @@
+{
+  "name": "art-demo-miniprogram",
+  "version": "0.0.1",
+  "description": "demo for art miniprogram",
+  "author": "YGM",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "art-lib-common-miniprogram": "^0.0.3",
+    "art-lib-utils": "^0.0.5",
+    "art-lib-utils-wx": "^0.0.4",
+    "art-server-mock-miniprogram": "^0.0.1",
+    "art-webpack-miniprogram": "^0.0.6",
+    "less": "3.8.1",
+    "mockjs": "^1.0.1-beta3",
+    "routing-controllers": "0.7.7"
+  },
+  "devDependencies": {
+    "tslint": "5.11.0",
+    "typescript": "3.0.1"
+  }
+}
