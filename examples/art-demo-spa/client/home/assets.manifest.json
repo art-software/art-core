@@ -1,0 +1,26 @@
+[
+  {
+    "url": "//static.qianniuniu.com/qnn/jweixin-1.0.0.js",
+    "priority": null
+  },
+  {
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/vConsole/3.2.0/vconsole.min.js",
+    "priority": null
+  },
+  {
+    "url": "/demo/spa/home/bundle.css?1566915069239",
+    "priority": null
+  },
+  {
+    "url": "//static.qianniuniu.com/asset/js/MTA.js",
+    "priority": null
+  },
+  {
+    "url": "replace_itdemo/spa/vendors/dll_version_01/art_framework.dll_version_01.js",
+    "priority": null
+  },
+  {
+    "url": "/demo/spa/home/bundle.js?1566915069239",
+    "priority": null
+  }
+]
