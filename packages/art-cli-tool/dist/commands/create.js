@@ -10,6 +10,7 @@ const inquirer_1 = __importDefault(require("inquirer"));
 const index_1 = require("../scaffold/index");
 const Scaffolds_1 = require("../enums/Scaffolds");
 const CreateCmdTypes_1 = require("../enums/CreateCmdTypes");
+const resolveAppPath_1 = __importDefault(require("art-dev-utils/lib/resolveAppPath"));
 const scaffolds = [Scaffolds_1.Scaffolds.react, Scaffolds_1.Scaffolds.miniprogram];
 class CreateCommand {
     constructor() {
@@ -27,7 +28,20 @@ class CreateCommand {
             }
             this.commandEntry(commandType)
                 .then((answers) => {
-                index_1.create(argv.scaffold, commandType, answers);
+                const appConfig = require(resolveAppPath_1.default('art.config.js'));
+                const { moduleName } = answers;
+                const modulesKey = Object.keys(appConfig.webpack.entry);
+                const projectVirtualPath = appConfig.projectVirtualPath;
+                let modulePath = path_1.join(projectVirtualPath, moduleName);
+                if (modulePath.slice(modulePath.length - 1) === '/') {
+                    modulePath = modulePath.slice(0, modulePath.length - 1);
+                }
+                if (modulesKey.indexOf(modulePath) < 0) {
+                    index_1.create(argv.scaffold, commandType, answers);
+                }
+                else {
+                    console.log(chalk_1.default.yellow(`module ${chalk_1.default.green(modulePath)} has existed!`));
+                }
             })
                 .catch((err) => {
                 return console.log(chalk_1.default.red(err));
