@@ -1,7 +1,6 @@
 import ArtScaffold from '../ArtScaffold';
 import { ProjectScaffold, ModuleScaffold } from '../index';
 
-// TODO not working now
 class MiniprogramScaffold extends ArtScaffold {
   constructor(scaffoldData: ProjectScaffold | ModuleScaffold, scaffoldType: string) {
     super((scaffoldData as ProjectScaffold).projectName || '', scaffoldType);

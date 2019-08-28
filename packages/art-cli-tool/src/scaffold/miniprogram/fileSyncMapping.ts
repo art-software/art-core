@@ -1,15 +1,10 @@
 import { SyncMapping } from '../typing';
 import ArtScaffold from '../ArtScaffold';
+import fs from 'fs-extra';
+import { join } from 'path';
 
-// TODO not working now
 export const configMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   return [
-    {
-      name: '.babelrc'
-    },
-    {
-      name: '.eslintrc.json'
-    },
     {
       name: '.artignore',
       rename: '.gitignore'
@@ -26,9 +21,12 @@ export const configMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
     {
       name: 'package.json',
       replace: [
-        { from: 'art-app', to: scaffoldInstance.projectName },
-        { from: 'application based on art frontend development framework', to: scaffoldInstance.projectDescription }
+        { from: 'art-miniprogram', to: scaffoldInstance.projectName },
+        { from: 'WeChat miniprogram application based on art frontend development framework', to: scaffoldInstance.projectDescription }
       ]
+    },
+    {
+      name: 'typings'
     },
     {
       name: 'README.md'
@@ -37,14 +35,41 @@ export const configMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
 };
 
 export const clientMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
-  const scaffoldType = scaffoldInstance.scaffoldChoosen.replace('react/', '');
+  const scaffoldType = scaffoldInstance.scaffoldChoosen.replace('miniprogram/', '');
+  const commonFolderPath = join(process.cwd(), './client/common');
+  let commonFolderExist = false;
+  try {
+    commonFolderExist = fs.pathExistsSync(commonFolderPath);
+  } catch (e) {
+    console.log(e);
+    throw new Error('fs-extra pathExistsSync error');
+  }
 
-  return [
-    {
-      name: `./client/${scaffoldType}/`,
-      rename: `./client/${scaffoldInstance.moduleName}/`
-    }
-  ];
+  return commonFolderExist ?
+    [
+      {
+        name: `./client/${scaffoldType}/`,
+        rename: `./client/${scaffoldInstance.moduleName}/`
+      }
+    ] :
+    [
+      {
+        name: `./client/${scaffoldType}/`,
+        rename: `./client/${scaffoldInstance.moduleName}/`
+      },
+      {
+        name: `./client/common/`
+      },
+      {
+        name: `./client/app.json`
+      },
+      {
+        name: `./client/app.ts`
+      },
+      {
+        name: `./client/project.config.json`
+      }
+    ];
 };
 
 export const serverMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
@@ -65,8 +90,8 @@ export const artConfigMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] =
     {
       name: `art.config.js`,
       replace: [
-        { from: /art\/virtual\/path/g, to: scaffoldInstance.projectVirtualPath },
-        { from: /\/h5/g, to: `/${scaffoldInstance.moduleName}` }
+        { from: /art\/virtual\/path/g, to: scaffoldInstance.projectVirtualPath }
+        // { from: /\/h5/g, to: `/${scaffoldInstance.moduleName}` }
       ]
     }
   ];

@@ -1,7 +1,8 @@
-import { RenderServer, createGetComponent } from '../../../../packages/art-ssr-render/dist/index';
+import RenderServer from '../../../../packages/art-ssr-render/dist/RenderServer';
+import createGetComponent from '../../../../packages/art-ssr-render/dist/createGetComponent';
 import path from 'path';
 
-const renderServe = new RenderServer({
+const renderServer = new RenderServer({
   host: 'me.dev.com',
   port: 8899,
   getComponent: createGetComponent({
@@ -9,4 +10,4 @@ const renderServe = new RenderServer({
   })
 });
 
-renderServe.start();
+renderServer.start();

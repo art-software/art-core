@@ -7,7 +7,6 @@ const chalk_1 = __importDefault(require("chalk"));
 const webpackTask_1 = require("../helpers/webpackTask");
 const projectType_1 = require("../helpers/projectType");
 const ProjectTypes_1 = require("../enums/ProjectTypes");
-// TODO add miniprogram support
 class BuildCommand {
     constructor() {
         this.command = 'build';

@@ -32839,14 +32839,16 @@ var server_1 = __importDefault(__webpack_require__(/*! react-dom/server */ "../.
 
 var art_ssr_1 = __importStar(__webpack_require__(/*! art-ssr */ "../art-ssr/dist/index.js"));
 
-exports.renderReact = function (name, component, css) {
+exports.renderReact = function (name, component, css, store) {
   return art_ssr_1.default({
     server: function server() {
       return function (props) {
         var contents = server_1.default.renderToString(react_1.default.createElement(component, props));
+        console.log('store.getState(): ', store && store.getState());
         return {
           html: art_ssr_1.serialize(name, contents, props),
-          css: css && _toConsumableArray(css).join('')
+          css: css && _toConsumableArray(css).join(''),
+          state: store && JSON.stringify(store.getState())
         };
       };
     },
