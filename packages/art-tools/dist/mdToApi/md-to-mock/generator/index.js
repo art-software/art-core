@@ -21,7 +21,7 @@ const mkdirsSync_1 = require("../../utils/mkdirsSync");
 exports.appendToFile = (ast, output) => {
     try {
         if (mkdirsSync_1.mkdirsSync(path.dirname(output))) {
-            fs_1.writeFileSync(output, `${recast_1.default.print(ast, { tabWidth: 2 }).code.replace(/\"/g, `\'`)}`, 'utf8');
+            fs_1.writeFileSync(output, `${recast_1.default.prettyPrint(ast, { tabWidth: 2 }).code.replace(/\"/g, `\'`)}`, 'utf8');
         }
     }
     catch (err) {

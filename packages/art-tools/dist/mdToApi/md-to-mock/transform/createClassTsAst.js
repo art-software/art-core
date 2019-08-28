@@ -9,8 +9,8 @@ const objDeepCopy_1 = require("../../utils/objDeepCopy");
 const exportTsAstTpl_1 = require("../../template/exportTsAstTpl");
 const TSAnnotationMap_1 = require("../../constant/TSAnnotationMap");
 const createClassBodyTsAst_1 = require("./createClassBodyTsAst");
-exports.createClassTsAst = (mdAstMockPart, output) => {
-    const moduleController = path_1.default.dirname(output).replace('mock', '');
+exports.createClassTsAst = (mdAstMockPart, output, moduleName = '/') => {
+    const moduleController = moduleName;
     const exportClassTsAst = objDeepCopy_1.objDeepCopy(exportTsAstTpl_1.exportTsAstTpl);
     exportClassTsAst.declaration.type = TSAnnotationMap_1.ExportDeclarationType.class;
     exportClassTsAst.declaration.decorators.push(createDecoratorTsAst_1.createDecoratorTsAst(moduleController));

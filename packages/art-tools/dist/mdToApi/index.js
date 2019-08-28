@@ -86,10 +86,11 @@ const transfromModuleMDFiles = (docFolderList) => __awaiter(this, void 0, void 0
             if (answer.isCreateMock) {
                 console.log(chalk_1.default.blue('Start markdown file to mock file compilation, please wait...'));
                 const parseMockConfig = getParseMockConfig_1.getParseMockConfig(firstCreateModuleList);
-                parseMockConfig.forEach((moduleConfig) => {
+                parseMockConfig.forEach((moduleConfig, index) => {
+                    const moduleName = firstCreateModuleList[index].replace('client', '').replace('/services/api-docs', '');
                     moduleConfig.forEach((docConfig) => {
                         try {
-                            md_to_mock_1.parseMdToMock(docConfig.entry, docConfig.output);
+                            md_to_mock_1.parseMdToMock(docConfig.entry, docConfig.output, moduleName);
                             completeToMockFiles.push(docConfig.entry);
                         }
                         catch (err) {

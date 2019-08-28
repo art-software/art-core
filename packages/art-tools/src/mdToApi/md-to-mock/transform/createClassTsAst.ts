@@ -5,8 +5,8 @@ import { exportTsAstTpl } from '../../template/exportTsAstTpl';
 import { ExportDeclarationType } from '../../constant/TSAnnotationMap';
 import { createClassBodyTsAst } from './createClassBodyTsAst';
 
-export const createClassTsAst = (mdAstMockPart, output) => {
-  const moduleController = path.dirname(output).replace('mock', '');
+export const createClassTsAst = (mdAstMockPart, output, moduleName = '/') => {
+  const moduleController = moduleName;
   const exportClassTsAst = objDeepCopy(exportTsAstTpl);
   exportClassTsAst.declaration.type = ExportDeclarationType.class;
   exportClassTsAst.declaration.decorators.push(createDecoratorTsAst(moduleController));

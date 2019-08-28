@@ -50,7 +50,7 @@ const autoServeQuestion: Question[] = [
   {
     type: 'confirm',
     name: 'autoServe',
-    message: 'Start serveing modules?',
+    message: 'Start serving modules?',
     default: true
   }
 ];
@@ -242,7 +242,7 @@ export default class ArtScaffold {
         }
       ).on('close', (code) => {
         if (code === 0) {
-          console.log(chalk.green(`Install ${type} dependenies successfully`));
+          console.log(chalk.green(`Install ${type} dependencies successfully`));
           if (type === 'default') {
             this.defaultDepInstallDone = true;
           } else if (type === 'particular') {
