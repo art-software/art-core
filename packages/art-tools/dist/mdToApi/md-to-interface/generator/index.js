@@ -22,7 +22,7 @@ const integrateTsAst_1 = require("../transform/integrateTsAst");
 exports.appendToFile = (ast, output) => {
     try {
         if (mkdirsSync_1.mkdirsSync(path.dirname(output))) {
-            fs_1.writeFileSync(output, `\n${recast_1.default.prettyPrint(ast).code}`, 'utf8');
+            fs_1.writeFileSync(output, `\n${recast_1.default.print(ast).code}`, 'utf8');
             integrateTsAst_1.clearAstMemory();
         }
     }
