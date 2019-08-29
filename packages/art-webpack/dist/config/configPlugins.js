@@ -32,7 +32,6 @@ const configHtmlWebpackPlugin = (entries) => {
     const newEntries = entries || configWebpackModules_1.webpackEntries(false);
     const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
     const buildEnv = appConfig_1.default.get('BUILD_ENV');
-    console.log(`art:webpack:output:${buildEnv}PublicPath`);
     const assetsProdPublicPath = appConfig_1.default.get(`art:webpack:output:${buildEnv}PublicPath`) || '';
     console.log(`assetsProdPublicPath: ${assetsProdPublicPath}`);
     foreach_1.default(newEntries, (value, key) => {
