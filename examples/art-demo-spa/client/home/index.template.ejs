@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <% if (htmlWebpackPlugin.options.buildEnv !== 'prod') { %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vConsole/3.2.0/vconsole.min.js"></script>
+    <script>
+      const vConsole = new VConsole();
+    </script>
+  <% } %>
+</head>
+
+<body>
+  <div class="container">
+    <div id="app"></div>
+    <div id="global-spinner" class="global-spinner"></div>
+  </div>
+  <script type="text/javascript" src="<%= htmlWebpackPlugin.options.publicPath %>demo/spa/vendors/dll_version_01/art_framework.dll_version_01.js"></script>
+
+</body>
+
+</html>

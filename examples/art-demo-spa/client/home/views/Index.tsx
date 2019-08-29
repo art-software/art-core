@@ -1,6 +1,6 @@
 import React from 'react';
 import IndexService from '../services/IndexService';
-import CoreComponentAll from 'art-lib-react/src/core_all/CoreComponentAll';
+import CoreComponentAll from '../../../../../packages/art-lib-react/src/core_all/CoreComponentAll';
 
 export default class ViewIndex extends CoreComponentAll<any, any> {
 
