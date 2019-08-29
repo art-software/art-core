@@ -23,7 +23,6 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
   const newEntries = entries || webpackEntries(false);
   const projectVirtualPath = appConfig.get('art:projectVirtualPath') || '';
   const buildEnv = appConfig.get('BUILD_ENV');
-  console.log(`art:webpack:output:${buildEnv}PublicPath`);
   const assetsProdPublicPath = appConfig.get(`art:webpack:output:${buildEnv}PublicPath`) || '';
   console.log(`assetsProdPublicPath: ${assetsProdPublicPath}`);
 
