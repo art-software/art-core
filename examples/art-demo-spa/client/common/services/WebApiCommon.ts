@@ -1,4 +1,4 @@
-import WebApiH5 from 'art-lib-common/src/core-h5/WebApiH5';
+import WebApiH5 from '../../../../../packages/art-lib-common/src/core-h5/WebApiH5';
 import { AxiosResponse } from 'axios';
 
 declare global {

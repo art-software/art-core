@@ -12,7 +12,6 @@
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>
-  <script src="//static.qianniuniu.com/qnn/jweixin-1.0.0.js"></script>
   <% if (htmlWebpackPlugin.options.buildEnv !== 'prod') { %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vConsole/3.2.0/vconsole.min.js"></script>
     <script>
@@ -26,8 +25,6 @@
     <div id="app"></div>
     <div id="global-spinner" class="global-spinner"></div>
   </div>
-  <script type="text/javascript" src="//static.qianniuniu.com/asset/js/MTA.js" name="MTAH5" sid="500610780" cid="500610782"></script>
-  <!-- <script type="text/javascript" src="<%= htmlWebpackPlugin.options.publicPath %>qnn/mkt/vendors/art_framework.20180901.js"></script> -->
   <script type="text/javascript" src="<%= htmlWebpackPlugin.options.publicPath %>demo/spa/vendors/dll_version_01/art_framework.dll_version_01.js"></script>
 
 </body>
