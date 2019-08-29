@@ -1,0 +1,18 @@
+[
+  {
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/vConsole/3.2.0/vconsole.min.js",
+    "priority": null
+  },
+  {
+    "url": "/demo/spa/home/bundle.css?1567063437675",
+    "priority": null
+  },
+  {
+    "url": "replace_itdemo/spa/vendors/dll_version_01/art_framework.dll_version_01.js",
+    "priority": null
+  },
+  {
+    "url": "/demo/spa/home/bundle.js?1567063437675",
+    "priority": null
+  }
+]
