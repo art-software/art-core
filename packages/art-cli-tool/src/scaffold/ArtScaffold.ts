@@ -172,15 +172,23 @@ export default class ArtScaffold {
     }
 
     return new Promise((resolve, reject) => {
-      series(asyncQueue, (err, result) => {
+      series(asyncQueue, async (err, result) => {
         if (err) {
           reject(err);
         } else {
-          this.autoInstallAfterCreateProject();
+          if (this.scaffoldType === Scaffolds.react) {
+            await this.syncTemplateFile();
+          }
+          await this.autoInstallAfterCreateProject();
           // resolve(result);
         }
       });
     });
+  }
+
+  public async syncTemplateFile () {
+    const syncTemplateFile = require(`./${this.scaffoldType}/syncTemplateFile.js`);
+    return await syncTemplateFile.bind(this)(this.scaffoldTo);
   }
 
   public async autoInstallAfterCreateProject() {
@@ -319,10 +327,15 @@ export default class ArtScaffold {
     }
 
     return new Promise((resolve, reject) => {
-      series(asyncQueue, (err, result) => {
+      series(asyncQueue, async (err, result) => {
         if (err) {
           reject(err);
-        } else { resolve(result); }
+        } else {
+          if (this.scaffoldType === Scaffolds.react) {
+            await this.syncTemplateFile();
+          }
+          resolve(result);
+         }
       });
     });
   }

@@ -146,15 +146,24 @@ class ArtScaffold {
             asyncQueue.push(this.syncUpdateAppJson.bind(this));
         }
         return new Promise((resolve, reject) => {
-            async_1.series(asyncQueue, (err, result) => {
+            async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     reject(err);
                 }
                 else {
-                    this.autoInstallAfterCreateProject();
+                    if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
+                        yield this.syncTemplateFile();
+                    }
+                    yield this.autoInstallAfterCreateProject();
                     // resolve(result);
                 }
-            });
+            }));
+        });
+    }
+    syncTemplateFile() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const syncTemplateFile = require(`./${this.scaffoldType}/syncTemplateFile.js`);
+            return yield syncTemplateFile.bind(this)(this.scaffoldTo);
         });
     }
     autoInstallAfterCreateProject() {
@@ -266,14 +275,17 @@ class ArtScaffold {
             this.syncUpdateAppJson.bind(this)();
         }
         return new Promise((resolve, reject) => {
-            async_1.series(asyncQueue, (err, result) => {
+            async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     reject(err);
                 }
                 else {
+                    if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
+                        yield this.syncTemplateFile();
+                    }
                     resolve(result);
                 }
-            });
+            }));
         });
     }
     inArtWorkspace() {

@@ -4,7 +4,7 @@ import { measureFileSizesBeforeBuild, FileSizeProps, printFileSizesAfterBuild } 
 import paths from '../config/paths';
 import { forEach } from 'lodash';
 import chalk from 'chalk';
-import { emptyDirSync, outputJsonSync } from 'fs-extra';
+import { emptyDirSync, outputJsonSync, pathExistsSync } from 'fs-extra';
 import gitRev from 'git-rev-sync';
 import { getWebpackConfig } from '../config';
 import webpack from 'webpack';
@@ -12,6 +12,8 @@ import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
 import imageMinifier from 'art-dev-utils/lib/imageMinifier';
 import appConfig from '../config/appConfig';
 import { BuildEnv } from '../enums/BuildEnv';
+import inquirer = require('inquirer');
+import spawn from 'cross-spawn';
 const BUILD_ENV = appConfig.get('BUILD_ENV');
 const BUILD_PATH = BUILD_ENV === BuildEnv.prod ? paths.appPublic : paths.appDebug;
 
@@ -79,14 +81,48 @@ confirmModules(async (answer) => {
     });
 });
 
-// Create the production build and print the deployment instructions.
-function build(previousFileSizes: FileSizeProps) {
-  console.log('Creating an optimized production build...');
+function getArtFrameworkFile() {
+  const versionName = appConfig.get('art:webpack:dll:version');
+  return join(BUILD_PATH, appConfig.get('art:projectVirtualPath'), 'vendors', versionName, `art_framework.${versionName}.js`);
+}
 
-  const webpackConfig = getWebpackConfig();
-  const compiler = webpack(webpackConfig);
-
+function runDllCommand() {
   return new Promise((resolve, reject) => {
+    inquirer.prompt({
+      type: 'confirm',
+      name: 'artDllOk',
+      default: true,
+      message: 'run art dll for you?'
+    }).then((answers: { artDllOk: boolean }) => {
+      if (answers.artDllOk) {
+        spawn('art', ['dll'], { stdio: 'inherit' }).
+        on('close', (code) => {
+          if (code === 0) {
+            console.log(chalk.green('run art dll successfully!'));
+            resolve();
+          }
+        }).on('error', (err) => {
+          console.log(`run [art dll] failed, try to run ${chalk.green('[art dll]')} again!`);
+          console.log(err);
+          reject();
+        });
+      }
+    });
+  });
+}
+
+// Create the production build and print the deployment instructions.
+async function build(previousFileSizes: FileSizeProps) {
+  const artFrameworkPath = getArtFrameworkFile();
+  if (!pathExistsSync(artFrameworkPath)) {
+    console.log(`${chalk.yellow(artFrameworkPath)} is not existed!`);
+    await runDllCommand();
+  }
+
+  return await new Promise((resolve, reject) => {
+    console.log('Creating an optimized production build...');
+    const webpackConfig = getWebpackConfig();
+    const compiler = webpack(webpackConfig);
     compiler.run((err, stats) => {
       if (err) { return reject(err); }
 

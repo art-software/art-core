@@ -25,6 +25,8 @@ const formatWebpackMessages_1 = __importDefault(require("art-dev-utils/lib/forma
 const imageMinifier_1 = __importDefault(require("art-dev-utils/lib/imageMinifier"));
 const appConfig_1 = __importDefault(require("../config/appConfig"));
 const BuildEnv_1 = require("../enums/BuildEnv");
+const inquirer = require("inquirer");
+const cross_spawn_1 = __importDefault(require("cross-spawn"));
 const BUILD_ENV = appConfig_1.default.get('BUILD_ENV');
 const BUILD_PATH = BUILD_ENV === BuildEnv_1.BuildEnv.prod ? paths_1.default.appPublic : paths_1.default.appDebug;
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
@@ -75,37 +77,72 @@ inquirer_1.confirmModules((answer) => __awaiter(this, void 0, void 0, function* 
         });
     });
 }));
+function getArtFrameworkFile() {
+    const versionName = appConfig_1.default.get('art:webpack:dll:version');
+    return path_1.join(BUILD_PATH, appConfig_1.default.get('art:projectVirtualPath'), 'vendors', versionName, `art_framework.${versionName}.js`);
+}
+function runDllCommand() {
+    return new Promise((resolve, reject) => {
+        inquirer.prompt({
+            type: 'confirm',
+            name: 'artDllOk',
+            default: true,
+            message: 'run art dll for you?'
+        }).then((answers) => {
+            if (answers.artDllOk) {
+                cross_spawn_1.default('art', ['dll'], { stdio: 'inherit' }).
+                    on('close', (code) => {
+                    if (code === 0) {
+                        console.log(chalk_1.default.green('run art dll successfully!'));
+                        resolve();
+                    }
+                }).on('error', (err) => {
+                    console.log(`run [art dll] failed, try to run ${chalk_1.default.green('[art dll]')} again!`);
+                    console.log(err);
+                    reject();
+                });
+            }
+        });
+    });
+}
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes) {
-    console.log('Creating an optimized production build...');
-    const webpackConfig = config_1.getWebpackConfig();
-    const compiler = webpack_1.default(webpackConfig);
-    return new Promise((resolve, reject) => {
-        compiler.run((err, stats) => {
-            if (err) {
-                return reject(err);
-            }
-            const messages = formatWebpackMessages_1.default(stats.toJson('normal'));
-            if (stats.hasErrors()) {
-                // Only keep the first error. Others are often indicative
-                // of the same problem, but confuse the reader with noise.
-                if (messages.errors.length > 1) {
-                    messages.errors.length = 1;
+    return __awaiter(this, void 0, void 0, function* () {
+        const artFrameworkPath = getArtFrameworkFile();
+        if (!fs_extra_1.pathExistsSync(artFrameworkPath)) {
+            console.log(`${chalk_1.default.yellow(artFrameworkPath)} is not existed!`);
+            yield runDllCommand();
+        }
+        return yield new Promise((resolve, reject) => {
+            console.log('Creating an optimized production build...');
+            const webpackConfig = config_1.getWebpackConfig();
+            const compiler = webpack_1.default(webpackConfig);
+            compiler.run((err, stats) => {
+                if (err) {
+                    return reject(err);
                 }
-                return reject(new Error(messages.errors.join('\n\n')));
-            }
-            if (process.env.CI &&
-                (typeof process.env.CI !== 'string' ||
-                    process.env.CI.toLowerCase() !== 'false') &&
-                stats.hasWarnings()) {
-                console.log(chalk_1.default.yellow('\nTreating warnings as errors because process.env.CI = true.\n' +
-                    'Most CI servers set it automatically.\n'));
-                return reject(new Error(messages.warnings.join('\n\n')));
-            }
-            return resolve({
-                stats,
-                previousFileSizes,
-                warnings: messages.warnings,
+                const messages = formatWebpackMessages_1.default(stats.toJson('normal'));
+                if (stats.hasErrors()) {
+                    // Only keep the first error. Others are often indicative
+                    // of the same problem, but confuse the reader with noise.
+                    if (messages.errors.length > 1) {
+                        messages.errors.length = 1;
+                    }
+                    return reject(new Error(messages.errors.join('\n\n')));
+                }
+                if (process.env.CI &&
+                    (typeof process.env.CI !== 'string' ||
+                        process.env.CI.toLowerCase() !== 'false') &&
+                    stats.hasWarnings()) {
+                    console.log(chalk_1.default.yellow('\nTreating warnings as errors because process.env.CI = true.\n' +
+                        'Most CI servers set it automatically.\n'));
+                    return reject(new Error(messages.warnings.join('\n\n')));
+                }
+                return resolve({
+                    stats,
+                    previousFileSizes,
+                    warnings: messages.warnings,
+                });
             });
         });
     });
