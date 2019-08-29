@@ -10,13 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = require("path");
 const inquirer_1 = require("../utils/inquirer");
@@ -32,12 +25,10 @@ const formatWebpackMessages_1 = __importDefault(require("art-dev-utils/lib/forma
 const imageMinifier_1 = __importDefault(require("art-dev-utils/lib/imageMinifier"));
 const appConfig_1 = __importDefault(require("../config/appConfig"));
 const BuildEnv_1 = require("../enums/BuildEnv");
-const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
-const Stage_1 = require("../enums/Stage");
-const path = __importStar(require("path"));
+const inquirer = require("inquirer");
+const cross_spawn_1 = __importDefault(require("cross-spawn"));
 const BUILD_ENV = appConfig_1.default.get('BUILD_ENV');
 const BUILD_PATH = BUILD_ENV === BuildEnv_1.BuildEnv.prod ? paths_1.default.appPublic : paths_1.default.appDebug;
-const isDevStage = process.env.STAGE === Stage_1.Stage.dev;
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 inquirer_1.confirmModules((answer) => __awaiter(this, void 0, void 0, function* () {
@@ -86,38 +77,46 @@ inquirer_1.confirmModules((answer) => __awaiter(this, void 0, void 0, function* 
         });
     });
 }));
-function checkVendorsExists() {
-    // TODO 检测vendors文件夹在不在(只判断文件夹还是判断文件夹里面的文件???) 不在则执行art dll(要询问吗???)
-    const checkPath = path_1.join(BUILD_PATH, appConfig_1.default.get('art:projectVirtualPath'), 'vendors', appConfig_1.default.get('art:webpack:dll:version'));
-    const scriptPath = path.resolve(process.cwd(), `./node_modules/art-webpack/dist/scripts/dll.js`);
-    const symlinkPath = path.resolve(__dirname, `../../../art-webpack/dist/scripts/dll.js`);
+function getArtFrameworkFile() {
+    const versionName = appConfig_1.default.get('art:webpack:dll:version');
+    return path_1.join(BUILD_PATH, appConfig_1.default.get('art:projectVirtualPath'), 'vendors', versionName, `art_framework.${versionName}.js`);
+}
+function runDllCommand() {
     return new Promise((resolve, reject) => {
-        if (!fs_extra_1.pathExistsSync(checkPath)) {
-            executeNodeScript_1.default('node', isDevStage ? symlinkPath : scriptPath).on('close', (code) => {
-                if (code === 0) {
-                    resolve(true);
-                }
-            }).on('error', (err) => {
-                // TODO 需要提示自己去执行art dll吗???
-                reject(err);
-            });
-        }
-        else {
-            resolve(true);
-        }
+        inquirer.prompt({
+            type: 'confirm',
+            name: 'artDllOk',
+            default: true,
+            message: 'run art dll for you?'
+        }).then((answers) => {
+            if (answers.artDllOk) {
+                cross_spawn_1.default('art', ['dll'], { stdio: 'inherit' }).
+                    on('close', (code) => {
+                    if (code === 0) {
+                        console.log(chalk_1.default.green('run art dll successfully!'));
+                        resolve();
+                    }
+                }).on('error', (err) => {
+                    console.log(`run [art dll] failed, try to run ${chalk_1.default.green('[art dll]')} again!`);
+                    console.log(err);
+                    reject();
+                });
+            }
+        });
     });
 }
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes) {
     return __awaiter(this, void 0, void 0, function* () {
-        const exist = yield checkVendorsExists();
-        if (!exist) {
-            return;
+        const artFrameworkPath = getArtFrameworkFile();
+        if (!fs_extra_1.pathExistsSync(artFrameworkPath)) {
+            console.log(`${chalk_1.default.yellow(artFrameworkPath)} is not existed!`);
+            yield runDllCommand();
         }
-        console.log('Creating an optimized production build...');
-        const webpackConfig = config_1.getWebpackConfig();
-        const compiler = webpack_1.default(webpackConfig);
-        return new Promise((resolve, reject) => {
+        return yield new Promise((resolve, reject) => {
+            console.log('Creating an optimized production build...');
+            const webpackConfig = config_1.getWebpackConfig();
+            const compiler = webpack_1.default(webpackConfig);
             compiler.run((err, stats) => {
                 if (err) {
                     return reject(err);
