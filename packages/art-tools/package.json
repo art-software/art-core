@@ -11,6 +11,7 @@
   "dependencies": {
     "art-dev-utils": "^0.0.12",
     "blueimp-md5": "^2.10.0",
+    "json-colorz": "^0.2.7",
     "marked": "0.6.0",
     "minimatch": "^3.0.4",
     "nconf": "^0.10.0",
