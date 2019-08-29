@@ -10,7 +10,7 @@ import { mkdirsSync } from '../../utils/mkdirsSync';
 export const appendToFile = (ast, output) => {
   try {
     if (mkdirsSync(path.dirname(output))) {
-      writeFileSync(output, `${recast.print(ast, {tabWidth: 2}).code.replace(/\"/g, `\'`)}`, 'utf8');
+      writeFileSync(output, `${recast.prettyPrint(ast, {tabWidth: 2}).code.replace(/\"/g, `\'`)}`, 'utf8');
     }
   } catch (err) { console.log('err:', err); }
 };

@@ -12,9 +12,9 @@ const generator_1 = require("./generator");
  * 3- 转换为 TS-AST
  * 4- 写入内容
  */
-exports.parseMdToMock = (entry, output) => {
+exports.parseMdToMock = (entry, output, moduleName) => {
     const mdAST = fileReader_1.readMdFile(entry);
     const transformData = extractor_1.extractNeedTransformData(mdAST);
-    const interfaceAST = transform_1.createMockTsAst(transformData, output);
+    const interfaceAST = transform_1.createMockTsAst(transformData, output, moduleName);
     generator_1.appendToFile(interfaceAST, output);
 };
