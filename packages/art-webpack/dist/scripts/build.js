@@ -27,8 +27,11 @@ const appConfig_1 = __importDefault(require("../config/appConfig"));
 const BuildEnv_1 = require("../enums/BuildEnv");
 const inquirer = require("inquirer");
 const cross_spawn_1 = __importDefault(require("cross-spawn"));
+const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
+const Stage_1 = require("../enums/Stage");
 const BUILD_ENV = appConfig_1.default.get('BUILD_ENV');
 const BUILD_PATH = BUILD_ENV === BuildEnv_1.BuildEnv.prod ? paths_1.default.appPublic : paths_1.default.appDebug;
+const isDevStage = process.env.STAGE === Stage_1.Stage.dev;
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 inquirer_1.confirmModules((answer) => __awaiter(this, void 0, void 0, function* () {
@@ -90,8 +93,15 @@ function runDllCommand() {
             message: 'run art dll for you?'
         }).then((answers) => {
             if (answers.artDllOk) {
-                cross_spawn_1.default('art', ['dll'], { stdio: 'inherit' }).
-                    on('close', (code) => {
+                let dllProcess;
+                if (isDevStage) {
+                    const symlinkPath = path_1.resolve(__dirname, `../../../art-cli-tool/dist/index.js`);
+                    dllProcess = executeNodeScript_1.default('node', symlinkPath, 'dll');
+                }
+                else {
+                    dllProcess = cross_spawn_1.default('art', ['dll'], { stdio: 'inherit' });
+                }
+                dllProcess.on('close', (code) => {
                     if (code === 0) {
                         console.log(chalk_1.default.green('run art dll successfully!'));
                         resolve();

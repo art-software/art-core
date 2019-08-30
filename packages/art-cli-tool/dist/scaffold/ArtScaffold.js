@@ -21,6 +21,9 @@ const cross_spawn_1 = __importDefault(require("cross-spawn"));
 const ModulesManagers_1 = require("../enums/ModulesManagers");
 const printLog_1 = require("./printLog");
 const Scaffolds_1 = require("../enums/Scaffolds");
+const Stage_1 = require("../enums/Stage");
+const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
+const isDevStage = process.env.STAGE === Stage_1.Stage.dev;
 const DependencyPackages = {
     [Scaffolds_1.Scaffolds.react]: ['art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack'],
     [Scaffolds_1.Scaffolds.miniprogram]: ['art-lib-common-miniprogram', 'art-lib-utils', 'art-lib-utils-wx', 'art-server-mock-miniprogram', 'art-webpack-miniprogram']
@@ -229,18 +232,25 @@ class ArtScaffold {
     autoServeModule() {
         inquirer_1.default.prompt(autoServeQuestion).then((answer) => {
             if (answer.autoServe) {
-                cross_spawn_1.default('art', this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram ?
-                    [
-                        'serve'
-                    ] :
-                    [
-                        'serve',
-                        '-m',
-                        this.moduleName
-                    ], {
-                    stdio: 'inherit'
-                }).
-                    on('close', (code) => {
+                let dllProcess;
+                if (isDevStage) {
+                    const symlinkPath = path_1.resolve(__dirname, `../../dist/index.js`);
+                    dllProcess = this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram ? executeNodeScript_1.default('node', symlinkPath, 'serve') : executeNodeScript_1.default('node', symlinkPath, 'serve', '-m', this.moduleName);
+                }
+                else {
+                    dllProcess = cross_spawn_1.default('art', this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram ?
+                        [
+                            'serve'
+                        ] :
+                        [
+                            'serve',
+                            '-m',
+                            this.moduleName
+                        ], {
+                        stdio: 'inherit'
+                    });
+                }
+                dllProcess.on('close', (code) => {
                     if (code !== 0) {
                         console.log(chalk_1.default.cyan('serve modules') + ' exited with code ' + code + '.');
                         return;
