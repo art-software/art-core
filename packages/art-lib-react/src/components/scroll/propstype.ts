@@ -9,7 +9,6 @@ export interface IScrollbarProps {
   options?: object;
   wrapperStyle?: object;
   didUpdateRefresh?: boolean;
-  inScrollTime?: boolean;
   onFlick?: (iScrollInstance: IScrollProbe) => void;
   onRefresh?: (iScrollInstance: IScrollProbe) => void;
   onInitialize?: (iScrollInstance: IScrollProbe) => void;

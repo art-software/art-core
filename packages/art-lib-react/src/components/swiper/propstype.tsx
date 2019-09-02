@@ -19,6 +19,8 @@ export interface ISwiper {
   flowDepth?         : number;                         // 3D translateZ value; Default: 40;
   onSwiperChanged?   : (currentPage: number) => void;  // onSwiperChanged callback
   onTap?             : (currentPage: number, event: React.MouseEvent<HTMLDivElement>) => void;  // onTap callback
-  getInitScroll?   : (scrollProb: IScrollProbe) => void;  // onTap callback
-  getEffectScroll?   : (scrollProb: IScrollProbe) => void;  // onTap callback
+  onScrollInit?: (scrollProb: IScrollProbe) => void;
+  onScroll?: (scrollProb: IScrollProbe) => void;
+  onScrollEnd?: (scrollProb: IScrollProbe) => void;
+  getScrollInstance?   : (scrollProb: IScrollProbe) => void;
 }
