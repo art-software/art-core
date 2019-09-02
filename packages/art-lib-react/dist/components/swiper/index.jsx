@@ -91,9 +91,7 @@ export default class Swiper extends CoreComponent {
             // So we should always using withIScroll(true, ()=>{}) to wait lastest iscroll instance
             this.scroll.withScroll(true, (scroll) => {
                 // if (this.scroll !== scroll) {
-                if (!this.hasEffects) {
-                    this.bindScrollEvents(scroll);
-                }
+                this.bindScrollEvents(scroll);
                 // this.scroll = scroll;
                 // }
                 if (callback) {
