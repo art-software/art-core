@@ -52,6 +52,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     private create3DStyle;
     private coverflowStyle;
     private rotateflowStyle;
+    private slantScaleFlowStyle;
     private swiperItemClassName;
     private handleSwipeItemTap;
     getStatus: () => {

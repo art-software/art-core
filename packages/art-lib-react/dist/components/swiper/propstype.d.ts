@@ -1,4 +1,5 @@
 /// <reference types="react" />
+import IScrollProbe from '../scroll/lib/iscroll-probe';
 export interface ISwiper {
     gap: number;
     loop?: boolean;
@@ -18,4 +19,6 @@ export interface ISwiper {
     flowDepth?: number;
     onSwiperChanged?: (currentPage: number) => void;
     onTap?: (currentPage: number, event: React.MouseEvent<HTMLDivElement>) => void;
+    getInitScroll?: (scrollProb: IScrollProbe) => void;
+    getEffectScroll?: (scrollProb: IScrollProbe) => void;
 }

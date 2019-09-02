@@ -1,3 +1,4 @@
+import IScrollProbe from '../scroll/lib/iscroll-probe';
 /* tslint:disable:typedef-whitespace */
 export interface ISwiper {
   gap                : number;                         // gap between two swipers (in px, 750px width scale)
@@ -18,4 +19,6 @@ export interface ISwiper {
   flowDepth?         : number;                         // 3D translateZ value; Default: 40;
   onSwiperChanged?   : (currentPage: number) => void;  // onSwiperChanged callback
   onTap?             : (currentPage: number, event: React.MouseEvent<HTMLDivElement>) => void;  // onTap callback
+  getInitScroll?   : (scrollProb: IScrollProbe) => void;  // onTap callback
+  getEffectScroll?   : (scrollProb: IScrollProbe) => void;  // onTap callback
 }

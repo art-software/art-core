@@ -8,6 +8,7 @@ import viewport from 'art-lib-utils/dist/utils/viewport';
 import Scroll from '../../components/scroll';
 import { isFunction } from 'art-lib-utils/dist/utils/lang';
 import Indicator from './indicator';
+import { getElemHeight } from 'art-lib-utils/dist/utils/dom';
 
 export default class Swiper extends CoreComponent<ISwiper, any> {
 
@@ -15,7 +16,8 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     super(props, context);
     this.state = {
       currentPage: 0,
-      initialSlideIndex: props.initialSlideIndex
+      initialSlideIndex: props.initialSlideIndex,
+      inScrollTime: false
     };
     this.id = 'swiper' + new Date().getTime();
     this.hasEffects = props.effect !== 'slide';
@@ -141,7 +143,9 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     // So we should always using withIScroll(true, ()=>{}) to wait lastest iscroll instance
     this.scroll.withScroll(true, (scroll) => {
       // if (this.scroll !== scroll) {
-      this.bindScrollEvents(scroll);
+      if (!this.hasEffects) {
+        this.bindScrollEvents(scroll);
+      }
       // this.scroll = scroll;
       // }
       if (callback) { callback(scroll); }
@@ -193,6 +197,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     console.log('scrollbar.onInitialize() new iscroll instance: ', scrollProbe);
     if (this.scrollProbe !== scrollProbe) {
       this.scrollProbe = scrollProbe;
+      // if (this.props.getInitScroll) { this.props.getInitScroll(scrollProbe); }
       this.bindScrollEvents(scrollProbe);
     }
     this.initSwiper();
@@ -204,12 +209,16 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     }
     if (this.hasEffects) {
       scrollProbe.on('scroll', () => {
+        this.setState({ inScrollTime: true }, () => {
+          if (this.props.getEffectScroll) { this.props.getEffectScroll(this.scrollProbe); }
+        });
         this.create3DStyle();
       });
     }
 
     scrollProbe.on('scrollEnd', () => {
       const currentPagePrev = this.state.currentPage;
+      this.setState({ inScrollTime: false });
       this.updateCurrentPage(() => {
         let { currentPage } = this.state;
         if (currentPagePrev !== currentPage) {
@@ -224,6 +233,11 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       });
     });
   }
+
+  // public getScrollProbe: () => IScrollProbe = () => {
+  //   console.log('1', this.scrollProbe);
+  //   return this.scrollProbe;
+  // }
 
   private updateCurrentPage = (callback = () => { }) => {
     let currentPage = this.scrollProbe.currentPage.pageX;
@@ -270,6 +284,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         this.clearTimeout();
         this.autoPlay(this.state.autoPlayInterval);
       }
+      if (this.props.getInitScroll) { this.props.getInitScroll(this.scrollProbe); }
     });
   }
 
@@ -301,6 +316,9 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       case 'rotateflow':
         this.rotateflowStyle();
         break;
+      case 'slantScaleFlow':
+        this.slantScaleFlowStyle();
+        break;
       default:
         break;
     }
@@ -310,6 +328,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     const { flowRotation = 40, flowDepth = 40, flowShadow } = this.props;
     const slides = document.querySelectorAll('#' + this.id + ' .swiper-item') as NodeListOf<HTMLElement>;
     if (!slides) { console.log('no swiper item found.'); return; }
+    // if (this.props.getEffectScroll) { this.props.getEffectScroll(this.scrollProbe); }
 
     for (let i = 0; i < slides.length; i++) {
       const x = -Math.round(this.scrollProbe.x + this.snapStepX * i);
@@ -354,6 +373,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     const { flowRotation = 20, flowDepth = 20 } = this.props;
     const slides = document.querySelectorAll('#' + this.id + ' .swiper-item') as NodeListOf<HTMLElement>;
     if (!slides) { console.log('no swiper item found.'); return; }
+    // if (this.props.getEffectScroll) { this.props.getEffectScroll(this.scrollProbe); }
 
     for (let i = 0; i < slides.length; i++) {
       const x = -Math.round(this.scrollProbe.x + this.snapStepX * i);
@@ -372,6 +392,36 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       if (Math.abs(opacity) < 0.001) { opacity = 0; }
       // const slideTransform = `translate3d(0,0,${translateZ}px) rotate(${rotate}deg)`;
       const slideTransform = `translate3d(0px,${translateY}px,0px) rotate(${-rotate}deg)`;
+
+      slideElement.style.webkitTransform = slideTransform;
+      slideElement.style.transform = slideTransform;
+      slideElement.style.opacity = `${opacity}`;
+    }
+  }
+
+  private slantScaleFlowStyle = () => {
+    const slides = document.querySelectorAll('#' + this.id + ' .swiper-item') as NodeListOf<HTMLElement>;
+    if (!slides) { console.log('no swiper item found.'); return; }
+    const eleHeight = getElemHeight(slides[0]);
+    // if (this.props.getEffectScroll) { this.props.getEffectScroll(this.scrollProbe); }
+
+    for (let i = 0; i < slides.length; i++) {
+      const x = -Math.round(this.scrollProbe.x + this.snapStepX * i);
+      const slideElement = slides[i];
+      // const shadowLeft = slideElement.querySelector('.shadow .swiper-slide-shadow-left') as HTMLElement;
+      // const shadowRight = slideElement.querySelector('.shadow .swiper-slide-shadow-right') as HTMLElement;
+
+      // rotate
+      let opacity = 1 - Math.abs(x / this.snapStepX);
+      // let translateX = -Math.abs(x / this.snapStepX);
+      const translateY = (x / this.snapStepX * eleHeight);
+      let scale = 1 - Math.abs(x / this.snapStepX);
+
+      // Fix for ultra small values
+      if (Math.abs(opacity) < 0.001) { opacity = 0; }
+      if (Math.abs(scale) < 0.001) { scale = 0; }
+
+      const slideTransform = `translate3d(0, ${translateY}px, 0) scale(${scale})`;
 
       slideElement.style.webkitTransform = slideTransform;
       slideElement.style.transform = slideTransform;
@@ -513,6 +563,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
             ref={this.scrollElem}
             onInitialize={this.handleScrollbarInitialize}
             options={scrollbarOptions}
+            inScrollTime={this.state.inScrollTime}
           >
             <div className={classNameSwipeItemsWrap} style={sliderWrapperStyle}>
               {
