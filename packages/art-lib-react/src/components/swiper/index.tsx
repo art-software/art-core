@@ -8,6 +8,7 @@ import viewport from 'art-lib-utils/dist/utils/viewport';
 import Scroll from '../../components/scroll';
 import { isFunction } from 'art-lib-utils/dist/utils/lang';
 import Indicator from './indicator';
+import { getElemHeight } from 'art-lib-utils/dist/utils/dom';
 
 export default class Swiper extends CoreComponent<ISwiper, any> {
 
@@ -15,7 +16,8 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     super(props, context);
     this.state = {
       currentPage: 0,
-      initialSlideIndex: props.initialSlideIndex
+      initialSlideIndex: props.initialSlideIndex,
+      // inScrollTime: true
     };
     this.id = 'swiper' + new Date().getTime();
     this.hasEffects = props.effect !== 'slide';
@@ -202,11 +204,12 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     if (scrollProbe.options.snapStepX !== undefined) {
       this.snapStepX = scrollProbe.options.snapStepX;
     }
-    if (this.hasEffects) {
-      scrollProbe.on('scroll', () => {
+    scrollProbe.on('scroll', () => {
+      if (this.props.onScroll) { this.props.onScroll(this.scrollProbe); }
+      if (this.hasEffects) {
         this.create3DStyle();
-      });
-    }
+      }
+    });
 
     scrollProbe.on('scrollEnd', () => {
       const currentPagePrev = this.state.currentPage;
@@ -220,9 +223,16 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
           if (this.props.onSwiperChanged) {
             this.props.onSwiperChanged(currentPage);
           }
+          if (this.props.onScrollEnd) { this.props.onScrollEnd(this.scrollProbe); }
         }
       });
     });
+  }
+
+  public getScrollInstance = () => {
+    if (this.props.getScrollInstance) {
+      this.props.getScrollInstance(this.scrollProbe);
+    }
   }
 
   private updateCurrentPage = (callback = () => { }) => {
@@ -270,6 +280,7 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         this.clearTimeout();
         this.autoPlay(this.state.autoPlayInterval);
       }
+      if (this.props.onScrollInit) { this.props.onScrollInit(this.scrollProbe); }
     });
   }
 
@@ -300,6 +311,9 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
         break;
       case 'rotateflow':
         this.rotateflowStyle();
+        break;
+      case 'slantScaleFlow':
+        this.slantScaleFlowStyle();
         break;
       default:
         break;
@@ -372,6 +386,35 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
       if (Math.abs(opacity) < 0.001) { opacity = 0; }
       // const slideTransform = `translate3d(0,0,${translateZ}px) rotate(${rotate}deg)`;
       const slideTransform = `translate3d(0px,${translateY}px,0px) rotate(${-rotate}deg)`;
+
+      slideElement.style.webkitTransform = slideTransform;
+      slideElement.style.transform = slideTransform;
+      slideElement.style.opacity = `${opacity}`;
+    }
+  }
+
+  private slantScaleFlowStyle = () => {
+    const slides = document.querySelectorAll('#' + this.id + ' .swiper-item') as NodeListOf<HTMLElement>;
+    if (!slides) { console.log('no swiper item found.'); return; }
+    const eleHeight = getElemHeight(slides[0]);
+
+    for (let i = 0; i < slides.length; i++) {
+      const x = -Math.round(this.scrollProbe.x + this.snapStepX * i);
+      const slideElement = slides[i];
+      // const shadowLeft = slideElement.querySelector('.shadow .swiper-slide-shadow-left') as HTMLElement;
+      // const shadowRight = slideElement.querySelector('.shadow .swiper-slide-shadow-right') as HTMLElement;
+
+      // rotate
+      let opacity = 1 - Math.abs(x / this.snapStepX);
+      // let translateX = -Math.abs(x / this.snapStepX);
+      const translateY = (x / this.snapStepX * eleHeight);
+      let scale = 1 - Math.abs(x / this.snapStepX);
+
+      // Fix for ultra small values
+      if (Math.abs(opacity) < 0.001) { opacity = 0; }
+      if (Math.abs(scale) < 0.001) { scale = 0; }
+
+      const slideTransform = `translate3d(0, ${translateY}px, 0) scale(${scale})`;
 
       slideElement.style.webkitTransform = slideTransform;
       slideElement.style.transform = slideTransform;
@@ -513,6 +556,8 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
             ref={this.scrollElem}
             onInitialize={this.handleScrollbarInitialize}
             options={scrollbarOptions}
+            // @ts-ignore
+            didupdaterefresh={false} // for swiper scroll time, set state don't trigger scroll update life circle
           >
             <div className={classNameSwipeItemsWrap} style={sliderWrapperStyle}>
               {
