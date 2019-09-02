@@ -137,15 +137,15 @@ export default class Swiper extends CoreComponent {
             console.log('scrollbar.onInitialize() new iscroll instance: ', scrollProbe);
             if (this.scrollProbe !== scrollProbe) {
                 this.scrollProbe = scrollProbe;
-                // if (this.props.getInitScroll) { this.props.getInitScroll(scrollProbe); }
                 this.bindScrollEvents(scrollProbe);
             }
             this.initSwiper();
         };
-        // public getScrollProbe: () => IScrollProbe = () => {
-        //   console.log('1', this.scrollProbe);
-        //   return this.scrollProbe;
-        // }
+        this.getScrollInstance = () => {
+            if (this.props.getScrollInstance) {
+                this.props.getScrollInstance(this.scrollProbe);
+            }
+        };
         this.updateCurrentPage = (callback = () => { }) => {
             let currentPage = this.scrollProbe.currentPage.pageX;
             const { pages, loop } = this.state;
@@ -185,8 +185,8 @@ export default class Swiper extends CoreComponent {
                     this.clearTimeout();
                     this.autoPlay(this.state.autoPlayInterval);
                 }
-                if (this.props.getInitScroll) {
-                    this.props.getInitScroll(this.scrollProbe);
+                if (this.props.onScrollInit) {
+                    this.props.onScrollInit(this.scrollProbe);
                 }
             });
         };
@@ -231,7 +231,6 @@ export default class Swiper extends CoreComponent {
                 console.log('no swiper item found.');
                 return;
             }
-            // if (this.props.getEffectScroll) { this.props.getEffectScroll(this.scrollProbe); }
             for (let i = 0; i < slides.length; i++) {
                 const x = -Math.round(this.scrollProbe.x + this.snapStepX * i);
                 const slideElement = slides[i];
@@ -276,7 +275,6 @@ export default class Swiper extends CoreComponent {
                 console.log('no swiper item found.');
                 return;
             }
-            // if (this.props.getEffectScroll) { this.props.getEffectScroll(this.scrollProbe); }
             for (let i = 0; i < slides.length; i++) {
                 const x = -Math.round(this.scrollProbe.x + this.snapStepX * i);
                 const slideElement = slides[i];
@@ -310,7 +308,6 @@ export default class Swiper extends CoreComponent {
                 return;
             }
             const eleHeight = getElemHeight(slides[0]);
-            // if (this.props.getEffectScroll) { this.props.getEffectScroll(this.scrollProbe); }
             for (let i = 0; i < slides.length; i++) {
                 const x = -Math.round(this.scrollProbe.x + this.snapStepX * i);
                 const slideElement = slides[i];
@@ -389,7 +386,6 @@ export default class Swiper extends CoreComponent {
         this.state = {
             currentPage: 0,
             initialSlideIndex: props.initialSlideIndex,
-            inScrollTime: false
         };
         this.id = 'swiper' + new Date().getTime();
         this.hasEffects = props.effect !== 'slide';
@@ -406,19 +402,16 @@ export default class Swiper extends CoreComponent {
         if (scrollProbe.options.snapStepX !== undefined) {
             this.snapStepX = scrollProbe.options.snapStepX;
         }
-        if (this.hasEffects) {
-            scrollProbe.on('scroll', () => {
-                this.setState({ inScrollTime: true }, () => {
-                    if (this.props.getEffectScroll) {
-                        this.props.getEffectScroll(this.scrollProbe);
-                    }
-                });
+        scrollProbe.on('scroll', () => {
+            if (this.props.onScroll) {
+                this.props.onScroll(this.scrollProbe);
+            }
+            if (this.hasEffects) {
                 this.create3DStyle();
-            });
-        }
+            }
+        });
         scrollProbe.on('scrollEnd', () => {
             const currentPagePrev = this.state.currentPage;
-            this.setState({ inScrollTime: false });
             this.updateCurrentPage(() => {
                 let { currentPage } = this.state;
                 if (currentPagePrev !== currentPage) {
@@ -428,6 +421,9 @@ export default class Swiper extends CoreComponent {
                     });
                     if (this.props.onSwiperChanged) {
                         this.props.onSwiperChanged(currentPage);
+                    }
+                    if (this.props.onScrollEnd) {
+                        this.props.onScrollEnd(this.scrollProbe);
                     }
                 }
             });
@@ -484,7 +480,10 @@ export default class Swiper extends CoreComponent {
         return (<div id={this.id} style={wrapperStyle} className={classNameSwiperWrap} onTouchStart={this.handleTouchStart} onTouchMove={this.handleTouchMove} onTouchEnd={this.handleTouchEnd} {...this.applyArgs('swiper')}>
         <div className="swiper-bg" style={gradientBackgroundStyle}></div>
         <div className="swiper-content" style={{ height: viewport.px2DPIpx(swiperHeight) }}>
-          <Scroll ref={this.scrollElem} onInitialize={this.handleScrollbarInitialize} options={scrollbarOptions} inScrollTime={this.state.inScrollTime}>
+          <Scroll ref={this.scrollElem} onInitialize={this.handleScrollbarInitialize} options={scrollbarOptions} 
+        // @ts-ignore
+        didupdaterefresh={false} // for swiper scroll time, set state don't trigger scroll update life circle
+        >
             <div className={classNameSwipeItemsWrap} style={sliderWrapperStyle}>
               {(swipeItems || []).map((item, index) => {
             Object.assign({}, item.props.style, childrenStyle);

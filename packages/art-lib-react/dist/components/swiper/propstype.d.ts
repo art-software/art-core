@@ -19,6 +19,8 @@ export interface ISwiper {
     flowDepth?: number;
     onSwiperChanged?: (currentPage: number) => void;
     onTap?: (currentPage: number, event: React.MouseEvent<HTMLDivElement>) => void;
-    getInitScroll?: (scrollProb: IScrollProbe) => void;
-    getEffectScroll?: (scrollProb: IScrollProbe) => void;
+    onScrollInit?: (scrollProb: IScrollProbe) => void;
+    onScroll?: (scrollProb: IScrollProbe) => void;
+    onScrollEnd?: (scrollProb: IScrollProbe) => void;
+    getScrollInstance?: (scrollProb: IScrollProbe) => void;
 }
