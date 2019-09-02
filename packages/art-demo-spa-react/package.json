@@ -1,6 +1,6 @@
 {
   "name": "art-demo-spa-react",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "art demo SPA react",
   "main": "index.js",
   "author": "Bowen Zhong",
@@ -8,7 +8,7 @@
   "private": true,
   "dependencies": {
     "art-lib-common": "^0.0.9",
-    "art-lib-react": "^0.0.41",
+    "art-lib-react": "^0.0.42",
     "art-lib-utils": "^0.0.8",
     "art-server-mock": "^0.0.23",
     "art-webpack": "^0.0.46",
