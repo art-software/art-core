@@ -232,13 +232,15 @@ class ArtScaffold {
     autoServeModule() {
         inquirer_1.default.prompt(autoServeQuestion).then((answer) => {
             if (answer.autoServe) {
-                let dllProcess;
+                let serveProcess;
                 if (isDevStage) {
                     const symlinkPath = path_1.resolve(__dirname, `../../dist/index.js`);
-                    dllProcess = this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram ? executeNodeScript_1.default('node', symlinkPath, 'serve') : executeNodeScript_1.default('node', symlinkPath, 'serve', '-m', this.moduleName);
+                    serveProcess = this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram ?
+                        executeNodeScript_1.default('node', symlinkPath, 'serve') :
+                        executeNodeScript_1.default('node', symlinkPath, 'serve', '-m', this.moduleName);
                 }
                 else {
-                    dllProcess = cross_spawn_1.default('art', this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram ?
+                    serveProcess = cross_spawn_1.default('art', this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram ?
                         [
                             'serve'
                         ] :
@@ -250,7 +252,7 @@ class ArtScaffold {
                         stdio: 'inherit'
                     });
                 }
-                dllProcess.on('close', (code) => {
+                serveProcess.on('close', (code) => {
                     if (code !== 0) {
                         console.log(chalk_1.default.cyan('serve modules') + ' exited with code ' + code + '.');
                         return;
