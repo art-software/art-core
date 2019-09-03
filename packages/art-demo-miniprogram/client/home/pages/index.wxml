@@ -1,8 +1,0 @@
-<view class="home">
-
-  <image src="../assets/img-test.png" />
-  <view class="test-text">
-    Test name: {{ name }}
-  </view>
-
-</view>
