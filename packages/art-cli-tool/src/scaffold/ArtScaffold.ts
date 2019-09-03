@@ -272,12 +272,14 @@ export default class ArtScaffold {
   public autoServeModule() {
     inquirer.prompt(autoServeQuestion).then((answer: Answers) => {
       if (answer.autoServe) {
-        let dllProcess;
+        let serveProcess;
         if (isDevStage) {
           const symlinkPath = resolvePath(__dirname, `../../dist/index.js`);
-          dllProcess = this.scaffoldType === Scaffolds.miniprogram ? executeNodeScript('node', symlinkPath, 'serve') : executeNodeScript('node', symlinkPath, 'serve', '-m', this.moduleName);
+          serveProcess = this.scaffoldType === Scaffolds.miniprogram ?
+          executeNodeScript('node', symlinkPath, 'serve') :
+          executeNodeScript('node', symlinkPath, 'serve', '-m', this.moduleName);
         } else {
-          dllProcess = spawn(
+          serveProcess = spawn(
             'art',
             this.scaffoldType === Scaffolds.miniprogram ?
             [
@@ -293,7 +295,7 @@ export default class ArtScaffold {
             }
           );
         }
-        dllProcess.on('close', (code) => {
+        serveProcess.on('close', (code) => {
           if (code !== 0) {
             console.log(chalk.cyan('serve modules') + ' exited with code ' + code + '.');
             return;
