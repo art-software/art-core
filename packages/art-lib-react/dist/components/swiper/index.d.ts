@@ -46,12 +46,14 @@ export default class Swiper extends CoreComponent<ISwiper, any> {
     private scrollElem;
     private handleScrollbarInitialize;
     bindScrollEvents(scrollProbe: IScrollProbe): void;
+    getScrollInstance: () => void;
     private updateCurrentPage;
     private initSwiper;
     private autoPlay;
     private create3DStyle;
     private coverflowStyle;
     private rotateflowStyle;
+    private slantScaleFlowStyle;
     private swiperItemClassName;
     private handleSwipeItemTap;
     getStatus: () => {
