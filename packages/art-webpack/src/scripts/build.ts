@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join, resolve as resolvePath } from 'path';
 import { confirmModules } from '../utils/inquirer';
 import { measureFileSizesBeforeBuild, FileSizeProps, printFileSizesAfterBuild } from 'art-dev-utils/lib/fileSizeReporter';
 import paths from '../config/paths';
@@ -14,8 +14,11 @@ import appConfig from '../config/appConfig';
 import { BuildEnv } from '../enums/BuildEnv';
 import inquirer = require('inquirer');
 import spawn from 'cross-spawn';
+import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
+import { Stage } from '../enums/Stage';
 const BUILD_ENV = appConfig.get('BUILD_ENV');
 const BUILD_PATH = BUILD_ENV === BuildEnv.prod ? paths.appPublic : paths.appDebug;
+const isDevStage = process.env.STAGE === Stage.dev;
 
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
@@ -95,8 +98,14 @@ function runDllCommand() {
       message: 'run art dll for you?'
     }).then((answers: { artDllOk: boolean }) => {
       if (answers.artDllOk) {
-        spawn('art', ['dll'], { stdio: 'inherit' }).
-        on('close', (code) => {
+        let dllProcess;
+        if (isDevStage) {
+          const symlinkPath = resolvePath(__dirname, `../../../art-cli-tool/dist/index.js`);
+          dllProcess = executeNodeScript('node', symlinkPath, 'dll');
+        } else {
+          dllProcess = spawn('art', ['dll'], { stdio: 'inherit' });
+        }
+        dllProcess.on('close', (code) => {
           if (code === 0) {
             console.log(chalk.green('run art dll successfully!'));
             resolve();

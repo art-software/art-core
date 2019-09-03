@@ -7,7 +7,7 @@ import { getElemHeight } from 'art-lib-utils/dist/utils/dom';
 import { shallowEqual } from 'art-lib-utils/dist/utils/shallow-compare';
 // Default lock document touch event within scrollbar.
 lockTouchEvent();
-const excludePropNames = ['defer', 'iScroll', 'onRefresh', 'onInitialize', 'options', 'height', 'style', 'width', 'className', 'class', 'wrapperStyle'];
+const excludePropNames = ['defer', 'iScroll', 'onRefresh', 'onInitialize', 'options', 'height', 'style', 'width', 'className', 'class', 'wrapperStyle', 'didupdaterefresh'];
 // Events available on iScroll instance {`react component event name`: `iScroll event name`}
 const availableEventNames = {};
 const iScrollEventNames = [
