@@ -16,6 +16,7 @@ import { HtmlWebpackChunksPlugin } from '../plugins/HtmlWebpackChunksPlugin';
 const isProdEnv = isProd();
 
 const configHtmlWebpackPlugin = (entries: object): any[] => {
+  console.log('entries: ', entries);
   const plugins: any[] = [];
   const projectVirtualPath = appConfig.get('art:projectVirtualPath') || '';
   const buildEnv = appConfig.get('BUILD_ENV');
@@ -94,20 +95,17 @@ export const configBasePlugins = (entries: object) => {
           loader: 'ts-loader',
           options: {
             transpileOnly: true,
-            // TODO remove comment
-            // silent: false,
-            silent: true,
+            silent: false,
             happyPackMode: true
           }
         }
       ]
     }),
 
-    // TODO remove comment
-    // new ForkTsCheckerWebpackPlugin({
-    //   tsconfig: paths.appTsConfig,
-    //   tslint: paths.appTsLintConfig
-    // })
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: paths.appTsConfig,
+      tslint: paths.appTsLintConfig
+    })
   ];
   if (isProdEnv) {
     plugins = plugins.concat(configHtmlWebpackPlugin(entries));

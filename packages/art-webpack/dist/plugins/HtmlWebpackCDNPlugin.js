@@ -13,6 +13,7 @@ const path = __importStar(require("path"));
 class HtmlWebpackCDNPlugin {
     apply(compiler) {
         compiler.hooks.compilation.tap('html-webpack-cdn-plugin', (compilation) => {
+            // console.log('compilation.hooks: ', compilation.hooks);
             compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync('html-webpack-cdn-plugin', (htmlPluginData, callback) => {
                 const result = this.handleAssets(htmlPluginData);
                 if (callback) {

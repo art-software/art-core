@@ -12,6 +12,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const progress_bar_webpack_plugin_1 = __importDefault(require("progress-bar-webpack-plugin"));
 const chalk_1 = __importDefault(require("chalk"));
+const fork_ts_checker_webpack_plugin_1 = __importDefault(require("fork-ts-checker-webpack-plugin"));
+const paths_1 = __importDefault(require("./paths"));
 const appConfig_1 = __importDefault(require("./appConfig"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
@@ -24,6 +26,7 @@ const env_1 = require("../utils/env");
 const HtmlWebpackChunksPlugin_1 = require("../plugins/HtmlWebpackChunksPlugin");
 const isProdEnv = env_1.isProd();
 const configHtmlWebpackPlugin = (entries) => {
+    console.log('entries: ', entries);
     const plugins = [];
     const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
     const buildEnv = appConfig_1.default.get('BUILD_ENV');
@@ -93,14 +96,16 @@ exports.configBasePlugins = (entries) => {
                     loader: 'ts-loader',
                     options: {
                         transpileOnly: true,
-                        // TODO remove comment
-                        // silent: false,
-                        silent: true,
+                        silent: false,
                         happyPackMode: true
                     }
                 }
             ]
         }),
+        new fork_ts_checker_webpack_plugin_1.default({
+            tsconfig: paths_1.default.appTsConfig,
+            tslint: paths_1.default.appTsLintConfig
+        })
     ];
     if (isProdEnv) {
         plugins = plugins.concat(configHtmlWebpackPlugin(entries));
