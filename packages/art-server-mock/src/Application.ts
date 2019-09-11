@@ -19,6 +19,7 @@ import IndexPage from './pages/index';
 const artConfigPath = join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
 const envName = config.get('NODE_ENV') || 'development';
+const artModules = JSON.parse(config.get('ART_MODULES')) || [];
 
 export default class App {
 
@@ -70,7 +71,7 @@ export default class App {
     });
 
     app.use(/\/[^.]*$|^(?:https?:)?\/\/[^/]+$/, (req, res) => {
-      indexPage.indexPage(req, res);
+      indexPage.indexPage(req, res, artModules);
     });
   }
 

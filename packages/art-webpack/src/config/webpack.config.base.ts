@@ -25,7 +25,7 @@ export class WebpackBaseConfig implements Configuration {
     rules: configBaseRules()
   };
 
-  public plugins = configBasePlugins;
+  public plugins = configBasePlugins(this.entry);
 
   public optimization = {
     splitChunks: {

@@ -7,11 +7,8 @@ const Routes = () => {
   return (
     // @ts-ignore
     <HashRouter>
-      // @ts-ignore
       <Switch>
-        // @ts-ignore
         <Route exact={true} path="/" component={ViewIndex} ></Route>
-        // @ts-ignore
         <Route component={Page404}></Route>
       </Switch>
     </HashRouter>

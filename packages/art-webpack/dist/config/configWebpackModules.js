@@ -20,6 +20,7 @@ const env_1 = require("../utils/env");
 const BuildEnv_1 = require("../enums/BuildEnv");
 const envName = appConfig_1.default.get('NODE_ENV');
 const isProdEnv = env_1.isProd();
+const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
 const getHotDevServerScripts = () => {
     // WEBPACK DEV SERVER PORT
     const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
@@ -43,32 +44,25 @@ exports.attachHotDevServerScripts = (entries) => {
  *
  * @param {Boolean} keepQuery the flag indicates if we need to remove query string of entry item
  */
-exports.webpackEntries = (keepQuery) => {
-    let argvModules = JSON.parse(appConfig_1.default.get('ART_MODULES') || '[]');
-    if (typeof argvModules === 'string') {
-        argvModules = JSON.parse(argvModules);
-    }
+exports.webpackEntries = (moduleName, keepQuery) => {
     const allModules = appConfig_1.default.get('art:webpack:entry');
-    if (!argvModules.length) {
-        argvModules = ['**'];
-    }
     const newEntries = {};
-    argvModules.forEach((moduleEntry) => {
-        let modulePattern = path.join(moduleEntry.replace(/(\*)+$/ig, '').replace(/^client/, ''), '**/*.{js,jsx,ts,tsx}');
-        modulePattern = ['./', path.join('client', modulePattern)].join('');
-        for (const key in allModules) {
-            const matched = minimatch_1.default.match(ensureHasDotExtension(allModules[key]), modulePattern, { matchBase: true });
-            if (matched.length) {
-                newEntries[keepQuery ? key : key.split('?')[0]] = [path.join(__dirname, './polyfills')].concat(matched);
-            }
+    console.log('moduleName: ', moduleName);
+    let modulePattern = path.join(moduleName.replace(/(\*)+$/ig, '').replace(/^client/, ''), '**/*.{js,jsx,ts,tsx}');
+    modulePattern = ['./', path.join('client', modulePattern)].join('');
+    for (const key in allModules) {
+        const matched = minimatch_1.default.match(ensureHasDotExtension(allModules[key]), modulePattern, { matchBase: true });
+        if (matched.length) {
+            newEntries[keepQuery ? key : key.split('?')[0]] = [path.join(__dirname, './polyfills')].concat(matched);
+            return newEntries;
         }
-    });
+    }
     return newEntries;
 };
 /**
  * Get webpack `output` element configuration
  */
-exports.webpackOutput = () => {
+exports.webpackOutput = (moduleEntry) => {
     const buildEnv = appConfig_1.default.get('BUILD_ENV');
     const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false);
     const port = appConfig_1.default.get(`devPort:${envName}`);
@@ -77,7 +71,7 @@ exports.webpackOutput = () => {
     const outRelativePath = buildEnv === BuildEnv_1.BuildEnv.prod ? './public/' : './debug/';
     return {
         filename: `[name]/${bundleFileNamePattern('.js')}`,
-        chunkFilename: `[id].[chunkhash].js`,
+        chunkFilename: `${projectVirtualPath}/${moduleEntry}/[id].[chunkhash].js`,
         path: path.resolve(paths_1.default.appCwd, outRelativePath),
         publicPath
     };

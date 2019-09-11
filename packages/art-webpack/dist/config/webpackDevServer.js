@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const paths_1 = __importDefault(require("./paths"));
 const appConfig_1 = __importDefault(require("./appConfig"));
-const configWebpackModules_1 = require("./configWebpackModules");
 const ensureSlash_1 = __importDefault(require("art-dev-utils/lib/ensureSlash"));
 const cors_1 = __importDefault(require("cors"));
 const errorOverlayMiddleware_1 = __importDefault(require("art-dev-utils/lib/errorOverlayMiddleware"));
 const webpackDevServeConfig = (proxy, allowedHost) => {
     const envName = process.env.NODE_ENV || 'development';
-    const { publicPath } = configWebpackModules_1.webpackOutput();
     const host = ensureSlash_1.default(appConfig_1.default.get(`devHost:${envName}`), false) || '0.0.0.0';
+    const port = appConfig_1.default.get(`devPort:${envName}`);
+    const publicPath = `${host}:${port}/public/`;
     return {
         disableHostCheck: !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
         // Enable gzip compression of generated files.
