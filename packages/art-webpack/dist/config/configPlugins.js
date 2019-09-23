@@ -14,7 +14,6 @@ const progress_bar_webpack_plugin_1 = __importDefault(require("progress-bar-webp
 const chalk_1 = __importDefault(require("chalk"));
 const fork_ts_checker_webpack_plugin_1 = __importDefault(require("fork-ts-checker-webpack-plugin"));
 const paths_1 = __importDefault(require("./paths"));
-const configWebpackModules_1 = require("./configWebpackModules");
 const appConfig_1 = __importDefault(require("./appConfig"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
@@ -24,17 +23,16 @@ const html_webpack_plugin_1 = __importDefault(require("html-webpack-plugin"));
 const HtmlWebpackCDNPlugin_1 = __importDefault(require("../plugins/HtmlWebpackCDNPlugin"));
 const happypack_1 = __importDefault(require("happypack"));
 const env_1 = require("../utils/env");
-const DynamicChunkNamePlugin_1 = __importDefault(require("../plugins/DynamicChunkNamePlugin"));
 const HtmlWebpackChunksPlugin_1 = require("../plugins/HtmlWebpackChunksPlugin");
 const isProdEnv = env_1.isProd();
 const configHtmlWebpackPlugin = (entries) => {
+    console.log('entries: ', entries);
     const plugins = [];
-    const newEntries = entries || configWebpackModules_1.webpackEntries(false);
     const projectVirtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
     const buildEnv = appConfig_1.default.get('BUILD_ENV');
     const assetsProdPublicPath = appConfig_1.default.get(`art:webpack:output:${buildEnv}PublicPath`) || '';
     console.log(`assetsProdPublicPath: ${assetsProdPublicPath}`);
-    foreach_1.default(newEntries, (value, key) => {
+    foreach_1.default(entries, (value, key) => {
         const fragment = key.split('?');
         const entryKey = fragment[0];
         const queryKey = fragment[1];
@@ -68,21 +66,12 @@ const configHtmlWebpackPlugin = (entries) => {
     plugins.push(new HtmlWebpackCDNPlugin_1.default());
     return plugins;
 };
-const getRawModuleEntry = (entries) => {
-    for (const key in entries) {
-        entries[key] = entries[key].slice(1);
-    }
-    return entries;
-};
-exports.configBasePlugins = (() => {
+exports.configBasePlugins = (entries) => {
     let plugins = [
         new progress_bar_webpack_plugin_1.default({
             format: chalk_1.default.cyan('build') + ' [:bar] ' + chalk_1.default.green.bold(':percent') + ' (:elapsed seconds)',
             clear: false
         }),
-        // new MiniCssExtractPlugin({
-        //   chunkFilename: '[id].[chunkhash].css'
-        // }),
         new happypack_1.default({
             id: 'jsx',
             threads: 3,
@@ -116,11 +105,10 @@ exports.configBasePlugins = (() => {
         new fork_ts_checker_webpack_plugin_1.default({
             tsconfig: paths_1.default.appTsConfig,
             tslint: paths_1.default.appTsLintConfig
-        }),
-        new DynamicChunkNamePlugin_1.default(getRawModuleEntry(configWebpackModules_1.webpackEntries(false)))
+        })
     ];
     if (isProdEnv) {
-        plugins = plugins.concat(configHtmlWebpackPlugin());
+        plugins = plugins.concat(configHtmlWebpackPlugin(entries));
     }
     return plugins;
-})();
+};

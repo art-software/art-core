@@ -8,6 +8,7 @@ export class WebpackBaseConfig implements Configuration {
   constructor(entry, output) {
     this.entry = entry;
     this.output = output;
+    this.plugins = configBasePlugins(entry);
   }
 
   public entry: any;
@@ -25,7 +26,7 @@ export class WebpackBaseConfig implements Configuration {
     rules: configBaseRules()
   };
 
-  public plugins = configBasePlugins;
+  public plugins: any;
 
   public optimization = {
     splitChunks: {

@@ -19,7 +19,8 @@ const DEFAULT_PORT = appConfig.get(`devPort:${envName}`);
 const isInteractive = process.stdout.isTTY;
 
 let nodeServerHasLunched = false;
-const lunchNodeServer = (modules: string, port: number) => {
+const lunchNodeServer = (port: number) => {
+  const artModules = appConfig.get('ART_MODULES');
 
   if (nodeServerHasLunched) { return; }
   if (isInteractive) { clearConsole(); }
@@ -31,7 +32,7 @@ const lunchNodeServer = (modules: string, port: number) => {
     '--ignore', paths.appMockServer,
     '-e', 'js, jsx, ts',
     mockServerPath,
-    '--ART_MODULES', `${JSON.stringify(modules)}`,
+    '--ART_MODULES', `${JSON.stringify(artModules)}`,
     '--ART_WEBPACK_PORT', `${port}`
   );
 
@@ -45,8 +46,8 @@ const compileMockServer = () => {
 
   executeNodeScript(
     process.env.STAGE === 'dev' ?
-    '../../node_modules/.bin/tsc' :
-    path.join(process.cwd(), 'node_modules/.bin/tsc'),
+      '../../node_modules/.bin/tsc' :
+      path.join(process.cwd(), 'node_modules/.bin/tsc'),
     '-p', `${paths.appMockServerConfig}`,
     '-w'
   );
@@ -65,12 +66,15 @@ const confirmModulesCb = (answer) => {
       const urls = prepareUrls(protocol, HOST, port);
 
       const webpackconfig = getWebpackConfig();
+      // const allEntries = webpackconfig.reduce((prev, curr) => {
+      //   return Object.assign(prev, curr.entry);
+      // }, {});
+      // console.log('allEntries: ', allEntries);
 
       const compiler = createServeCompiler(webpackconfig, (success) => {
         if (success) {
           console.log('Compiler instance created successfully.');
-          const artModules = appConfig.get('ART_MODULES');
-          lunchNodeServer(artModules, port);
+          lunchNodeServer(port);
           compileMockServer();
         }
       });

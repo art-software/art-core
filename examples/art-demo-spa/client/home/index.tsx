@@ -6,7 +6,6 @@ import Routes from './routes';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  // @ts-ignore
   <BrowserRouter>
     <Routes />
   </BrowserRouter>,
