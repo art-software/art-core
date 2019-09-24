@@ -12,7 +12,7 @@ const Scaffolds_1 = require("../enums/Scaffolds");
 const CreateCmdTypes_1 = require("../enums/CreateCmdTypes");
 const resolveAppPath_1 = __importDefault(require("art-dev-utils/lib/resolveAppPath"));
 const fs_1 = require("fs");
-const scaffolds = [Scaffolds_1.Scaffolds.react, Scaffolds_1.Scaffolds.miniprogram];
+const scaffolds = [Scaffolds_1.Scaffolds.react, Scaffolds_1.Scaffolds.miniprogram, Scaffolds_1.Scaffolds.ssrReact, Scaffolds_1.Scaffolds.ssrVue];
 class CreateCommand {
     constructor() {
         this.command = 'create';

@@ -160,33 +160,118 @@ export default class ArtScaffold {
         chalk.red('the property [scaffoldType] is required!')
       );
     }
-
     this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
 
-    const asyncQueue = [
-      this.syncConfigFiles.bind(this),
-      this.syncArtConfig.bind(this),
-      this.syncServerFiles.bind(this),
-      this.syncClientFiles.bind(this)
-    ];
-
-    if (this.scaffoldType === Scaffolds.miniprogram) {
-      asyncQueue.push(this.syncUpdateAppJson.bind(this));
-    }
-
-    return new Promise((resolve, reject) => {
-      series(asyncQueue, async (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          if (this.scaffoldType === Scaffolds.react) {
-            await this.syncTemplateFile();
+    if (this.scaffoldType === Scaffolds.ssrReact) {
+      console.log(this.scaffoldFrom, this.scaffoldTo);
+      const asyncQueue = [
+        this.syncIgnoreFiles.bind(this),
+        ...this.getSsrReactServiceRenderQuene(),
+        ...this.getSsrReactServiceWebQuene(),
+        ...this.getSsrWebReactQuene()
+      ];
+      return new Promise((resolve, reject) => {
+        series(asyncQueue, async (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            // resolve(result);
           }
-          await this.autoInstallAfterCreateProject();
-          // resolve(result);
-        }
+          console.log('err, result:::', err, result);
+        });
       });
-    });
+    } else if (this.scaffoldType === Scaffolds.ssrVue) {
+      console.log('本框架暂不支持SSR VUE');
+    } else {
+      const asyncQueue = [
+        this.syncConfigFiles.bind(this),
+        this.syncArtConfig.bind(this),
+        this.syncServerFiles.bind(this),
+        this.syncClientFiles.bind(this)
+      ];
+
+      if (this.scaffoldType === Scaffolds.miniprogram) {
+        asyncQueue.push(this.syncUpdateAppJson.bind(this));
+      }
+
+      return new Promise((resolve, reject) => {
+        series(asyncQueue, async (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            if (this.scaffoldType === Scaffolds.react) {
+              await this.syncTemplateFile();
+            }
+            await this.autoInstallAfterCreateProject();
+            // resolve(result);
+          }
+        });
+      });
+    }
+  }
+
+  public getSsrReactServiceRenderQuene () {
+    return [
+      this.syncSSRConfigFiles.bind(this, 'service-render', 'configServiceRenderMapping'),
+      this.syncServiceRenderServerFiles.bind(this)
+    ];
+  }
+
+  public getSsrReactServiceWebQuene () {
+    return [
+      this.syncSSRConfigFiles.bind(this, 'service-web', 'configServiceWebMapping'),
+      this.syncSSRSrcFiles.bind(this, 'service-web')
+    ];
+  }
+
+  public getSsrWebReactQuene () {
+    return [
+      this.syncConfigFiles.bind(this, 'web-react'),
+      this.syncArtConfig.bind(this, 'web-react'),
+      this.syncServerFiles.bind(this, 'web-react'),
+      this.syncClientFiles.bind(this, 'web-react')
+    ];
+  }
+
+  public syncServiceRenderServerFiles (callback) {
+    require(`./${this.scaffoldType}/syncServiceRenderServerFiles.js`).call(
+      this,
+      join(this.scaffoldFrom, 'service-render/src'),
+      join(this.scaffoldTo, 'service-render/src'),
+      'service-render',
+      callback
+    );
+    // TODO update server.ts
+  }
+
+  public syncSSRSrcFiles (folder, callback) {
+    require(`./${this.scaffoldType}/syncServiceWebSrcFiles.js`).call(
+      this,
+      join(this.scaffoldFrom, folder),
+      join(this.scaffoldTo, folder),
+      folder,
+      callback
+    );
+  }
+
+  public syncSSRConfigFiles (folder, mapMethod, callback) {
+    require(`./${this.scaffoldType}/syncFolderConfigFiles.js`).call(
+      this,
+      join(this.scaffoldFrom, folder),
+      join(this.scaffoldTo, folder),
+      mapMethod,
+      folder,
+      callback
+    );
+  }
+
+  public syncIgnoreFiles (callback) {
+    require(`./${this.scaffoldType}/syncIgnoreFiles.js`).call(
+      this,
+      this.scaffoldFrom,
+      this.scaffoldTo,
+      callback
+    );
   }
 
   public async syncTemplateFile () {
@@ -359,38 +444,38 @@ export default class ArtScaffold {
     return join(__dirname, '../../templates/', scaffoldType);
   }
 
-  public syncConfigFiles(callback) {
+  public syncConfigFiles(path: string = '', callback) {
     require(`./${this.scaffoldType}/syncConfigFiles.js`).call(
       this,
-      this.scaffoldFrom,
-      this.scaffoldTo,
+      join(this.scaffoldFrom, path),
+      join(this.scaffoldTo, path),
       callback
     );
   }
 
-  public syncArtConfig(callback) {
+  public syncArtConfig(path: string = '', callback) {
     require(`./${this.scaffoldType}/syncArtConfig.js`).call(
       this,
-      this.scaffoldFrom,
-      this.scaffoldTo,
+      join(this.scaffoldFrom, path),
+      join(this.scaffoldTo, path),
       callback
     );
   }
 
-  public syncServerFiles(callback) {
+  public syncServerFiles(path: string = '', callback) {
     require(`./${this.scaffoldType}/syncServerFiles.js`).call(
       this,
-      this.scaffoldFrom,
-      this.scaffoldTo,
+      join(this.scaffoldFrom, path),
+      join(this.scaffoldTo, path),
       callback
     );
   }
 
-  public syncClientFiles(callback) {
+  public syncClientFiles(path: string = '', callback) {
     require(`./${this.scaffoldType}/syncClientFiles.js`).call(
       this,
-      this.scaffoldFrom,
-      this.scaffoldTo,
+      join(this.scaffoldFrom, path),
+      join(this.scaffoldTo, path),
       callback
     );
   }
