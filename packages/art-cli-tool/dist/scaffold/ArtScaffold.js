@@ -23,10 +23,16 @@ const printLog_1 = require("./printLog");
 const Scaffolds_1 = require("../enums/Scaffolds");
 const Stage_1 = require("../enums/Stage");
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
+const lang_1 = require("art-lib-utils/dist/utils/lang");
 const isDevStage = process.env.STAGE === Stage_1.Stage.dev;
 const DependencyPackages = {
     [Scaffolds_1.Scaffolds.react]: ['art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack'],
-    [Scaffolds_1.Scaffolds.miniprogram]: ['art-lib-common-miniprogram', 'art-lib-utils', 'art-lib-utils-wx', 'art-server-mock-miniprogram', 'art-webpack-miniprogram']
+    [Scaffolds_1.Scaffolds.miniprogram]: ['art-lib-common-miniprogram', 'art-lib-utils', 'art-lib-utils-wx', 'art-server-mock-miniprogram', 'art-webpack-miniprogram'],
+    [Scaffolds_1.Scaffolds.ssrReact]: {
+        'service-render': ['art-ssr-render'],
+        'service-web': ['art-ssr-aggregator-node'],
+        'web-react': ['art-ssr-react-router', 'art-ssr-react', 'art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack']
+    }
 };
 exports.InstallCommands = {
     [ModulesManagers_1.ModulesManagers.YARN]: {
@@ -154,13 +160,11 @@ class ArtScaffold {
                     }
                     else {
                         // resolve(result);
+                        yield this.autoInstallAfterCreateProject();
                     }
                     console.log('err, result:::', err, result);
                 }));
             });
-        }
-        else if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrVue) {
-            console.log('本框架暂不支持SSR VUE');
         }
         else {
             const asyncQueue = [
@@ -237,10 +241,22 @@ class ArtScaffold {
                 const inquirerPM = yield inquirer_1.default.prompt(installManagerQuestion).then((answer) => {
                     return answer;
                 });
-                yield this.installDependencyPackages(inquirerPM, 'default');
-                yield this.installDependencyPackages(inquirerPM, 'particular');
+                if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
+                    // TODO 分别进到三个文件夹 执行yarn install
+                    yield this.installDependencyPackages(inquirerPM, 'particular', 'service-render');
+                    yield this.installDependencyPackages(inquirerPM, 'particular', 'service-web');
+                    yield this.installDependencyPackages(inquirerPM, 'particular', 'web-react');
+                    yield this.installDependencyPackages(inquirerPM, 'default', 'service-render');
+                    yield this.installDependencyPackages(inquirerPM, 'default', 'service-web');
+                    yield this.installDependencyPackages(inquirerPM, 'default', 'web-react');
+                }
+                else {
+                    yield this.installDependencyPackages(inquirerPM, 'default');
+                    yield this.installDependencyPackages(inquirerPM, 'particular');
+                }
             }
             else {
+                // TODO修改 不同文件夹打印
                 chalk_1.default.blue(`You can manually install following modules:
           ${chalk_1.default.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
         before starting project.`);
@@ -248,22 +264,35 @@ class ArtScaffold {
             }
         });
     }
-    installDependencyPackages(answer, type) {
+    installDependencyPackages(answer, type, execFolder) {
         printLog_1.printInstructions(`Start installing [${this.scaffoldType}] ${type} dependency packages...`);
         let dependencyArr = [];
         if (type === 'particular') {
-            dependencyArr = DependencyPackages[this.scaffoldType] || [];
+            const packagesArr = DependencyPackages[this.scaffoldType];
+            if (lang_1.isArray(packagesArr)) {
+                dependencyArr = DependencyPackages[this.scaffoldType];
+            }
+            else if (lang_1.isObject(packagesArr)) {
+                console.log(1232323233, lang_1.isArray(packagesArr), lang_1.isObject(packagesArr));
+                dependencyArr = packagesArr[execFolder];
+                console.log('execFolder:::', execFolder);
+                console.log('dependencyArr:::', dependencyArr);
+            }
             dependencyArr.forEach((item) => {
                 console.log(chalk_1.default.magenta(item));
             });
+        }
+        const spawnOptions = {
+            stdio: 'inherit'
+        };
+        if (execFolder) {
+            spawnOptions.cwd = path_1.join(this.scaffoldTo, execFolder);
         }
         return new Promise((resolve, reject) => {
             cross_spawn_1.default(answer.modulesManager, [
                 exports.InstallCommands[answer.modulesManager][type],
                 ...dependencyArr
-            ], {
-                stdio: 'inherit'
-            }).on('close', (code) => {
+            ], spawnOptions).on('close', (code) => {
                 if (code === 0) {
                     console.log(chalk_1.default.green(`Install ${type} dependencies successfully`));
                     if (type === 'default') {
@@ -278,7 +307,7 @@ class ArtScaffold {
                     resolve();
                 }
                 else {
-                    console.log(chalk_1.default.cyan('Install dependency packages' + type) + ' exited with code ' + code + '.');
+                    console.log(chalk_1.default.cyan('Install dependency packages ' + type) + ' exited with code ' + code + '.');
                     reject();
                 }
             }).on('error', (err) => {
