@@ -34,12 +34,11 @@ const url_join_1 = __importDefault(require("url-join"));
 const chalk_1 = __importDefault(require("chalk"));
 const fs = __importStar(require("fs"));
 const glob_1 = __importDefault(require("glob"));
-const runtimeEnv_1 = require("../utils/runtimeEnv");
 // import { webpackEntries } from '../../../art-webpack/dist/config/configWebpackModules.js';
 // TODO optimize it later
-const webpackEntries = require(`../../../${runtimeEnv_1.isSSRProject ? 'art-compiler-ssr' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
+// const webpackEntries = require(`../../../${ isSSRProject ? 'art-compiler-ssr' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
 const virtualProjectName = appConfig.get('art:projectVirtualPath');
-const entries = webpackEntries(true);
+// const entries = webpackEntries(true);
 const publicPath = path.join(process.cwd(), './public');
 class IndexPage {
     constructor() {
@@ -55,14 +54,14 @@ class IndexPage {
             return null;
         };
     }
-    indexPage(req, res) {
+    indexPage(req, res, artModules) {
         if (!req.originalUrl || req.originalUrl.includes('/mock_api')) {
             return;
         }
         const baseUrl = (req.baseUrl || '/').replace(req.moduleBase, '') || '/';
-        const matchedModuleInfo = this.calcuMatchedModuleInfo(baseUrl, entries);
+        const matchedModuleInfo = this.calcuMatchedModuleInfo(baseUrl, artModules);
         if (baseUrl === '/') {
-            return this.renderAvailableModulesView(req, res);
+            return this.renderAvailableModulesView(req, res, artModules);
         }
         const appEnv = appConfig.get('NODE_ENV') || 'development';
         const isProd = appEnv === 'production';
@@ -70,7 +69,7 @@ class IndexPage {
             // calculate the public/{module}/ if matched.
             const matchedBuiltModuleInfo = this.builtModuleMatched(baseUrl);
             if (!matchedBuiltModuleInfo) {
-                return this.renderAvailableModulesView(req, res);
+                return this.renderAvailableModulesView(req, res, artModules);
             }
             const { projectName, moduleName } = matchedBuiltModuleInfo;
             const moduleDir = path.join(publicPath, virtualProjectName, projectName, moduleName, '**/*.{js,css}');
@@ -88,16 +87,11 @@ class IndexPage {
         return this.renderIndexView(req, res, matchedModuleInfo);
     }
     calcuMatchedModuleInfo(pathFragment, queryEntries) {
-        const normalizedEntries = this.normalizeEntries(queryEntries);
         const targetModuleName = path.basename(pathFragment);
-        let found = null;
-        const keys = Object.keys(normalizedEntries);
-        for (let index = 0; index < keys.length; index++) {
-            const key = keys[index];
-            const fragment = key.split('?');
-            const entryKey = fragment[0];
-            const queryKey = fragment[1];
-            // Make sure pathFragment without prefix '/'
+        let found = {};
+        queryEntries.forEach((entry) => {
+            const entryKey = entry.split('?')[0];
+            const queryKey = entry.split('?')[1];
             if (entryKey.endsWith(pathFragment.substring(1))) {
                 found = {
                     entryKey,
@@ -106,18 +100,18 @@ class IndexPage {
                         .replace(new RegExp(`${targetModuleName}$`), ''), false),
                     moduleName: targetModuleName
                 };
-                break;
+                return;
             }
-        }
+        });
         return found;
     }
     normalizeEntries(entry) {
         return sort_json_1.default(entry);
     }
-    renderAvailableModulesView(req, res) {
-        const newEntries = lodash_1.reduce(this.normalizeEntries(entries), (result, value, key) => {
+    renderAvailableModulesView(req, res, artModules) {
+        const newEntries = lodash_1.reduce(this.normalizeEntries(artModules), (result, value, key) => {
             result.push({
-                key: key.split('?')[0],
+                key: value.split('?')[0],
                 value
             });
             return result;
@@ -162,7 +156,7 @@ class IndexPage {
 __decorate([
     __param(0, routing_controllers_1.Req()), __param(1, routing_controllers_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Object)
 ], IndexPage.prototype, "indexPage", null);
 exports.default = IndexPage;

@@ -1,6 +1,6 @@
 import qs from 'qs';
 import chalk from 'chalk';
-import { join } from 'path';
+import { join, resolve as resolvePath } from 'path';
 import { existsSync } from 'fs';
 import { series } from 'async';
 import inquirer, { Answers, Question } from 'inquirer';
@@ -8,6 +8,9 @@ import spawn from 'cross-spawn';
 import { ModulesManagers } from '../enums/ModulesManagers';
 import { printInstructions } from './printLog';
 import { Scaffolds } from '../enums/Scaffolds';
+import { Stage } from '../enums/Stage';
+import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
+const isDevStage = process.env.STAGE === Stage.dev;
 
 const DependencyPackages = {
   [Scaffolds.react]: ['art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack'],
@@ -269,29 +272,37 @@ export default class ArtScaffold {
   public autoServeModule() {
     inquirer.prompt(autoServeQuestion).then((answer: Answers) => {
       if (answer.autoServe) {
-        spawn(
-          'art',
-          this.scaffoldType === Scaffolds.miniprogram ?
-          [
-            'serve'
-          ] :
-          [
-            'serve',
-            '-m',
-            this.moduleName
-          ],
-          {
-            stdio: 'inherit'
-          }
-        ).
-          on('close', (code) => {
-            if (code !== 0) {
-              console.log(chalk.cyan('serve modules') + ' exited with code ' + code + '.');
-              return;
+        let serveProcess;
+        if (isDevStage) {
+          const symlinkPath = resolvePath(__dirname, `../../dist/index.js`);
+          serveProcess = this.scaffoldType === Scaffolds.miniprogram ?
+          executeNodeScript('node', symlinkPath, 'serve') :
+          executeNodeScript('node', symlinkPath, 'serve', '-m', this.moduleName);
+        } else {
+          serveProcess = spawn(
+            'art',
+            this.scaffoldType === Scaffolds.miniprogram ?
+            [
+              'serve'
+            ] :
+            [
+              'serve',
+              '-m',
+              this.moduleName
+            ],
+            {
+              stdio: 'inherit'
             }
-          }).on('error', (err) => {
-            console.log(err);
-          });
+          );
+        }
+        serveProcess.on('close', (code) => {
+          if (code !== 0) {
+            console.log(chalk.cyan('serve modules') + ' exited with code ' + code + '.');
+            return;
+          }
+        }).on('error', (err) => {
+          console.log(err);
+        });
       } else {
         process.exit(0);
       }

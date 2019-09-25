@@ -29,7 +29,8 @@ const HOST = process.env.HOST || '0.0.0.0';
 const DEFAULT_PORT = appConfig_1.default.get(`devPort:${envName}`);
 const isInteractive = process.stdout.isTTY;
 let nodeServerHasLunched = false;
-const lunchNodeServer = (modules, port) => {
+const lunchNodeServer = (port) => {
+    const artModules = appConfig_1.default.get('ART_MODULES');
     if (nodeServerHasLunched) {
         return;
     }
@@ -38,7 +39,7 @@ const lunchNodeServer = (modules, port) => {
     }
     const mockServerPath = path.join(__dirname, '../../../art-server-mock/dist/index.js');
     const nodemonPath = path.join(require.resolve('nodemon'), '../../bin/nodemon.js');
-    executeNodeScript_1.default(nodemonPath, '--watch', paths_1.default.appMockServer, '--ignore', paths_1.default.appMockServer, '-e', 'js, jsx, ts', mockServerPath, '--ART_MODULES', `${JSON.stringify(modules)}`, '--ART_WEBPACK_PORT', `${port}`);
+    executeNodeScript_1.default(nodemonPath, '--watch', paths_1.default.appMockServer, '--ignore', paths_1.default.appMockServer, '-e', 'js, jsx, ts', mockServerPath, '--ART_MODULES', `${JSON.stringify(artModules)}`, '--ART_WEBPACK_PORT', `${port}`);
     nodeServerHasLunched = true;
 };
 let compileMockServerHasLunched = false;
@@ -65,11 +66,14 @@ const confirmModulesCb = (answer) => {
         const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
         const urls = prepareUrls_1.default(protocol, HOST, port);
         const webpackconfig = config_1.getWebpackConfig();
+        // const allEntries = webpackconfig.reduce((prev, curr) => {
+        //   return Object.assign(prev, curr.entry);
+        // }, {});
+        // console.log('allEntries: ', allEntries);
         const compiler = createServeCompiler_1.default(webpackconfig, (success) => {
             if (success) {
                 console.log('Compiler instance created successfully.');
-                const artModules = appConfig_1.default.get('ART_MODULES');
-                lunchNodeServer(artModules, port);
+                lunchNodeServer(port);
                 compileMockServer();
             }
         });

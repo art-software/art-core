@@ -1,32 +1,29 @@
 import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import chalk from 'chalk';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import paths from './paths';
-import { webpackEntries } from './configWebpackModules';
 import appConfig from './appConfig';
 import * as path from 'path';
 import * as fs from 'fs';
 import qs from 'qs';
-import foreach from 'lodash/foreach';
+import foreach from 'lodash/forEach';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackCDNPlugin from '../plugins/HtmlWebpackCDNPlugin';
 import HappyPack from 'happypack';
 import { isProd } from '../utils/env';
-import DynamicChunkNamePlugin from '../plugins/DynamicChunkNamePlugin';
 import { HtmlWebpackChunksPlugin } from '../plugins/HtmlWebpackChunksPlugin';
 
 const isProdEnv = isProd();
 
-const configHtmlWebpackPlugin = (entries?: object): any[] => {
+const configHtmlWebpackPlugin = (entries: object): any[] => {
+  console.log('entries: ', entries);
   const plugins: any[] = [];
-  const newEntries = entries || webpackEntries(false);
   const projectVirtualPath = appConfig.get('art:projectVirtualPath') || '';
   const buildEnv = appConfig.get('BUILD_ENV');
   const assetsProdPublicPath = appConfig.get(`art:webpack:output:${buildEnv}PublicPath`) || '';
   console.log(`assetsProdPublicPath: ${assetsProdPublicPath}`);
 
-  foreach(newEntries, (value, key) => {
+  foreach(entries, (value, key) => {
     const fragment = key.split('?');
     const entryKey = fragment[0];
     const queryKey = fragment[1];
@@ -66,23 +63,12 @@ const configHtmlWebpackPlugin = (entries?: object): any[] => {
   return plugins;
 };
 
-const getRawModuleEntry = (entries) => {
-  for (const key in entries) {
-    entries[key] = entries[key].slice(1);
-  }
-  return entries;
-};
-
-export const configBasePlugins = (() => {
+export const configBasePlugins = (entries: object) => {
   let plugins = [
     new ProgressBarPlugin({
       format: chalk.cyan('build') + ' [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
       clear: false
     }),
-
-    // new MiniCssExtractPlugin({
-    //   chunkFilename: '[id].[chunkhash].css'
-    // }),
 
     new HappyPack({
       id: 'jsx',
@@ -119,16 +105,11 @@ export const configBasePlugins = (() => {
     new ForkTsCheckerWebpackPlugin({
       tsconfig: paths.appTsConfig,
       tslint: paths.appTsLintConfig
-    }),
-
-    new DynamicChunkNamePlugin(
-      getRawModuleEntry(webpackEntries(false))
-    )
-
+    })
   ];
   if (isProdEnv) {
-    plugins = plugins.concat(configHtmlWebpackPlugin());
+    plugins = plugins.concat(configHtmlWebpackPlugin(entries));
   }
 
   return plugins;
-})();
+};

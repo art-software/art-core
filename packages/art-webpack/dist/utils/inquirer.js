@@ -7,8 +7,17 @@ const configWebpackModules_1 = require("../config/configWebpackModules");
 const chalkColors_1 = require("art-dev-utils/lib/chalkColors");
 const json_colorz_1 = __importDefault(require("json-colorz"));
 const inquirer_1 = __importDefault(require("inquirer"));
+const appConfig_1 = __importDefault(require("../config/appConfig"));
 exports.confirmModules = (callback) => {
-    const availableModules = configWebpackModules_1.webpackEntries(false);
+    //  const availableModules = webpackEntries(false);
+    let argvModules = JSON.parse(appConfig_1.default.get('ART_MODULES') || '[]');
+    if (typeof argvModules === 'string') {
+        argvModules = JSON.parse(argvModules);
+    }
+    const availableModules = {};
+    argvModules.forEach((moduleEntry) => {
+        Object.assign(availableModules, configWebpackModules_1.webpackEntries(moduleEntry, false));
+    });
     const moduleKeys = Object.keys(availableModules);
     const modulesCount = moduleKeys.length;
     if (!modulesCount) {

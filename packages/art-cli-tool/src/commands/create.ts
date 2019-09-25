@@ -7,6 +7,7 @@ import { create, ProjectScaffold, ModuleScaffold } from '../scaffold/index';
 import { Scaffolds } from '../enums/Scaffolds';
 import { CreateCmdTypes } from '../enums/CreateCmdTypes';
 import resolveAppPath from 'art-dev-utils/lib/resolveAppPath';
+import { existsSync } from 'fs';
 const scaffolds = [Scaffolds.react, Scaffolds.miniprogram];
 
 class CreateCommand implements CommandModule {
@@ -69,21 +70,27 @@ class CreateCommand implements CommandModule {
 
     (this.commandEntry(commandType) as Promise<ProjectScaffold | ModuleScaffold>)
       .then((answers) => {
-        const appConfig = require(resolveAppPath('art.config.js'));
+        const artConfigExist = existsSync(resolveAppPath('art.config.js'));
 
-        const { moduleName } = answers;
-        const modulesKey = Object.keys(appConfig.webpack.entry);
-        const projectVirtualPath = appConfig.projectVirtualPath;
+        if (artConfigExist) {
+          const appConfig = require(resolveAppPath('art.config.js'));
 
-        let modulePath = join(projectVirtualPath, moduleName);
-        if (modulePath.endsWith('/')) {
-          modulePath = modulePath.slice(0, modulePath.length - 1);
-        }
+          const { moduleName } = answers;
+          const modulesKey = Object.keys(appConfig.webpack.entry);
+          const projectVirtualPath = appConfig.projectVirtualPath;
 
-        if (modulesKey.indexOf(modulePath) < 0) {
-          create(argv.scaffold, commandType, answers);
+          let modulePath = join(projectVirtualPath, moduleName);
+          if (modulePath.endsWith('/')) {
+            modulePath = modulePath.slice(0, modulePath.length - 1);
+          }
+
+          if (modulesKey.indexOf(modulePath) < 0) {
+            create(argv.scaffold, commandType, answers);
+          } else {
+            console.log(chalk.yellow(`module ${chalk.green(moduleName)} has existed!`));
+          }
         } else {
-          console.log(chalk.yellow(`module ${chalk.green(moduleName)} has existed!`));
+          create(argv.scaffold, commandType, answers);
         }
       })
       .catch((err) => {

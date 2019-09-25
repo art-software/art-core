@@ -7,6 +7,7 @@ export default class HtmlWebpackCDNPlugin implements Plugin {
 
   public apply(compiler): void {
     compiler.hooks.compilation.tap('html-webpack-cdn-plugin', (compilation) => {
+      // console.log('compilation.hooks: ', compilation.hooks);
       compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync('html-webpack-cdn-plugin', (htmlPluginData, callback) => {
         const result = this.handleAssets(htmlPluginData);
         if (callback) {

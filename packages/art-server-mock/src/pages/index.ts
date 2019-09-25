@@ -15,9 +15,9 @@ import { isSSRProject } from '../utils/runtimeEnv';
 
 // import { webpackEntries } from '../../../art-webpack/dist/config/configWebpackModules.js';
 // TODO optimize it later
-const webpackEntries = require(`../../../${ isSSRProject ? 'art-compiler-ssr' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
+// const webpackEntries = require(`../../../${ isSSRProject ? 'art-compiler-ssr' : 'art-webpack'}/dist/config/configWebpackModules.js`).webpackEntries;
 const virtualProjectName = appConfig.get('art:projectVirtualPath');
-const entries = webpackEntries(true);
+// const entries = webpackEntries(true);
 const publicPath = path.join(process.cwd(), './public');
 
 interface ModuleInfoProps {
@@ -29,12 +29,12 @@ interface ModuleInfoProps {
 
 export default class IndexPage {
 
-  public indexPage(@Req() req: Request, @Res() res: Response): any {
+  public indexPage(@Req() req: Request, @Res() res: Response, artModules: any): any {
     if (!req.originalUrl || req.originalUrl.includes('/mock_api')) { return; }
     const baseUrl = (req.baseUrl || '/').replace((req as any).moduleBase, '') || '/';
-    const matchedModuleInfo = this.calcuMatchedModuleInfo(baseUrl, entries);
+    const matchedModuleInfo = this.calcuMatchedModuleInfo(baseUrl, artModules);
     if (baseUrl === '/') {
-      return this.renderAvailableModulesView(req, res);
+      return this.renderAvailableModulesView(req, res, artModules);
     }
 
     const appEnv = appConfig.get('NODE_ENV') || 'development';
@@ -43,7 +43,7 @@ export default class IndexPage {
       // calculate the public/{module}/ if matched.
       const matchedBuiltModuleInfo = this.builtModuleMatched(baseUrl);
       if (!matchedBuiltModuleInfo) {
-        return this.renderAvailableModulesView(req, res);
+        return this.renderAvailableModulesView(req, res, artModules);
       }
 
       const { projectName, moduleName } = matchedBuiltModuleInfo;
@@ -63,18 +63,12 @@ export default class IndexPage {
     return this.renderIndexView(req, res, matchedModuleInfo);
   }
 
-  private calcuMatchedModuleInfo(pathFragment: string, queryEntries: object): ModuleInfoProps | null {
-    const normalizedEntries = this.normalizeEntries(queryEntries);
+  private calcuMatchedModuleInfo(pathFragment: string, queryEntries: any[]): ModuleInfoProps | null {
     const targetModuleName = path.basename(pathFragment);
-    let found: null | ModuleInfoProps = null;
-    const keys = Object.keys(normalizedEntries);
-    for (let index = 0; index < keys.length; index++) {
-      const key = keys[index];
-      const fragment = key.split('?');
-      const entryKey = fragment[0];
-      const queryKey = fragment[1];
-
-      // Make sure pathFragment without prefix '/'
+    let found = {};
+    queryEntries.forEach((entry) => {
+      const entryKey = entry.split('?')[0];
+      const queryKey = entry.split('?')[1];
       if (entryKey.endsWith(pathFragment.substring(1))) {
         found = {
           entryKey,
@@ -83,20 +77,20 @@ export default class IndexPage {
             .replace(new RegExp(`${targetModuleName}$`), ''), false),
           moduleName: targetModuleName
         };
-        break;
+        return;
       }
-    }
-    return found;
+    });
+    return found as ModuleInfoProps | null;
   }
 
-  private normalizeEntries(entry: object): JSON {
+  private normalizeEntries(entry: object): any {
     return sortJson(entry);
   }
 
-  private renderAvailableModulesView(req: Request, res: Response) {
-    const newEntries = reduce(this.normalizeEntries(entries), (result: any[], value, key) => {
+  private renderAvailableModulesView(req: Request, res: Response, artModules: any) {
+    const newEntries = reduce(this.normalizeEntries(artModules), (result: any[], value, key) => {
       result.push({
-        key: key.split('?')[0],
+        key: value.split('?')[0],
         value
       });
       return result;

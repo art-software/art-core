@@ -6,16 +6,11 @@ import paths from './paths';
 import { clone, forEach } from 'lodash';
 import { isProd } from '../utils/env';
 import { BuildEnv } from '../enums/BuildEnv';
-
-interface OutputProps {
-  filename: string;
-  chunkFilename: string;
-  path: string;
-  publicPath: string;
-}
+import * as webpack from 'webpack';
 
 const envName = appConfig.get('NODE_ENV');
 const isProdEnv = isProd();
+const projectVirtualPath = appConfig.get('art:projectVirtualPath') || '';
 
 const getHotDevServerScripts = () => {
   // WEBPACK DEV SERVER PORT
@@ -45,30 +40,22 @@ export const attachHotDevServerScripts = (entries) => {
  * 
  * @param {Boolean} keepQuery the flag indicates if we need to remove query string of entry item
  */
-export const webpackEntries = (keepQuery: boolean): object => {
-
-  let argvModules: string[] =  JSON.parse(appConfig.get('ART_MODULES') || '[]');
-  if (typeof argvModules === 'string') {
-    argvModules = JSON.parse(argvModules);
-  }
-
+export const webpackEntries = (moduleName: string, keepQuery: boolean): object => {
   const allModules = appConfig.get('art:webpack:entry');
-
-  if (!argvModules.length) { argvModules = ['**']; }
 
   const newEntries = {};
 
-  argvModules.forEach((moduleEntry) => {
-    let modulePattern = path.join(moduleEntry.replace(/(\*)+$/ig, '').replace(/^client/, ''), '**/*.{js,jsx,ts,tsx}');
-    modulePattern = ['./', path.join('client', modulePattern)].join('');
+  console.log('moduleName: ', moduleName);
+  let modulePattern = path.join(moduleName.replace(/(\*)+$/ig, '').replace(/^client/, ''), '**/*.{js,jsx,ts,tsx}');
+  modulePattern = ['./', path.join('client', modulePattern)].join('');
 
-    for (const key in allModules) {
-      const matched = minimatch.match(ensureHasDotExtension(allModules[key]), modulePattern, { matchBase: true });
-      if (matched.length) {
-        newEntries[keepQuery ? key : key.split('?')[0]] = [ path.join(__dirname, './polyfills')].concat(matched);
-      }
+  for (const key in allModules) {
+    const matched = minimatch.match(ensureHasDotExtension(allModules[key]), modulePattern, { matchBase: true });
+    if (matched.length) {
+      newEntries[keepQuery ? key : key.split('?')[0]] = [path.join(__dirname, './polyfills')].concat(matched);
+      return newEntries;
     }
-  });
+  }
 
   return newEntries;
 };
@@ -76,9 +63,9 @@ export const webpackEntries = (keepQuery: boolean): object => {
 /**
  * Get webpack `output` element configuration
  */
-export const webpackOutput = (): OutputProps => {
+export const webpackOutput = (moduleEntry: string): webpack.Output => {
   const buildEnv = appConfig.get('BUILD_ENV');
-  const host =  ensureSlash(appConfig.get(`devHost:${envName}`), false);
+  const host = ensureSlash(appConfig.get(`devHost:${envName}`), false);
   const port = appConfig.get(`devPort:${envName}`);
   const output = appConfig.get(`art:webpack:output`) || {};
   const publicPath = isProdEnv ? output[`${buildEnv}PublicPath`] : `${host}:${port}/public/`;
@@ -86,7 +73,7 @@ export const webpackOutput = (): OutputProps => {
   const outRelativePath = buildEnv === BuildEnv.prod ? './public/' : './debug/';
   return {
     filename: `[name]/${bundleFileNamePattern('.js')}`,
-    chunkFilename: `[id].[chunkhash].js`,
+    chunkFilename: `${projectVirtualPath}/${moduleEntry}/[id].[chunkhash].js`,
     path: path.resolve(paths.appCwd, outRelativePath),
     publicPath
   };

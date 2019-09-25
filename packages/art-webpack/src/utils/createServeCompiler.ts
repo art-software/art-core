@@ -5,9 +5,9 @@ import * as path from 'path';
 import formatWebpackMessages from 'art-dev-utils/lib/formatWebpackMessages';
 import chalk from 'chalk';
 
-const createServeCompiler = (config: Configuration, onFinish: (noError: boolean) => any): webpack.Compiler | null => {
+const createServeCompiler = (config: Configuration[], onFinish: (noError: boolean) => any): webpack.MultiCompiler | null => {
 
-  let compiler: webpack.Compiler | null = null;
+  let compiler: webpack.MultiCompiler | null = null;
 
   try {
     compiler = webpack(config);
