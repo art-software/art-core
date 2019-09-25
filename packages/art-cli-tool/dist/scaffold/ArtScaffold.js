@@ -31,7 +31,7 @@ const DependencyPackages = {
     [Scaffolds_1.Scaffolds.ssrReact]: {
         'service-render': ['art-ssr-render'],
         'service-web': ['art-ssr-aggregator-node'],
-        'web-react': ['art-ssr-react-router', 'art-ssr-react', 'art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack']
+        'web-react': ['art-ssr-react-router', 'art-ssr-react', 'art-compiler-ssr', 'art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack']
     }
 };
 exports.InstallCommands = {
@@ -145,29 +145,17 @@ class ArtScaffold {
             return console.log(chalk_1.default.red('the property [scaffoldType] is required!'));
         }
         this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
+        let asyncQueue;
+        // ssr react
         if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
-            console.log(this.scaffoldFrom, this.scaffoldTo);
-            const asyncQueue = [
+            asyncQueue = [
                 this.syncIgnoreFiles.bind(this),
-                ...this.getSsrReactServiceRenderQuene(),
-                ...this.getSsrReactServiceWebQuene(),
-                ...this.getSsrWebReactQuene()
+                ...this.getSsrReactServiceRenderQueue(),
             ];
-            return new Promise((resolve, reject) => {
-                async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        // resolve(result);
-                        yield this.autoInstallAfterCreateProject();
-                    }
-                    console.log('err, result:::', err, result);
-                }));
-            });
         }
         else {
-            const asyncQueue = [
+            // spa、miniprogram
+            asyncQueue = [
                 this.syncConfigFiles.bind(this),
                 this.syncArtConfig.bind(this),
                 this.syncServerFiles.bind(this),
@@ -176,35 +164,36 @@ class ArtScaffold {
             if (this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram) {
                 asyncQueue.push(this.syncUpdateAppJson.bind(this));
             }
-            return new Promise((resolve, reject) => {
-                async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
-                            yield this.syncTemplateFile();
-                        }
-                        yield this.autoInstallAfterCreateProject();
-                        // resolve(result);
-                    }
-                }));
-            });
         }
+        return new Promise((resolve, reject) => {
+            async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
+                        yield this.syncTemplateFile();
+                    }
+                    // TODO记得
+                    // await this.autoInstallAfterCreateProject();
+                }
+            }));
+        });
     }
-    getSsrReactServiceRenderQuene() {
+    getSsrReactServiceRenderQueue() {
         return [
-            this.syncSSRConfigFiles.bind(this, 'service-render', 'configServiceRenderMapping'),
+            // TODO记得
+            // this.syncSSRConfigFiles.bind(this, 'service-render', 'configServiceRenderMapping'),
             this.syncServiceRenderServerFiles.bind(this)
         ];
     }
-    getSsrReactServiceWebQuene() {
+    getSsrReactServiceWebQueue() {
         return [
             this.syncSSRConfigFiles.bind(this, 'service-web', 'configServiceWebMapping'),
             this.syncSSRSrcFiles.bind(this, 'service-web')
         ];
     }
-    getSsrWebReactQuene() {
+    getSsrWebReactQueue() {
         return [
             this.syncConfigFiles.bind(this, 'web-react'),
             this.syncArtConfig.bind(this, 'web-react'),
@@ -213,8 +202,17 @@ class ArtScaffold {
         ];
     }
     syncServiceRenderServerFiles(callback) {
-        require(`./${this.scaffoldType}/syncServiceRenderServerFiles.js`).call(this, path_1.join(this.scaffoldFrom, 'service-render/src'), path_1.join(this.scaffoldTo, 'service-render/src'), 'service-render', callback);
-        // TODO update server.ts
+        return __awaiter(this, void 0, void 0, function* () {
+            yield require(`./${this.scaffoldType}/syncServiceRenderServerFiles.js`).call(this, path_1.join(this.scaffoldFrom, 'service-render/src'), path_1.join(this.scaffoldTo, 'service-render/src'), 'service-render', callback);
+            // TODO update server.ts
+            yield this.syncServiceRenderServerFile();
+        });
+    }
+    syncServiceRenderServerFile() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const syncServiceRenderServerFile = yield require(`./${this.scaffoldType}/syncServiceRenderServerFile.js`);
+            return yield syncServiceRenderServerFile.bind(this)(path_1.join(this.scaffoldTo, 'service-render/src'), this.moduleName);
+        });
     }
     syncSSRSrcFiles(folder, callback) {
         require(`./${this.scaffoldType}/syncServiceWebSrcFiles.js`).call(this, path_1.join(this.scaffoldFrom, folder), path_1.join(this.scaffoldTo, folder), folder, callback);

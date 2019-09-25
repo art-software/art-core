@@ -8,7 +8,6 @@ module.exports = function (scaffoldFrom, scaffoldTo, folder, callback) {
     printLog_1.printInstructions(`Sync all scaffold(${scaffoldInstance.scaffoldType}) [${folder} src] files...`);
     const tplMapping = scaffoldHelper_1.tplMappingAssembler([
         ...fileSyncMapping_1.controllerServiceWebMapping(scaffoldInstance),
-        ...fileSyncMapping_1.databaseServiceWebMapping(scaffoldInstance),
         ...fileSyncMapping_1.servicesServiceWebMapping(scaffoldInstance),
         ...fileSyncMapping_1.srcServiceWebMapping(scaffoldInstance)
     ], scaffoldFrom, scaffoldTo);

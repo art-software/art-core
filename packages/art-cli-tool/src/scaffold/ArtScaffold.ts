@@ -180,8 +180,9 @@ export default class ArtScaffold {
       asyncQueue = [
         this.syncIgnoreFiles.bind(this),
         ...this.getSsrReactServiceRenderQueue(),
-        ...this.getSsrReactServiceWebQueue(),
-        ...this.getSsrWebReactQueue()
+        // TODO记得
+        // ...this.getSsrReactServiceWebQueue(),
+        // ...this.getSsrWebReactQueue()
       ];
     } else {
       // spa、miniprogram
@@ -204,8 +205,8 @@ export default class ArtScaffold {
           if (this.scaffoldType === Scaffolds.react) {
             await this.syncTemplateFile();
           }
-          await this.autoInstallAfterCreateProject();
-          // resolve(result);
+          // TODO记得
+          // await this.autoInstallAfterCreateProject();
         }
       });
     });
@@ -213,7 +214,8 @@ export default class ArtScaffold {
 
   public getSsrReactServiceRenderQueue () {
     return [
-      this.syncSSRConfigFiles.bind(this, 'service-render', 'configServiceRenderMapping'),
+      // TODO记得
+      // this.syncSSRConfigFiles.bind(this, 'service-render', 'configServiceRenderMapping'),
       this.syncServiceRenderServerFiles.bind(this)
     ];
   }
@@ -234,8 +236,8 @@ export default class ArtScaffold {
     ];
   }
 
-  public syncServiceRenderServerFiles (callback) {
-    require(`./${this.scaffoldType}/syncServiceRenderServerFiles.js`).call(
+  public async syncServiceRenderServerFiles (callback) {
+    await require(`./${this.scaffoldType}/syncServiceRenderServerFiles.js`).call(
       this,
       join(this.scaffoldFrom, 'service-render/src'),
       join(this.scaffoldTo, 'service-render/src'),
@@ -243,6 +245,12 @@ export default class ArtScaffold {
       callback
     );
     // TODO update server.ts
+    await this.syncServiceRenderServerFile();
+  }
+
+  public async syncServiceRenderServerFile () {
+    const syncServiceRenderServerFile = await require(`./${this.scaffoldType}/syncServiceRenderServerFile.js`);
+    return await syncServiceRenderServerFile.bind(this)(join(this.scaffoldTo, 'service-render/src'), this.moduleName);
   }
 
   public syncSSRSrcFiles (folder, callback) {

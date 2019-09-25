@@ -57,15 +57,6 @@ exports.controllerServiceWebMapping = (scaffoldInstance) => {
         }
     ];
 };
-exports.databaseServiceWebMapping = (scaffoldInstance) => {
-    return [
-        {
-            name: `./src/database/redis.ts`,
-            // rename: `./src/controllers/${scaffoldInstance.moduleName}Controller.ts/`
-            rename: `./src/database/redis.ts`
-        }
-    ];
-};
 exports.servicesServiceWebMapping = (scaffoldInstance) => {
     return [
         {
