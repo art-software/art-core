@@ -39,7 +39,10 @@ const index_1 = __importDefault(require("./pages/index"));
 const artConfigPath = path_1.join(process.cwd(), './package.json');
 const artAppConfig = require(artConfigPath);
 const envName = config.get('NODE_ENV') || 'development';
-const artModules = JSON.parse(config.get('ART_MODULES')) || [];
+let artModules = JSON.parse(config.get('ART_MODULES')) || [];
+if (typeof artModules === 'string') {
+    artModules = JSON.parse(artModules);
+}
 class App {
     appTemplate(app) {
         const handlebars = express_handlebars_1.default.create({
