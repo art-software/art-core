@@ -24,7 +24,7 @@ const DependencyPackages = {
   [Scaffolds.ssrReact]: {
     'service-render': ['art-ssr-render'],
     'service-web': ['art-ssr-aggregator-node'],
-    'web-react': ['art-ssr-react-router', 'art-ssr-react', 'art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack']
+    'web-react': ['art-ssr-react-router', 'art-ssr-react', 'art-compiler-ssr', 'art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack']
   }
 };
 
