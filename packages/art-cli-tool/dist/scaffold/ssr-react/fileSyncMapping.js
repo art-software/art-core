@@ -14,9 +14,14 @@ exports.ignoreMapping = (scaffoldInstance) => {
     ];
 };
 exports.serverServiceRenderMapping = (scaffoldInstance) => {
+    const { moduleName } = scaffoldInstance;
     return [
         {
-            name: 'server.ts'
+            name: 'server.ts',
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
         }
     ];
 };
@@ -47,25 +52,34 @@ exports.configServiceWebMapping = (scaffoldInstance) => {
         ...this.ignoreMapping()
     ];
 };
-// const firstUpperCase = ([first, ...rest]) => first.toUpperCase() + rest.join('');
+// TODO replace
 exports.controllerServiceWebMapping = (scaffoldInstance) => {
+    const { moduleName } = scaffoldInstance;
     return [
         {
-            name: `./src/controllers/MainController.ts`,
-            // rename: `./src/controllers/${scaffoldInstance.moduleName}Controller.ts/`
-            rename: `./src/controllers/${scaffoldInstance.moduleName}/MainController.ts`
+            name: `./src/controllers/Main/MainController.ts`,
+            rename: `./src/controllers/${moduleName}/${getFirstCodeUpper(moduleName)}Controller.ts`,
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
         }
     ];
 };
 exports.servicesServiceWebMapping = (scaffoldInstance) => {
+    const { moduleName } = scaffoldInstance;
     return [
         {
             name: `./src/services/aggregator.ts`,
             rename: `./src/services/aggregator.ts`
         },
         {
-            name: `./src/services/MainService.ts`,
-            rename: `./src/services/${scaffoldInstance.moduleName}/MainService.ts`
+            name: `./src/services/Main/MainService.ts`,
+            rename: `./src/services/${moduleName}/${getFirstCodeUpper(moduleName)}Service.ts`,
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
         }
     ];
 };
@@ -100,8 +114,8 @@ exports.configMapping = (scaffoldInstance) => {
         {
             name: 'package.json',
             replace: [
-                { from: 'art-app', to: scaffoldInstance.projectName },
-                { from: 'application based on art frontend development framework', to: scaffoldInstance.projectDescription }
+                { from: 'art-ssr-client', to: scaffoldInstance.projectName },
+                { from: 'art ssr client', to: scaffoldInstance.projectDescription }
             ]
         },
         {
@@ -123,13 +137,13 @@ exports.clientMapping = (scaffoldInstance) => {
     return commonFolderExist ?
         [
             {
-                name: `./client/ssr/`,
+                name: `./client/main/`,
                 rename: `./client/${scaffoldInstance.moduleName}/`
             }
         ] :
         [
             {
-                name: `./client/ssr/`,
+                name: `./client/main/`,
                 rename: `./client/${scaffoldInstance.moduleName}/`
             },
             {
@@ -154,8 +168,19 @@ exports.artConfigMapping = (scaffoldInstance) => {
             name: `art.config.js`,
             replace: [
                 { from: /art\/virtual\/path/g, to: scaffoldInstance.projectVirtualPath },
-                { from: /\/h5/g, to: `/${scaffoldInstance.moduleName}` }
+                { from: /\/main/g, to: `/${scaffoldInstance.moduleName}` }
             ]
         }
     ];
+};
+const getFirstCodeUpper = (sourceString = '') => {
+    if (sourceString) {
+        const arr = sourceString.split('');
+        const firstUpper = arr[0].toLocaleUpperCase();
+        arr.splice(0, 1, firstUpper);
+        return arr.join('');
+    }
+    else {
+        return '';
+    }
 };

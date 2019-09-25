@@ -13,9 +13,14 @@ export const ignoreMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
 };
 
 export const serverServiceRenderMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
+  const { moduleName } = scaffoldInstance;
   return [
     {
-      name: 'server.ts'
+      name: 'server.ts',
+      replace: [
+        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'main', to:  moduleName}
+      ]
     }
   ];
 };
@@ -49,27 +54,35 @@ export const configServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapp
   ];
 };
 
-// const firstUpperCase = ([first, ...rest]) => first.toUpperCase() + rest.join('');
-
+// TODO replace
 export const controllerServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
+  const { moduleName } = scaffoldInstance;
   return [
     {
-      name: `./src/controllers/MainController.ts`,
-      // rename: `./src/controllers/${scaffoldInstance.moduleName}Controller.ts/`
-      rename: `./src/controllers/${scaffoldInstance.moduleName}/MainController.ts`
+      name: `./src/controllers/Main/MainController.ts`,
+      rename: `./src/controllers/${moduleName}/${getFirstCodeUpper(moduleName)}Controller.ts`,
+      replace: [
+        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'main', to:  moduleName}
+      ]
     }
   ];
 };
 
 export const servicesServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
+  const { moduleName } = scaffoldInstance;
   return [
     {
       name: `./src/services/aggregator.ts`,
       rename: `./src/services/aggregator.ts`
     },
     {
-      name: `./src/services/MainService.ts`,
-      rename: `./src/services/${scaffoldInstance.moduleName}/MainService.ts`
+      name: `./src/services/Main/MainService.ts`,
+      rename: `./src/services/${moduleName}/${getFirstCodeUpper(moduleName)}Service.ts`,
+      replace: [
+        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'main', to:  moduleName}
+      ]
     }
   ];
 };
@@ -106,8 +119,8 @@ export const configMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
     {
       name: 'package.json',
       replace: [
-        { from: 'art-app', to: scaffoldInstance.projectName },
-        { from: 'application based on art frontend development framework', to: scaffoldInstance.projectDescription }
+        { from: 'art-ssr-client', to: scaffoldInstance.projectName },
+        { from: 'art ssr client', to: scaffoldInstance.projectDescription }
       ]
     },
     {
@@ -130,13 +143,13 @@ export const clientMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   return commonFolderExist ?
     [
       {
-        name: `./client/ssr/`,
+        name: `./client/main/`,
         rename: `./client/${scaffoldInstance.moduleName}/`
       }
     ] :
     [
       {
-        name: `./client/ssr/`,
+        name: `./client/main/`,
         rename: `./client/${scaffoldInstance.moduleName}/`
       },
       {
@@ -164,8 +177,19 @@ export const artConfigMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] =
       name: `art.config.js`,
       replace: [
         { from: /art\/virtual\/path/g, to: scaffoldInstance.projectVirtualPath },
-        { from: /\/h5/g, to: `/${scaffoldInstance.moduleName}` }
+        { from: /\/main/g, to: `/${scaffoldInstance.moduleName}` }
       ]
     }
   ];
+};
+
+const getFirstCodeUpper = (sourceString: string = '') => {
+  if (sourceString) {
+    const arr = sourceString.split('');
+    const firstUpper = arr[0].toLocaleUpperCase();
+    arr.splice(0, 1, firstUpper);
+    return arr.join('');
+  } else {
+    return '';
+  }
 };

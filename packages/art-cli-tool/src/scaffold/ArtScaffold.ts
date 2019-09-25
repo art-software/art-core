@@ -178,11 +178,10 @@ export default class ArtScaffold {
     // ssr react
     if (this.scaffoldType === Scaffolds.ssrReact) {
       asyncQueue = [
-        this.syncIgnoreFiles.bind(this),
-        ...this.getSsrReactServiceRenderQueue(),
-        // TODO记得
-        // ...this.getSsrReactServiceWebQueue(),
-        // ...this.getSsrWebReactQueue()
+        ...require(`./${this.scaffoldType}/copyConfig.js`).call(this),
+        ...require(`./${this.scaffoldType}/copyServiceRender.js`).call(this),
+        ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this),
+        ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this)
       ];
     } else {
       // spa、miniprogram
@@ -210,77 +209,6 @@ export default class ArtScaffold {
         }
       });
     });
-  }
-
-  public getSsrReactServiceRenderQueue () {
-    return [
-      // TODO记得
-      // this.syncSSRConfigFiles.bind(this, 'service-render', 'configServiceRenderMapping'),
-      this.syncServiceRenderServerFiles.bind(this)
-    ];
-  }
-
-  public getSsrReactServiceWebQueue () {
-    return [
-      this.syncSSRConfigFiles.bind(this, 'service-web', 'configServiceWebMapping'),
-      this.syncSSRSrcFiles.bind(this, 'service-web')
-    ];
-  }
-
-  public getSsrWebReactQueue () {
-    return [
-      this.syncConfigFiles.bind(this, 'web-react'),
-      this.syncArtConfig.bind(this, 'web-react'),
-      this.syncServerFiles.bind(this, 'web-react'),
-      this.syncClientFiles.bind(this, 'web-react')
-    ];
-  }
-
-  public async syncServiceRenderServerFiles (callback) {
-    await require(`./${this.scaffoldType}/syncServiceRenderServerFiles.js`).call(
-      this,
-      join(this.scaffoldFrom, 'service-render/src'),
-      join(this.scaffoldTo, 'service-render/src'),
-      'service-render',
-      callback
-    );
-    // TODO update server.ts
-    await this.syncServiceRenderServerFile();
-  }
-
-  public async syncServiceRenderServerFile () {
-    const syncServiceRenderServerFile = await require(`./${this.scaffoldType}/syncServiceRenderServerFile.js`);
-    return await syncServiceRenderServerFile.bind(this)(join(this.scaffoldTo, 'service-render/src'), this.moduleName);
-  }
-
-  public syncSSRSrcFiles (folder, callback) {
-    require(`./${this.scaffoldType}/syncServiceWebSrcFiles.js`).call(
-      this,
-      join(this.scaffoldFrom, folder),
-      join(this.scaffoldTo, folder),
-      folder,
-      callback
-    );
-  }
-
-  public syncSSRConfigFiles (folder, mapMethod, callback) {
-    require(`./${this.scaffoldType}/syncFolderConfigFiles.js`).call(
-      this,
-      join(this.scaffoldFrom, folder),
-      join(this.scaffoldTo, folder),
-      mapMethod,
-      folder,
-      callback
-    );
-  }
-
-  public syncIgnoreFiles (callback) {
-    require(`./${this.scaffoldType}/syncIgnoreFiles.js`).call(
-      this,
-      this.scaffoldFrom,
-      this.scaffoldTo,
-      callback
-    );
   }
 
   public async syncTemplateFile () {
@@ -477,38 +405,38 @@ export default class ArtScaffold {
     return join(__dirname, '../../templates/', scaffoldType);
   }
 
-  public syncConfigFiles(path: string = '', callback) {
+  public syncConfigFiles(callback) {
     require(`./${this.scaffoldType}/syncConfigFiles.js`).call(
       this,
-      join(this.scaffoldFrom, path),
-      join(this.scaffoldTo, path),
+      this.scaffoldFrom,
+      this.scaffoldTo,
       callback
     );
   }
 
-  public syncArtConfig(path: string = '', callback) {
+  public syncArtConfig(callback) {
     require(`./${this.scaffoldType}/syncArtConfig.js`).call(
       this,
-      join(this.scaffoldFrom, path),
-      join(this.scaffoldTo, path),
+      this.scaffoldFrom,
+      this.scaffoldTo,
       callback
     );
   }
 
-  public syncServerFiles(path: string = '', callback) {
+  public syncServerFiles(callback) {
     require(`./${this.scaffoldType}/syncServerFiles.js`).call(
       this,
-      join(this.scaffoldFrom, path),
-      join(this.scaffoldTo, path),
+      this.scaffoldFrom,
+      this.scaffoldTo,
       callback
     );
   }
 
-  public syncClientFiles(path: string = '', callback) {
+  public syncClientFiles(callback) {
     require(`./${this.scaffoldType}/syncClientFiles.js`).call(
       this,
-      join(this.scaffoldFrom, path),
-      join(this.scaffoldTo, path),
+      this.scaffoldFrom,
+      this.scaffoldTo,
       callback
     );
   }

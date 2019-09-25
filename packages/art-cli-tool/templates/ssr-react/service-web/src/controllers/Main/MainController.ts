@@ -1,6 +1,5 @@
 import { Controller, Get, Req, Res } from 'routing-controllers';
 import { Request, Response } from 'express';
-// TODO 替代模块名
 import MainService from '../../services/Main/MainService';
 
 @Controller()

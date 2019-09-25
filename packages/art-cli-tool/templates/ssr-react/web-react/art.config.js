@@ -1,4 +1,4 @@
-const projectVirtualPath = 'demo/ssr';
+const projectVirtualPath = 'art/virtual/path';
 
 const artConfig = {
 

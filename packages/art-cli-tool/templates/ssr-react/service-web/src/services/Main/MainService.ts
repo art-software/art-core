@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { aggregator } from './aggregator';
+import { aggregator } from '../aggregator';
 
 export default class MainService {
   public async requestRender(req: Request) {
