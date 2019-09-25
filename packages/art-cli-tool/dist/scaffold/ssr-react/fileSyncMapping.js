@@ -125,6 +125,7 @@ exports.configMapping = (scaffoldInstance) => {
 };
 exports.clientMapping = (scaffoldInstance) => {
     // const scaffoldType = scaffoldInstance.scaffoldChoosen.replace('react/', '');
+    const { moduleName } = scaffoldInstance;
     const commonFolderPath = path_1.join(process.cwd(), './client/common');
     let commonFolderExist = false;
     try {
@@ -134,18 +135,80 @@ exports.clientMapping = (scaffoldInstance) => {
         console.log(e);
         throw new Error('fs-extra pathExistsSync error');
     }
+    const clientList = [
+        {
+            name: `./client/main/ssr.tsx`,
+            rename: `./client/${moduleName}/ssr.tsx`,
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
+        },
+        {
+            name: `./client/main/routes.tsx`,
+            rename: `./client/${moduleName}/routes.tsx`
+        },
+        {
+            name: `./client/main/index.tsx`,
+            rename: `./client/${moduleName}/index.tsx`,
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
+        },
+        {
+            name: `./client/main/views/home.tsx`,
+            rename: `./client/${moduleName}/views/home.tsx`,
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
+        },
+        {
+            name: `./client/main/views/Product.tsx`,
+            rename: `./client/${moduleName}/views/Product.tsx`
+        },
+        {
+            name: `./client/main/styles/`,
+            rename: `./client/${moduleName}/styles/`
+        },
+        {
+            name: `./client/main/store/store.ts`,
+            rename: `./client/${moduleName}/store/store.ts`,
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
+        },
+        {
+            name: `./client/main/services/MainService.ts`,
+            rename: `./client/${moduleName}/services/${getFirstCodeUpper(moduleName)}Service.ts`,
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
+        },
+        {
+            name: `./client/main/services/interfaces/IMainService.ts`,
+            rename: `./client/${moduleName}/services/interfaces/I${getFirstCodeUpper(moduleName)}Service.ts`,
+            replace: [
+                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'main', to: moduleName }
+            ]
+        },
+        {
+            name: `./client/main/reducer/`,
+            rename: `./client/${moduleName}/reducer/`
+        },
+        {
+            name: `./client/main/assets/`,
+            rename: `./client/${moduleName}/assets/`
+        },
+    ];
     return commonFolderExist ?
+        clientList :
         [
-            {
-                name: `./client/main/`,
-                rename: `./client/${scaffoldInstance.moduleName}/`
-            }
-        ] :
-        [
-            {
-                name: `./client/main/`,
-                rename: `./client/${scaffoldInstance.moduleName}/`
-            },
+            ...clientList,
             {
                 name: `./client/common/`
             }
