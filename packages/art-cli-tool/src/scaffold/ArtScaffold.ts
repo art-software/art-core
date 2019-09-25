@@ -204,8 +204,7 @@ export default class ArtScaffold {
           if (this.scaffoldType === Scaffolds.react) {
             await this.syncTemplateFile();
           }
-          // TODO记得
-          // await this.autoInstallAfterCreateProject();
+          await this.autoInstallAfterCreateProject();
         }
       });
     });

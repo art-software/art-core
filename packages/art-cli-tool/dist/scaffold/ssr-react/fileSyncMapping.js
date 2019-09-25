@@ -52,7 +52,6 @@ exports.configServiceWebMapping = (scaffoldInstance) => {
         ...this.ignoreMapping()
     ];
 };
-// TODO replace
 exports.controllerServiceWebMapping = (scaffoldInstance) => {
     const { moduleName } = scaffoldInstance;
     return [

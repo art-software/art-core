@@ -54,7 +54,6 @@ export const configServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapp
   ];
 };
 
-// TODO replace
 export const controllerServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   const { moduleName } = scaffoldInstance;
   return [

@@ -176,8 +176,7 @@ class ArtScaffold {
                     if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
                         yield this.syncTemplateFile();
                     }
-                    // TODO记得
-                    // await this.autoInstallAfterCreateProject();
+                    yield this.autoInstallAfterCreateProject();
                 }
             }));
         });
