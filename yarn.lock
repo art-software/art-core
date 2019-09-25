@@ -10684,9 +10684,9 @@ npm-bundled@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.3.tgz#7e71703d973af3370a9591bafe3a63aca0be2308"
 
-"npm-check-support-yarn@git://github.com/zbw322092/npm-check.git#forkv0.0.4":
-  version "5.9.0"
-  resolved "git://github.com/zbw322092/npm-check.git#eb0d08bb4e3520c0bc175b620c05cdc57f4fe918"
+npm-check-support-yarn@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/npm-check-support-yarn/-/npm-check-support-yarn-0.0.1.tgz#551f50333882ebcecb0d2d60a1171a4009279fd9"
   dependencies:
     babel-runtime "^6.6.1"
     callsite-record "^3.0.0"
