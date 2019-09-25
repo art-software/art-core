@@ -229,10 +229,9 @@ class ArtScaffold {
                 dependencyArr = DependencyPackages[this.scaffoldType];
             }
             else if (lang_1.isObject(packagesArr)) {
-                console.log(1232323233, lang_1.isArray(packagesArr), lang_1.isObject(packagesArr));
-                dependencyArr = packagesArr[execFolder];
-                console.log('execFolder:::', execFolder);
-                console.log('dependencyArr:::', dependencyArr);
+                if (execFolder) {
+                    dependencyArr = packagesArr[execFolder];
+                }
             }
             dependencyArr.forEach((item) => {
                 console.log(chalk_1.default.magenta(item));

@@ -263,10 +263,9 @@ export default class ArtScaffold {
       if (isArray(packagesArr)) {
         dependencyArr = DependencyPackages[this.scaffoldType];
       } else if (isObject(packagesArr)) {
-        console.log(1232323233, isArray(packagesArr), isObject(packagesArr));
-        dependencyArr = packagesArr[execFolder];
-        console.log('execFolder:::', execFolder);
-        console.log('dependencyArr:::', dependencyArr);
+        if (execFolder) {
+          dependencyArr = packagesArr[execFolder];
+        }
       }
 
       dependencyArr.forEach((item) => {
