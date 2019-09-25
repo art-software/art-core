@@ -61,16 +61,6 @@ export const controllerServiceWebMapping = (scaffoldInstance: ArtScaffold): Sync
   ];
 };
 
-export const databaseServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
-  return [
-    {
-      name: `./src/database/redis.ts`,
-      // rename: `./src/controllers/${scaffoldInstance.moduleName}Controller.ts/`
-      rename: `./src/database/redis.ts`
-    }
-  ];
-};
-
 export const servicesServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   return [
     {

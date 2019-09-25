@@ -173,27 +173,19 @@ export default class ArtScaffold {
     }
     this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
 
+    let asyncQueue;
+
+    // ssr react
     if (this.scaffoldType === Scaffolds.ssrReact) {
-      console.log(this.scaffoldFrom, this.scaffoldTo);
-      const asyncQueue = [
+      asyncQueue = [
         this.syncIgnoreFiles.bind(this),
-        ...this.getSsrReactServiceRenderQuene(),
-        ...this.getSsrReactServiceWebQuene(),
-        ...this.getSsrWebReactQuene()
+        ...this.getSsrReactServiceRenderQueue(),
+        ...this.getSsrReactServiceWebQueue(),
+        ...this.getSsrWebReactQueue()
       ];
-      return new Promise((resolve, reject) => {
-        series(asyncQueue, async (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            // resolve(result);
-            await this.autoInstallAfterCreateProject();
-          }
-          console.log('err, result:::', err, result);
-        });
-      });
     } else {
-      const asyncQueue = [
+      // spa、miniprogram
+      asyncQueue = [
         this.syncConfigFiles.bind(this),
         this.syncArtConfig.bind(this),
         this.syncServerFiles.bind(this),
@@ -203,38 +195,37 @@ export default class ArtScaffold {
       if (this.scaffoldType === Scaffolds.miniprogram) {
         asyncQueue.push(this.syncUpdateAppJson.bind(this));
       }
-
-      return new Promise((resolve, reject) => {
-        series(asyncQueue, async (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            if (this.scaffoldType === Scaffolds.react) {
-              await this.syncTemplateFile();
-            }
-            await this.autoInstallAfterCreateProject();
-            // resolve(result);
-          }
-        });
-      });
     }
+    return new Promise((resolve, reject) => {
+      series(asyncQueue, async (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          if (this.scaffoldType === Scaffolds.react) {
+            await this.syncTemplateFile();
+          }
+          await this.autoInstallAfterCreateProject();
+          // resolve(result);
+        }
+      });
+    });
   }
 
-  public getSsrReactServiceRenderQuene () {
+  public getSsrReactServiceRenderQueue () {
     return [
       this.syncSSRConfigFiles.bind(this, 'service-render', 'configServiceRenderMapping'),
       this.syncServiceRenderServerFiles.bind(this)
     ];
   }
 
-  public getSsrReactServiceWebQuene () {
+  public getSsrReactServiceWebQueue () {
     return [
       this.syncSSRConfigFiles.bind(this, 'service-web', 'configServiceWebMapping'),
       this.syncSSRSrcFiles.bind(this, 'service-web')
     ];
   }
 
-  public getSsrWebReactQuene () {
+  public getSsrWebReactQueue () {
     return [
       this.syncConfigFiles.bind(this, 'web-react'),
       this.syncArtConfig.bind(this, 'web-react'),

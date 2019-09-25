@@ -1,6 +1,6 @@
 import { printInstructions } from '../printLog';
 import { execCopyFilesTo, tplMappingAssembler } from '../scaffoldHelper';
-import { controllerServiceWebMapping, databaseServiceWebMapping, servicesServiceWebMapping, srcServiceWebMapping } from './fileSyncMapping';
+import { controllerServiceWebMapping, servicesServiceWebMapping, srcServiceWebMapping } from './fileSyncMapping';
 
 module.exports = function (scaffoldFrom: string, scaffoldTo: string, folder: string, callback) {
   const scaffoldInstance = this;
@@ -9,7 +9,6 @@ module.exports = function (scaffoldFrom: string, scaffoldTo: string, folder: str
   const tplMapping = tplMappingAssembler(
     [
       ...controllerServiceWebMapping(scaffoldInstance),
-      ...databaseServiceWebMapping(scaffoldInstance),
       ...servicesServiceWebMapping(scaffoldInstance),
       ...srcServiceWebMapping(scaffoldInstance)
     ],
