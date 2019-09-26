@@ -258,7 +258,9 @@ class ArtScaffold {
                         this.particularDepInstallDone = true;
                     }
                     if (this.defaultDepInstallDone && this.particularDepInstallDone) {
-                        this.autoServeModule();
+                        if (this.scaffoldType === Scaffolds_1.Scaffolds.react || this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram) {
+                            this.autoServeModule();
+                        }
                     }
                     resolve();
                 }

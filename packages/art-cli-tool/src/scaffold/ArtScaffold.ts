@@ -300,7 +300,9 @@ export default class ArtScaffold {
           }
 
           if (this.defaultDepInstallDone && this.particularDepInstallDone) {
-            this.autoServeModule();
+            if (this.scaffoldType === Scaffolds.react || this.scaffoldType === Scaffolds.miniprogram) {
+              this.autoServeModule();
+            }
           }
           resolve();
         } else {
