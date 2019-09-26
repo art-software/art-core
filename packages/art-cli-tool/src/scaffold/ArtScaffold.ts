@@ -181,7 +181,7 @@ export default class ArtScaffold {
       asyncQueue = [
         ...require(`./${this.scaffoldType}/copyConfig.js`).call(this),
         ...require(`./${this.scaffoldType}/copyServiceRender.js`).call(this),
-        ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this, CreateCmdTypes.project),
+        ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this),
         ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes.project)
       ];
     } else {
@@ -372,9 +372,7 @@ export default class ArtScaffold {
 
     let asyncQueue;
     if (this.scaffoldType === Scaffolds.ssrReact) {
-      // await require(`./${this.scaffoldType}/updateServiceRenderServerFile.js`).bind(this)(this.scaffoldTo);
       asyncQueue = [
-        ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this, CreateCmdTypes.module),
         ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes.module)
       ];
     } else {
