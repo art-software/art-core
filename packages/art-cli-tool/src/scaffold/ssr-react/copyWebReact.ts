@@ -1,4 +1,5 @@
-import { join } from 'path';
+import { join, resolve } from 'path';
+import { CreateCmdTypes } from '../../enums/CreateCmdTypes';
 
 const FolderName = 'web-react';
 
@@ -6,16 +7,24 @@ let copyInstance;
 let scaffoldFrom;
 let scaffoldTo;
 
-module.exports = function () {
+module.exports = function (type: CreateCmdTypes) {
   copyInstance = this;
   scaffoldFrom = copyInstance.scaffoldFrom;
   scaffoldTo = copyInstance.scaffoldTo;
-  return [
-    syncConfigFiles.bind(this),
-    syncArtConfig.bind(this),
-    syncServerFiles.bind(this),
-    syncClientFiles.bind(this)
-  ];
+  if (type === CreateCmdTypes.project) {
+    return [
+      syncConfigFiles.bind(this),
+      syncArtConfig.bind(this),
+      syncServerFiles.bind(this),
+      syncClientFiles.bind(this)
+    ];
+  } else {
+    scaffoldTo = resolve(copyInstance.scaffoldTo, '../');
+    return [
+      syncServerFiles.bind(this),
+      syncClientFiles.bind(this)
+    ];
+  }
 };
 
 const syncConfigFiles = (callback) => {

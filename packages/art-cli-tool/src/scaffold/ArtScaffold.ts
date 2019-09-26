@@ -11,6 +11,7 @@ import { Scaffolds } from '../enums/Scaffolds';
 import { Stage } from '../enums/Stage';
 import executeNodeScript from 'art-dev-utils/lib/executeNodeScript';
 import { isArray, isObject } from 'art-lib-utils/dist/utils/lang';
+import { CreateCmdTypes } from '../enums/CreateCmdTypes';
 const isDevStage = process.env.STAGE === Stage.dev;
 
 interface ISpawnOptions {
@@ -180,8 +181,8 @@ export default class ArtScaffold {
       asyncQueue = [
         ...require(`./${this.scaffoldType}/copyConfig.js`).call(this),
         ...require(`./${this.scaffoldType}/copyServiceRender.js`).call(this),
-        ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this),
-        ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this)
+        ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this, CreateCmdTypes.project),
+        ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes.project)
       ];
     } else {
       // spa、miniprogram
@@ -353,7 +354,7 @@ export default class ArtScaffold {
     });
   }
 
-  public createScaffoldModule() {
+  public async createScaffoldModule() {
     console.log(chalk.cyan(`create scaffold [${this.scaffoldType}] module starting...`));
     if (!this.inArtWorkspace()) {
       return console.log(
@@ -369,10 +370,19 @@ export default class ArtScaffold {
 
     this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
 
-    const asyncQueue = [
-      this.syncClientFiles.bind(this),
-      this.syncServerFiles.bind(this)
-    ];
+    let asyncQueue;
+    if (this.scaffoldType === Scaffolds.ssrReact) {
+      // await require(`./${this.scaffoldType}/updateServiceRenderServerFile.js`).bind(this)(this.scaffoldTo);
+      asyncQueue = [
+        ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this, CreateCmdTypes.module),
+        ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes.module)
+      ];
+    } else {
+      asyncQueue = [
+        this.syncClientFiles.bind(this),
+        this.syncServerFiles.bind(this)
+      ];
+    }
 
     if (this.scaffoldType !== Scaffolds.miniprogram) {
       const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);

@@ -14,13 +14,14 @@ exports.ignoreMapping = (scaffoldInstance) => {
     ];
 };
 exports.serverServiceRenderMapping = (scaffoldInstance) => {
-    const { moduleName } = scaffoldInstance;
+    const { moduleName, projectVirtualPath } = scaffoldInstance;
     return [
         {
             name: 'server.ts',
             replace: [
                 { from: 'Main', to: getFirstCodeUpper(moduleName) },
-                { from: 'main', to: moduleName }
+                { from: 'main', to: moduleName },
+                { from: 'demo/ssr', to: projectVirtualPath }
             ]
         }
     ];
@@ -69,10 +70,6 @@ exports.servicesServiceWebMapping = (scaffoldInstance) => {
     const { moduleName } = scaffoldInstance;
     return [
         {
-            name: `./src/services/aggregator.ts`,
-            rename: `./src/services/aggregator.ts`
-        },
-        {
             name: `./src/services/Main/MainService.ts`,
             rename: `./src/services/${moduleName}/${getFirstCodeUpper(moduleName)}Service.ts`,
             replace: [
@@ -89,7 +86,10 @@ exports.srcServiceWebMapping = (scaffoldInstance) => {
         },
         {
             name: `./src/server.ts`
-        }
+        },
+        {
+            name: `./src/services/aggregator.ts`
+        },
     ];
 };
 exports.configMapping = (scaffoldInstance) => {

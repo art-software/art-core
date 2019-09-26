@@ -1,14 +1,14 @@
 import { printInstructions } from '../printLog';
 import { execCopyFilesTo, tplMappingAssembler } from '../scaffoldHelper';
-import { srcServiceWebMapping } from './fileSyncMapping';
+import { servicesServiceWebMapping } from './fileSyncMapping';
 
 module.exports = function (scaffoldFrom: string, scaffoldTo: string, folder: string, callback) {
   const scaffoldInstance = this;
-  printInstructions(`Sync all scaffold(${scaffoldInstance.scaffoldType}) [${folder} src] files...`);
+  printInstructions(`Sync all scaffold(${scaffoldInstance.scaffoldType}) [${folder} services] files...`);
 
   const tplMapping = tplMappingAssembler(
     [
-      ...srcServiceWebMapping(scaffoldInstance)
+      ...servicesServiceWebMapping(scaffoldInstance)
     ],
     scaffoldFrom,
     scaffoldTo
@@ -16,7 +16,7 @@ module.exports = function (scaffoldFrom: string, scaffoldTo: string, folder: str
 
   return execCopyFilesTo(tplMapping)
     .then((result) => {
-      printInstructions(`Sync all scaffold(${scaffoldInstance.scaffoldType}) [${folder} src] files ok`);
+      printInstructions(`Sync all scaffold(${scaffoldInstance.scaffoldType}) [${folder} services] files ok`);
       callback(null, result);
     })
     .catch(callback);

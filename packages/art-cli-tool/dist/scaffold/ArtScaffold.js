@@ -24,6 +24,7 @@ const Scaffolds_1 = require("../enums/Scaffolds");
 const Stage_1 = require("../enums/Stage");
 const executeNodeScript_1 = __importDefault(require("art-dev-utils/lib/executeNodeScript"));
 const lang_1 = require("art-lib-utils/dist/utils/lang");
+const CreateCmdTypes_1 = require("../enums/CreateCmdTypes");
 const isDevStage = process.env.STAGE === Stage_1.Stage.dev;
 const DependencyPackages = {
     [Scaffolds_1.Scaffolds.react]: ['art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack'],
@@ -151,8 +152,8 @@ class ArtScaffold {
             asyncQueue = [
                 ...require(`./${this.scaffoldType}/copyConfig.js`).call(this),
                 ...require(`./${this.scaffoldType}/copyServiceRender.js`).call(this),
-                ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this),
-                ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this)
+                ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.project),
+                ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.project)
             ];
         }
         else {
@@ -309,37 +310,49 @@ class ArtScaffold {
         });
     }
     createScaffoldModule() {
-        console.log(chalk_1.default.cyan(`create scaffold [${this.scaffoldType}] module starting...`));
-        if (!this.inArtWorkspace()) {
-            return console.log(chalk_1.default.red('You must run `art create module -s=""` within existed art workspace'));
-        }
-        if (!this.scaffoldType) {
-            return console.log(chalk_1.default.red('the property [scaffoldType] is required!'));
-        }
-        this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
-        const asyncQueue = [
-            this.syncClientFiles.bind(this),
-            this.syncServerFiles.bind(this)
-        ];
-        if (this.scaffoldType !== Scaffolds_1.Scaffolds.miniprogram) {
-            const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
-            updateArtConfig.bind(this)(this.scaffoldTo);
-        }
-        else {
-            this.syncUpdateAppJson.bind(this)();
-        }
-        return new Promise((resolve, reject) => {
-            async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
-                        yield this.syncTemplateFile();
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(chalk_1.default.cyan(`create scaffold [${this.scaffoldType}] module starting...`));
+            if (!this.inArtWorkspace()) {
+                return console.log(chalk_1.default.red('You must run `art create module -s=""` within existed art workspace'));
+            }
+            if (!this.scaffoldType) {
+                return console.log(chalk_1.default.red('the property [scaffoldType] is required!'));
+            }
+            this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
+            let asyncQueue;
+            if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
+                // await require(`./${this.scaffoldType}/updateServiceRenderServerFile.js`).bind(this)(this.scaffoldTo);
+                asyncQueue = [
+                    ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.module),
+                    ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.module)
+                ];
+            }
+            else {
+                asyncQueue = [
+                    this.syncClientFiles.bind(this),
+                    this.syncServerFiles.bind(this)
+                ];
+            }
+            if (this.scaffoldType !== Scaffolds_1.Scaffolds.miniprogram) {
+                const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
+                updateArtConfig.bind(this)(this.scaffoldTo);
+            }
+            else {
+                this.syncUpdateAppJson.bind(this)();
+            }
+            return new Promise((resolve, reject) => {
+                async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        reject(err);
                     }
-                    resolve(result);
-                }
-            }));
+                    else {
+                        if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
+                            yield this.syncTemplateFile();
+                        }
+                        resolve(result);
+                    }
+                }));
+            });
         });
     }
     inArtWorkspace() {

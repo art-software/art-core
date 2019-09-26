@@ -13,13 +13,14 @@ export const ignoreMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
 };
 
 export const serverServiceRenderMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
-  const { moduleName } = scaffoldInstance;
+  const { moduleName, projectVirtualPath } = scaffoldInstance;
   return [
     {
       name: 'server.ts',
       replace: [
         { from: 'Main', to: getFirstCodeUpper(moduleName) },
-        { from: 'main', to:  moduleName}
+        { from: 'main', to:  moduleName },
+        { from: 'demo/ssr', to:  projectVirtualPath }
       ]
     }
   ];
@@ -72,10 +73,6 @@ export const servicesServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMa
   const { moduleName } = scaffoldInstance;
   return [
     {
-      name: `./src/services/aggregator.ts`,
-      rename: `./src/services/aggregator.ts`
-    },
-    {
       name: `./src/services/Main/MainService.ts`,
       rename: `./src/services/${moduleName}/${getFirstCodeUpper(moduleName)}Service.ts`,
       replace: [
@@ -93,7 +90,10 @@ export const srcServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapping
     },
     {
       name: `./src/server.ts`
-    }
+    },
+    {
+      name: `./src/services/aggregator.ts`
+    },
   ];
 };
 
