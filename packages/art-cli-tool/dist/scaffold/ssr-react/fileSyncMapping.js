@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const path_1 = require("path");
+const firstWordUpperCase_1 = require("../../helpers/firstWordUpperCase");
 exports.ignoreMapping = (scaffoldInstance) => {
     return [
         {
@@ -19,7 +20,7 @@ exports.serverServiceRenderMapping = (scaffoldInstance) => {
         {
             name: 'server.ts',
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName },
                 { from: 'demo/ssr', to: projectVirtualPath }
             ]
@@ -58,9 +59,9 @@ exports.controllerServiceWebMapping = (scaffoldInstance) => {
     return [
         {
             name: `./src/controllers/Main/MainController.ts`,
-            rename: `./src/controllers/${moduleName}/${getFirstCodeUpper(moduleName)}Controller.ts`,
+            rename: `./src/controllers/${moduleName}/${firstWordUpperCase_1.firstWordUpperCase(moduleName)}Controller.ts`,
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName }
             ]
         }
@@ -71,9 +72,9 @@ exports.servicesServiceWebMapping = (scaffoldInstance) => {
     return [
         {
             name: `./src/services/Main/MainService.ts`,
-            rename: `./src/services/${moduleName}/${getFirstCodeUpper(moduleName)}Service.ts`,
+            rename: `./src/services/${moduleName}/${firstWordUpperCase_1.firstWordUpperCase(moduleName)}Service.ts`,
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName }
             ]
         }
@@ -139,7 +140,7 @@ exports.clientMapping = (scaffoldInstance) => {
             name: `./client/main/ssr.tsx`,
             rename: `./client/${moduleName}/ssr.tsx`,
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName }
             ]
         },
@@ -151,7 +152,7 @@ exports.clientMapping = (scaffoldInstance) => {
             name: `./client/main/index.tsx`,
             rename: `./client/${moduleName}/index.tsx`,
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName }
             ]
         },
@@ -159,7 +160,7 @@ exports.clientMapping = (scaffoldInstance) => {
             name: `./client/main/views/home.tsx`,
             rename: `./client/${moduleName}/views/home.tsx`,
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName }
             ]
         },
@@ -175,23 +176,23 @@ exports.clientMapping = (scaffoldInstance) => {
             name: `./client/main/store/store.ts`,
             rename: `./client/${moduleName}/store/store.ts`,
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName }
             ]
         },
         {
             name: `./client/main/services/MainService.ts`,
-            rename: `./client/${moduleName}/services/${getFirstCodeUpper(moduleName)}Service.ts`,
+            rename: `./client/${moduleName}/services/${firstWordUpperCase_1.firstWordUpperCase(moduleName)}Service.ts`,
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName }
             ]
         },
         {
             name: `./client/main/services/interfaces/IMainService.ts`,
-            rename: `./client/${moduleName}/services/interfaces/I${getFirstCodeUpper(moduleName)}Service.ts`,
+            rename: `./client/${moduleName}/services/interfaces/I${firstWordUpperCase_1.firstWordUpperCase(moduleName)}Service.ts`,
             replace: [
-                { from: 'Main', to: getFirstCodeUpper(moduleName) },
+                { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
                 { from: 'main', to: moduleName }
             ]
         },
@@ -234,15 +235,4 @@ exports.artConfigMapping = (scaffoldInstance) => {
             ]
         }
     ];
-};
-const getFirstCodeUpper = (sourceString = '') => {
-    if (sourceString) {
-        const arr = sourceString.split('');
-        const firstUpper = arr[0].toLocaleUpperCase();
-        arr.splice(0, 1, firstUpper);
-        return arr.join('');
-    }
-    else {
-        return '';
-    }
 };

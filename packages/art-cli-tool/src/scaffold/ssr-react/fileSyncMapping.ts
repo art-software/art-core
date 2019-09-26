@@ -2,6 +2,7 @@ import { SyncMapping } from '../typing';
 import ArtScaffold from '../ArtScaffold';
 import fs from 'fs-extra';
 import { join } from 'path';
+import { firstWordUpperCase } from '../../helpers/firstWordUpperCase';
 
 export const ignoreMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
   return [
@@ -18,7 +19,7 @@ export const serverServiceRenderMapping = (scaffoldInstance: ArtScaffold): SyncM
     {
       name: 'server.ts',
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName },
         { from: 'demo/ssr', to:  projectVirtualPath }
       ]
@@ -60,9 +61,9 @@ export const controllerServiceWebMapping = (scaffoldInstance: ArtScaffold): Sync
   return [
     {
       name: `./src/controllers/Main/MainController.ts`,
-      rename: `./src/controllers/${moduleName}/${getFirstCodeUpper(moduleName)}Controller.ts`,
+      rename: `./src/controllers/${moduleName}/${firstWordUpperCase(moduleName)}Controller.ts`,
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName}
       ]
     }
@@ -74,9 +75,9 @@ export const servicesServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMa
   return [
     {
       name: `./src/services/Main/MainService.ts`,
-      rename: `./src/services/${moduleName}/${getFirstCodeUpper(moduleName)}Service.ts`,
+      rename: `./src/services/${moduleName}/${firstWordUpperCase(moduleName)}Service.ts`,
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName}
       ]
     }
@@ -145,7 +146,7 @@ export const clientMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
       name: `./client/main/ssr.tsx`,
       rename: `./client/${moduleName}/ssr.tsx`,
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName}
       ]
     },
@@ -157,7 +158,7 @@ export const clientMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
       name: `./client/main/index.tsx`,
       rename: `./client/${moduleName}/index.tsx`,
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName}
       ]
     },
@@ -165,7 +166,7 @@ export const clientMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
       name: `./client/main/views/home.tsx`,
       rename: `./client/${moduleName}/views/home.tsx`,
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName}
       ]
     },
@@ -181,25 +182,25 @@ export const clientMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
       name: `./client/main/store/store.ts`,
       rename: `./client/${moduleName}/store/store.ts`,
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName}
       ]
     },
 
     {
       name: `./client/main/services/MainService.ts`,
-      rename: `./client/${moduleName}/services/${getFirstCodeUpper(moduleName)}Service.ts`,
+      rename: `./client/${moduleName}/services/${firstWordUpperCase(moduleName)}Service.ts`,
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName}
       ]
     },
 
     {
       name: `./client/main/services/interfaces/IMainService.ts`,
-      rename: `./client/${moduleName}/services/interfaces/I${getFirstCodeUpper(moduleName)}Service.ts`,
+      rename: `./client/${moduleName}/services/interfaces/I${firstWordUpperCase(moduleName)}Service.ts`,
       replace: [
-        { from: 'Main', to: getFirstCodeUpper(moduleName) },
+        { from: 'Main', to: firstWordUpperCase(moduleName) },
         { from: 'main', to:  moduleName}
       ]
     },
@@ -248,15 +249,4 @@ export const artConfigMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] =
       ]
     }
   ];
-};
-
-const getFirstCodeUpper = (sourceString: string = '') => {
-  if (sourceString) {
-    const arr = sourceString.split('');
-    const firstUpper = arr[0].toLocaleUpperCase();
-    arr.splice(0, 1, firstUpper);
-    return arr.join('');
-  } else {
-    return '';
-  }
 };
