@@ -57,14 +57,15 @@ export const configServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapp
 };
 
 export const controllerServiceWebMapping = (scaffoldInstance: ArtScaffold): SyncMapping[] => {
-  const { moduleName } = scaffoldInstance;
+  const { moduleName, projectVirtualPath } = scaffoldInstance;
   return [
     {
       name: `./src/controllers/Main/MainController.ts`,
       rename: `./src/controllers/${moduleName}/${firstWordUpperCase(moduleName)}Controller.ts`,
       replace: [
         { from: 'Main', to: firstWordUpperCase(moduleName) },
-        { from: 'main', to:  moduleName}
+        { from: 'main', to:  moduleName},
+        { from: 'demo/ssr', to:  projectVirtualPath }
       ]
     }
   ];

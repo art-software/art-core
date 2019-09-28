@@ -55,14 +55,15 @@ exports.configServiceWebMapping = (scaffoldInstance) => {
     ];
 };
 exports.controllerServiceWebMapping = (scaffoldInstance) => {
-    const { moduleName } = scaffoldInstance;
+    const { moduleName, projectVirtualPath } = scaffoldInstance;
     return [
         {
             name: `./src/controllers/Main/MainController.ts`,
             rename: `./src/controllers/${moduleName}/${firstWordUpperCase_1.firstWordUpperCase(moduleName)}Controller.ts`,
             replace: [
                 { from: 'Main', to: firstWordUpperCase_1.firstWordUpperCase(moduleName) },
-                { from: 'main', to: moduleName }
+                { from: 'main', to: moduleName },
+                { from: 'demo/ssr', to: projectVirtualPath }
             ]
         }
     ];

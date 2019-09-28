@@ -56,7 +56,7 @@ export default {
           .filter((comp) => comp.serverFetch) // check if components have data requirement
           .map((comp) => store.dispatch(comp.serverFetch())); // dispatch data requirement
       return Promise.all(dataRequirements).then(() => {
-        return renderReact('Main', IndexSSR, css, store);
+        return renderReact('Main', IndexSSR, css as Set<string>, store);
       });
     });
   }
