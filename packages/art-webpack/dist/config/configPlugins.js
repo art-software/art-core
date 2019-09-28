@@ -18,7 +18,7 @@ const appConfig_1 = __importDefault(require("./appConfig"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
 const qs_1 = __importDefault(require("qs"));
-const foreach_1 = __importDefault(require("lodash/foreach"));
+const forEach_1 = __importDefault(require("lodash/forEach"));
 const html_webpack_plugin_1 = __importDefault(require("html-webpack-plugin"));
 const HtmlWebpackCDNPlugin_1 = __importDefault(require("../plugins/HtmlWebpackCDNPlugin"));
 const happypack_1 = __importDefault(require("happypack"));
@@ -32,7 +32,7 @@ const configHtmlWebpackPlugin = (entries) => {
     const buildEnv = appConfig_1.default.get('BUILD_ENV');
     const assetsProdPublicPath = appConfig_1.default.get(`art:webpack:output:${buildEnv}PublicPath`) || '';
     console.log(`assetsProdPublicPath: ${assetsProdPublicPath}`);
-    foreach_1.default(entries, (value, key) => {
+    forEach_1.default(entries, (value, key) => {
         const fragment = key.split('?');
         const entryKey = fragment[0];
         const queryKey = fragment[1];

@@ -6,7 +6,7 @@ import appConfig from './appConfig';
 import * as path from 'path';
 import * as fs from 'fs';
 import qs from 'qs';
-import foreach from 'lodash/foreach';
+import foreach from 'lodash/forEach';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackCDNPlugin from '../plugins/HtmlWebpackCDNPlugin';
 import HappyPack from 'happypack';
