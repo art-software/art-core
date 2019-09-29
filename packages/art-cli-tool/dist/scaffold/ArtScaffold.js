@@ -213,16 +213,15 @@ class ArtScaffold {
             }
             else {
                 if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
-                    chalk_1.default.blue(`You can manually install following modules before starting project.`);
+                    console.log(chalk_1.default.blue(`You can manually install following modules before starting project.`));
                     console.log(DependencyPackages[this.scaffoldType]);
-                    process.exit(0);
                 }
                 else if (this.scaffoldType === Scaffolds_1.Scaffolds.react || this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram) {
-                    chalk_1.default.blue(`You can manually install following modules:
+                    console.log(chalk_1.default.blue(`You can manually install following modules:
             ${chalk_1.default.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
-          before starting project.`);
-                    process.exit(0);
+          before starting project.`));
                 }
+                process.exit(0);
             }
         });
     }
@@ -265,6 +264,12 @@ class ArtScaffold {
                     if (this.defaultDepInstallDone && this.particularDepInstallDone) {
                         if (this.scaffoldType === Scaffolds_1.Scaffolds.react || this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram) {
                             this.autoServeModule();
+                        }
+                        else if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
+                            console.log(chalk_1.default.blue('serve your ssr application, follow this:'));
+                            console.log(`${chalk_1.default.magenta('cd web-react')} and run ${chalk_1.default.magenta('NODE_ENV=dev DEV_PORT=3001 art serve -m moduleName')}`);
+                            console.log(`${chalk_1.default.magenta('cd service-render')} and run ${chalk_1.default.magenta('tsc -w')}, and then run ${chalk_1.default.magenta('node dist/server.js')}`);
+                            console.log(`${chalk_1.default.magenta('cd service-web')} and run ${chalk_1.default.magenta('tsc -w')}, and then run ${chalk_1.default.magenta('node dist/index.js')}`);
                         }
                     }
                     resolve();

@@ -241,19 +241,18 @@ export default class ArtScaffold {
       }
     } else {
       if (this.scaffoldType === Scaffolds.ssrReact) {
-        chalk.blue(
+        console.log(chalk.blue(
           `You can manually install following modules before starting project.`
-          );
+        ));
         console.log(DependencyPackages[this.scaffoldType]);
-        process.exit(0);
       } else if (this.scaffoldType === Scaffolds.react || this.scaffoldType === Scaffolds.miniprogram) {
-        chalk.blue(
+        console.log(chalk.blue(
           `You can manually install following modules:
             ${chalk.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
           before starting project.`
-        );
-        process.exit(0);
+        ));
       }
+      process.exit(0);
 
     }
   }
@@ -308,6 +307,11 @@ export default class ArtScaffold {
           if (this.defaultDepInstallDone && this.particularDepInstallDone) {
             if (this.scaffoldType === Scaffolds.react || this.scaffoldType === Scaffolds.miniprogram) {
               this.autoServeModule();
+            } else if (this.scaffoldType === Scaffolds.ssrReact) {
+              console.log(chalk.blue('serve your ssr application, follow this:'));
+              console.log(`${chalk.magenta('cd web-react')} and run ${chalk.magenta('NODE_ENV=dev DEV_PORT=3001 art serve -m moduleName')}`);
+              console.log(`${chalk.magenta('cd service-render')} and run ${chalk.magenta('tsc -w')}, and then run ${chalk.magenta('node dist/server.js')}`);
+              console.log(`${chalk.magenta('cd service-web')} and run ${chalk.magenta('tsc -w')}, and then run ${chalk.magenta('node dist/index.js')}`);
             }
           }
           resolve();
