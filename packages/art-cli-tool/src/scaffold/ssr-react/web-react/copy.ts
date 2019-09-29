@@ -1,5 +1,5 @@
 import { join, resolve } from 'path';
-import { CreateCmdTypes } from '../../enums/CreateCmdTypes';
+import { CreateCmdTypes } from '../../../enums/CreateCmdTypes';
 
 const FolderName = 'web-react';
 

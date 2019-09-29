@@ -1,13 +1,13 @@
-import { printInstructions } from '../printLog';
-import { execCopyFilesTo, tplMappingAssembler } from '../scaffoldHelper';
-import { serverServiceRenderMapping } from './fileSyncMapping';
+import { printInstructions } from '../../printLog';
+import { execCopyFilesTo, tplMappingAssembler } from '../../scaffoldHelper';
+import { serverMapping } from './fileSyncMapping';
 
 module.exports = function (scaffoldFrom: string, scaffoldTo: string, folder: string, callback) {
   const scaffoldInstance = this;
   printInstructions(`Sync all scaffold(${scaffoldInstance.scaffoldType}) [${folder} server] files...`);
 
   const tplMapping = tplMappingAssembler(
-    serverServiceRenderMapping(scaffoldInstance),
+    serverMapping(scaffoldInstance),
     scaffoldFrom,
     scaffoldTo
   );

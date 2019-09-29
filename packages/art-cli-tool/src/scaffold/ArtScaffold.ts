@@ -179,10 +179,10 @@ export default class ArtScaffold {
     // ssr react
     if (this.scaffoldType === Scaffolds.ssrReact) {
       asyncQueue = [
-        ...require(`./${this.scaffoldType}/copyConfig.js`).call(this),
-        ...require(`./${this.scaffoldType}/copyServiceRender.js`).call(this),
-        ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this),
-        ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes.project)
+        ...require(`./${this.scaffoldType}/config/copy.js`).call(this),
+        ...require(`./${this.scaffoldType}/service-render/copy.js`).call(this),
+        ...require(`./${this.scaffoldType}/service-web/copy.js`).call(this),
+        ...require(`./${this.scaffoldType}/web-react/copy.js`).call(this, CreateCmdTypes.project)
       ];
     } else {
       // spa、miniprogram
@@ -385,7 +385,7 @@ export default class ArtScaffold {
     let asyncQueue;
     if (this.scaffoldType === Scaffolds.ssrReact) {
       asyncQueue = [
-        ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes.module)
+        ...require(`./${this.scaffoldType}/web-react/copy.js`).call(this, CreateCmdTypes.module)
       ];
     } else {
       asyncQueue = [
@@ -394,10 +394,13 @@ export default class ArtScaffold {
       ];
     }
 
-    if (this.scaffoldType !== Scaffolds.miniprogram) {
+    if (this.scaffoldType === Scaffolds.react) {
       const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
       updateArtConfig.bind(this)(this.scaffoldTo);
-    } else {
+    } else if (this.scaffoldType === Scaffolds.ssrReact) {
+      const updateArtConfig = require(`./${this.scaffoldType}/web-react/updateArtConfig.js`);
+      updateArtConfig.bind(this)(this.scaffoldTo);
+    } else if (this.scaffoldType === Scaffolds.miniprogram) {
       this.syncUpdateAppJson.bind(this)();
     }
 

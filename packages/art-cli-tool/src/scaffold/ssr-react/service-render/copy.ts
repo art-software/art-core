@@ -5,32 +5,29 @@ const FolderName = 'service-render';
 let copyInstance;
 let scaffoldFrom;
 let scaffoldTo;
-let moduleName;
 
 module.exports = function () {
   copyInstance = this;
   scaffoldFrom = copyInstance.scaffoldFrom;
   scaffoldTo = copyInstance.scaffoldTo;
-  moduleName = copyInstance.moduleName;
   return [
-    syncSSRConfigFiles.bind(this),
-    syncServiceRenderServerFiles.bind(this)
+    syncConfigFiles.bind(this),
+    syncServerFiles.bind(this)
   ];
 };
 
-const syncSSRConfigFiles = (callback) => {
-  require(`./syncFolderConfigFiles.js`).call(
+const syncConfigFiles = (callback) => {
+  require(`./syncConfigFiles.js`).call(
     copyInstance,
     join(scaffoldFrom, FolderName),
     join(scaffoldTo, FolderName),
-    'configServiceRenderMapping',
     FolderName,
     callback
   );
 };
 
-const syncServiceRenderServerFiles = (callback) => {
-  require(`./syncServiceRenderServerFiles.js`).call(
+const syncServerFiles = (callback) => {
+  require(`./syncServerFiles.js`).call(
     copyInstance,
     join(scaffoldFrom, FolderName, 'src'),
     join(scaffoldTo, FolderName, 'src'),

@@ -1,5 +1,5 @@
-import { printInstructions } from '../printLog';
-import { execCopyFilesTo, tplMappingAssembler } from '../scaffoldHelper';
+import { printInstructions } from '../../printLog';
+import { execCopyFilesTo, tplMappingAssembler } from '../../scaffoldHelper';
 import { configMapping } from './fileSyncMapping';
 
 module.exports = function (scaffoldFrom: string, scaffoldTo: string, callback) {

@@ -150,10 +150,10 @@ class ArtScaffold {
         // ssr react
         if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
             asyncQueue = [
-                ...require(`./${this.scaffoldType}/copyConfig.js`).call(this),
-                ...require(`./${this.scaffoldType}/copyServiceRender.js`).call(this),
-                ...require(`./${this.scaffoldType}/copyServiceWeb.js`).call(this),
-                ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.project)
+                ...require(`./${this.scaffoldType}/config/copy.js`).call(this),
+                ...require(`./${this.scaffoldType}/service-render/copy.js`).call(this),
+                ...require(`./${this.scaffoldType}/service-web/copy.js`).call(this),
+                ...require(`./${this.scaffoldType}/web-react/copy.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.project)
             ];
         }
         else {
@@ -334,7 +334,7 @@ class ArtScaffold {
             let asyncQueue;
             if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
                 asyncQueue = [
-                    ...require(`./${this.scaffoldType}/copyWebReact.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.module)
+                    ...require(`./${this.scaffoldType}/web-react/copy.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.module)
                 ];
             }
             else {
@@ -343,11 +343,15 @@ class ArtScaffold {
                     this.syncServerFiles.bind(this)
                 ];
             }
-            if (this.scaffoldType !== Scaffolds_1.Scaffolds.miniprogram) {
+            if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
                 const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
                 updateArtConfig.bind(this)(this.scaffoldTo);
             }
-            else {
+            else if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
+                const updateArtConfig = require(`./${this.scaffoldType}/web-react/updateArtConfig.js`);
+                updateArtConfig.bind(this)(this.scaffoldTo);
+            }
+            else if (this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram) {
                 this.syncUpdateAppJson.bind(this)();
             }
             return new Promise((resolve, reject) => {

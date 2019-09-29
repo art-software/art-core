@@ -1,4 +1,4 @@
-import { printInstructions } from '../printLog';
+import { printInstructions } from '../../printLog';
 import ensureSlash from 'art-dev-utils/lib/ensureSlash';
 import { join } from 'path';
 import { createReadStream } from 'fs';
