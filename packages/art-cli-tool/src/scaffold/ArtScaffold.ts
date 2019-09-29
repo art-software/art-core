@@ -236,8 +236,8 @@ export default class ArtScaffold {
         await this.installDependencyPackages(inquirerPM, 'default', 'service-web');
         await this.installDependencyPackages(inquirerPM, 'default', 'web-react');
       } else {
-        await this.installDependencyPackages(inquirerPM, 'default');
         await this.installDependencyPackages(inquirerPM, 'particular');
+        await this.installDependencyPackages(inquirerPM, 'default');
       }
     } else {
       if (this.scaffoldType === Scaffolds.ssrReact) {

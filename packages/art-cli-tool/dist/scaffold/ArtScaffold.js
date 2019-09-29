@@ -207,8 +207,8 @@ class ArtScaffold {
                     yield this.installDependencyPackages(inquirerPM, 'default', 'web-react');
                 }
                 else {
-                    yield this.installDependencyPackages(inquirerPM, 'default');
                     yield this.installDependencyPackages(inquirerPM, 'particular');
+                    yield this.installDependencyPackages(inquirerPM, 'default');
                 }
             }
             else {
