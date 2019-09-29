@@ -229,7 +229,6 @@ export default class ArtScaffold {
         return answer;
       });
       if (this.scaffoldType === Scaffolds.ssrReact) {
-        // TODO 分别进到三个文件夹 执行yarn install
         await this.installDependencyPackages(inquirerPM, 'particular', 'service-render');
         await this.installDependencyPackages(inquirerPM, 'particular', 'service-web');
         await this.installDependencyPackages(inquirerPM, 'particular', 'web-react');
@@ -241,14 +240,21 @@ export default class ArtScaffold {
         await this.installDependencyPackages(inquirerPM, 'particular');
       }
     } else {
-      // TODO修改 不同文件夹打印
-      chalk.blue(
-        `You can manually install following modules:
-          ${chalk.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
-        before starting project.`
-      );
+      if (this.scaffoldType === Scaffolds.ssrReact) {
+        chalk.blue(
+          `You can manually install following modules before starting project.`
+          );
+        console.log(DependencyPackages[this.scaffoldType]);
+        process.exit(0);
+      } else if (this.scaffoldType === Scaffolds.react || this.scaffoldType === Scaffolds.miniprogram) {
+        chalk.blue(
+          `You can manually install following modules:
+            ${chalk.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
+          before starting project.`
+        );
+        process.exit(0);
+      }
 
-      process.exit(0);
     }
   }
 

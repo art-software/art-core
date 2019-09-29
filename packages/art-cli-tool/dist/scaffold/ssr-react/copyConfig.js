@@ -10,5 +10,5 @@ module.exports = function () {
     ];
 };
 const syncIgnoreFiles = (callback) => {
-    require(`./syncIgnoreFiles.js`).call(this, scaffoldFrom, scaffoldTo, callback);
+    require(`./syncIgnoreFiles.js`).call(copyInstance, scaffoldFrom, scaffoldTo, callback);
 };
