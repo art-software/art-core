@@ -230,10 +230,10 @@ export default class ArtScaffold {
       });
       if (this.scaffoldType === Scaffolds.ssrReact) {
         await this.installDependencyPackages(inquirerPM, 'particular', 'service-render');
-        await this.installDependencyPackages(inquirerPM, 'particular', 'service-web');
-        await this.installDependencyPackages(inquirerPM, 'particular', 'web-react');
         await this.installDependencyPackages(inquirerPM, 'default', 'service-render');
+        await this.installDependencyPackages(inquirerPM, 'particular', 'service-web');
         await this.installDependencyPackages(inquirerPM, 'default', 'service-web');
+        await this.installDependencyPackages(inquirerPM, 'particular', 'web-react');
         await this.installDependencyPackages(inquirerPM, 'default', 'web-react');
       } else {
         await this.installDependencyPackages(inquirerPM, 'particular');
@@ -308,10 +308,12 @@ export default class ArtScaffold {
             if (this.scaffoldType === Scaffolds.react || this.scaffoldType === Scaffolds.miniprogram) {
               this.autoServeModule();
             } else if (this.scaffoldType === Scaffolds.ssrReact) {
-              console.log(chalk.blue('serve your ssr application, follow this:'));
-              console.log(`${chalk.magenta('cd web-react')} and run ${chalk.magenta('NODE_ENV=dev DEV_PORT=3001 art serve -m moduleName')}`);
-              console.log(`${chalk.magenta('cd service-render')} and run ${chalk.magenta('tsc -w')}, and then run ${chalk.magenta('node dist/server.js')}`);
-              console.log(`${chalk.magenta('cd service-web')} and run ${chalk.magenta('tsc -w')}, and then run ${chalk.magenta('node dist/index.js')}`);
+              if (execFolder === 'web-react') {
+                console.log(chalk.blue('serve your ssr application, please follow this:'));
+                console.log(`run ${chalk.magenta('NODE_ENV=dev DEV_PORT=3001 art serve -m [module_replace]')} in ${chalk.magenta('web-react')} folder`);
+                console.log(`run ${chalk.magenta('tsc -w')}, and then run ${chalk.magenta('node dist/server.js')} in ${chalk.magenta(' service-render')} folder`);
+                console.log(`run ${chalk.magenta('tsc -w')}, and then run ${chalk.magenta('node dist/index.js')} in ${chalk.magenta(' service-web')} folder`);
+              }
             }
           }
           resolve();

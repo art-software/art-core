@@ -200,10 +200,10 @@ class ArtScaffold {
                 });
                 if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
                     yield this.installDependencyPackages(inquirerPM, 'particular', 'service-render');
-                    yield this.installDependencyPackages(inquirerPM, 'particular', 'service-web');
-                    yield this.installDependencyPackages(inquirerPM, 'particular', 'web-react');
                     yield this.installDependencyPackages(inquirerPM, 'default', 'service-render');
+                    yield this.installDependencyPackages(inquirerPM, 'particular', 'service-web');
                     yield this.installDependencyPackages(inquirerPM, 'default', 'service-web');
+                    yield this.installDependencyPackages(inquirerPM, 'particular', 'web-react');
                     yield this.installDependencyPackages(inquirerPM, 'default', 'web-react');
                 }
                 else {
@@ -266,10 +266,12 @@ class ArtScaffold {
                             this.autoServeModule();
                         }
                         else if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
-                            console.log(chalk_1.default.blue('serve your ssr application, follow this:'));
-                            console.log(`${chalk_1.default.magenta('cd web-react')} and run ${chalk_1.default.magenta('NODE_ENV=dev DEV_PORT=3001 art serve -m moduleName')}`);
-                            console.log(`${chalk_1.default.magenta('cd service-render')} and run ${chalk_1.default.magenta('tsc -w')}, and then run ${chalk_1.default.magenta('node dist/server.js')}`);
-                            console.log(`${chalk_1.default.magenta('cd service-web')} and run ${chalk_1.default.magenta('tsc -w')}, and then run ${chalk_1.default.magenta('node dist/index.js')}`);
+                            if (execFolder === 'web-react') {
+                                console.log(chalk_1.default.blue('serve your ssr application, please follow this:'));
+                                console.log(`run ${chalk_1.default.magenta('NODE_ENV=dev DEV_PORT=3001 art serve -m [module_replace]')} in ${chalk_1.default.magenta('web-react')} folder`);
+                                console.log(`run ${chalk_1.default.magenta('tsc -w')}, and then run ${chalk_1.default.magenta('node dist/server.js')} in ${chalk_1.default.magenta(' service-render')} folder`);
+                                console.log(`run ${chalk_1.default.magenta('tsc -w')}, and then run ${chalk_1.default.magenta('node dist/index.js')} in ${chalk_1.default.magenta(' service-web')} folder`);
+                            }
                         }
                     }
                     resolve();
