@@ -245,7 +245,7 @@ export default class ArtScaffold {
           `You can manually install following modules before starting project.`
         ));
         console.log(DependencyPackages[this.scaffoldType]);
-      } else if (this.scaffoldType === Scaffolds.react || this.scaffoldType === Scaffolds.miniprogram) {
+      } else {
         console.log(chalk.blue(
           `You can manually install following modules:
             ${chalk.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
