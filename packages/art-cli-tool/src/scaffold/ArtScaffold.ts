@@ -308,7 +308,7 @@ export default class ArtScaffold {
             if (this.scaffoldType === Scaffolds.react || this.scaffoldType === Scaffolds.miniprogram) {
               this.autoServeModule();
             } else if (this.scaffoldType === Scaffolds.ssrReact) {
-              if (execFolder === 'web-react') {
+              if (execFolder === 'web-react' && type === 'default') {
                 console.log(chalk.blue('serve your ssr application, please follow this:'));
                 console.log(`run ${chalk.magenta('NODE_ENV=dev DEV_PORT=3001 art serve -m [module_replace]')} in ${chalk.magenta('web-react')} folder`);
                 console.log(`run ${chalk.magenta('tsc -w')}, and then run ${chalk.magenta('node dist/server.js')} in ${chalk.magenta(' service-render')} folder`);

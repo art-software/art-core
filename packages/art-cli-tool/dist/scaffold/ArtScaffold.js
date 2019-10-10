@@ -266,7 +266,7 @@ class ArtScaffold {
                             this.autoServeModule();
                         }
                         else if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
-                            if (execFolder === 'web-react') {
+                            if (execFolder === 'web-react' && type === 'default') {
                                 console.log(chalk_1.default.blue('serve your ssr application, please follow this:'));
                                 console.log(`run ${chalk_1.default.magenta('NODE_ENV=dev DEV_PORT=3001 art serve -m [module_replace]')} in ${chalk_1.default.magenta('web-react')} folder`);
                                 console.log(`run ${chalk_1.default.magenta('tsc -w')}, and then run ${chalk_1.default.magenta('node dist/server.js')} in ${chalk_1.default.magenta(' service-render')} folder`);
