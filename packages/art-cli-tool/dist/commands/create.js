@@ -19,6 +19,10 @@ class CreateCommand {
         this.describe = chalk_1.default.black.bold(`create art scaffold ${scaffolds.join(',')} `);
         this.handler = (argv) => {
             const commandType = argv._[1];
+            if (argv.scaffold === Scaffolds_1.Scaffolds.ssrVue) {
+                console.log(chalk_1.default.magenta(`Scaffold ${chalk_1.default.green(argv.scaffold)} is not supported for now!`));
+                return;
+            }
             const fileFilter = (file) => {
                 const fileBaseName = path_1.basename(file);
                 return fileBaseName === '.' || fileBaseName !== '.git' || fileBaseName[0] !== '.';
