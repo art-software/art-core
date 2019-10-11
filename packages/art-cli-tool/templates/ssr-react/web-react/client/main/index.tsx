@@ -3,7 +3,7 @@ import { renderReact } from 'art-ssr-react';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { convertCustomRouteConfig, ensureReady } from 'art-ssr-react-router/dist/reactRouterHelper';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
+import StyleContext from 'art-isomorphic-style-loader/StyleContext';
 import routes from './routes';
 import { Provider as ReduxProvider } from 'react-redux';
 import createStore from './store/store';

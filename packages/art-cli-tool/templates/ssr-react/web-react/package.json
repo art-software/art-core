@@ -4,7 +4,6 @@
   "description": "art ssr client",
   "license": "MIT",
   "dependencies": {
-    "isomorphic-style-loader": "^5.1.0",
     "less": "3.8.1",
     "react": "16.4.2",
     "react-dom": "16.4.2",
