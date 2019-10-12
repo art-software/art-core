@@ -14,11 +14,6 @@ import { isArray, isObject } from 'art-lib-utils/dist/utils/lang';
 import { CreateCmdTypes } from '../enums/CreateCmdTypes';
 const isDevStage = process.env.STAGE === Stage.dev;
 
-interface ISpawnOptions {
-  stdio: string;
-  cwd?: string;
-}
-
 const DependencyPackages = {
   [Scaffolds.react]: ['art-lib-common', 'art-lib-react', 'art-lib-utils', 'art-server-mock', 'art-webpack'],
   [Scaffolds.miniprogram]: ['art-lib-common-miniprogram', 'art-lib-utils', 'art-lib-utils-wx', 'art-server-mock-miniprogram', 'art-webpack-miniprogram'],
@@ -279,7 +274,7 @@ export default class ArtScaffold {
       });
     }
 
-    const spawnOptions: ISpawnOptions = {
+    const spawnOptions: any = {
       stdio: 'inherit'
     };
 
