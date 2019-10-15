@@ -1,4 +1,6 @@
 export enum Scaffolds {
   'react' = 'react',
-  'miniprogram' = 'miniprogram'
+  'miniprogram' = 'miniprogram',
+  'ssrReact' = 'ssr-react',
+  'ssrVue' = 'ssr-vue'
 }
