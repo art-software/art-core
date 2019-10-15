@@ -11,7 +11,7 @@ export abstract class WebApiCommon extends WebApiMiniProgramCommon {
 
   constructor() {
     super(domains);
-    this.setBasicRequestConfig(this.requestConfig);
+    super.setBasicRequestConfig(this.requestConfig);
   }
 
   private requestConfig = {};
@@ -19,8 +19,8 @@ export abstract class WebApiCommon extends WebApiMiniProgramCommon {
   protected preRequest(requestConfig: wx.RequestOption): Promise<wx.RequestOption> {
     return new Promise((resolve) => {
       const urlPath = ensureSlash(requestConfig.url, false);
-      let domain = ensureSlash(this.getDomain(), false);
-      if (this.getEnvName() === EnvNames.local) {
+      let domain = ensureSlash(super.getDomain(), false);
+      if (super.getEnvName() === EnvNames.local) {
         domain = domain + '/mock_api';
       }
 

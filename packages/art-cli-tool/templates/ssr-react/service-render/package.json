@@ -2,7 +2,6 @@
   "name": "art-ssr-render",
   "version": "0.0.1",
   "description": "art ssr render service",
-  "author": "Bowen Zhong <zbw322092@hotmail.com>",
   "license": "MIT",
   "scripts": {
     "clean": "sudo rimraf -g dist",

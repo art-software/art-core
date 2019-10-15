@@ -1,7 +1,7 @@
 import React from 'react';
 // @ts-ignore
 import style from '../styles/home.less';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'art-isomorphic-style-loader/withStyles';
 import { fetchDataMain } from '../store/store';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';

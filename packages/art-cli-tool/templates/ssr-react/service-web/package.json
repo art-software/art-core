@@ -2,7 +2,6 @@
   "name": "service-web",
   "version": "0.0.1",
   "description": "art ssr web service",
-  "author": "Bowen Zhong",
   "license": "MIT",
   "scripts": {
     "clean": "sudo rimraf -g dist",

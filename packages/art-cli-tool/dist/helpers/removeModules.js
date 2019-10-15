@@ -20,15 +20,17 @@ exports.removeFolders = (moduleEntry, removeDebug, removePublic) => {
     const appConfig = require(resolveAppPath_1.default('art.config.js'));
     for (const item of modulesArr) {
         // item: 'demo/spa/my/invest/22'
-        const projectVirtualPath = appConfig.projectVirtualPath;
+        const { projectVirtualPath, projectType } = appConfig;
         const splitModuleName = item.split(`${projectVirtualPath}/`)[1];
         exports.remove('', 'client', splitModuleName);
         exports.remove('', 'mock', splitModuleName);
+        const folderSuffix = projectType === 'SSR' ? '-ssr' : '';
         if (removeDebug) {
-            exports.remove(projectVirtualPath, 'debug', item);
+            exports.remove(projectVirtualPath, `debug${folderSuffix}`, item);
+            // remove(projectVirtualPath, 'debug', item);
         }
         if (removePublic) {
-            exports.remove(projectVirtualPath, 'public', item);
+            exports.remove(projectVirtualPath, `public${folderSuffix}`, item);
         }
     }
     updateArtConfigRemove(moduleEntry);

@@ -1,7 +1,7 @@
 import React from 'react';
 // @ts-ignore
 import style from '../styles/product.less';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'art-isomorphic-style-loader/withStyles';
 
 const products = [
   {
