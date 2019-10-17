@@ -1,0 +1,50 @@
+{
+  "name": "art-ssr-client",
+  "version": "0.0.1",
+  "description": "art ssr client",
+  "license": "MIT",
+  "dependencies": {
+    "less": "3.8.1",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
+    "react-loadable": "5.5.0",
+    "react-redux": "6.0.1",
+    "react-router-config": "^5.0.1",
+    "react-router-dom": "4.3.1",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/react-redux": "7.0.0",
+    "@types/mockjs": "^1.0.1",
+    "@types/node": "^10.5.6",
+    "@types/react": "16.7.3",
+    "@types/react-dom": "16.0.9",
+    "@types/react-loadable": "5.5.0",
+    "@types/react-router-dom": "4.3.0",
+    "mockjs": "^1.0.1-beta3",
+    "routing-controllers": "^0.7.7",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  },
+  "resolutions": {
+    "@types/react": "16.7.3"
+  },
+  "postcssSortingConfig": {
+    "order": [
+      "custom-properties",
+      "dollar-variables",
+      "declarations",
+      "at-rules",
+      "rules"
+    ],
+    "properties-order": [
+      "display",
+      "position",
+      "top",
+      "right",
+      "bottom",
+      "left"
+    ]
+  }
+}

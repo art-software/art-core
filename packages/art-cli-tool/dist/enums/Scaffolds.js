@@ -4,4 +4,6 @@ var Scaffolds;
 (function (Scaffolds) {
     Scaffolds["react"] = "react";
     Scaffolds["miniprogram"] = "miniprogram";
+    Scaffolds["ssrReact"] = "ssr-react";
+    Scaffolds["ssrVue"] = "ssr-vue";
 })(Scaffolds = exports.Scaffolds || (exports.Scaffolds = {}));

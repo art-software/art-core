@@ -8,7 +8,7 @@ import { Scaffolds } from '../enums/Scaffolds';
 import { CreateCmdTypes } from '../enums/CreateCmdTypes';
 import resolveAppPath from 'art-dev-utils/lib/resolveAppPath';
 import { existsSync } from 'fs';
-const scaffolds = [Scaffolds.react, Scaffolds.miniprogram];
+const scaffolds = [Scaffolds.react, Scaffolds.miniprogram, Scaffolds.ssrReact, Scaffolds.ssrVue];
 
 class CreateCommand implements CommandModule {
 
@@ -56,6 +56,10 @@ class CreateCommand implements CommandModule {
   public handler = (argv) => {
 
     const commandType = argv._[1];
+    if (argv.scaffold === Scaffolds.ssrVue) {
+      console.log(chalk.magenta(`Scaffold ${chalk.green(argv.scaffold)} is not supported for now!`));
+      return;
+    }
     const fileFilter = (file: string) => {
       const fileBaseName = basename(file);
       return fileBaseName === '.' || fileBaseName !== '.git' || fileBaseName[0] !== '.';
