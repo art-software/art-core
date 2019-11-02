@@ -40,7 +40,7 @@
     "inquirer": "6.1.0",
     "json-format": "1.0.1",
     "less-loader": "4.1.0",
-    "lodash": "4.17.10",
+    "lodash": "4.17.15",
     "map-stream": "0.0.7",
     "mini-css-extract-plugin": "0.4.1",
     "minimatch": "3.0.4",
