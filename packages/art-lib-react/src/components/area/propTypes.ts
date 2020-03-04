@@ -1,4 +1,9 @@
-import { IColumnValue } from '../picker/propTypes';
+export interface IColumnValue {
+  id?: string;
+  value?: string;
+  className?: string;
+  parentId?: string;
+}
 
 export interface IAreaProps {
   itemHeight?: number; // 每一个值的高度
