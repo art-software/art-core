@@ -3,7 +3,7 @@ import { renderReact } from '../../../../../packages/art-ssr-react';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { convertCustomRouteConfig, ensureReady } from '../../../../../packages/art-ssr-react-router/dist/reactRouterHelper';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
+import StyleContext from 'art-isomorphic-style-loader/StyleContext';
 import routes from './routes';
 import { Provider as ReduxProvider } from 'react-redux';
 import createStore from './store/store';
@@ -37,6 +37,6 @@ class IndexCSR extends React.Component<any, any> {
   }
 }
 
-export default ensureReady(routeConfig).then(() => {
+export default ensureReady(routeConfig, '/home').then(() => {
   renderReact('Main', IndexCSR);
 });

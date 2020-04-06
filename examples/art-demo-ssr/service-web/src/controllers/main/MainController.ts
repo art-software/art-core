@@ -1,8 +1,8 @@
 import { Controller, Get, Req, Res } from 'routing-controllers';
 import { Request, Response } from 'express';
 import MainService from '../../services/Main/MainService';
-import { redisClient } from '../../database/redis';
-import redis from 'redis';
+// import { redisClient } from '../../database/redis';
+// import redis from 'redis';
 
 @Controller()
 export default class HomeController {
@@ -10,18 +10,18 @@ export default class HomeController {
   @Get('/product')
   public async main(@Req() req: Request, @Res() res: Response) {
 
-    const redisResult = await new Promise((resolve) => {
-      redisClient.get('art-demo-ssr:/', (error, result) => {
-        console.log('get result from redis');
-        resolve(result);
-      });
-    });
+    // const redisResult = await new Promise((resolve) => {
+    //   redisClient.get('art-demo-ssr:/', (error, result) => {
+    //     console.log('get result from redis');
+    //     resolve(result);
+    //   });
+    // });
 
-    console.log('redisResult: ', redisResult);
-    if (redisResult !== null) {
-      console.log('response redis result');
-      return res.send(redisResult);
-    }
+    // console.log('redisResult: ', redisResult);
+    // if (redisResult !== null) {
+    //   console.log('response redis result');
+    //   return res.send(redisResult);
+    // }
 
     console.log('handle request');
     const mainService = new MainService();
@@ -49,7 +49,7 @@ export default class HomeController {
       </html>
     `;
 
-    redisClient.set('art-demo-ssr:/', renderedHtml, redis.print);
+    // redisClient.set('art-demo-ssr:/', renderedHtml, redis.print);
     return res.send(renderedHtml);
   }
 }

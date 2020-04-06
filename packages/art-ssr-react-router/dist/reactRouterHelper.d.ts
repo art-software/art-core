@@ -20,14 +20,26 @@ export declare const generateAsyncRouteComponent: (component: any) => {
         componentWillMount(): void;
         updateState: () => void;
         render(): React.DetailedReactHTMLElement<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> | null;
+        context: any;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<{}>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
-        forceUpdate(callBack?: (() => void) | undefined): void;
-        readonly props: Readonly<{
+        forceUpdate(callback?: (() => void) | undefined): void;
+        readonly props: Readonly<{}> & Readonly<{
             children?: React.ReactNode;
-        }> & Readonly<{}>;
+        }>;
         refs: {
             [key: string]: React.ReactInstance;
         };
+        componentDidMount?(): void;
+        shouldComponentUpdate?(nextProps: Readonly<{}>, nextState: Readonly<{}>, nextContext: any): boolean;
+        componentWillUnmount?(): void;
+        componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void;
+        getSnapshotBeforeUpdate?(prevProps: Readonly<{}>, prevState: Readonly<{}>): any;
+        componentDidUpdate?(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any): void;
+        UNSAFE_componentWillMount?(): void;
+        componentWillReceiveProps?(nextProps: Readonly<{}>, nextContext: any): void;
+        UNSAFE_componentWillReceiveProps?(nextProps: Readonly<{}>, nextContext: any): void;
+        componentWillUpdate?(nextProps: Readonly<{}>, nextState: Readonly<{}>, nextContext: any): void;
+        UNSAFE_componentWillUpdate?(nextProps: Readonly<{}>, nextState: Readonly<{}>, nextContext: any): void;
     };
     load(): any;
     contextType?: React.Context<any> | undefined;
@@ -41,3 +53,4 @@ export declare const generateAsyncRouteComponent: (component: any) => {
  */
 export declare const ensureReady: (routeConfig: any, providedLocation?: any) => Promise<any[]>;
 export {};
+//# sourceMappingURL=reactRouterHelper.d.ts.map

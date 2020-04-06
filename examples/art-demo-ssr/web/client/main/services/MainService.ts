@@ -4,7 +4,7 @@ import { IMainService, AjaxResult, IMainTest } from './interfaces/IMainService';
 export default class MainService extends WebApiServer implements IMainService {
   constructor() {
     super({
-      baseURL: 'http://me.dev.com:8000'
+      baseURL: 'http://me.dev.com:8001'
     });
   }
 

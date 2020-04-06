@@ -56,7 +56,6 @@
     "sass-loader": "^7.1.0",
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.0",
-    "typescript": "^3.0.1",
     "uglifyjs-webpack-plugin": "^1.3.0",
     "url-loader": "^1.0.1",
     "venus-px2rem-loader": "^1.0.1",

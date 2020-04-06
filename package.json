@@ -2,10 +2,20 @@
 	"private": true,
 	"name": "artjs",
 	"devDependencies": {
+		"@types/rimraf": "^3.0.0",
+		"chalk": "^2.4.1",
+		"downlevel-dts": "^0.4.0",
 		"lerna": "^3.10.7",
-		"tslint": "^5.11.0"
+		"rimraf": "^3.0.2",
+		"throat": "^5.0.0",
+		"tslint": "^5.11.0",
+		"typescript": "^3.8.3"
 	},
 	"workspaces": [
 		"packages/*"
-	]
+	],
+	"scripts": {
+		"build:scripts": "./node_modules/.bin/tsc -p ./tsconfig.scripts.json -w",
+		"build:ts": "node ./scripts/buildTs.js"
+	}
 }

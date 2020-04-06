@@ -12,10 +12,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -25,22 +26,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
 const MainService_1 = __importDefault(require("../../services/Main/MainService"));
-const redis_1 = require("../../database/redis");
-const redis_2 = __importDefault(require("redis"));
+// import { redisClient } from '../../database/redis';
+// import redis from 'redis';
 let HomeController = class HomeController {
     main(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const redisResult = yield new Promise((resolve) => {
-                redis_1.redisClient.get('art-demo-ssr:/', (error, result) => {
-                    console.log('get result from redis');
-                    resolve(result);
-                });
-            });
-            console.log('redisResult: ', redisResult);
-            if (redisResult !== null) {
-                console.log('response redis result');
-                return res.send(redisResult);
-            }
+            // const redisResult = await new Promise((resolve) => {
+            //   redisClient.get('art-demo-ssr:/', (error, result) => {
+            //     console.log('get result from redis');
+            //     resolve(result);
+            //   });
+            // });
+            // console.log('redisResult: ', redisResult);
+            // if (redisResult !== null) {
+            //   console.log('response redis result');
+            //   return res.send(redisResult);
+            // }
             console.log('handle request');
             const mainService = new MainService_1.default();
             const { html, css, state } = yield mainService.requestRender(req);
@@ -66,7 +67,7 @@ let HomeController = class HomeController {
       </body>
       </html>
     `;
-            redis_1.redisClient.set('art-demo-ssr:/', renderedHtml, redis_2.default.print);
+            // redisClient.set('art-demo-ssr:/', renderedHtml, redis.print);
             return res.send(renderedHtml);
         });
     }
