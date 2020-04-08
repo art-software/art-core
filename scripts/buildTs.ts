@@ -15,6 +15,7 @@ try {
     '-b',
     ...PACKAGES_PATH
   ];
+  console.log('command: ', command);
   execSync(command.join(' '), {
     stdio: 'inherit',
   });

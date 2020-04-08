@@ -16,6 +16,7 @@ try {
         '-b',
         ...packages_1.PACKAGES_PATH
     ];
+    console.log('command: ', command);
     child_process_1.execSync(command.join(' '), {
         stdio: 'inherit',
     });

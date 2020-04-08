@@ -1,7 +1,6 @@
 import { Application } from 'express';
 import { IServerConfig } from './interfaces/IServerConfig';
 import http from 'http';
-import bodyParser from 'body-parser';
 import Logger from './utils/Logger';
 import { raceTo, runAppLifecycle } from './utils/lifecycle';
 import { Lifecycle } from './enums/Lifecycle';
@@ -21,10 +20,6 @@ export class Worker {
   private config: IServerConfig;
   private workerId?: number;
   private closing: boolean;
-
-  // protected attachMiddleware(app: Application, config: IServerConfig) {
-  //   app.use(bodyParser.json(config.bodyParser));
-  // }
 
   // close server
   protected close(server: http.Server) {
@@ -92,8 +87,6 @@ export class Worker {
   }
 
   public start() {
-    // this.attachMiddleware(this.app, this.config);
-
     if (this.config.onServer) {
       this.config.onServer(this.app, process);
     }

@@ -29,9 +29,9 @@ class Product extends React.Component<any, any> {
       <div className="product">
         <div className="product-wrapper">
           {
-            products.map((product) => {
+            products.map((product, index) => {
               return (
-                <React.Fragment>
+                <React.Fragment key={index}>
                   <div className="product-name">{ product.name }</div>
                   <div className="product-desc">{ product.desc }</div>
                 </React.Fragment>
