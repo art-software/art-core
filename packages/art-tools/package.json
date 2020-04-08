@@ -1,6 +1,6 @@
 {
   "name": "art-tools",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "art framework tools command lib",
   "author": "YGM",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
-    "art-dev-utils": "^0.0.12",
+    "art-dev-utils": "^0.0.13",
     "blueimp-md5": "^2.10.0",
     "json-colorz": "^0.2.7",
     "marked": "0.6.0",

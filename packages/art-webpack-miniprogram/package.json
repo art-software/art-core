@@ -1,6 +1,6 @@
 {
   "name": "art-webpack-miniprogram",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "art framework webpack for wechat miniprogram",
   "main": "index.js",
   "author": "Bowen Zhong",
@@ -13,8 +13,8 @@
     "@babel/core": "7.0.0",
     "@babel/preset-env": "7.1.0",
     "@babel/preset-typescript": "7.1.0",
-    "art-dev-utils": "^0.0.12",
-    "art-server-mock-miniprogram": "^0.0.1",
+    "art-dev-utils": "^0.0.13",
+    "art-server-mock-miniprogram": "^0.0.2",
     "ast-types": "0.12.2",
     "babel-loader": "8.0.0",
     "chalk": "2.4.1",

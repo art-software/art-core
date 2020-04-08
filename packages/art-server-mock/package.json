@@ -1,6 +1,6 @@
 {
   "name": "art-server-mock",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "art framework server mock",
   "main": "dist/index.js",
   "author": "Bowen Zhong",
@@ -10,7 +10,7 @@
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
-    "art-dev-utils": "^0.0.12",
+    "art-dev-utils": "^0.0.13",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "compression": "^1.7.3",

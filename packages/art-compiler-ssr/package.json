@@ -1,6 +1,6 @@
 {
   "name": "art-compiler-ssr",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Art compiler for server side rendering(SSR) project",
   "main": "index.js",
   "author": "Bowen Zhong",
@@ -22,7 +22,7 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
-    "art-dev-utils": "^0.0.12",
+    "art-dev-utils": "^0.0.13",
     "async": "^2.6.1",
     "babel-loader": "^8.0.0",
     "chalk": "^2.4.1",

@@ -1,6 +1,6 @@
 {
   "name": "art-cli-tool",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "art framework cli tool",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -19,7 +19,7 @@
     }
   },
   "dependencies": {
-    "art-dev-utils": "^0.0.12",
+    "art-dev-utils": "^0.0.13",
     "art-lib-utils": "^0.0.8",
     "async": "^2.6.1",
     "chalk": "^2.4.1",
