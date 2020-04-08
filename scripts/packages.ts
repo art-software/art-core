@@ -3,8 +3,8 @@ import * as path from 'path';
 const PACKAGE_ROOT = path.join(__dirname, '../packages');
 
 const PACKAGES = [
-  'art-cli-tool',
-  'art-compiler-ssr',
+  // 'art-cli-tool',
+  // 'art-compiler-ssr',
   // 'art-dev-utils',
   // 'art-lib-common',
   // 'art-lib-common-miniprogram',

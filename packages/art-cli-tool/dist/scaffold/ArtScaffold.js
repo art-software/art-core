@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -161,57 +170,61 @@ class ArtScaffold {
             }
         }
         return new Promise((resolve, reject) => {
-            async_1.series(asyncQueue, async (err, result) => {
+            async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
                 if (err) {
                     reject(err);
                 }
                 else {
                     if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
-                        await this.syncTemplateFile();
+                        yield this.syncTemplateFile();
                     }
-                    await this.autoInstallAfterCreateProject();
+                    yield this.autoInstallAfterCreateProject();
                 }
-            });
+            }));
         });
     }
-    async syncTemplateFile() {
-        const syncTemplateFile = require(`./${this.scaffoldType}/syncTemplateFile.js`);
-        return await syncTemplateFile.bind(this)(this.scaffoldTo);
-    }
-    async autoInstallAfterCreateProject() {
-        printLog_1.printInstructions(chalk_1.default.magenta(`Creating scaffold [${this.scaffoldType}] project succeed, the next step is installing dependencies!`));
-        const inquirerAutoInstall = await inquirer_1.default.prompt(autoInstallQuestion).then((answer) => {
-            return answer;
+    syncTemplateFile() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const syncTemplateFile = require(`./${this.scaffoldType}/syncTemplateFile.js`);
+            return yield syncTemplateFile.bind(this)(this.scaffoldTo);
         });
-        if (inquirerAutoInstall.autoInstall) {
-            const inquirerPM = await inquirer_1.default.prompt(installManagerQuestion).then((answer) => {
+    }
+    autoInstallAfterCreateProject() {
+        return __awaiter(this, void 0, void 0, function* () {
+            printLog_1.printInstructions(chalk_1.default.magenta(`Creating scaffold [${this.scaffoldType}] project succeed, the next step is installing dependencies!`));
+            const inquirerAutoInstall = yield inquirer_1.default.prompt(autoInstallQuestion).then((answer) => {
                 return answer;
             });
-            if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
-                await this.installDependencyPackages(inquirerPM, 'particular', 'service-render');
-                await this.installDependencyPackages(inquirerPM, 'default', 'service-render');
-                await this.installDependencyPackages(inquirerPM, 'particular', 'service-web');
-                await this.installDependencyPackages(inquirerPM, 'default', 'service-web');
-                await this.installDependencyPackages(inquirerPM, 'particular', 'web-react');
-                await this.installDependencyPackages(inquirerPM, 'default', 'web-react');
+            if (inquirerAutoInstall.autoInstall) {
+                const inquirerPM = yield inquirer_1.default.prompt(installManagerQuestion).then((answer) => {
+                    return answer;
+                });
+                if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
+                    yield this.installDependencyPackages(inquirerPM, 'particular', 'service-render');
+                    yield this.installDependencyPackages(inquirerPM, 'default', 'service-render');
+                    yield this.installDependencyPackages(inquirerPM, 'particular', 'service-web');
+                    yield this.installDependencyPackages(inquirerPM, 'default', 'service-web');
+                    yield this.installDependencyPackages(inquirerPM, 'particular', 'web-react');
+                    yield this.installDependencyPackages(inquirerPM, 'default', 'web-react');
+                }
+                else {
+                    yield this.installDependencyPackages(inquirerPM, 'particular');
+                    yield this.installDependencyPackages(inquirerPM, 'default');
+                }
             }
             else {
-                await this.installDependencyPackages(inquirerPM, 'particular');
-                await this.installDependencyPackages(inquirerPM, 'default');
-            }
-        }
-        else {
-            if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
-                console.log(chalk_1.default.blue(`You can manually install following modules before starting project.`));
-                console.log(DependencyPackages[this.scaffoldType]);
-            }
-            else {
-                console.log(chalk_1.default.blue(`You can manually install following modules:
+                if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
+                    console.log(chalk_1.default.blue(`You can manually install following modules before starting project.`));
+                    console.log(DependencyPackages[this.scaffoldType]);
+                }
+                else {
+                    console.log(chalk_1.default.blue(`You can manually install following modules:
             ${chalk_1.default.magenta((DependencyPackages[this.scaffoldType] || []).join(' '))}
           before starting project.`));
+                }
+                process.exit(0);
             }
-            process.exit(0);
-        }
+        });
     }
     installDependencyPackages(answer, type, execFolder) {
         printLog_1.printInstructions(`Start installing [${this.scaffoldType}] ${type} dependency packages...`);
@@ -311,49 +324,51 @@ class ArtScaffold {
             }
         });
     }
-    async createScaffoldModule() {
-        console.log(chalk_1.default.cyan(`create scaffold [${this.scaffoldType}] module starting...`));
-        if (!this.inArtWorkspace()) {
-            return console.log(chalk_1.default.red('You must run `art create module -s=""` within existed art workspace'));
-        }
-        if (!this.scaffoldType) {
-            return console.log(chalk_1.default.red('the property [scaffoldType] is required!'));
-        }
-        this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
-        let asyncQueue;
-        if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
-            asyncQueue = [
-                ...require(`./${this.scaffoldType}/web-react/copy.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.module)
-            ];
-        }
-        else {
-            asyncQueue = [
-                this.syncClientFiles.bind(this),
-                this.syncServerFiles.bind(this)
-            ];
-        }
-        if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
-            const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
-            updateArtConfig.bind(this)(this.scaffoldTo);
-        }
-        else if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
-            const updateArtConfig = require(`./${this.scaffoldType}/web-react/updateArtConfig.js`);
-            updateArtConfig.bind(this)(this.scaffoldTo);
-        }
-        else if (this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram) {
-            this.syncUpdateAppJson.bind(this)();
-        }
-        return new Promise((resolve, reject) => {
-            async_1.series(asyncQueue, async (err, result) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
-                        await this.syncTemplateFile();
+    createScaffoldModule() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(chalk_1.default.cyan(`create scaffold [${this.scaffoldType}] module starting...`));
+            if (!this.inArtWorkspace()) {
+                return console.log(chalk_1.default.red('You must run `art create module -s=""` within existed art workspace'));
+            }
+            if (!this.scaffoldType) {
+                return console.log(chalk_1.default.red('the property [scaffoldType] is required!'));
+            }
+            this.setScaffoldFrom(this.scaffoldFromCwd(this.scaffoldType));
+            let asyncQueue;
+            if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
+                asyncQueue = [
+                    ...require(`./${this.scaffoldType}/web-react/copy.js`).call(this, CreateCmdTypes_1.CreateCmdTypes.module)
+                ];
+            }
+            else {
+                asyncQueue = [
+                    this.syncClientFiles.bind(this),
+                    this.syncServerFiles.bind(this)
+                ];
+            }
+            if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
+                const updateArtConfig = require(`./${this.scaffoldType}/updateArtConfig.js`);
+                updateArtConfig.bind(this)(this.scaffoldTo);
+            }
+            else if (this.scaffoldType === Scaffolds_1.Scaffolds.ssrReact) {
+                const updateArtConfig = require(`./${this.scaffoldType}/web-react/updateArtConfig.js`);
+                updateArtConfig.bind(this)(this.scaffoldTo);
+            }
+            else if (this.scaffoldType === Scaffolds_1.Scaffolds.miniprogram) {
+                this.syncUpdateAppJson.bind(this)();
+            }
+            return new Promise((resolve, reject) => {
+                async_1.series(asyncQueue, (err, result) => __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        reject(err);
                     }
-                    resolve(result);
-                }
+                    else {
+                        if (this.scaffoldType === Scaffolds_1.Scaffolds.react) {
+                            yield this.syncTemplateFile();
+                        }
+                        resolve(result);
+                    }
+                }));
             });
         });
     }

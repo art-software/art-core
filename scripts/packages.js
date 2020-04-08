@@ -4,8 +4,8 @@ const path = require("path");
 const PACKAGE_ROOT = path.join(__dirname, '../packages');
 exports.PACKAGE_ROOT = PACKAGE_ROOT;
 const PACKAGES = [
-    'art-cli-tool',
-    'art-compiler-ssr',
+    // 'art-cli-tool',
+    // 'art-compiler-ssr',
     // 'art-dev-utils',
     // 'art-lib-common',
     // 'art-lib-common-miniprogram',

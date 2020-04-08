@@ -1,1 +1,0 @@
-{"version":3,"file":"webpack.config.dev.ssr.d.ts","sourceRoot":"","sources":["../../src/config/webpack.config.dev.ssr.ts"],"names":[],"mappings":";AAAA,OAAO,EAAE,oBAAoB,EAAE,MAAM,2BAA2B,CAAC;AACjE,OAAO,EAAE,aAAa,EAAE,MAAM,SAAS,CAAC;AAGxC,MAAM,CAAC,OAAO,OAAO,mBAAoB,SAAQ,oBAAqB,YAAW,aAAa;gBAChF,KAAK,KAAA,EAAE,MAAM,KAAA;IAIlB,OAAO,gBAAkC;CAGjD"}

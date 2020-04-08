@@ -1,1 +1,0 @@
-{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../src/scaffold/index.ts"],"names":[],"mappings":"AAEA,MAAM,WAAW,eAAe;IAC9B,WAAW,EAAE,MAAM,CAAC;IACpB,kBAAkB,EAAE,MAAM,CAAC;IAC3B,kBAAkB,EAAE,MAAM,CAAC;IAC3B,UAAU,EAAE,MAAM,CAAC;CACpB;AAED,MAAM,WAAW,cAAc;IAC7B,UAAU,EAAE,MAAM,CAAC;CACpB;AAED;;;;;;GAMG;AACH,eAAO,MAAM,MAAM,qGAkBlB,CAAC"}
