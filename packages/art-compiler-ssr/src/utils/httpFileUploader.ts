@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import request from 'request';
 import appConfig from '../config/appConfig';
 import isURL from 'art-dev-utils/lib/isURL';

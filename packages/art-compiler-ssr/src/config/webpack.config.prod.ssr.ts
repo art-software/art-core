@@ -4,15 +4,15 @@ import { Configuration } from 'webpack';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 // import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import appConfig from './appConfig';
+// import appConfig from './appConfig';
 // import ChunkHashOutputPlugin from '../plugins/webpack-plugin-chunkhash-output';
 // import paths from './paths';
 // import { join } from 'path';
 // const enableBundleHashName = appConfig.get('enableBundleHashName');
 // const version = appConfig.get('art:version');
 
-const dllVersion = appConfig.get('art:webpack:dll:version') || 'default-version';
-const virtualPath = appConfig.get('art:projectVirtualPath') || '';
+// const dllVersion = appConfig.get('art:webpack:dll:version') || 'default-version';
+// const virtualPath = appConfig.get('art:projectVirtualPath') || '';
 // const outputPath = join(process.cwd(), './public', virtualPath, 'vendors', dllVersion);
 
 // function bundleFileNamePattern(endFix: string = '.js'): string {

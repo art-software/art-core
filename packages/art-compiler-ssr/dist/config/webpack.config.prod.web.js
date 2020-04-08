@@ -9,10 +9,12 @@ const optimize_css_assets_webpack_plugin_1 = __importDefault(require("optimize-c
 const mini_css_extract_plugin_1 = __importDefault(require("mini-css-extract-plugin"));
 const appConfig_1 = __importDefault(require("./appConfig"));
 const webpack_plugin_chunkhash_output_1 = __importDefault(require("../plugins/webpack-plugin-chunkhash-output"));
+// import paths from './paths';
+// import { join } from 'path';
 const enableBundleHashName = appConfig_1.default.get('enableBundleHashName');
 const version = appConfig_1.default.get('art:version');
-const dllVersion = appConfig_1.default.get('art:webpack:dll:version') || 'default-version';
-const virtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
+// const dllVersion = appConfig.get('art:webpack:dll:version') || 'default-version';
+// const virtualPath = appConfig.get('art:projectVirtualPath') || '';
 // const outputPath = join(process.cwd(), './public', virtualPath, 'vendors', dllVersion);
 // function bundleFileNamePattern(endFix: string = '.js'): string {
 //   if (enableBundleHashName) {

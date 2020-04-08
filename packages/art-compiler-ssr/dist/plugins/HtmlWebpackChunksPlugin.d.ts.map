@@ -1,0 +1,1 @@
+{"version":3,"file":"HtmlWebpackChunksPlugin.d.ts","sourceRoot":"","sources":["../../src/plugins/HtmlWebpackChunksPlugin.ts"],"names":[],"mappings":"AAKA,UAAU,QAAQ;IAChB,YAAY,EAAE,MAAM,CAAC;CACtB;AAED,qBAAa,uBAAuB;gBACtB,OAAO,EAAE,QAAQ;IAItB,OAAO,EAAE,QAAQ,CAAC;IAElB,KAAK,CAAC,QAAQ,KAAA;IAUrB,OAAO,CAAC,6CAA6C,CAqCpD;CACF"}

@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -30,7 +22,7 @@ const BUILD_ENV = appConfig_1.default.get('BUILD_ENV');
 const BUILD_PATH = BUILD_ENV === BuildEnv_1.BuildEnv.prod ? paths_1.default.appPublic : paths_1.default.appDebug;
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
-inquirer_1.confirmModules((answer) => __awaiter(this, void 0, void 0, function* () {
+inquirer_1.confirmModules(async (answer) => {
     if (!answer.availableModulesOk) {
         return;
     }
@@ -77,7 +69,7 @@ inquirer_1.confirmModules((answer) => __awaiter(this, void 0, void 0, function* 
             });
         });
     });
-}));
+});
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes) {
     console.log('Creating an optimized production build...');
