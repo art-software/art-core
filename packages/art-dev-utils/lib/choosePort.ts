@@ -1,7 +1,6 @@
 import detect from 'detect-port';
 import { warningText, redText } from './chalkColors';
 import isRoot from 'is-root';
-import clearConsole from './clearConsole';
 
 const isInteractive = process.stdout.isTTY;
 const choosePort = (host: string, defaultPort: number) => {

@@ -22,8 +22,8 @@ const printCompressImagelog = (files: any[], buildFolder) => {
 
 export default function compressImages(webpackStats: Stats, buildFolder) {
   const folderFiles = {};
-  webpackStats.toJson()
-    .assets.filter((asset) => {
+  (webpackStats.toJson()
+    .assets || []).filter((asset) => {
       return /\.(png|jpg|git)$/.test(asset.name.split('?')[0]);
     })
     .forEach((asset) => {
@@ -42,6 +42,8 @@ export default function compressImages(webpackStats: Stats, buildFolder) {
   const getAsyncQueue = (imagesSrc, targetDest) => {
     return async (callback) => {
       try {
+        // TODO
+        // @ts-ignore
         const files = await imagemin(imagesSrc, targetDest, {
           plugins: [
             imageminJpegtran(),

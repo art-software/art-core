@@ -58,9 +58,9 @@ exports.measureFileSizesBeforeBuild = measureFileSizesBeforeBuild;
 function printFileSizesAfterBuild(webpackStats, previousSizeMap, buildFolder, maxBundleGzipSize, maxChunkGzipSize) {
     const root = previousSizeMap.root;
     const prevSize = previousSizeMap.size;
-    const assets = webpackStats
+    const assets = (webpackStats
         .toJson()
-        .assets.filter((asset) => /\.(js|css|png|jpg|gif)$/.test(asset.name.split('?')[0]))
+        .assets || []).filter((asset) => /\.(js|css|png|jpg|gif)$/.test(asset.name.split('?')[0]))
         .map((asset) => {
         const assetName = asset.name.split('?')[0];
         const fileContents = fs_1.readFileSync(path_1.join(root, assetName));

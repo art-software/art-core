@@ -6,7 +6,7 @@ import address from 'address';
 
 function resolveLoopback(proxy) {
   const o = url.parse(proxy);
-  o.host = undefined;
+  o.host = null;
   if (o.hostname !== 'localhost') {
     return proxy;
   }
