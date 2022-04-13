@@ -14,7 +14,7 @@
   "dependencies": {
     "art-dev-utils": "^0.0.13",
     "art-lib-utils": "^0.0.8",
-    "async": "^2.6.1",
+    "async": "^3.2.2",
     "chalk": "^2.4.1",
     "cpx": "^1.5.0",
     "cross-spawn": "^6.0.5",
