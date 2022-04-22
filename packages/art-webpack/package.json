@@ -42,7 +42,7 @@
     "lodash": "^4.17.10",
     "mini-css-extract-plugin": "0.4.1",
     "minimatch": "^3.0.4",
-    "nconf": "^0.10.0",
+    "nconf": "^0.11.4",
     "nodemon": "^1.18.7",
     "object-assign": "^4.1.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
