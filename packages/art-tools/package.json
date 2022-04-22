@@ -14,7 +14,7 @@
     "json-colorz": "^0.2.7",
     "marked": "0.6.0",
     "minimatch": "^3.0.4",
-    "nconf": "^0.10.0",
+    "nconf": "^0.11.4",
     "recast": "0.17.3"
   },
   "devDependencies": {
