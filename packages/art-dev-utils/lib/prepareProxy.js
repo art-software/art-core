@@ -17,7 +17,7 @@ const url = __importStar(require("url"));
 const address_1 = __importDefault(require("address"));
 function resolveLoopback(proxy) {
     const o = url.parse(proxy);
-    o.host = undefined;
+    o.host = null;
     if (o.hostname !== 'localhost') {
         return proxy;
     }

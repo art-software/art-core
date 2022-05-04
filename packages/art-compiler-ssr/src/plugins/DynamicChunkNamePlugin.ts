@@ -27,11 +27,14 @@ export default class DynamicChunkNamePlugin implements Plugin {
             ) { continue; }
             for (const mod of moduleEntries) {
               if (
+                mod.context && (
                 entryRegex.test(mod.context) ||
                 nodeModulesRegex.test(mod.context) ||
-                mod.context === null
+                mod.context === null )
               ) {
                 const newChunkName = entry + '/chunks';
+                // TODO
+                // @ts-ignore
                 chunk.id = `${newChunkName}/${this.getRandomString()}`;
               }
             }

@@ -1,7 +1,7 @@
 import React from 'react';
 // @ts-ignore
 import style from '../styles/home.less';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'art-isomorphic-style-loader/withStyles';
 import { fetchDataMain } from '../store/store';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,18 @@ class Home extends React.Component<any, any> {
     }
   }
 
+  public choiceAChange() {
+    console.log('choiceAChange');
+  }
+
+  public choiceBChange() {
+    console.log('choiceBChange');
+  }
+
+  public commandOnChange() {
+    console.log('Common onChange');
+  }
+
   public render() {
     const { initialData } = this.props;
     console.log('initialData: ', initialData);
@@ -24,7 +36,7 @@ class Home extends React.Component<any, any> {
       <div className="home">
         <img src={topBanner} alt="top banner"></img>
 
-        <h1>{ initialData.title }</h1>
+        <h1>{initialData.title}</h1>
 
         <Link to="/product">Product Page</Link>
         {/* <Route exact path="/product">Product Page</Route> */}

@@ -67,9 +67,9 @@ export function printFileSizesAfterBuild(
 ) {
   const root = previousSizeMap.root;
   const prevSize = previousSizeMap.size;
-  const assets = webpackStats
+  const assets = (webpackStats
     .toJson()
-    .assets.filter((asset) => /\.(js|css|png|jpg|gif)$/.test(asset.name.split('?')[0]))
+    .assets || []).filter((asset) => /\.(js|css|png|jpg|gif)$/.test(asset.name.split('?')[0]))
     .map((asset) => {
       const assetName = asset.name.split('?')[0];
       const fileContents = readFileSync(join(root, assetName));

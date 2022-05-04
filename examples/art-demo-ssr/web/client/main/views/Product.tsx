@@ -1,7 +1,7 @@
 import React from 'react';
 // @ts-ignore
 import style from '../styles/product.less';
-import withStyles from 'isomorphic-style-loader/withStyles';
+import withStyles from 'art-isomorphic-style-loader/withStyles';
 
 const products = [
   {
@@ -29,9 +29,9 @@ class Product extends React.Component<any, any> {
       <div className="product">
         <div className="product-wrapper">
           {
-            products.map((product) => {
+            products.map((product, index) => {
               return (
-                <React.Fragment>
+                <React.Fragment key={index}>
                   <div className="product-name">{ product.name }</div>
                   <div className="product-desc">{ product.desc }</div>
                 </React.Fragment>

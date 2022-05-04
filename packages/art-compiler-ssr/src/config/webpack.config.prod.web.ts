@@ -5,21 +5,8 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import appConfig from './appConfig';
 import ChunkHashOutputPlugin from '../plugins/webpack-plugin-chunkhash-output';
-// import paths from './paths';
-import { join } from 'path';
 const enableBundleHashName = appConfig.get('enableBundleHashName');
 const version = appConfig.get('art:version');
-
-const dllVersion = appConfig.get('art:webpack:dll:version') || 'default-version';
-const virtualPath = appConfig.get('art:projectVirtualPath') || '';
-// const outputPath = join(process.cwd(), './public', virtualPath, 'vendors', dllVersion);
-
-// function bundleFileNamePattern(endFix: string = '.js'): string {
-//   if (enableBundleHashName) {
-//     return `bundle[chunkhash]${endFix}`;
-//   }
-//   return `bundle${endFix}?${version}`;
-// }
 
 export default class WebpackProdConfigWeb extends WebpackBaseConfigWeb implements Configuration {
   constructor(entry, output) {
@@ -27,10 +14,6 @@ export default class WebpackProdConfigWeb extends WebpackBaseConfigWeb implement
   }
 
   public plugins = this.plugins.concat(
-    // new webpack.DllReferencePlugin({
-    //   context: join(paths.appCwd),
-    //   manifest: join(outputPath, 'manifest.json')
-    // }),
 
     new UglifyJsPlugin({
       cache: true,

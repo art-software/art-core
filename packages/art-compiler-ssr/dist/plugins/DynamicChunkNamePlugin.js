@@ -23,10 +23,12 @@ class DynamicChunkNamePlugin {
                             continue;
                         }
                         for (const mod of moduleEntries) {
-                            if (entryRegex.test(mod.context) ||
+                            if (mod.context && (entryRegex.test(mod.context) ||
                                 nodeModulesRegex.test(mod.context) ||
-                                mod.context === null) {
+                                mod.context === null)) {
                                 const newChunkName = entry + '/chunks';
+                                // TODO
+                                // @ts-ignore
                                 chunk.id = `${newChunkName}/${this.getRandomString()}`;
                             }
                         }

@@ -8,14 +8,14 @@ const webpack_config_base_ssr_1 = require("./webpack.config.base.ssr");
 const uglifyjs_webpack_plugin_1 = __importDefault(require("uglifyjs-webpack-plugin"));
 const optimize_css_assets_webpack_plugin_1 = __importDefault(require("optimize-css-assets-webpack-plugin"));
 // import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-const appConfig_1 = __importDefault(require("./appConfig"));
+// import appConfig from './appConfig';
 // import ChunkHashOutputPlugin from '../plugins/webpack-plugin-chunkhash-output';
 // import paths from './paths';
 // import { join } from 'path';
 // const enableBundleHashName = appConfig.get('enableBundleHashName');
 // const version = appConfig.get('art:version');
-const dllVersion = appConfig_1.default.get('art:webpack:dll:version') || 'default-version';
-const virtualPath = appConfig_1.default.get('art:projectVirtualPath') || '';
+// const dllVersion = appConfig.get('art:webpack:dll:version') || 'default-version';
+// const virtualPath = appConfig.get('art:projectVirtualPath') || '';
 // const outputPath = join(process.cwd(), './public', virtualPath, 'vendors', dllVersion);
 // function bundleFileNamePattern(endFix: string = '.js'): string {
 //   if (enableBundleHashName) {

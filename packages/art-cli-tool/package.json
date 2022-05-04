@@ -1,6 +1,6 @@
 {
   "name": "art-cli-tool",
-  "version": "0.0.45",
+  "version": "0.0.47",
   "description": "art framework cli tool",
   "author": "Bowen Zhong",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "build": "npm run clean && cpx 'src/**/*.{json,jsx,html,less,css,png,jpg,jpeg,gif,eot,svg,ttf,woff}' ./dist && tsc -p ./tsconfig.json -w"
   },
   "dependencies": {
-    "art-dev-utils": "^0.0.12",
+    "art-dev-utils": "^0.0.13",
     "art-lib-utils": "^0.0.8",
     "async": "^2.6.1",
     "chalk": "^2.4.1",

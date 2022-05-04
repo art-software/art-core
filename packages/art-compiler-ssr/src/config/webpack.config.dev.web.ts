@@ -8,15 +8,6 @@ export default class WebpackDevConfigWeb extends WebpackBaseConfigWeb implements
     super(entry, output);
   }
 
-  // public resolve = {
-  //   modules: ['node_modules', '.'],
-  //   extensions: ['.js', '.json', '.jsx', '.ts', '.tsx', '.html']
-  // };
-
-  // public module = {
-  //   rules: configBaseRules()
-  // };
-
   public devtool = '#source-map' as '#source-map';
 
   public plugins = this.plugins.concat(

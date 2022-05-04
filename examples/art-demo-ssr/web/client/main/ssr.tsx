@@ -3,7 +3,7 @@ import { renderReact } from '../../../../../packages/art-ssr-react';
 import { convertCustomRouteConfig, ensureReady } from '../../../../../packages/art-ssr-react-router/dist/reactRouterHelper';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
-import StyleContext from 'isomorphic-style-loader/StyleContext';
+import StyleContext from 'art-isomorphic-style-loader/StyleContext';
 import routes from './routes';
 import createStore from './store/store';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -47,7 +47,6 @@ class IndexSSR extends React.Component {
 export default {
   Main: (props: any) => {
     const url = (props.data || {}).url;
-    console.log('props: ', props);
     return ensureReady(routeConfig, url).then(() => {
       const dataRequirements =
         routeConfig
